@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/home/home_screen.dart';
+import 'features/settings/settings_screen.dart';
 import 'shared/widgets/bottom_nav_bar.dart';
 
 final _router = GoRouter(
@@ -27,7 +28,7 @@ final _router = GoRouter(
         ),
         GoRoute(
           path: '/settings',
-          builder: (context, state) => const _PlaceholderScreen(title: '설정'),
+          builder: (context, state) => const SettingsScreen(),
         ),
       ],
     ),
