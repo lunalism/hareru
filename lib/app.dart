@@ -15,19 +15,19 @@ final _router = GoRouter(
         ),
         GoRoute(
           path: '/report',
-          builder: (context, state) => const _PlaceholderScreen(title: 'レポート'),
+          builder: (context, state) => const _PlaceholderScreen(title: '리포트'),
         ),
         GoRoute(
           path: '/input',
-          builder: (context, state) => const _PlaceholderScreen(title: '入力'),
+          builder: (context, state) => const _PlaceholderScreen(title: '입력'),
         ),
         GoRoute(
           path: '/dictionary',
-          builder: (context, state) => const _PlaceholderScreen(title: '辞書'),
+          builder: (context, state) => const _PlaceholderScreen(title: '사전'),
         ),
         GoRoute(
           path: '/settings',
-          builder: (context, state) => const _PlaceholderScreen(title: '設定'),
+          builder: (context, state) => const _PlaceholderScreen(title: '설정'),
         ),
       ],
     ),
