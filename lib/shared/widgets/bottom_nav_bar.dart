@@ -74,45 +74,50 @@ class AppBottomNavBar extends StatelessWidget {
   Widget _buildAddButton() {
     return GestureDetector(
       onTap: () => onTap(2),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Transform.translate(
-            offset: const Offset(0, -6),
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: AppColors.skyBlue,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.skyBlue.withValues(alpha: 0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.add_rounded,
-                size: 32,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Transform.translate(
-            offset: const Offset(0, -6),
-            child: Text(
-              '入力',
-              style: TextStyle(
-                fontFamily: AppTypography.fontFamily,
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
-                color: AppColors.skyBlue,
+      child: SizedBox(
+        width: 60,
+        height: 60,
+        child: Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              top: -4,
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppColors.skyBlue,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.skyBlue.withValues(alpha: 0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.add_rounded,
+                  size: 28,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 4,
+              child: Text(
+                '入力',
+                style: TextStyle(
+                  fontFamily: AppTypography.fontFamily,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.skyBlue,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
