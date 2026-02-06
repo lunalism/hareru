@@ -27,11 +27,11 @@ class AppBottomNavBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildTab(0, Icons.home_rounded, 'ホーム'),
-              _buildTab(1, Icons.bar_chart_rounded, 'レポート'),
+              _buildTab(0, Icons.home_rounded, '홈'),
+              _buildTab(1, Icons.bar_chart_rounded, '리포트'),
               _buildAddButton(),
-              _buildTab(3, Icons.menu_book_rounded, '辞書'),
-              _buildTab(4, Icons.settings_rounded, '設定'),
+              _buildTab(3, Icons.menu_book_rounded, '사전'),
+              _buildTab(4, Icons.settings_rounded, '설정'),
             ],
           ),
         ),
@@ -107,7 +107,7 @@ class AppBottomNavBar extends StatelessWidget {
             Positioned(
               bottom: 4,
               child: Text(
-                '入力',
+                '입력',
                 style: TextStyle(
                   fontFamily: AppTypography.fontFamily,
                   fontSize: 10,

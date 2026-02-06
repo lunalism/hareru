@@ -35,9 +35,9 @@ class TodayExpenseList extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('今日の支出', style: AppTypography.sectionHeader),
+                Text('오늘 지출', style: AppTypography.sectionHeader),
                 Text(
-                  '合計 ¥${formatter.format(todayTotal)}',
+                  '합계 ¥${formatter.format(todayTotal)}',
                   style: AppTypography.body.copyWith(
                     color: AppColors.nightLight,
                   ),
@@ -57,7 +57,7 @@ class TodayExpenseList extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '今日はまだ支出がありません',
+                    '오늘은 아직 지출이 없어요',
                     style: AppTypography.body.copyWith(
                       color: AppColors.nightLight,
                     ),

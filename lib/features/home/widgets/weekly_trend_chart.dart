@@ -60,7 +60,7 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('今週の支出', style: AppTypography.sectionHeader),
+          Text('이번 주 지출', style: AppTypography.sectionHeader),
           const SizedBox(height: 16),
           ...List.generate(weeklyData.length, (index) {
             final data = weeklyData[index];
@@ -121,7 +121,7 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
                   if (isToday) ...[
                     const SizedBox(width: 4),
                     Text(
-                      '(今日)',
+                      '(오늘)',
                       style: AppTypography.caption.copyWith(
                         color: AppColors.skyBlueDark,
                         fontSize: 10,

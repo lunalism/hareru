@@ -4,7 +4,7 @@ import 'colors.dart';
 class AppTypography {
   AppTypography._();
 
-  static const String fontFamily = 'Noto Sans JP';
+  static const String fontFamily = 'PretendardJP';
 
   // 금액 표시 (대)
   static const TextStyle amountLarge = TextStyle(

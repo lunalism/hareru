@@ -43,7 +43,7 @@ class MonthlySummaryCard extends ConsumerWidget {
           child: Column(
             children: [
               Text(
-                '$month月の支出',
+                '$month월 지출',
                 style: AppTypography.body.copyWith(
                   color: AppColors.nightLight,
                 ),
@@ -67,7 +67,7 @@ class MonthlySummaryCard extends ConsumerWidget {
               _buildProgressBar(ratio, percent),
               const SizedBox(height: 8),
               Text(
-                '予算 ¥${formatter.format(budget)}',
+                '예산 ¥${formatter.format(budget)}',
                 style: AppTypography.caption,
               ),
             ],
@@ -83,13 +83,13 @@ class MonthlySummaryCard extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          '先月より ¥${formatter.format(diff.abs())} ${isSaving ? '↓' : '↑'}  ',
+          '지난달보다 ¥${formatter.format(diff.abs())} ${isSaving ? '↓' : '↑'}  ',
           style: AppTypography.caption.copyWith(
             color: isSaving ? AppColors.income : AppColors.expense,
           ),
         ),
         Text(
-          isSaving ? '節約！ 🎉' : '使いすぎ注意 ⚠️',
+          isSaving ? '절약! 🎉' : '과소비 주의 ⚠️',
           style: AppTypography.caption.copyWith(
             color: isSaving ? AppColors.income : AppColors.expense,
             fontWeight: FontWeight.w600,
