@@ -9,16 +9,17 @@ class AppTheme {
         useMaterial3: true,
         fontFamily: AppTypography.fontFamily,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primary,
-          primary: AppColors.primary,
-          secondary: AppColors.accent,
-          surface: AppColors.surface,
+          seedColor: AppColors.skyBlue,
+          primary: AppColors.skyBlue,
+          secondary: AppColors.sunlight,
+          surface: AppColors.cardWhite,
         ),
-        scaffoldBackgroundColor: AppColors.background,
+        scaffoldBackgroundColor: AppColors.cloud,
         appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
+          backgroundColor: AppColors.cloud,
+          foregroundColor: AppColors.night,
           elevation: 0,
+          scrolledUnderElevation: 0,
         ),
       );
 }
