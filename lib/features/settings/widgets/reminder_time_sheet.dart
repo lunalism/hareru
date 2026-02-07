@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/constants/typography.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
+import '../../../core/theme/custom_colors.dart';
 
 class ReminderTimeSheet extends StatefulWidget {
   const ReminderTimeSheet({super.key, required this.current});
@@ -23,6 +23,10 @@ class _ReminderTimeSheetState extends State<ReminderTimeSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
       child: Column(
@@ -32,16 +36,18 @@ class _ReminderTimeSheetState extends State<ReminderTimeSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.nightLight.withValues(alpha: 0.3),
+              color: custom.nightLight.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
           const SizedBox(height: 20),
           Text(
-            '알림 시간',
-            style: AppTypography.body.copyWith(
+            l10n.notificationTime,
+            style: TextStyle(
+              fontFamily: 'PretendardJP',
               fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: theme.colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 16),
@@ -66,17 +72,18 @@ class _ReminderTimeSheetState extends State<ReminderTimeSheet> {
                 );
               },
               style: FilledButton.styleFrom(
-                backgroundColor: AppColors.skyBlue,
+                backgroundColor: theme.colorScheme.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
               child: Text(
-                '저장',
-                style: AppTypography.body.copyWith(
-                  color: Colors.white,
+                l10n.save,
+                style: const TextStyle(
+                  fontFamily: 'PretendardJP',
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ),

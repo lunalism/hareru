@@ -1,0 +1,209 @@
+{
+  "@@locale": "en",
+  "appTitle": "Hareru",
+  "settings": "Settings",
+  "household": "Budget",
+  "monthlyBudget": "Monthly Budget",
+  "categoryManage": "Category Management",
+  "startDayOfWeek": "Start Day of Week",
+  "autoExcludeTransfer": "Auto-exclude Transfers",
+  "autoExcludeTransferDesc": "Automatically excludes transfers between accounts from spending",
+  "security": "Security",
+  "appLock": "App Lock",
+  "appLockDesc": "Lock with Face ID or passcode",
+  "icloudBackup": "iCloud Backup",
+  "app": "App",
+  "screenMode": "Screen Mode",
+  "inputReminder": "Input Reminder",
+  "inputReminderDesc": "We'll send you a notification at the set time every day",
+  "language": "Language",
+  "etc": "Other",
+  "sendFeedback": "Send Feedback",
+  "appInfo": "App Info",
+  "madeWith": "Made with 💙",
+  "comingSoon": "coming soon",
+  "preparingFeature": "This feature is coming soon",
+  "monthlyBudgetSetting": "Monthly Budget Setting",
+  "save": "Save",
+  "cancel": "Cancel",
+  "add": "Add",
+  "delete": "Delete",
+  "monday": "Monday",
+  "sunday": "Sunday",
+  "system": "System",
+  "light": "Light",
+  "dark": "Dark",
+  "korean": "한국어",
+  "japanese": "日本語",
+  "english": "English",
+  "monthExpense": "{month} Spending",
+  "@monthExpense": {
+    "placeholders": {
+      "month": {"type": "int"}
+    }
+  },
+  "comparedLastMonthDown": "¥{amount} less than last month ↓ Saved! 🎉",
+  "@comparedLastMonthDown": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "comparedLastMonthUp": "¥{amount} more than last month ↑ Watch out! ⚠️",
+  "@comparedLastMonthUp": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budget": "Budget ¥{amount}",
+  "@budget": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "todayExpense": "Today's Spending",
+  "total": "Total",
+  "thisWeekExpense": "This Week",
+  "today": "Today",
+  "noExpenseToday": "No spending yet today",
+  "home": "Home",
+  "report": "Report",
+  "input": "Input",
+  "dictionary": "Dictionary",
+  "categoryFood": "Food",
+  "categoryTransport": "Transport",
+  "categoryShopping": "Shopping",
+  "categoryCafe": "Cafe",
+  "categoryEntertainment": "Entertainment",
+  "categoryMedical": "Medical",
+  "categoryTransfer": "Transfer",
+  "categoryOther": "Other",
+  "savingsTransfer": "Transfer to savings",
+  "lunch": "Lunch",
+  "transportFee": "Transport",
+  "coffee": "Coffee",
+  "mon": "Mon",
+  "tue": "Tue",
+  "wed": "Wed",
+  "thu": "Thu",
+  "fri": "Fri",
+  "sat": "Sat",
+  "sun": "Sun",
+  "categoryAdd": "Add Category",
+  "categoryName": "Category name",
+  "notificationTime": "Notification Time",
+  "receiptScan": "Scan Receipt",
+  "manualInput": "Manual Input",
+  "receiptScanDesc": "Take a photo of your receipt",
+  "manualInputDesc": "Enter amount and category manually",
+  "expense": "Expense",
+  "income": "Income",
+  "transfer": "Transfer",
+  "enterAmount": "Enter Amount",
+  "selectCategory": "Select Category",
+  "addMemo": "Add Memo",
+  "date": "Date",
+  "memo": "Memo",
+  "fromAccount": "From Account",
+  "toAccount": "To Account",
+  "categorySalary": "Salary",
+  "categoryAllowance": "Allowance",
+  "categorySidejob": "Side Job",
+  "categoryInvestment": "Investment",
+  "receiptScanTitle": "Scan Receipt",
+  "receiptScanComingSoon": "This feature is coming soon",
+  "noTransactions": "No transactions yet",
+  "addFirstTransaction": "Tap + to add your first transaction",
+  "inputMethod": "Input Method",
+  "amount": "Amount",
+  "savedSuccess": "Saved successfully",
+  "reportTitle": "Report",
+  "periodWeekly": "Weekly",
+  "periodMonthly": "Monthly",
+  "periodYearly": "Yearly",
+  "realExpense": "Real Expense",
+  "transferExcluded": "Transfer ¥{amount} excluded",
+  "@transferExcluded": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "balance": "Balance",
+  "comparedToPrevMonth": "vs Last Month",
+  "categoryBreakdown": "Spending by Category",
+  "expenseTrend": "Spending Trend",
+  "monthlyInsight": "This Month's Insights",
+  "weeklyInsight": "This Week's Insights",
+  "yearlyInsight": "This Year's Insights",
+  "categoryDetail": "Category Details",
+  "topSpendingDay": "Highest Spending Day",
+  "comparedToPrev": "Change from Last Month",
+  "leastSpendingWeek": "Lowest Spending Week",
+  "noReportDataTitle": "No data yet",
+  "noReportDataDesc": "Start recording expenses\nto see your analysis here",
+  "recordExpense": "Record Expense",
+  "showMore": "Show more",
+  "transactionCount": "{count} transactions",
+  "@transactionCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "dailyAverage": "Avg ¥{amount}/day",
+  "@dailyAverage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "notEnoughData": "Not enough data yet. Keep recording!",
+  "increase": "increase",
+  "decrease": "decrease",
+  "yearFormat": "{year}",
+  "@yearFormat": {
+    "placeholders": {
+      "year": {"type": "int"}
+    }
+  },
+  "monthFormat": "{month}/{year}",
+  "@monthFormat": {
+    "placeholders": {
+      "year": {"type": "int"},
+      "month": {"type": "int"}
+    }
+  },
+  "weekFormat": "Week {week}, {month}",
+  "@weekFormat": {
+    "placeholders": {
+      "month": {"type": "int"},
+      "week": {"type": "int"}
+    }
+  },
+  "weekRangeFormat": "{startMonth}/{startDay} ~ {endMonth}/{endDay}",
+  "@weekRangeFormat": {
+    "placeholders": {
+      "startMonth": {"type": "int"},
+      "startDay": {"type": "int"},
+      "endMonth": {"type": "int"},
+      "endDay": {"type": "int"}
+    }
+  },
+  "categoryIncreased": "{category} increased by {percent}%",
+  "@categoryIncreased": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "percent": {"type": "int"}
+    }
+  },
+  "categoryDecreased": "{category} decreased by {percent}%",
+  "@categoryDecreased": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "percent": {"type": "int"}
+    }
+  },
+  "nthWeek": "Week {n}",
+  "@nthWeek": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  }
+}

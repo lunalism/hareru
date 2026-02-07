@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/constants/typography.dart';
+import '../../../core/theme/custom_colors.dart';
+import '../../../shared/models/default_categories.dart';
 import '../../../shared/models/transaction.dart';
 
 class ExpenseItemTile extends StatelessWidget {
@@ -16,9 +16,18 @@ class ExpenseItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
     final timeFormat = DateFormat('HH:mm');
     final formatter = NumberFormat('#,###');
     final isTransfer = transaction.isTransfer;
+    final categoryDisplay = CategoryEntry(
+      emoji: transaction.categoryEmoji,
+      localeKey: transaction.categoryKey,
+    ).getDisplayName(context);
+    final displayNote = transaction.note.isNotEmpty
+        ? transaction.note
+        : categoryDisplay;
 
     return Dismissible(
       key: Key(transaction.id),
@@ -27,7 +36,7 @@ class ExpenseItemTile extends StatelessWidget {
       background: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
-        color: AppColors.expense,
+        color: custom.expenseRed,
         child: const Icon(Icons.delete_rounded, color: Colors.white),
       ),
       child: Padding(
@@ -37,8 +46,8 @@ class ExpenseItemTile extends StatelessWidget {
             Container(
               width: 40,
               height: 40,
-              decoration: const BoxDecoration(
-                color: AppColors.skyBlueLight,
+              decoration: BoxDecoration(
+                color: custom.skyBlueLight,
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,
@@ -53,32 +62,43 @@ class ExpenseItemTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    transaction.note,
-                    style: isTransfer
-                        ? AppTypography.bodyList.copyWith(
-                            color: AppColors.transfer,
-                            decoration: TextDecoration.lineThrough,
-                            decorationColor: AppColors.transfer,
-                          )
-                        : AppTypography.bodyList,
+                    displayNote,
+                    style: TextStyle(
+                      fontFamily: 'PretendardJP',
+                      fontSize: 15,
+                      color: isTransfer
+                          ? custom.transferGray
+                          : theme.colorScheme.onSurface,
+                      decoration:
+                          isTransfer ? TextDecoration.lineThrough : null,
+                      decorationColor:
+                          isTransfer ? custom.transferGray : null,
+                    ),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '${timeFormat.format(transaction.createdAt)} · ${transaction.categoryName}',
-                    style: AppTypography.caption,
+                    '${timeFormat.format(transaction.createdAt)} · $categoryDisplay',
+                    style: TextStyle(
+                      fontFamily: 'PretendardJP',
+                      fontSize: 12,
+                      color: custom.nightLight,
+                    ),
                   ),
                 ],
               ),
             ),
             Text(
               '¥${formatter.format(transaction.amount)}',
-              style: isTransfer
-                  ? AppTypography.amountMedium.copyWith(
-                      color: AppColors.transfer,
-                      decoration: TextDecoration.lineThrough,
-                      decorationColor: AppColors.transfer,
-                    )
-                  : AppTypography.amountMedium,
+              style: TextStyle(
+                fontFamily: 'PretendardJP',
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: isTransfer
+                    ? custom.transferGray
+                    : theme.colorScheme.onSurface,
+                decoration: isTransfer ? TextDecoration.lineThrough : null,
+                decorationColor: isTransfer ? custom.transferGray : null,
+              ),
             ),
           ],
         ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/constants/typography.dart';
+import '../../../core/theme/custom_colors.dart';
+import '../../../shared/repositories/transaction_repository.dart';
 import '../providers/home_provider.dart';
 import 'expense_item_tile.dart';
 
@@ -11,6 +12,9 @@ class TodayExpenseList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
+    final l10n = AppLocalizations.of(context)!;
     final transactions = ref.watch(todayTransactionsProvider);
     final todayTotal = ref.watch(todayTotalProvider);
     final formatter = NumberFormat('#,###');
@@ -18,7 +22,7 @@ class TodayExpenseList extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: AppColors.cardWhite,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -35,11 +39,21 @@ class TodayExpenseList extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('오늘 지출', style: AppTypography.sectionHeader),
                 Text(
-                  '합계 ¥${formatter.format(todayTotal)}',
-                  style: AppTypography.body.copyWith(
-                    color: AppColors.nightLight,
+                  l10n.todayExpense,
+                  style: TextStyle(
+                    fontFamily: 'PretendardJP',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.onSurface,
+                  ),
+                ),
+                Text(
+                  '${l10n.total} ¥${formatter.format(todayTotal)}',
+                  style: TextStyle(
+                    fontFamily: 'PretendardJP',
+                    fontSize: 14,
+                    color: custom.nightLight,
                   ),
                 ),
               ],
@@ -53,13 +67,15 @@ class TodayExpenseList extends ConsumerWidget {
                   Icon(
                     Icons.wb_sunny_rounded,
                     size: 48,
-                    color: AppColors.sunlight.withValues(alpha: 0.6),
+                    color: theme.colorScheme.secondary.withValues(alpha: 0.6),
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '오늘은 아직 지출이 없어요',
-                    style: AppTypography.body.copyWith(
-                      color: AppColors.nightLight,
+                    l10n.noExpenseToday,
+                    style: TextStyle(
+                      fontFamily: 'PretendardJP',
+                      fontSize: 14,
+                      color: custom.nightLight,
                     ),
                   ),
                 ],
@@ -71,7 +87,7 @@ class TodayExpenseList extends ConsumerWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: transactions.length,
               separatorBuilder: (_, _) => Divider(
-                color: AppColors.border,
+                color: theme.colorScheme.outline,
                 thickness: 0.5,
                 indent: 68,
                 height: 0.5,
@@ -80,7 +96,10 @@ class TodayExpenseList extends ConsumerWidget {
                 return ExpenseItemTile(
                   transaction: transactions[index],
                   onDismissed: () {
-                    // TODO: delete transaction
+                    ref.read(transactionRepositoryProvider).delete(
+                      transactions[index].id,
+                    );
+                    ref.invalidate(allTransactionsProvider);
                   },
                 );
               },

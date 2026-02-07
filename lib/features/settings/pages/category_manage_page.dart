@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/constants/typography.dart';
+import '../../../core/theme/custom_colors.dart';
 import '../providers/settings_provider.dart';
 
 class CategoryManagePage extends ConsumerWidget {
@@ -9,29 +9,34 @@ class CategoryManagePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
+    final l10n = AppLocalizations.of(context)!;
     final categories = ref.watch(settingsProvider).categories;
 
     return Scaffold(
-      backgroundColor: AppColors.cloud,
       appBar: AppBar(
-        backgroundColor: AppColors.cloud,
         elevation: 0,
         scrolledUnderElevation: 0,
         title: Text(
-          '카테고리 관리',
-          style: AppTypography.body.copyWith(
+          l10n.categoryManage,
+          style: TextStyle(
+            fontFamily: 'PretendardJP',
             fontSize: 18,
             fontWeight: FontWeight.w600,
+            color: theme.colorScheme.onSurface,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => _showAddDialog(context, ref),
             child: Text(
-              '추가',
-              style: AppTypography.body.copyWith(
-                color: AppColors.skyBlue,
+              l10n.add,
+              style: TextStyle(
+                fontFamily: 'PretendardJP',
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
+                color: theme.colorScheme.primary,
               ),
             ),
           ),
@@ -60,7 +65,7 @@ class CategoryManagePage extends ConsumerWidget {
             key: ValueKey('${cat.emoji}_${cat.name}_$index'),
             margin: const EdgeInsets.only(bottom: 2),
             decoration: BoxDecoration(
-              color: AppColors.cardWhite,
+              color: theme.colorScheme.surface,
               borderRadius: BorderRadius.circular(12),
             ),
             child: ListTile(
@@ -69,15 +74,15 @@ class CategoryManagePage extends ConsumerWidget {
                 children: [
                   ReorderableDragStartListener(
                     index: index,
-                    child: const Icon(Icons.drag_handle,
-                        color: AppColors.nightLight, size: 20),
+                    child: Icon(Icons.drag_handle,
+                        color: custom.nightLight, size: 20),
                   ),
                   const SizedBox(width: 12),
                   Container(
                     width: 36,
                     height: 36,
-                    decoration: const BoxDecoration(
-                      color: AppColors.skyBlueLight,
+                    decoration: BoxDecoration(
+                      color: custom.skyBlueLight,
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
@@ -86,15 +91,17 @@ class CategoryManagePage extends ConsumerWidget {
                 ],
               ),
               title: Text(
-                cat.name,
-                style: AppTypography.body.copyWith(
+                cat.getDisplayName(context),
+                style: TextStyle(
+                  fontFamily: 'PretendardJP',
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
+                  color: theme.colorScheme.onSurface,
                 ),
               ),
               trailing: IconButton(
-                icon: const Icon(Icons.remove_circle_outline,
-                    color: AppColors.expense, size: 22),
+                icon: Icon(Icons.remove_circle_outline,
+                    color: custom.expenseRed, size: 22),
                 onPressed: () {
                   ref.read(settingsProvider.notifier).removeCategory(index);
                 },
@@ -108,6 +115,9 @@ class CategoryManagePage extends ConsumerWidget {
   }
 
   void _showAddDialog(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
+    final l10n = AppLocalizations.of(context)!;
     const emojiOptions = ['🍽️', '🏠', '👕', '🎬', '📚', '🏋️', '🎁', '💡'];
     String selectedEmoji = emojiOptions[0];
     final nameController = TextEditingController();
@@ -116,15 +126,17 @@ class CategoryManagePage extends ConsumerWidget {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) => AlertDialog(
-          backgroundColor: AppColors.cardWhite,
+          backgroundColor: theme.colorScheme.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           title: Text(
-            '카테고리 추가',
-            style: AppTypography.body.copyWith(
+            l10n.categoryAdd,
+            style: TextStyle(
+              fontFamily: 'PretendardJP',
               fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: theme.colorScheme.onSurface,
             ),
           ),
           content: Column(
@@ -142,11 +154,11 @@ class CategoryManagePage extends ConsumerWidget {
                       height: 44,
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppColors.skyBlueLight
-                            : AppColors.cloud,
+                            ? custom.skyBlueLight
+                            : theme.scaffoldBackgroundColor,
                         borderRadius: BorderRadius.circular(12),
                         border: isSelected
-                            ? Border.all(color: AppColors.skyBlue, width: 1.5)
+                            ? Border.all(color: theme.colorScheme.primary, width: 1.5)
                             : null,
                       ),
                       alignment: Alignment.center,
@@ -159,23 +171,29 @@ class CategoryManagePage extends ConsumerWidget {
               TextField(
                 controller: nameController,
                 decoration: InputDecoration(
-                  hintText: '카테고리명',
-                  hintStyle: AppTypography.body.copyWith(
-                    color: AppColors.nightLight,
+                  hintText: l10n.categoryName,
+                  hintStyle: TextStyle(
+                    fontFamily: 'PretendardJP',
+                    fontSize: 14,
+                    color: custom.nightLight,
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.border),
+                    borderSide: BorderSide(color: theme.colorScheme.outline),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                        color: AppColors.skyBlue, width: 1.5),
+                    borderSide: BorderSide(
+                        color: theme.colorScheme.primary, width: 1.5),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16, vertical: 12),
                 ),
-                style: AppTypography.body.copyWith(fontSize: 16),
+                style: TextStyle(
+                  fontFamily: 'PretendardJP',
+                  fontSize: 16,
+                  color: theme.colorScheme.onSurface,
+                ),
               ),
             ],
           ),
@@ -183,8 +201,12 @@ class CategoryManagePage extends ConsumerWidget {
             TextButton(
               onPressed: () => Navigator.pop(ctx),
               child: Text(
-                '취소',
-                style: AppTypography.body.copyWith(color: AppColors.nightLight),
+                l10n.cancel,
+                style: TextStyle(
+                  fontFamily: 'PretendardJP',
+                  fontSize: 14,
+                  color: custom.nightLight,
+                ),
               ),
             ),
             FilledButton(
@@ -198,16 +220,18 @@ class CategoryManagePage extends ConsumerWidget {
                 }
               },
               style: FilledButton.styleFrom(
-                backgroundColor: AppColors.skyBlue,
+                backgroundColor: theme.colorScheme.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
               child: Text(
-                '저장',
-                style: AppTypography.body.copyWith(
-                  color: Colors.white,
+                l10n.save,
+                style: const TextStyle(
+                  fontFamily: 'PretendardJP',
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ),

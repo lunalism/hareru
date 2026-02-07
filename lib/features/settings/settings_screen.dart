@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../core/constants/colors.dart';
-import '../../core/constants/typography.dart';
+import '../../core/theme/custom_colors.dart';
 import 'pages/category_manage_page.dart';
 import 'providers/settings_provider.dart';
 import 'widgets/budget_bottom_sheet.dart';
@@ -19,20 +19,49 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
+    final l10n = AppLocalizations.of(context)!;
     final settings = ref.watch(settingsProvider);
     final formatter = NumberFormat('#,###');
 
+    // Map theme mode display value to l10n
+    String themeModeDisplay(String mode) {
+      switch (mode) {
+        case '시스템':
+          return l10n.system;
+        case '라이트':
+          return l10n.light;
+        case '다크':
+          return l10n.dark;
+        default:
+          return mode;
+      }
+    }
+
+    // Map start day display value to l10n
+    String startDayDisplay(String day) {
+      switch (day) {
+        case '월요일':
+          return l10n.monday;
+        case '일요일':
+          return l10n.sunday;
+        default:
+          return day;
+      }
+    }
+
     return Scaffold(
-      backgroundColor: AppColors.cloud,
       appBar: AppBar(
-        backgroundColor: AppColors.cloud,
         elevation: 0,
         scrolledUnderElevation: 0,
         title: Text(
-          '설정',
-          style: AppTypography.body.copyWith(
+          l10n.settings,
+          style: TextStyle(
+            fontFamily: 'PretendardJP',
             fontSize: 24,
             fontWeight: FontWeight.bold,
+            color: theme.colorScheme.onSurface,
           ),
         ),
       ),
@@ -40,19 +69,18 @@ class SettingsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 섹션 1: 가계부
             SettingsSection(
-              title: '가계부',
+              title: l10n.household,
               children: [
                 SettingsTile(
                   emoji: '💰',
-                  title: '월 예산',
+                  title: l10n.monthlyBudget,
                   value: '¥${formatter.format(settings.monthlyBudget)}',
                   onTap: () => _showBudgetSheet(context, ref, settings),
                 ),
                 SettingsTile(
                   emoji: '📂',
-                  title: '카테고리 관리',
+                  title: l10n.categoryManage,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -64,19 +92,19 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 SettingsTile(
                   emoji: '📅',
-                  title: '주 시작 요일',
-                  value: settings.startDayOfWeek,
+                  title: l10n.startDayOfWeek,
+                  value: startDayDisplay(settings.startDayOfWeek),
                   onTap: () => _showDayPicker(context, ref, settings),
                 ),
                 SettingsTile(
                   emoji: '🔄',
-                  title: '이체 자동 제외',
-                  subtitle: '계좌 간 이체를 지출에서 자동으로 제외합니다',
+                  title: l10n.autoExcludeTransfer,
+                  subtitle: l10n.autoExcludeTransferDesc,
                   showChevron: false,
                   isHighlighted: true,
                   trailing: CupertinoSwitch(
                     value: settings.autoExcludeTransfer,
-                    activeTrackColor: AppColors.skyBlue,
+                    activeTrackColor: theme.colorScheme.primary,
                     onChanged: (v) => ref
                         .read(settingsProvider.notifier)
                         .toggleAutoExcludeTransfer(v),
@@ -87,21 +115,17 @@ class SettingsScreen extends ConsumerWidget {
                 ),
               ],
             ),
-
-            // 섹션 2: 보안
             SettingsSection(
-              title: '보안',
+              title: l10n.security,
               children: [
                 SettingsTile(
                   emoji: '🔒',
-                  title: '앱 잠금',
-                  subtitle: settings.appLockEnabled
-                      ? 'Face ID 또는 패스코드로 잠금'
-                      : null,
+                  title: l10n.appLock,
+                  subtitle: settings.appLockEnabled ? l10n.appLockDesc : null,
                   showChevron: false,
                   trailing: CupertinoSwitch(
                     value: settings.appLockEnabled,
-                    activeTrackColor: AppColors.skyBlue,
+                    activeTrackColor: theme.colorScheme.primary,
                     onChanged: (v) => ref
                         .read(settingsProvider.notifier)
                         .toggleAppLock(v),
@@ -112,111 +136,179 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 SettingsTile(
                   emoji: '☁️',
-                  title: 'iCloud 백업',
-                  onTap: () => _showComingSoon(context),
+                  title: l10n.icloudBackup,
+                  onTap: () => _showComingSoon(context, l10n),
                 ),
               ],
             ),
-
-            // 섹션 3: 앱
             SettingsSection(
-              title: '앱',
+              title: l10n.app,
               children: [
                 SettingsTile(
                   emoji: '🌙',
-                  title: '화면 모드',
-                  value: settings.themeMode,
+                  title: l10n.screenMode,
+                  value: themeModeDisplay(settings.themeMode),
                   onTap: () => _showThemePicker(context, ref, settings),
                 ),
-                SettingsTile(
-                  emoji: '🔔',
-                  title: '입력 리마인더',
-                  subtitle: settings.reminderEnabled
-                      ? '매일 설정한 시간에 알림을 보내드려요'
-                      : null,
-                  showChevron: false,
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 14),
+                  child: Column(
                     children: [
-                      if (settings.reminderEnabled)
-                        GestureDetector(
-                          onTap: () =>
-                              _showReminderTimePicker(context, ref, settings),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
+                      // Line 1: emoji + title + toggle
+                      Row(
+                        children: [
+                          Container(
+                            width: 32,
+                            height: 32,
                             decoration: BoxDecoration(
-                              color: AppColors.skyBlueLight,
-                              borderRadius: BorderRadius.circular(8),
+                              color: custom.skyBlueLight,
+                              shape: BoxShape.circle,
                             ),
+                            alignment: Alignment.center,
+                            child: const Text('🔔',
+                                style: TextStyle(fontSize: 16)),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
                             child: Text(
-                              _formatTime(settings.reminderTime),
-                              style: AppTypography.body.copyWith(
-                                color: AppColors.skyBlue,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
+                              l10n.inputReminder,
+                              style: TextStyle(
+                                fontFamily: 'PretendardJP',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
                           ),
-                        ),
-                      if (settings.reminderEnabled) const SizedBox(width: 8),
-                      CupertinoSwitch(
-                        value: settings.reminderEnabled,
-                        activeTrackColor: AppColors.skyBlue,
-                        onChanged: (v) => ref
-                            .read(settingsProvider.notifier)
-                            .toggleReminder(v),
+                          CupertinoSwitch(
+                            value: settings.reminderEnabled,
+                            activeTrackColor: theme.colorScheme.primary,
+                            onChanged: (v) => ref
+                                .read(settingsProvider.notifier)
+                                .toggleReminder(v),
+                          ),
+                        ],
                       ),
+                      // Line 2: divider + description + time badge (only when enabled)
+                      if (settings.reminderEnabled) ...[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 44),
+                          child: Divider(
+                            height: 12,
+                            thickness: 0.5,
+                            color: theme.colorScheme.outline
+                                .withValues(alpha: 0.3),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 44),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  l10n.inputReminderDesc,
+                                  style: TextStyle(
+                                    fontFamily: 'PretendardJP',
+                                    fontSize: 13,
+                                    color: theme.colorScheme.onSurface
+                                        .withValues(alpha: 0.45),
+                                    height: 1.3,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              GestureDetector(
+                                onTap: () => _showReminderTimePicker(
+                                    context, ref, settings),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 5),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.primary
+                                        .withValues(alpha: 0.08),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: theme.colorScheme.primary
+                                          .withValues(alpha: 0.15),
+                                      width: 0.5,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text('🕘',
+                                          style: TextStyle(fontSize: 11)),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        _formatTime(settings.reminderTime),
+                                        style: TextStyle(
+                                          fontFamily: 'PretendardJP',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: theme.colorScheme.primary,
+                                          letterSpacing: 0.5,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ],
                   ),
-                  onTap: () => ref
-                      .read(settingsProvider.notifier)
-                      .toggleReminder(!settings.reminderEnabled),
                 ),
                 SettingsTile(
                   emoji: '🌐',
-                  title: '언어',
+                  title: l10n.language,
                   value: settings.language,
                   onTap: () => _showLanguagePicker(context, ref, settings),
                 ),
               ],
             ),
-
-            // 섹션 4: 기타
             SettingsSection(
-              title: '기타',
+              title: l10n.etc,
               children: [
                 SettingsTile(
                   emoji: '💬',
-                  title: '의견 보내기',
-                  onTap: () => _showComingSoon(context),
+                  title: l10n.sendFeedback,
+                  onTap: () => _showComingSoon(context, l10n),
                 ),
                 SettingsTile(
                   emoji: 'ℹ️',
-                  title: '앱 정보',
+                  title: l10n.appInfo,
                   value: 'v1.0.0',
                   showChevron: false,
                 ),
               ],
             ),
-
-            // 하단 로고
             const SizedBox(height: 32),
             Center(
               child: Column(
                 children: [
                   Text(
                     'Hareru',
-                    style: AppTypography.body.copyWith(
+                    style: TextStyle(
+                      fontFamily: 'PretendardJP',
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.skyBlue,
+                      color: theme.colorScheme.primary,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Made with 💙',
-                    style: AppTypography.caption,
+                    l10n.madeWith,
+                    style: TextStyle(
+                      fontFamily: 'PretendardJP',
+                      fontSize: 12,
+                      color: custom.nightLight,
+                    ),
                   ),
                 ],
               ),
@@ -305,17 +397,20 @@ class SettingsScreen extends ConsumerWidget {
     }
   }
 
-  void _showComingSoon(BuildContext context) {
+  void _showComingSoon(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          '준비 중인 기능이에요',
-          style: AppTypography.body.copyWith(
+          l10n.preparingFeature,
+          style: const TextStyle(
+            fontFamily: 'PretendardJP',
+            fontSize: 14,
             color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
         ),
-        backgroundColor: AppColors.skyBlue,
+        backgroundColor: theme.colorScheme.primary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),

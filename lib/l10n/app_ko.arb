@@ -1,0 +1,209 @@
+{
+  "@@locale": "ko",
+  "appTitle": "Hareru",
+  "settings": "설정",
+  "household": "가계부",
+  "monthlyBudget": "월 예산",
+  "categoryManage": "카테고리 관리",
+  "startDayOfWeek": "주 시작 요일",
+  "autoExcludeTransfer": "이체 자동 제외",
+  "autoExcludeTransferDesc": "계좌 간 이체를 지출에서 자동으로 제외합니다",
+  "security": "보안",
+  "appLock": "앱 잠금",
+  "appLockDesc": "Face ID 또는 패스코드로 잠금",
+  "icloudBackup": "iCloud 백업",
+  "app": "앱",
+  "screenMode": "화면 모드",
+  "inputReminder": "입력 리마인더",
+  "inputReminderDesc": "매일 설정한 시간에 알림을 보내드려요",
+  "language": "언어",
+  "etc": "기타",
+  "sendFeedback": "의견 보내기",
+  "appInfo": "앱 정보",
+  "madeWith": "Made with 💙",
+  "comingSoon": "coming soon",
+  "preparingFeature": "준비 중인 기능이에요",
+  "monthlyBudgetSetting": "월 예산 설정",
+  "save": "저장",
+  "cancel": "취소",
+  "add": "추가",
+  "delete": "삭제",
+  "monday": "월요일",
+  "sunday": "일요일",
+  "system": "시스템",
+  "light": "라이트",
+  "dark": "다크",
+  "korean": "한국어",
+  "japanese": "日本語",
+  "english": "English",
+  "monthExpense": "{month}월 지출",
+  "@monthExpense": {
+    "placeholders": {
+      "month": {"type": "int"}
+    }
+  },
+  "comparedLastMonthDown": "지난달보다 ¥{amount} ↓ 절약! 🎉",
+  "@comparedLastMonthDown": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "comparedLastMonthUp": "지난달보다 ¥{amount} ↑ 과소비 주의 ⚠️",
+  "@comparedLastMonthUp": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budget": "예산 ¥{amount}",
+  "@budget": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "todayExpense": "오늘 지출",
+  "total": "합계",
+  "thisWeekExpense": "이번 주 지출",
+  "today": "오늘",
+  "noExpenseToday": "오늘은 아직 지출이 없어요",
+  "home": "홈",
+  "report": "리포트",
+  "input": "입력",
+  "dictionary": "사전",
+  "categoryFood": "식비",
+  "categoryTransport": "교통",
+  "categoryShopping": "쇼핑",
+  "categoryCafe": "카페",
+  "categoryEntertainment": "여가",
+  "categoryMedical": "의료",
+  "categoryTransfer": "이체",
+  "categoryOther": "기타",
+  "savingsTransfer": "저축계좌 이체",
+  "lunch": "점심",
+  "transportFee": "교통비",
+  "coffee": "커피",
+  "mon": "월",
+  "tue": "화",
+  "wed": "수",
+  "thu": "목",
+  "fri": "금",
+  "sat": "토",
+  "sun": "일",
+  "categoryAdd": "카테고리 추가",
+  "categoryName": "카테고리명",
+  "notificationTime": "알림 시간",
+  "receiptScan": "영수증 스캔",
+  "manualInput": "직접 입력",
+  "receiptScanDesc": "카메라로 영수증을 촬영해요",
+  "manualInputDesc": "금액과 카테고리를 직접 입력해요",
+  "expense": "지출",
+  "income": "수입",
+  "transfer": "이체",
+  "enterAmount": "금액 입력",
+  "selectCategory": "카테고리 선택",
+  "addMemo": "메모 추가",
+  "date": "날짜",
+  "memo": "메모",
+  "fromAccount": "출금 계좌",
+  "toAccount": "입금 계좌",
+  "categorySalary": "급여",
+  "categoryAllowance": "용돈",
+  "categorySidejob": "부업",
+  "categoryInvestment": "투자",
+  "receiptScanTitle": "영수증 스캔",
+  "receiptScanComingSoon": "준비 중인 기능이에요",
+  "noTransactions": "아직 거래 내역이 없어요",
+  "addFirstTransaction": "+ 버튼을 눌러 첫 거래를 추가해보세요",
+  "inputMethod": "입력 방법",
+  "amount": "금액",
+  "savedSuccess": "저장되었습니다",
+  "reportTitle": "리포트",
+  "periodWeekly": "주간",
+  "periodMonthly": "월간",
+  "periodYearly": "연간",
+  "realExpense": "실질 지출",
+  "transferExcluded": "이체 ¥{amount} 제외",
+  "@transferExcluded": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "balance": "잔액",
+  "comparedToPrevMonth": "전월 대비",
+  "categoryBreakdown": "카테고리별 지출",
+  "expenseTrend": "지출 추이",
+  "monthlyInsight": "이번 달 인사이트",
+  "weeklyInsight": "이번 주 인사이트",
+  "yearlyInsight": "올해 인사이트",
+  "categoryDetail": "카테고리 상세",
+  "topSpendingDay": "가장 많이 쓴 날",
+  "comparedToPrev": "전월 대비 변화",
+  "leastSpendingWeek": "가장 적게 쓴 주",
+  "noReportDataTitle": "아직 데이터가 없어요",
+  "noReportDataDesc": "지출을 기록하면\n여기서 분석을 볼 수 있어요",
+  "recordExpense": "지출 기록하기",
+  "showMore": "더 보기",
+  "transactionCount": "{count}건",
+  "@transactionCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "dailyAverage": "평균 ¥{amount}/일",
+  "@dailyAverage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "notEnoughData": "아직 데이터가 충분하지 않아요. 기록을 계속해보세요!",
+  "increase": "증가",
+  "decrease": "감소",
+  "yearFormat": "{year}년",
+  "@yearFormat": {
+    "placeholders": {
+      "year": {"type": "int"}
+    }
+  },
+  "monthFormat": "{year}년 {month}월",
+  "@monthFormat": {
+    "placeholders": {
+      "year": {"type": "int"},
+      "month": {"type": "int"}
+    }
+  },
+  "weekFormat": "{month}월 {week}주차",
+  "@weekFormat": {
+    "placeholders": {
+      "month": {"type": "int"},
+      "week": {"type": "int"}
+    }
+  },
+  "weekRangeFormat": "{startMonth}/{startDay} ~ {endMonth}/{endDay}",
+  "@weekRangeFormat": {
+    "placeholders": {
+      "startMonth": {"type": "int"},
+      "startDay": {"type": "int"},
+      "endMonth": {"type": "int"},
+      "endDay": {"type": "int"}
+    }
+  },
+  "categoryIncreased": "{category}가 {percent}% 증가했어요",
+  "@categoryIncreased": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "percent": {"type": "int"}
+    }
+  },
+  "categoryDecreased": "{category}가 {percent}% 감소했어요",
+  "@categoryDecreased": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "percent": {"type": "int"}
+    }
+  },
+  "nthWeek": "{n}째 주",
+  "@nthWeek": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  }
+}

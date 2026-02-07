@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:intl/intl.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/constants/typography.dart';
+import '../../../core/theme/custom_colors.dart';
 
 class BudgetBottomSheet extends StatefulWidget {
   const BudgetBottomSheet({super.key, required this.currentBudget});
@@ -39,6 +39,10 @@ class _BudgetBottomSheetState extends State<BudgetBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: EdgeInsets.only(
         left: 24,
@@ -53,16 +57,18 @@ class _BudgetBottomSheetState extends State<BudgetBottomSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.nightLight.withValues(alpha: 0.3),
+              color: custom.nightLight.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
           const SizedBox(height: 20),
           Text(
-            '월 예산 설정',
-            style: AppTypography.body.copyWith(
+            l10n.monthlyBudgetSetting,
+            style: TextStyle(
+              fontFamily: 'PretendardJP',
               fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: theme.colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 20),
@@ -72,25 +78,29 @@ class _BudgetBottomSheetState extends State<BudgetBottomSheet> {
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: InputDecoration(
               prefixText: '¥ ',
-              prefixStyle: AppTypography.body.copyWith(
+              prefixStyle: TextStyle(
+                fontFamily: 'PretendardJP',
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
+                color: theme.colorScheme.onSurface,
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColors.border),
+                borderSide: BorderSide(color: theme.colorScheme.outline),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide:
-                    const BorderSide(color: AppColors.skyBlue, width: 1.5),
+                    BorderSide(color: theme.colorScheme.primary, width: 1.5),
               ),
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             ),
-            style: AppTypography.body.copyWith(
+            style: TextStyle(
+              fontFamily: 'PretendardJP',
               fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: theme.colorScheme.onSurface,
             ),
             onChanged: (_) {
               setState(() => _selected = null);
@@ -110,17 +120,22 @@ class _BudgetBottomSheetState extends State<BudgetBottomSheet> {
                     if (selected) _controller.text = p.toString();
                   });
                 },
-                selectedColor: AppColors.skyBlueLight,
-                backgroundColor: Colors.white,
+                selectedColor: custom.skyBlueLight,
+                backgroundColor: theme.colorScheme.surface,
                 side: BorderSide(
-                  color:
-                      isSelected ? AppColors.skyBlue : AppColors.border,
+                  color: isSelected
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.outline,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                labelStyle: AppTypography.body.copyWith(
-                  color: isSelected ? AppColors.skyBlue : AppColors.night,
+                labelStyle: TextStyle(
+                  fontFamily: 'PretendardJP',
+                  fontSize: 14,
+                  color: isSelected
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.onSurface,
                   fontWeight:
                       isSelected ? FontWeight.w600 : FontWeight.normal,
                 ),
@@ -140,17 +155,18 @@ class _BudgetBottomSheetState extends State<BudgetBottomSheet> {
                 }
               },
               style: FilledButton.styleFrom(
-                backgroundColor: AppColors.skyBlue,
+                backgroundColor: theme.colorScheme.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
               child: Text(
-                '저장',
-                style: AppTypography.body.copyWith(
-                  color: Colors.white,
+                l10n.save,
+                style: const TextStyle(
+                  fontFamily: 'PretendardJP',
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ),

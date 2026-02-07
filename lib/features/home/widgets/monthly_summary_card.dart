@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/constants/typography.dart';
+import '../../../core/theme/custom_colors.dart';
 import '../providers/home_provider.dart';
 
 class MonthlySummaryCard extends ConsumerWidget {
@@ -10,6 +10,9 @@ class MonthlySummaryCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
+    final l10n = AppLocalizations.of(context)!;
     final expense = ref.watch(monthlyExpenseProvider);
     final budget = ref.watch(monthlyBudgetProvider);
     final lastMonth = ref.watch(lastMonthExpenseProvider);
@@ -30,7 +33,7 @@ class MonthlySummaryCard extends ConsumerWidget {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
           decoration: BoxDecoration(
-            color: AppColors.cardWhite,
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
@@ -43,9 +46,11 @@ class MonthlySummaryCard extends ConsumerWidget {
           child: Column(
             children: [
               Text(
-                '$month월 지출',
-                style: AppTypography.body.copyWith(
-                  color: AppColors.nightLight,
+                l10n.monthExpense(month),
+                style: TextStyle(
+                  fontFamily: 'PretendardJP',
+                  fontSize: 14,
+                  color: custom.nightLight,
                 ),
               ),
               const SizedBox(height: 12),
@@ -54,21 +59,38 @@ class MonthlySummaryCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
-                  Text('¥', style: AppTypography.currencySymbol),
+                  Text(
+                    '¥',
+                    style: TextStyle(
+                      fontFamily: 'PretendardJP',
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                  ),
                   Text(
                     formatter.format(expense),
-                    style: AppTypography.amountLarge,
+                    style: TextStyle(
+                      fontFamily: 'PretendardJP',
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              _buildComparison(diff, formatter),
+              _buildComparison(context, diff, formatter, custom, l10n),
               const SizedBox(height: 20),
-              _buildProgressBar(ratio, percent),
+              _buildProgressBar(context, ratio, percent, theme, custom),
               const SizedBox(height: 8),
               Text(
-                '예산 ¥${formatter.format(budget)}',
-                style: AppTypography.caption,
+                l10n.budget(formatter.format(budget)),
+                style: TextStyle(
+                  fontFamily: 'PretendardJP',
+                  fontSize: 12,
+                  color: custom.nightLight,
+                ),
               ),
             ],
           ),
@@ -77,36 +99,32 @@ class MonthlySummaryCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildComparison(int diff, NumberFormat formatter) {
+  Widget _buildComparison(BuildContext context, int diff, NumberFormat formatter, CustomColors custom, AppLocalizations l10n) {
     final isSaving = diff > 0;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '지난달보다 ¥${formatter.format(diff.abs())} ${isSaving ? '↓' : '↑'}  ',
-          style: AppTypography.caption.copyWith(
-            color: isSaving ? AppColors.income : AppColors.expense,
-          ),
-        ),
-        Text(
-          isSaving ? '절약! 🎉' : '과소비 주의 ⚠️',
-          style: AppTypography.caption.copyWith(
-            color: isSaving ? AppColors.income : AppColors.expense,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
+    final color = isSaving ? custom.incomeGreen : custom.expenseRed;
+    final text = isSaving
+        ? l10n.comparedLastMonthDown(formatter.format(diff.abs()))
+        : l10n.comparedLastMonthUp(formatter.format(diff.abs()));
+
+    return Text(
+      text,
+      style: TextStyle(
+        fontFamily: 'PretendardJP',
+        fontSize: 12,
+        color: color,
+        fontWeight: FontWeight.w600,
+      ),
     );
   }
 
-  Widget _buildProgressBar(double ratio, int percent) {
+  Widget _buildProgressBar(BuildContext context, double ratio, int percent, ThemeData theme, CustomColors custom) {
     Color barColor;
     if (ratio < 0.6) {
-      barColor = AppColors.skyBlue;
+      barColor = theme.colorScheme.primary;
     } else if (ratio < 0.8) {
-      barColor = AppColors.sunlight;
+      barColor = theme.colorScheme.secondary;
     } else {
-      barColor = AppColors.expense;
+      barColor = custom.expenseRed;
     }
 
     return Row(
@@ -117,7 +135,7 @@ class MonthlySummaryCard extends ConsumerWidget {
             child: LinearProgressIndicator(
               value: ratio.clamp(0.0, 1.0),
               minHeight: 8,
-              backgroundColor: AppColors.border,
+              backgroundColor: theme.colorScheme.outline,
               valueColor: AlwaysStoppedAnimation<Color>(barColor),
             ),
           ),
@@ -125,8 +143,11 @@ class MonthlySummaryCard extends ConsumerWidget {
         const SizedBox(width: 12),
         Text(
           '$percent%',
-          style: AppTypography.caption.copyWith(
+          style: TextStyle(
+            fontFamily: 'PretendardJP',
+            fontSize: 12,
             fontWeight: FontWeight.w600,
+            color: custom.nightLight,
           ),
         ),
       ],

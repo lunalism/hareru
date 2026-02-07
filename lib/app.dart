@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/home/home_screen.dart';
+import 'features/input/input_screen.dart';
+import 'features/input/pages/receipt_scan_page.dart';
+import 'features/input/widgets/input_method_sheet.dart';
+import 'features/report/presentation/report_screen.dart';
 import 'features/settings/settings_screen.dart';
+import 'features/settings/providers/settings_provider.dart';
+import 'features/splash/splash_screen.dart';
 import 'shared/widgets/bottom_nav_bar.dart';
 
 final _router = GoRouter(
+  initialLocation: '/splash',
   routes: [
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => const SplashScreen(),
+    ),
     ShellRoute(
       builder: (context, state, child) => _ScaffoldWithNav(child: child),
       routes: [
@@ -16,15 +30,15 @@ final _router = GoRouter(
         ),
         GoRoute(
           path: '/report',
-          builder: (context, state) => const _PlaceholderScreen(title: '리포트'),
+          builder: (context, state) => const ReportScreen(),
         ),
         GoRoute(
           path: '/input',
-          builder: (context, state) => const _PlaceholderScreen(title: '입력'),
+          builder: (context, state) => const _PlaceholderScreen(key: ValueKey('input')),
         ),
         GoRoute(
           path: '/dictionary',
-          builder: (context, state) => const _PlaceholderScreen(title: '사전'),
+          builder: (context, state) => const _PlaceholderScreen(key: ValueKey('dictionary')),
         ),
         GoRoute(
           path: '/settings',
@@ -32,17 +46,42 @@ final _router = GoRouter(
         ),
       ],
     ),
+    // Routes outside ShellRoute (no bottom nav)
+    GoRoute(
+      path: '/input/manual',
+      builder: (context, state) => const InputScreen(),
+    ),
+    GoRoute(
+      path: '/input/receipt',
+      builder: (context, state) => const ReceiptScanPage(),
+    ),
   ],
 );
 
-class HareruApp extends StatelessWidget {
+class HareruApp extends ConsumerWidget {
   const HareruApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(settingsProvider);
+
     return MaterialApp.router(
       title: 'Hareru',
       theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: settings.flutterThemeMode,
+      locale: settings.flutterLocale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ko'),
+        Locale('ja'),
+        Locale('en'),
+      ],
       routerConfig: _router,
       debugShowCheckedModeBanner: false,
     );
@@ -65,23 +104,42 @@ class _ScaffoldWithNav extends StatelessWidget {
       body: child,
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: currentIndex,
-        onTap: (index) => context.go(_paths[index]),
+        onTap: (index) {
+          if (index == 2) {
+            // "+" button: show input method bottom sheet
+            InputMethodSheet.show(context);
+          } else {
+            context.go(_paths[index]);
+          }
+        },
       ),
     );
   }
 }
 
 class _PlaceholderScreen extends StatelessWidget {
-  const _PlaceholderScreen({required this.title});
+  const _PlaceholderScreen({super.key});
 
-  final String title;
+  String _getTitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final key = (this.key as ValueKey).value as String;
+    switch (key) {
+      case 'report':
+        return l10n.report;
+      case 'input':
+        return l10n.input;
+      case 'dictionary':
+        return l10n.dictionary;
+      default:
+        return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final title = _getTitle(context);
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFAFAFA),
         elevation: 0,
         scrolledUnderElevation: 0,
         title: Text(title),

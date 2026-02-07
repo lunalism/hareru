@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/constants/typography.dart';
+import '../../../core/theme/custom_colors.dart';
 import '../providers/home_provider.dart';
 
 class WeeklyTrendChart extends ConsumerStatefulWidget {
@@ -23,7 +23,6 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-    // Start animation after a short delay for staggered effect
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) _controller.forward();
     });
@@ -35,19 +34,27 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
     super.dispose();
   }
 
+  List<String> _weekLabels(AppLocalizations l10n) {
+    return [l10n.mon, l10n.tue, l10n.wed, l10n.thu, l10n.fri, l10n.sat, l10n.sun];
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
+    final l10n = AppLocalizations.of(context)!;
     final weeklyData = ref.watch(weeklyExpensesProvider);
-    final maxAmount =
-        weeklyData.map((d) => d.amount).reduce((a, b) => a > b ? a : b);
+    final amounts = weeklyData.map((d) => d.amount);
+    final maxAmount = amounts.isEmpty ? 0 : amounts.reduce((a, b) => a > b ? a : b);
     final formatter = NumberFormat('#,###');
-    final todayWeekday = DateTime.now().weekday; // 1=Mon
+    final todayWeekday = DateTime.now().weekday;
+    final labels = _weekLabels(l10n);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.cardWhite,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -60,13 +67,22 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('이번 주 지출', style: AppTypography.sectionHeader),
+          Text(
+            l10n.thisWeekExpense,
+            style: TextStyle(
+              fontFamily: 'PretendardJP',
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: theme.colorScheme.onSurface,
+            ),
+          ),
           const SizedBox(height: 16),
           ...List.generate(weeklyData.length, (index) {
             final data = weeklyData[index];
             final isToday = (index + 1) == todayWeekday;
             final barRatio =
                 maxAmount > 0 ? data.amount / maxAmount : 0.0;
+            final highlightColor = theme.colorScheme.primary;
 
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
@@ -75,10 +91,11 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
                   SizedBox(
                     width: 24,
                     child: Text(
-                      data.label,
-                      style: AppTypography.caption.copyWith(
-                        color:
-                            isToday ? AppColors.skyBlueDark : AppColors.nightLight,
+                      labels[index],
+                      style: TextStyle(
+                        fontFamily: 'PretendardJP',
+                        fontSize: 12,
+                        color: isToday ? highlightColor : custom.nightLight,
                         fontWeight:
                             isToday ? FontWeight.w600 : FontWeight.normal,
                       ),
@@ -98,6 +115,7 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
                               return _buildBar(
                                 barRatio * animatedRatio,
                                 isToday,
+                                theme,
                               );
                             },
                           ),
@@ -110,9 +128,10 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
                           ? 'ー'
                           : '¥${formatter.format(data.amount)}',
                       textAlign: TextAlign.right,
-                      style: AppTypography.caption.copyWith(
-                        color:
-                            isToday ? AppColors.skyBlueDark : AppColors.nightLight,
+                      style: TextStyle(
+                        fontFamily: 'PretendardJP',
+                        fontSize: 12,
+                        color: isToday ? highlightColor : custom.nightLight,
                         fontWeight:
                             isToday ? FontWeight.w600 : FontWeight.normal,
                       ),
@@ -121,10 +140,11 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
                   if (isToday) ...[
                     const SizedBox(width: 4),
                     Text(
-                      '(오늘)',
-                      style: AppTypography.caption.copyWith(
-                        color: AppColors.skyBlueDark,
+                      '(${l10n.today})',
+                      style: TextStyle(
+                        fontFamily: 'PretendardJP',
                         fontSize: 10,
+                        color: highlightColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -138,14 +158,14 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
     );
   }
 
-  Widget _buildBar(double ratio, bool isToday) {
+  Widget _buildBar(double ratio, bool isToday, ThemeData theme) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final barWidth = constraints.maxWidth * ratio;
         return Container(
           height: 12,
           decoration: BoxDecoration(
-            color: AppColors.border,
+            color: theme.colorScheme.outline,
             borderRadius: BorderRadius.circular(4),
           ),
           alignment: Alignment.centerLeft,
@@ -153,7 +173,9 @@ class _WeeklyTrendChartState extends ConsumerState<WeeklyTrendChart>
             width: barWidth,
             height: 12,
             decoration: BoxDecoration(
-              color: isToday ? AppColors.skyBlueDark : AppColors.skyBlue,
+              color: isToday
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.primary.withValues(alpha: 0.7),
               borderRadius: BorderRadius.circular(4),
             ),
           ),

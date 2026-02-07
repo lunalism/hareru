@@ -1,0 +1,564 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_en.dart';
+import 'app_localizations_ja.dart';
+import 'app_localizations_ko.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ko'),
+    Locale('ja'),
+    Locale('en'),
+  ];
+
+  /// No description provided for @appTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'Hareru'**
+  String get appTitle;
+
+  /// No description provided for @settings.
+  ///
+  /// In ko, this message translates to:
+  /// **'설정'**
+  String get settings;
+
+  /// No description provided for @household.
+  ///
+  /// In ko, this message translates to:
+  /// **'가계부'**
+  String get household;
+
+  /// No description provided for @monthlyBudget.
+  ///
+  /// In ko, this message translates to:
+  /// **'월 예산'**
+  String get monthlyBudget;
+
+  /// No description provided for @categoryManage.
+  ///
+  /// In ko, this message translates to:
+  /// **'카테고리 관리'**
+  String get categoryManage;
+
+  /// No description provided for @startDayOfWeek.
+  ///
+  /// In ko, this message translates to:
+  /// **'주 시작 요일'**
+  String get startDayOfWeek;
+
+  /// No description provided for @autoExcludeTransfer.
+  ///
+  /// In ko, this message translates to:
+  /// **'이체 자동 제외'**
+  String get autoExcludeTransfer;
+
+  /// No description provided for @autoExcludeTransferDesc.
+  ///
+  /// In ko, this message translates to:
+  /// **'계좌 간 이체를 지출에서 자동으로 제외합니다'**
+  String get autoExcludeTransferDesc;
+
+  /// No description provided for @security.
+  ///
+  /// In ko, this message translates to:
+  /// **'보안'**
+  String get security;
+
+  /// No description provided for @appLock.
+  ///
+  /// In ko, this message translates to:
+  /// **'앱 잠금'**
+  String get appLock;
+
+  /// No description provided for @appLockDesc.
+  ///
+  /// In ko, this message translates to:
+  /// **'Face ID 또는 패스코드로 잠금'**
+  String get appLockDesc;
+
+  /// No description provided for @icloudBackup.
+  ///
+  /// In ko, this message translates to:
+  /// **'iCloud 백업'**
+  String get icloudBackup;
+
+  /// No description provided for @app.
+  ///
+  /// In ko, this message translates to:
+  /// **'앱'**
+  String get app;
+
+  /// No description provided for @screenMode.
+  ///
+  /// In ko, this message translates to:
+  /// **'화면 모드'**
+  String get screenMode;
+
+  /// No description provided for @inputReminder.
+  ///
+  /// In ko, this message translates to:
+  /// **'입력 리마인더'**
+  String get inputReminder;
+
+  /// No description provided for @inputReminderDesc.
+  ///
+  /// In ko, this message translates to:
+  /// **'매일 설정한 시간에 알림을 보내드려요'**
+  String get inputReminderDesc;
+
+  /// No description provided for @language.
+  ///
+  /// In ko, this message translates to:
+  /// **'언어'**
+  String get language;
+
+  /// No description provided for @etc.
+  ///
+  /// In ko, this message translates to:
+  /// **'기타'**
+  String get etc;
+
+  /// No description provided for @sendFeedback.
+  ///
+  /// In ko, this message translates to:
+  /// **'의견 보내기'**
+  String get sendFeedback;
+
+  /// No description provided for @appInfo.
+  ///
+  /// In ko, this message translates to:
+  /// **'앱 정보'**
+  String get appInfo;
+
+  /// No description provided for @madeWith.
+  ///
+  /// In ko, this message translates to:
+  /// **'Made with 💙'**
+  String get madeWith;
+
+  /// No description provided for @comingSoon.
+  ///
+  /// In ko, this message translates to:
+  /// **'coming soon'**
+  String get comingSoon;
+
+  /// No description provided for @preparingFeature.
+  ///
+  /// In ko, this message translates to:
+  /// **'준비 중인 기능이에요'**
+  String get preparingFeature;
+
+  /// No description provided for @monthlyBudgetSetting.
+  ///
+  /// In ko, this message translates to:
+  /// **'월 예산 설정'**
+  String get monthlyBudgetSetting;
+
+  /// No description provided for @save.
+  ///
+  /// In ko, this message translates to:
+  /// **'저장'**
+  String get save;
+
+  /// No description provided for @cancel.
+  ///
+  /// In ko, this message translates to:
+  /// **'취소'**
+  String get cancel;
+
+  /// No description provided for @add.
+  ///
+  /// In ko, this message translates to:
+  /// **'추가'**
+  String get add;
+
+  /// No description provided for @delete.
+  ///
+  /// In ko, this message translates to:
+  /// **'삭제'**
+  String get delete;
+
+  /// No description provided for @monday.
+  ///
+  /// In ko, this message translates to:
+  /// **'월요일'**
+  String get monday;
+
+  /// No description provided for @sunday.
+  ///
+  /// In ko, this message translates to:
+  /// **'일요일'**
+  String get sunday;
+
+  /// No description provided for @system.
+  ///
+  /// In ko, this message translates to:
+  /// **'시스템'**
+  String get system;
+
+  /// No description provided for @light.
+  ///
+  /// In ko, this message translates to:
+  /// **'라이트'**
+  String get light;
+
+  /// No description provided for @dark.
+  ///
+  /// In ko, this message translates to:
+  /// **'다크'**
+  String get dark;
+
+  /// No description provided for @korean.
+  ///
+  /// In ko, this message translates to:
+  /// **'한국어'**
+  String get korean;
+
+  /// No description provided for @japanese.
+  ///
+  /// In ko, this message translates to:
+  /// **'日本語'**
+  String get japanese;
+
+  /// No description provided for @english.
+  ///
+  /// In ko, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @monthExpense.
+  ///
+  /// In ko, this message translates to:
+  /// **'{month}월 지출'**
+  String monthExpense(int month);
+
+  /// No description provided for @comparedLastMonthDown.
+  ///
+  /// In ko, this message translates to:
+  /// **'지난달보다 ¥{amount} ↓ 절약! 🎉'**
+  String comparedLastMonthDown(String amount);
+
+  /// No description provided for @comparedLastMonthUp.
+  ///
+  /// In ko, this message translates to:
+  /// **'지난달보다 ¥{amount} ↑ 과소비 주의 ⚠️'**
+  String comparedLastMonthUp(String amount);
+
+  /// No description provided for @budget.
+  ///
+  /// In ko, this message translates to:
+  /// **'예산 ¥{amount}'**
+  String budget(String amount);
+
+  /// No description provided for @todayExpense.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘 지출'**
+  String get todayExpense;
+
+  /// No description provided for @total.
+  ///
+  /// In ko, this message translates to:
+  /// **'합계'**
+  String get total;
+
+  /// No description provided for @thisWeekExpense.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 주 지출'**
+  String get thisWeekExpense;
+
+  /// No description provided for @today.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘'**
+  String get today;
+
+  /// No description provided for @noExpenseToday.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘은 아직 지출이 없어요'**
+  String get noExpenseToday;
+
+  /// No description provided for @home.
+  ///
+  /// In ko, this message translates to:
+  /// **'홈'**
+  String get home;
+
+  /// No description provided for @report.
+  ///
+  /// In ko, this message translates to:
+  /// **'리포트'**
+  String get report;
+
+  /// No description provided for @input.
+  ///
+  /// In ko, this message translates to:
+  /// **'입력'**
+  String get input;
+
+  /// No description provided for @dictionary.
+  ///
+  /// In ko, this message translates to:
+  /// **'사전'**
+  String get dictionary;
+
+  /// No description provided for @categoryFood.
+  ///
+  /// In ko, this message translates to:
+  /// **'식비'**
+  String get categoryFood;
+
+  /// No description provided for @categoryTransport.
+  ///
+  /// In ko, this message translates to:
+  /// **'교통'**
+  String get categoryTransport;
+
+  /// No description provided for @categoryShopping.
+  ///
+  /// In ko, this message translates to:
+  /// **'쇼핑'**
+  String get categoryShopping;
+
+  /// No description provided for @categoryCafe.
+  ///
+  /// In ko, this message translates to:
+  /// **'카페'**
+  String get categoryCafe;
+
+  /// No description provided for @categoryEntertainment.
+  ///
+  /// In ko, this message translates to:
+  /// **'여가'**
+  String get categoryEntertainment;
+
+  /// No description provided for @categoryMedical.
+  ///
+  /// In ko, this message translates to:
+  /// **'의료'**
+  String get categoryMedical;
+
+  /// No description provided for @categoryTransfer.
+  ///
+  /// In ko, this message translates to:
+  /// **'이체'**
+  String get categoryTransfer;
+
+  /// No description provided for @categoryOther.
+  ///
+  /// In ko, this message translates to:
+  /// **'기타'**
+  String get categoryOther;
+
+  /// No description provided for @savingsTransfer.
+  ///
+  /// In ko, this message translates to:
+  /// **'저축계좌 이체'**
+  String get savingsTransfer;
+
+  /// No description provided for @lunch.
+  ///
+  /// In ko, this message translates to:
+  /// **'점심'**
+  String get lunch;
+
+  /// No description provided for @transportFee.
+  ///
+  /// In ko, this message translates to:
+  /// **'교통비'**
+  String get transportFee;
+
+  /// No description provided for @coffee.
+  ///
+  /// In ko, this message translates to:
+  /// **'커피'**
+  String get coffee;
+
+  /// No description provided for @mon.
+  ///
+  /// In ko, this message translates to:
+  /// **'월'**
+  String get mon;
+
+  /// No description provided for @tue.
+  ///
+  /// In ko, this message translates to:
+  /// **'화'**
+  String get tue;
+
+  /// No description provided for @wed.
+  ///
+  /// In ko, this message translates to:
+  /// **'수'**
+  String get wed;
+
+  /// No description provided for @thu.
+  ///
+  /// In ko, this message translates to:
+  /// **'목'**
+  String get thu;
+
+  /// No description provided for @fri.
+  ///
+  /// In ko, this message translates to:
+  /// **'금'**
+  String get fri;
+
+  /// No description provided for @sat.
+  ///
+  /// In ko, this message translates to:
+  /// **'토'**
+  String get sat;
+
+  /// No description provided for @sun.
+  ///
+  /// In ko, this message translates to:
+  /// **'일'**
+  String get sun;
+
+  /// No description provided for @categoryAdd.
+  ///
+  /// In ko, this message translates to:
+  /// **'카테고리 추가'**
+  String get categoryAdd;
+
+  /// No description provided for @categoryName.
+  ///
+  /// In ko, this message translates to:
+  /// **'카테고리명'**
+  String get categoryName;
+
+  /// No description provided for @notificationTime.
+  ///
+  /// In ko, this message translates to:
+  /// **'알림 시간'**
+  String get notificationTime;
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['en', 'ja', 'ko'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
+    case 'ja':
+      return AppLocalizationsJa();
+    case 'ko':
+      return AppLocalizationsKo();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}

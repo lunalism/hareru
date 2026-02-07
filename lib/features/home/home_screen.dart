@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/colors.dart';
-import '../../core/constants/typography.dart';
 import 'widgets/monthly_summary_card.dart';
 import 'widgets/today_expense_list.dart';
 import 'widgets/weekly_trend_chart.dart';
@@ -61,22 +59,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.cloud,
       appBar: AppBar(
-        backgroundColor: AppColors.cloud,
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: Text('Hareru', style: AppTypography.logo),
+        title: Text(
+          'Hareru',
+          style: TextStyle(
+            fontFamily: 'PretendardJP',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.primary,
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_none_rounded,
-                color: AppColors.night, size: 24),
+            icon: Icon(Icons.notifications_none_rounded,
+                color: theme.colorScheme.onSurface, size: 24),
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons.settings_outlined,
-                color: AppColors.night, size: 24),
+            icon: Icon(Icons.settings_outlined,
+                color: theme.colorScheme.onSurface, size: 24),
             onPressed: () {},
           ),
         ],

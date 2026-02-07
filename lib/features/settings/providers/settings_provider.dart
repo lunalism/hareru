@@ -1,13 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class CategoryItem {
-  const CategoryItem({required this.emoji, required this.name});
+  const CategoryItem({
+    required this.emoji,
+    required this.name,
+    this.localeKey,
+    this.isDefault = false,
+  });
   final String emoji;
   final String name;
+  final String? localeKey;
+  final bool isDefault;
+
+  String getDisplayName(BuildContext context) {
+    if (isDefault && localeKey != null) {
+      final l10n = AppLocalizations.of(context)!;
+      switch (localeKey) {
+        case 'food':
+          return l10n.categoryFood;
+        case 'transport':
+          return l10n.categoryTransport;
+        case 'shopping':
+          return l10n.categoryShopping;
+        case 'cafe':
+          return l10n.categoryCafe;
+        case 'entertainment':
+          return l10n.categoryEntertainment;
+        case 'medical':
+          return l10n.categoryMedical;
+        case 'transfer':
+          return l10n.categoryTransfer;
+        case 'other':
+          return l10n.categoryOther;
+        case 'salary':
+          return l10n.categorySalary;
+        case 'allowance':
+          return l10n.categoryAllowance;
+        case 'sidejob':
+          return l10n.categorySidejob;
+        case 'investment':
+          return l10n.categoryInvestment;
+      }
+    }
+    return name;
+  }
 
   CategoryItem copyWith({String? emoji, String? name}) =>
-      CategoryItem(emoji: emoji ?? this.emoji, name: name ?? this.name);
+      CategoryItem(
+        emoji: emoji ?? this.emoji,
+        name: name ?? this.name,
+        localeKey: localeKey,
+        isDefault: isDefault,
+      );
 }
 
 class SettingsState {
@@ -34,15 +81,37 @@ class SettingsState {
   final List<CategoryItem> categories;
 
   static const _defaultCategories = [
-    CategoryItem(emoji: '🍱', name: '식비'),
-    CategoryItem(emoji: '🚃', name: '교통'),
-    CategoryItem(emoji: '🛒', name: '쇼핑'),
-    CategoryItem(emoji: '☕', name: '카페'),
-    CategoryItem(emoji: '🎮', name: '여가'),
-    CategoryItem(emoji: '💊', name: '의료'),
-    CategoryItem(emoji: '💳', name: '이체'),
-    CategoryItem(emoji: '📎', name: '기타'),
+    CategoryItem(emoji: '🍱', name: '식비', localeKey: 'food', isDefault: true),
+    CategoryItem(emoji: '🚃', name: '교통', localeKey: 'transport', isDefault: true),
+    CategoryItem(emoji: '🛒', name: '쇼핑', localeKey: 'shopping', isDefault: true),
+    CategoryItem(emoji: '☕', name: '카페', localeKey: 'cafe', isDefault: true),
+    CategoryItem(emoji: '🎮', name: '여가', localeKey: 'entertainment', isDefault: true),
+    CategoryItem(emoji: '💊', name: '의료', localeKey: 'medical', isDefault: true),
+    CategoryItem(emoji: '💳', name: '이체', localeKey: 'transfer', isDefault: true),
+    CategoryItem(emoji: '📎', name: '기타', localeKey: 'other', isDefault: true),
   ];
+
+  ThemeMode get flutterThemeMode {
+    switch (themeMode) {
+      case '라이트':
+        return ThemeMode.light;
+      case '다크':
+        return ThemeMode.dark;
+      default:
+        return ThemeMode.system;
+    }
+  }
+
+  Locale get flutterLocale {
+    switch (language) {
+      case '日本語':
+        return const Locale('ja');
+      case 'English':
+        return const Locale('en');
+      default:
+        return const Locale('ko');
+    }
+  }
 
   SettingsState copyWith({
     int? monthlyBudget,
@@ -71,31 +140,65 @@ class SettingsState {
 
 class SettingsNotifier extends Notifier<SettingsState> {
   @override
-  SettingsState build() => const SettingsState();
+  SettingsState build() {
+    final box = Hive.box('settings');
+    return SettingsState(
+      monthlyBudget: box.get('monthlyBudget', defaultValue: 200000),
+      startDayOfWeek: box.get('startDayOfWeek', defaultValue: '월요일'),
+      autoExcludeTransfer: box.get('autoExcludeTransfer', defaultValue: true),
+      appLockEnabled: box.get('appLockEnabled', defaultValue: false),
+      themeMode: box.get('themeMode', defaultValue: '시스템'),
+      reminderEnabled: box.get('reminderEnabled', defaultValue: false),
+      reminderTime: TimeOfDay(
+        hour: box.get('reminderHour', defaultValue: 21),
+        minute: box.get('reminderMinute', defaultValue: 0),
+      ),
+      language: box.get('language', defaultValue: '한국어'),
+    );
+  }
 
-  void setBudget(int budget) =>
-      state = state.copyWith(monthlyBudget: budget);
+  Box get _box => Hive.box('settings');
 
-  void setStartDay(String day) =>
-      state = state.copyWith(startDayOfWeek: day);
+  void setBudget(int budget) {
+    state = state.copyWith(monthlyBudget: budget);
+    _box.put('monthlyBudget', budget);
+  }
 
-  void toggleAutoExcludeTransfer(bool value) =>
-      state = state.copyWith(autoExcludeTransfer: value);
+  void setStartDay(String day) {
+    state = state.copyWith(startDayOfWeek: day);
+    _box.put('startDayOfWeek', day);
+  }
 
-  void toggleAppLock(bool value) =>
-      state = state.copyWith(appLockEnabled: value);
+  void toggleAutoExcludeTransfer(bool value) {
+    state = state.copyWith(autoExcludeTransfer: value);
+    _box.put('autoExcludeTransfer', value);
+  }
 
-  void setThemeMode(String mode) =>
-      state = state.copyWith(themeMode: mode);
+  void toggleAppLock(bool value) {
+    state = state.copyWith(appLockEnabled: value);
+    _box.put('appLockEnabled', value);
+  }
 
-  void toggleReminder(bool value) =>
-      state = state.copyWith(reminderEnabled: value);
+  void setThemeMode(String mode) {
+    state = state.copyWith(themeMode: mode);
+    _box.put('themeMode', mode);
+  }
 
-  void setReminderTime(TimeOfDay time) =>
-      state = state.copyWith(reminderTime: time);
+  void toggleReminder(bool value) {
+    state = state.copyWith(reminderEnabled: value);
+    _box.put('reminderEnabled', value);
+  }
 
-  void setLanguage(String lang) =>
-      state = state.copyWith(language: lang);
+  void setReminderTime(TimeOfDay time) {
+    state = state.copyWith(reminderTime: time);
+    _box.put('reminderHour', time.hour);
+    _box.put('reminderMinute', time.minute);
+  }
+
+  void setLanguage(String lang) {
+    state = state.copyWith(language: lang);
+    _box.put('language', lang);
+  }
 
   void reorderCategories(int oldIndex, int newIndex) {
     final list = List<CategoryItem>.from(state.categories);

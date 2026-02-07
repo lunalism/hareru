@@ -1,0 +1,209 @@
+{
+  "@@locale": "ja",
+  "appTitle": "Hareru",
+  "settings": "設定",
+  "household": "家計簿",
+  "monthlyBudget": "月予算",
+  "categoryManage": "カテゴリ管理",
+  "startDayOfWeek": "週の開始曜日",
+  "autoExcludeTransfer": "振込自動除外",
+  "autoExcludeTransferDesc": "口座間の振込を支出から自動で除外します",
+  "security": "セキュリティ",
+  "appLock": "アプリロック",
+  "appLockDesc": "Face IDまたはパスコードでロック",
+  "icloudBackup": "iCloudバックアップ",
+  "app": "アプリ",
+  "screenMode": "画面モード",
+  "inputReminder": "入力リマインダー",
+  "inputReminderDesc": "毎日設定した時間にお知らせします",
+  "language": "言語",
+  "etc": "その他",
+  "sendFeedback": "ご意見を送る",
+  "appInfo": "アプリ情報",
+  "madeWith": "Made with 💙",
+  "comingSoon": "coming soon",
+  "preparingFeature": "準備中の機能です",
+  "monthlyBudgetSetting": "月予算設定",
+  "save": "保存",
+  "cancel": "キャンセル",
+  "add": "追加",
+  "delete": "削除",
+  "monday": "月曜日",
+  "sunday": "日曜日",
+  "system": "システム",
+  "light": "ライト",
+  "dark": "ダーク",
+  "korean": "한국어",
+  "japanese": "日本語",
+  "english": "English",
+  "monthExpense": "{month}月の支出",
+  "@monthExpense": {
+    "placeholders": {
+      "month": {"type": "int"}
+    }
+  },
+  "comparedLastMonthDown": "先月より ¥{amount} ↓ 節約！🎉",
+  "@comparedLastMonthDown": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "comparedLastMonthUp": "先月より ¥{amount} ↑ 使いすぎ注意 ⚠️",
+  "@comparedLastMonthUp": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budget": "予算 ¥{amount}",
+  "@budget": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "todayExpense": "今日の支出",
+  "total": "合計",
+  "thisWeekExpense": "今週の支出",
+  "today": "今日",
+  "noExpenseToday": "今日はまだ支出がありません",
+  "home": "ホーム",
+  "report": "レポート",
+  "input": "入力",
+  "dictionary": "辞書",
+  "categoryFood": "食費",
+  "categoryTransport": "交通",
+  "categoryShopping": "買物",
+  "categoryCafe": "カフェ",
+  "categoryEntertainment": "娯楽",
+  "categoryMedical": "医療",
+  "categoryTransfer": "振込",
+  "categoryOther": "その他",
+  "savingsTransfer": "貯金口座へ振込",
+  "lunch": "ランチ",
+  "transportFee": "交通費",
+  "coffee": "コーヒー",
+  "mon": "月",
+  "tue": "火",
+  "wed": "水",
+  "thu": "木",
+  "fri": "金",
+  "sat": "土",
+  "sun": "日",
+  "categoryAdd": "カテゴリ追加",
+  "categoryName": "カテゴリ名",
+  "notificationTime": "通知時間",
+  "receiptScan": "レシートスキャン",
+  "manualInput": "手動入力",
+  "receiptScanDesc": "カメラでレシートを撮影します",
+  "manualInputDesc": "金額とカテゴリを直接入力します",
+  "expense": "支出",
+  "income": "収入",
+  "transfer": "振込",
+  "enterAmount": "金額入力",
+  "selectCategory": "カテゴリ選択",
+  "addMemo": "メモ追加",
+  "date": "日付",
+  "memo": "メモ",
+  "fromAccount": "引落口座",
+  "toAccount": "入金口座",
+  "categorySalary": "給料",
+  "categoryAllowance": "お小遣い",
+  "categorySidejob": "副業",
+  "categoryInvestment": "投資",
+  "receiptScanTitle": "レシートスキャン",
+  "receiptScanComingSoon": "準備中の機能です",
+  "noTransactions": "まだ取引履歴がありません",
+  "addFirstTransaction": "＋ボタンで最初の取引を追加しましょう",
+  "inputMethod": "入力方法",
+  "amount": "金額",
+  "savedSuccess": "保存しました",
+  "reportTitle": "レポート",
+  "periodWeekly": "週間",
+  "periodMonthly": "月間",
+  "periodYearly": "年間",
+  "realExpense": "実質支出",
+  "transferExcluded": "振込 ¥{amount} 除外",
+  "@transferExcluded": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "balance": "残高",
+  "comparedToPrevMonth": "前月比",
+  "categoryBreakdown": "カテゴリ別支出",
+  "expenseTrend": "支出推移",
+  "monthlyInsight": "今月のインサイト",
+  "weeklyInsight": "今週のインサイト",
+  "yearlyInsight": "今年のインサイト",
+  "categoryDetail": "カテゴリ詳細",
+  "topSpendingDay": "一番使った日",
+  "comparedToPrev": "前月比の変化",
+  "leastSpendingWeek": "一番使わなかった週",
+  "noReportDataTitle": "まだデータがありません",
+  "noReportDataDesc": "支出を記録すると\nここで分析を見られます",
+  "recordExpense": "支出を記録する",
+  "showMore": "もっと見る",
+  "transactionCount": "{count}件",
+  "@transactionCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "dailyAverage": "平均 ¥{amount}/日",
+  "@dailyAverage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "notEnoughData": "まだデータが十分ではありません。記録を続けてみましょう！",
+  "increase": "増加",
+  "decrease": "減少",
+  "yearFormat": "{year}年",
+  "@yearFormat": {
+    "placeholders": {
+      "year": {"type": "int"}
+    }
+  },
+  "monthFormat": "{year}年 {month}月",
+  "@monthFormat": {
+    "placeholders": {
+      "year": {"type": "int"},
+      "month": {"type": "int"}
+    }
+  },
+  "weekFormat": "{month}月 第{week}週",
+  "@weekFormat": {
+    "placeholders": {
+      "month": {"type": "int"},
+      "week": {"type": "int"}
+    }
+  },
+  "weekRangeFormat": "{startMonth}/{startDay} ~ {endMonth}/{endDay}",
+  "@weekRangeFormat": {
+    "placeholders": {
+      "startMonth": {"type": "int"},
+      "startDay": {"type": "int"},
+      "endMonth": {"type": "int"},
+      "endDay": {"type": "int"}
+    }
+  },
+  "categoryIncreased": "{category}が{percent}%増加しました",
+  "@categoryIncreased": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "percent": {"type": "int"}
+    }
+  },
+  "categoryDecreased": "{category}が{percent}%減少しました",
+  "@categoryDecreased": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "percent": {"type": "int"}
+    }
+  },
+  "nthWeek": "第{n}週",
+  "@nthWeek": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  }
+}

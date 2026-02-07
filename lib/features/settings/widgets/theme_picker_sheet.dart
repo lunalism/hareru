@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/constants/typography.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
+import '../../../core/theme/custom_colors.dart';
 
 class ThemePickerSheet extends StatelessWidget {
   const ThemePickerSheet({super.key, required this.current});
 
   final String current;
 
-  static const _options = ['시스템', '라이트', '다크'];
+  // Internal values stored in settings (Korean keys)
+  static const _values = ['시스템', '라이트', '다크'];
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final custom = theme.extension<CustomColors>()!;
+    final l10n = AppLocalizations.of(context)!;
+
+    // Display labels from l10n
+    final labels = [l10n.system, l10n.light, l10n.dark];
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
       child: Column(
@@ -20,25 +28,34 @@ class ThemePickerSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.nightLight.withValues(alpha: 0.3),
+              color: custom.nightLight.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
           const SizedBox(height: 20),
           Text(
-            '화면 모드',
-            style: AppTypography.body.copyWith(
+            l10n.screenMode,
+            style: TextStyle(
+              fontFamily: 'PretendardJP',
               fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: theme.colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 16),
-          ..._options.map((opt) => ListTile(
-                onTap: () => Navigator.pop(context, opt),
-                title: Text(opt, style: AppTypography.body.copyWith(fontSize: 16)),
-                trailing: current == opt
-                    ? const Icon(Icons.check_circle,
-                        color: AppColors.skyBlue, size: 22)
+          ...List.generate(_values.length, (i) => ListTile(
+                onTap: () => Navigator.pop(context, _values[i]),
+                title: Text(
+                  labels[i],
+                  style: TextStyle(
+                    fontFamily: 'PretendardJP',
+                    fontSize: 16,
+                    color: theme.colorScheme.onSurface,
+                  ),
+                ),
+                trailing: current == _values[i]
+                    ? Icon(Icons.check_circle,
+                        color: theme.colorScheme.primary, size: 22)
                     : null,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

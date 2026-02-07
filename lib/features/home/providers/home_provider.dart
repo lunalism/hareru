@@ -1,74 +1,98 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../shared/models/category.dart';
 import '../../../shared/models/transaction.dart';
+import '../../../shared/models/transaction_type.dart';
+import '../../../shared/repositories/transaction_repository.dart';
+import '../../settings/providers/settings_provider.dart';
 
-// 이번 달 예산
-final monthlyBudgetProvider = Provider<int>((ref) => 200000);
-
-// 이번 달 총 지출 (이체 제외)
-final monthlyExpenseProvider = Provider<int>((ref) => 125400);
-
-// 지난달 총 지출
-final lastMonthExpenseProvider = Provider<int>((ref) => 133600);
-
-// 오늘 지출 목록
-final todayTransactionsProvider = Provider<List<Transaction>>((ref) {
-  final now = DateTime.now();
-  return [
-    Transaction(
-      id: '1',
-      amount: 1200,
-      category: ExpenseCategory.food,
-      note: '점심',
-      createdAt: DateTime(now.year, now.month, now.day, 12, 30),
-    ),
-    Transaction(
-      id: '2',
-      amount: 340,
-      category: ExpenseCategory.transport,
-      note: '교통비',
-      createdAt: DateTime(now.year, now.month, now.day, 8, 15),
-    ),
-    Transaction(
-      id: '3',
-      amount: 450,
-      category: ExpenseCategory.cafe,
-      note: '커피',
-      createdAt: DateTime(now.year, now.month, now.day, 15, 0),
-    ),
-    Transaction(
-      id: '4',
-      amount: 5000,
-      category: ExpenseCategory.transfer,
-      note: '저축계좌 이체',
-      createdAt: DateTime(now.year, now.month, now.day, 10, 0),
-      isTransfer: true,
-    ),
-  ];
+// All transactions (re-reads on any change)
+final allTransactionsProvider = Provider<List<Transaction>>((ref) {
+  final repo = ref.watch(transactionRepositoryProvider);
+  return repo.getAll();
 });
 
-// 오늘 실질 지출 합계 (이체 제외)
-final todayTotalProvider = Provider<int>((ref) {
-  final transactions = ref.watch(todayTransactionsProvider);
+// Budget from settings
+final monthlyBudgetProvider = Provider<int>((ref) {
+  return ref.watch(settingsProvider).monthlyBudget;
+});
+
+// This month's expense transactions (excludes income & transfers)
+final monthlyExpenseProvider = Provider<int>((ref) {
+  final transactions = ref.watch(allTransactionsProvider);
+  final now = DateTime.now();
+  final startOfMonth = DateTime(now.year, now.month, 1);
+
   return transactions
-      .where((t) => !t.isTransfer)
+      .where((t) =>
+          t.transactionType == TransactionType.expense &&
+          !t.date.isBefore(startOfMonth) &&
+          t.date.isBefore(DateTime(now.year, now.month + 1, 1)))
       .fold(0, (sum, t) => sum + t.amount);
 });
 
-// 이번 주 일별 지출 데이터
-final weeklyExpensesProvider = Provider<List<DailyExpense>>((ref) {
+// Last month's expense total
+final lastMonthExpenseProvider = Provider<int>((ref) {
+  final transactions = ref.watch(allTransactionsProvider);
   final now = DateTime.now();
-  final weekday = now.weekday; // 1=Mon, 7=Sun
+  final startOfLastMonth = DateTime(now.year, now.month - 1, 1);
+  final startOfThisMonth = DateTime(now.year, now.month, 1);
 
-  return [
-    DailyExpense(label: '월', amount: 3200, isFuture: weekday < 1),
-    DailyExpense(label: '화', amount: 1800, isFuture: weekday < 2),
-    DailyExpense(label: '수', amount: 2500, isFuture: weekday < 3),
-    DailyExpense(label: '목', amount: 1200, isFuture: weekday < 4),
-    DailyExpense(label: '금', amount: 4100, isFuture: weekday < 5),
-    DailyExpense(label: '토', amount: 0, isFuture: weekday < 6),
-    DailyExpense(label: '일', amount: 0, isFuture: weekday < 7),
-  ];
+  return transactions
+      .where((t) =>
+          t.transactionType == TransactionType.expense &&
+          !t.date.isBefore(startOfLastMonth) &&
+          t.date.isBefore(startOfThisMonth))
+      .fold(0, (sum, t) => sum + t.amount);
+});
+
+// Today's transactions
+final todayTransactionsProvider = Provider<List<Transaction>>((ref) {
+  final transactions = ref.watch(allTransactionsProvider);
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final tomorrow = today.add(const Duration(days: 1));
+
+  return transactions
+      .where((t) => !t.date.isBefore(today) && t.date.isBefore(tomorrow))
+      .toList()
+    ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+});
+
+// Today's total (expenses only, exclude transfers)
+final todayTotalProvider = Provider<int>((ref) {
+  final transactions = ref.watch(todayTransactionsProvider);
+  return transactions
+      .where((t) => t.transactionType == TransactionType.expense)
+      .fold(0, (sum, t) => sum + t.amount);
+});
+
+// Weekly expenses data
+final weeklyExpensesProvider = Provider<List<DailyExpense>>((ref) {
+  final transactions = ref.watch(allTransactionsProvider);
+  final now = DateTime.now();
+  final todayWeekday = now.weekday; // 1=Mon, 7=Sun
+  final mondayOfThisWeek = DateTime(now.year, now.month, now.day)
+      .subtract(Duration(days: todayWeekday - 1));
+
+  return List.generate(7, (i) {
+    final day = mondayOfThisWeek.add(Duration(days: i));
+    final nextDay = day.add(const Duration(days: 1));
+    final isFuture = (i + 1) > todayWeekday;
+
+    final dayTotal = isFuture
+        ? 0
+        : transactions
+            .where((t) =>
+                t.transactionType == TransactionType.expense &&
+                !t.date.isBefore(day) &&
+                t.date.isBefore(nextDay))
+            .fold(0, (sum, t) => sum + t.amount);
+
+    return DailyExpense(
+      label: '',
+      amount: dayTotal,
+      isFuture: isFuture,
+    );
+  });
 });
 
 class DailyExpense {
