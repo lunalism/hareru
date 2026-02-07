@@ -427,4 +427,120 @@ class AppLocalizationsJa extends AppLocalizations {
   String nthWeek(int n) {
     return '第$n週';
   }
+
+  @override
+  String get premiumDividerLabel => 'AI分析';
+
+  @override
+  String get premiumDividerLabelFree => 'AI分析 (Clear専用)';
+
+  @override
+  String get premiumBadge => 'Clear';
+
+  @override
+  String get aiInsightTitle => 'AI分析レポート';
+
+  @override
+  String get clearComparisonTitle => 'クリア比較';
+
+  @override
+  String get clearComparisonOtherApp => '他のアプリだったら';
+
+  @override
+  String get clearComparisonReal => 'Hareruの実質支出';
+
+  @override
+  String clearComparisonSaved(String amount) {
+    return 'Hareruが¥$amountの混乱を自動整理しました';
+  }
+
+  @override
+  String get clearComparisonNoTransfer => 'この期間は振込がありません。すべての支出が実質支出です ✨';
+
+  @override
+  String get aiDiscoveriesTitle => '今週の主な発見';
+
+  @override
+  String aiDiscoveriesLastAnalysis(String date) {
+    return '最終分析: $date';
+  }
+
+  @override
+  String get aiSuggestionTitle => '来週の提案';
+
+  @override
+  String get aiSuggestionGoalButton => '目標を設定する';
+
+  @override
+  String get aiSuggestionProOnly => 'Clear Proで利用可能';
+
+  @override
+  String get aiSuggestionEmpty => '支出記録をもう少し集めると、カスタム分析をお届けします！📝';
+
+  @override
+  String get savingPotentialTitle => '隠れた節約可能額';
+
+  @override
+  String savingPotentialMonthly(String amount) {
+    return '月 $amount';
+  }
+
+  @override
+  String savingPotentialYearly(String amount) {
+    return '年 $amount 節約可能！🎉';
+  }
+
+  @override
+  String get savingPotentialDetail => '詳細を見る';
+
+  @override
+  String get healthScoreTitle => '支出健康度';
+
+  @override
+  String get healthScoreBudget => '予算遵守';
+
+  @override
+  String get healthScoreSaving => '節約努力';
+
+  @override
+  String get healthScoreBalance => '支出バランス';
+
+  @override
+  String get healthScoreClear => '振込整理';
+
+  @override
+  String get healthGradeExcellent => '素晴らしい 🌟';
+
+  @override
+  String get healthGradeGood => '良好 👍';
+
+  @override
+  String get healthGradeAverage => '普通 📊';
+
+  @override
+  String get healthGradeCaution => '注意 ⚠️';
+
+  @override
+  String get healthGradeDanger => '危険 🚨';
+
+  @override
+  String get blurMessageInsight => 'AIが分析したあなただけの\n支出レポートを確認しましょう';
+
+  @override
+  String get blurMessageSaving => '隠れた節約可能額を\n発見しましょう';
+
+  @override
+  String get blurMessageHealth => '私の支出健康スコアは\n何点でしょう？';
+
+  @override
+  String get blurCta => 'Clearを始める';
+
+  @override
+  String get blurPrice => '月額 ¥380';
+
+  @override
+  String get blurPremiumComingSoon => 'プレミアム機能は今後のアップデートで提供予定です！';
+
+  @override
+  String get blurFutureUpdate => '今後のアップデート予定';
 }

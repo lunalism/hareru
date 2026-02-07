@@ -205,5 +205,67 @@
     "placeholders": {
       "n": {"type": "int"}
     }
-  }
+  },
+
+  "premiumDividerLabel": "AI分析",
+  "premiumDividerLabelFree": "AI分析 (Clear専用)",
+  "premiumBadge": "Clear",
+
+  "aiInsightTitle": "AI分析レポート",
+  "clearComparisonTitle": "クリア比較",
+  "clearComparisonOtherApp": "他のアプリだったら",
+  "clearComparisonReal": "Hareruの実質支出",
+  "clearComparisonSaved": "Hareruが¥{amount}の混乱を自動整理しました",
+  "@clearComparisonSaved": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "clearComparisonNoTransfer": "この期間は振込がありません。すべての支出が実質支出です ✨",
+
+  "aiDiscoveriesTitle": "今週の主な発見",
+  "aiDiscoveriesLastAnalysis": "最終分析: {date}",
+  "@aiDiscoveriesLastAnalysis": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "aiSuggestionTitle": "来週の提案",
+  "aiSuggestionGoalButton": "目標を設定する",
+  "aiSuggestionProOnly": "Clear Proで利用可能",
+  "aiSuggestionEmpty": "支出記録をもう少し集めると、カスタム分析をお届けします！📝",
+
+  "savingPotentialTitle": "隠れた節約可能額",
+  "savingPotentialMonthly": "月 {amount}",
+  "@savingPotentialMonthly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "savingPotentialYearly": "年 {amount} 節約可能！🎉",
+  "@savingPotentialYearly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "savingPotentialDetail": "詳細を見る",
+
+  "healthScoreTitle": "支出健康度",
+  "healthScoreBudget": "予算遵守",
+  "healthScoreSaving": "節約努力",
+  "healthScoreBalance": "支出バランス",
+  "healthScoreClear": "振込整理",
+  "healthGradeExcellent": "素晴らしい 🌟",
+  "healthGradeGood": "良好 👍",
+  "healthGradeAverage": "普通 📊",
+  "healthGradeCaution": "注意 ⚠️",
+  "healthGradeDanger": "危険 🚨",
+
+  "blurMessageInsight": "AIが分析したあなただけの\n支出レポートを確認しましょう",
+  "blurMessageSaving": "隠れた節約可能額を\n発見しましょう",
+  "blurMessageHealth": "私の支出健康スコアは\n何点でしょう？",
+  "blurCta": "Clearを始める",
+  "blurPrice": "月額 ¥380",
+  "blurPremiumComingSoon": "プレミアム機能は今後のアップデートで提供予定です！",
+  "blurFutureUpdate": "今後のアップデート予定"
 }

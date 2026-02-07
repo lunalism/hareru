@@ -878,6 +878,222 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'{n}째 주'**
   String nthWeek(int n);
+
+  /// No description provided for @premiumDividerLabel.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI 분석'**
+  String get premiumDividerLabel;
+
+  /// No description provided for @premiumDividerLabelFree.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI 분석 (Clear 전용)'**
+  String get premiumDividerLabelFree;
+
+  /// No description provided for @premiumBadge.
+  ///
+  /// In ko, this message translates to:
+  /// **'Clear'**
+  String get premiumBadge;
+
+  /// No description provided for @aiInsightTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI 분석 리포트'**
+  String get aiInsightTitle;
+
+  /// No description provided for @clearComparisonTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'클리어 비교'**
+  String get clearComparisonTitle;
+
+  /// No description provided for @clearComparisonOtherApp.
+  ///
+  /// In ko, this message translates to:
+  /// **'다른 앱이었다면'**
+  String get clearComparisonOtherApp;
+
+  /// No description provided for @clearComparisonReal.
+  ///
+  /// In ko, this message translates to:
+  /// **'Hareru의 실질 지출'**
+  String get clearComparisonReal;
+
+  /// No description provided for @clearComparisonSaved.
+  ///
+  /// In ko, this message translates to:
+  /// **'Hareru가 ¥{amount}의 혼란을 자동으로 정리했어요'**
+  String clearComparisonSaved(String amount);
+
+  /// No description provided for @clearComparisonNoTransfer.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 기간에는 이체가 없어요. 모든 지출이 실질 지출이에요 ✨'**
+  String get clearComparisonNoTransfer;
+
+  /// No description provided for @aiDiscoveriesTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 주 핵심 발견'**
+  String get aiDiscoveriesTitle;
+
+  /// No description provided for @aiDiscoveriesLastAnalysis.
+  ///
+  /// In ko, this message translates to:
+  /// **'마지막 분석: {date}'**
+  String aiDiscoveriesLastAnalysis(String date);
+
+  /// No description provided for @aiSuggestionTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 주 제안'**
+  String get aiSuggestionTitle;
+
+  /// No description provided for @aiSuggestionGoalButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'목표 설정하기'**
+  String get aiSuggestionGoalButton;
+
+  /// No description provided for @aiSuggestionProOnly.
+  ///
+  /// In ko, this message translates to:
+  /// **'Clear Pro에서 사용 가능'**
+  String get aiSuggestionProOnly;
+
+  /// No description provided for @aiSuggestionEmpty.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출 기록을 더 모으면 맞춤 분석을 해드릴게요! 📝'**
+  String get aiSuggestionEmpty;
+
+  /// No description provided for @savingPotentialTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'숨은 절약 가능 금액'**
+  String get savingPotentialTitle;
+
+  /// No description provided for @savingPotentialMonthly.
+  ///
+  /// In ko, this message translates to:
+  /// **'월 {amount}'**
+  String savingPotentialMonthly(String amount);
+
+  /// No description provided for @savingPotentialYearly.
+  ///
+  /// In ko, this message translates to:
+  /// **'연 {amount} 절약 가능! 🎉'**
+  String savingPotentialYearly(String amount);
+
+  /// No description provided for @savingPotentialDetail.
+  ///
+  /// In ko, this message translates to:
+  /// **'상세 보기'**
+  String get savingPotentialDetail;
+
+  /// No description provided for @healthScoreTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출 건강도'**
+  String get healthScoreTitle;
+
+  /// No description provided for @healthScoreBudget.
+  ///
+  /// In ko, this message translates to:
+  /// **'예산 준수'**
+  String get healthScoreBudget;
+
+  /// No description provided for @healthScoreSaving.
+  ///
+  /// In ko, this message translates to:
+  /// **'절약 노력'**
+  String get healthScoreSaving;
+
+  /// No description provided for @healthScoreBalance.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출 균형'**
+  String get healthScoreBalance;
+
+  /// No description provided for @healthScoreClear.
+  ///
+  /// In ko, this message translates to:
+  /// **'이체 정리'**
+  String get healthScoreClear;
+
+  /// No description provided for @healthGradeExcellent.
+  ///
+  /// In ko, this message translates to:
+  /// **'훌륭해요 🌟'**
+  String get healthGradeExcellent;
+
+  /// No description provided for @healthGradeGood.
+  ///
+  /// In ko, this message translates to:
+  /// **'양호 👍'**
+  String get healthGradeGood;
+
+  /// No description provided for @healthGradeAverage.
+  ///
+  /// In ko, this message translates to:
+  /// **'보통 📊'**
+  String get healthGradeAverage;
+
+  /// No description provided for @healthGradeCaution.
+  ///
+  /// In ko, this message translates to:
+  /// **'주의 ⚠️'**
+  String get healthGradeCaution;
+
+  /// No description provided for @healthGradeDanger.
+  ///
+  /// In ko, this message translates to:
+  /// **'위험 🚨'**
+  String get healthGradeDanger;
+
+  /// No description provided for @blurMessageInsight.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI가 분석한 당신만의\n지출 리포트를 확인해보세요'**
+  String get blurMessageInsight;
+
+  /// No description provided for @blurMessageSaving.
+  ///
+  /// In ko, this message translates to:
+  /// **'숨어있는 절약 가능\n금액을 발견해보세요'**
+  String get blurMessageSaving;
+
+  /// No description provided for @blurMessageHealth.
+  ///
+  /// In ko, this message translates to:
+  /// **'나의 지출 건강 점수는\n몇 점일까요?'**
+  String get blurMessageHealth;
+
+  /// No description provided for @blurCta.
+  ///
+  /// In ko, this message translates to:
+  /// **'Clear 시작하기'**
+  String get blurCta;
+
+  /// No description provided for @blurPrice.
+  ///
+  /// In ko, this message translates to:
+  /// **'월 ¥380'**
+  String get blurPrice;
+
+  /// No description provided for @blurPremiumComingSoon.
+  ///
+  /// In ko, this message translates to:
+  /// **'프리미엄 기능은 향후 업데이트 예정이에요!'**
+  String get blurPremiumComingSoon;
+
+  /// No description provided for @blurFutureUpdate.
+  ///
+  /// In ko, this message translates to:
+  /// **'향후 업데이트 예정'**
+  String get blurFutureUpdate;
 }
 
 class _AppLocalizationsDelegate

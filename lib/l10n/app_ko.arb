@@ -205,5 +205,67 @@
     "placeholders": {
       "n": {"type": "int"}
     }
-  }
+  },
+
+  "premiumDividerLabel": "AI 분석",
+  "premiumDividerLabelFree": "AI 분석 (Clear 전용)",
+  "premiumBadge": "Clear",
+
+  "aiInsightTitle": "AI 분석 리포트",
+  "clearComparisonTitle": "클리어 비교",
+  "clearComparisonOtherApp": "다른 앱이었다면",
+  "clearComparisonReal": "Hareru의 실질 지출",
+  "clearComparisonSaved": "Hareru가 ¥{amount}의 혼란을 자동으로 정리했어요",
+  "@clearComparisonSaved": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "clearComparisonNoTransfer": "이번 기간에는 이체가 없어요. 모든 지출이 실질 지출이에요 ✨",
+
+  "aiDiscoveriesTitle": "이번 주 핵심 발견",
+  "aiDiscoveriesLastAnalysis": "마지막 분석: {date}",
+  "@aiDiscoveriesLastAnalysis": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "aiSuggestionTitle": "다음 주 제안",
+  "aiSuggestionGoalButton": "목표 설정하기",
+  "aiSuggestionProOnly": "Clear Pro에서 사용 가능",
+  "aiSuggestionEmpty": "지출 기록을 더 모으면 맞춤 분석을 해드릴게요! 📝",
+
+  "savingPotentialTitle": "숨은 절약 가능 금액",
+  "savingPotentialMonthly": "월 {amount}",
+  "@savingPotentialMonthly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "savingPotentialYearly": "연 {amount} 절약 가능! 🎉",
+  "@savingPotentialYearly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "savingPotentialDetail": "상세 보기",
+
+  "healthScoreTitle": "지출 건강도",
+  "healthScoreBudget": "예산 준수",
+  "healthScoreSaving": "절약 노력",
+  "healthScoreBalance": "지출 균형",
+  "healthScoreClear": "이체 정리",
+  "healthGradeExcellent": "훌륭해요 🌟",
+  "healthGradeGood": "양호 👍",
+  "healthGradeAverage": "보통 📊",
+  "healthGradeCaution": "주의 ⚠️",
+  "healthGradeDanger": "위험 🚨",
+
+  "blurMessageInsight": "AI가 분석한 당신만의\n지출 리포트를 확인해보세요",
+  "blurMessageSaving": "숨어있는 절약 가능\n금액을 발견해보세요",
+  "blurMessageHealth": "나의 지출 건강 점수는\n몇 점일까요?",
+  "blurCta": "Clear 시작하기",
+  "blurPrice": "월 ¥380",
+  "blurPremiumComingSoon": "프리미엄 기능은 향후 업데이트 예정이에요!",
+  "blurFutureUpdate": "향후 업데이트 예정"
 }

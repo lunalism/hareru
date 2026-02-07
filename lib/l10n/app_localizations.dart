@@ -19,7 +19,7 @@ import 'app_localizations_ko.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'l10n/app_localizations.dart';
+/// import 'generated/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -525,6 +525,575 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'알림 시간'**
   String get notificationTime;
+
+  /// No description provided for @receiptScan.
+  ///
+  /// In ko, this message translates to:
+  /// **'영수증 스캔'**
+  String get receiptScan;
+
+  /// No description provided for @manualInput.
+  ///
+  /// In ko, this message translates to:
+  /// **'직접 입력'**
+  String get manualInput;
+
+  /// No description provided for @receiptScanDesc.
+  ///
+  /// In ko, this message translates to:
+  /// **'카메라로 영수증을 촬영해요'**
+  String get receiptScanDesc;
+
+  /// No description provided for @manualInputDesc.
+  ///
+  /// In ko, this message translates to:
+  /// **'금액과 카테고리를 직접 입력해요'**
+  String get manualInputDesc;
+
+  /// No description provided for @expense.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출'**
+  String get expense;
+
+  /// No description provided for @income.
+  ///
+  /// In ko, this message translates to:
+  /// **'수입'**
+  String get income;
+
+  /// No description provided for @transfer.
+  ///
+  /// In ko, this message translates to:
+  /// **'이체'**
+  String get transfer;
+
+  /// No description provided for @enterAmount.
+  ///
+  /// In ko, this message translates to:
+  /// **'금액 입력'**
+  String get enterAmount;
+
+  /// No description provided for @selectCategory.
+  ///
+  /// In ko, this message translates to:
+  /// **'카테고리 선택'**
+  String get selectCategory;
+
+  /// No description provided for @addMemo.
+  ///
+  /// In ko, this message translates to:
+  /// **'메모 추가'**
+  String get addMemo;
+
+  /// No description provided for @date.
+  ///
+  /// In ko, this message translates to:
+  /// **'날짜'**
+  String get date;
+
+  /// No description provided for @memo.
+  ///
+  /// In ko, this message translates to:
+  /// **'메모'**
+  String get memo;
+
+  /// No description provided for @fromAccount.
+  ///
+  /// In ko, this message translates to:
+  /// **'출금 계좌'**
+  String get fromAccount;
+
+  /// No description provided for @toAccount.
+  ///
+  /// In ko, this message translates to:
+  /// **'입금 계좌'**
+  String get toAccount;
+
+  /// No description provided for @categorySalary.
+  ///
+  /// In ko, this message translates to:
+  /// **'급여'**
+  String get categorySalary;
+
+  /// No description provided for @categoryAllowance.
+  ///
+  /// In ko, this message translates to:
+  /// **'용돈'**
+  String get categoryAllowance;
+
+  /// No description provided for @categorySidejob.
+  ///
+  /// In ko, this message translates to:
+  /// **'부업'**
+  String get categorySidejob;
+
+  /// No description provided for @categoryInvestment.
+  ///
+  /// In ko, this message translates to:
+  /// **'투자'**
+  String get categoryInvestment;
+
+  /// No description provided for @receiptScanTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'영수증 스캔'**
+  String get receiptScanTitle;
+
+  /// No description provided for @receiptScanComingSoon.
+  ///
+  /// In ko, this message translates to:
+  /// **'준비 중인 기능이에요'**
+  String get receiptScanComingSoon;
+
+  /// No description provided for @noTransactions.
+  ///
+  /// In ko, this message translates to:
+  /// **'아직 거래 내역이 없어요'**
+  String get noTransactions;
+
+  /// No description provided for @addFirstTransaction.
+  ///
+  /// In ko, this message translates to:
+  /// **'+ 버튼을 눌러 첫 거래를 추가해보세요'**
+  String get addFirstTransaction;
+
+  /// No description provided for @inputMethod.
+  ///
+  /// In ko, this message translates to:
+  /// **'입력 방법'**
+  String get inputMethod;
+
+  /// No description provided for @amount.
+  ///
+  /// In ko, this message translates to:
+  /// **'금액'**
+  String get amount;
+
+  /// No description provided for @savedSuccess.
+  ///
+  /// In ko, this message translates to:
+  /// **'저장되었습니다'**
+  String get savedSuccess;
+
+  /// No description provided for @reportTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'리포트'**
+  String get reportTitle;
+
+  /// No description provided for @periodWeekly.
+  ///
+  /// In ko, this message translates to:
+  /// **'주간'**
+  String get periodWeekly;
+
+  /// No description provided for @periodMonthly.
+  ///
+  /// In ko, this message translates to:
+  /// **'월간'**
+  String get periodMonthly;
+
+  /// No description provided for @periodYearly.
+  ///
+  /// In ko, this message translates to:
+  /// **'연간'**
+  String get periodYearly;
+
+  /// No description provided for @realExpense.
+  ///
+  /// In ko, this message translates to:
+  /// **'실질 지출'**
+  String get realExpense;
+
+  /// No description provided for @transferExcluded.
+  ///
+  /// In ko, this message translates to:
+  /// **'이체 ¥{amount} 제외'**
+  String transferExcluded(String amount);
+
+  /// No description provided for @balance.
+  ///
+  /// In ko, this message translates to:
+  /// **'잔액'**
+  String get balance;
+
+  /// No description provided for @comparedToPrevMonth.
+  ///
+  /// In ko, this message translates to:
+  /// **'전월 대비'**
+  String get comparedToPrevMonth;
+
+  /// No description provided for @categoryBreakdown.
+  ///
+  /// In ko, this message translates to:
+  /// **'카테고리별 지출'**
+  String get categoryBreakdown;
+
+  /// No description provided for @expenseTrend.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출 추이'**
+  String get expenseTrend;
+
+  /// No description provided for @monthlyInsight.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 달 인사이트'**
+  String get monthlyInsight;
+
+  /// No description provided for @weeklyInsight.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 주 인사이트'**
+  String get weeklyInsight;
+
+  /// No description provided for @yearlyInsight.
+  ///
+  /// In ko, this message translates to:
+  /// **'올해 인사이트'**
+  String get yearlyInsight;
+
+  /// No description provided for @categoryDetail.
+  ///
+  /// In ko, this message translates to:
+  /// **'카테고리 상세'**
+  String get categoryDetail;
+
+  /// No description provided for @topSpendingDay.
+  ///
+  /// In ko, this message translates to:
+  /// **'가장 많이 쓴 날'**
+  String get topSpendingDay;
+
+  /// No description provided for @comparedToPrev.
+  ///
+  /// In ko, this message translates to:
+  /// **'전월 대비 변화'**
+  String get comparedToPrev;
+
+  /// No description provided for @leastSpendingWeek.
+  ///
+  /// In ko, this message translates to:
+  /// **'가장 적게 쓴 주'**
+  String get leastSpendingWeek;
+
+  /// No description provided for @noReportDataTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'아직 데이터가 없어요'**
+  String get noReportDataTitle;
+
+  /// No description provided for @noReportDataDesc.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출을 기록하면\n여기서 분석을 볼 수 있어요'**
+  String get noReportDataDesc;
+
+  /// No description provided for @recordExpense.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출 기록하기'**
+  String get recordExpense;
+
+  /// No description provided for @showMore.
+  ///
+  /// In ko, this message translates to:
+  /// **'더 보기'**
+  String get showMore;
+
+  /// No description provided for @transactionCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'{count}건'**
+  String transactionCount(int count);
+
+  /// No description provided for @dailyAverage.
+  ///
+  /// In ko, this message translates to:
+  /// **'평균 ¥{amount}/일'**
+  String dailyAverage(String amount);
+
+  /// No description provided for @notEnoughData.
+  ///
+  /// In ko, this message translates to:
+  /// **'아직 데이터가 충분하지 않아요. 기록을 계속해보세요!'**
+  String get notEnoughData;
+
+  /// No description provided for @increase.
+  ///
+  /// In ko, this message translates to:
+  /// **'증가'**
+  String get increase;
+
+  /// No description provided for @decrease.
+  ///
+  /// In ko, this message translates to:
+  /// **'감소'**
+  String get decrease;
+
+  /// No description provided for @yearFormat.
+  ///
+  /// In ko, this message translates to:
+  /// **'{year}년'**
+  String yearFormat(int year);
+
+  /// No description provided for @monthFormat.
+  ///
+  /// In ko, this message translates to:
+  /// **'{year}년 {month}월'**
+  String monthFormat(int year, int month);
+
+  /// No description provided for @weekFormat.
+  ///
+  /// In ko, this message translates to:
+  /// **'{month}월 {week}주차'**
+  String weekFormat(int month, int week);
+
+  /// No description provided for @weekRangeFormat.
+  ///
+  /// In ko, this message translates to:
+  /// **'{startMonth}/{startDay} ~ {endMonth}/{endDay}'**
+  String weekRangeFormat(
+    int startMonth,
+    int startDay,
+    int endMonth,
+    int endDay,
+  );
+
+  /// No description provided for @categoryIncreased.
+  ///
+  /// In ko, this message translates to:
+  /// **'{category}가 {percent}% 증가했어요'**
+  String categoryIncreased(String category, int percent);
+
+  /// No description provided for @categoryDecreased.
+  ///
+  /// In ko, this message translates to:
+  /// **'{category}가 {percent}% 감소했어요'**
+  String categoryDecreased(String category, int percent);
+
+  /// No description provided for @nthWeek.
+  ///
+  /// In ko, this message translates to:
+  /// **'{n}째 주'**
+  String nthWeek(int n);
+
+  /// No description provided for @premiumDividerLabel.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI 분석'**
+  String get premiumDividerLabel;
+
+  /// No description provided for @premiumDividerLabelFree.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI 분석 (Clear 전용)'**
+  String get premiumDividerLabelFree;
+
+  /// No description provided for @premiumBadge.
+  ///
+  /// In ko, this message translates to:
+  /// **'Clear'**
+  String get premiumBadge;
+
+  /// No description provided for @aiInsightTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI 분석 리포트'**
+  String get aiInsightTitle;
+
+  /// No description provided for @clearComparisonTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'클리어 비교'**
+  String get clearComparisonTitle;
+
+  /// No description provided for @clearComparisonOtherApp.
+  ///
+  /// In ko, this message translates to:
+  /// **'다른 앱이었다면'**
+  String get clearComparisonOtherApp;
+
+  /// No description provided for @clearComparisonReal.
+  ///
+  /// In ko, this message translates to:
+  /// **'Hareru의 실질 지출'**
+  String get clearComparisonReal;
+
+  /// No description provided for @clearComparisonSaved.
+  ///
+  /// In ko, this message translates to:
+  /// **'Hareru가 ¥{amount}의 혼란을 자동으로 정리했어요'**
+  String clearComparisonSaved(String amount);
+
+  /// No description provided for @clearComparisonNoTransfer.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 기간에는 이체가 없어요. 모든 지출이 실질 지출이에요 ✨'**
+  String get clearComparisonNoTransfer;
+
+  /// No description provided for @aiDiscoveriesTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'이번 주 핵심 발견'**
+  String get aiDiscoveriesTitle;
+
+  /// No description provided for @aiDiscoveriesLastAnalysis.
+  ///
+  /// In ko, this message translates to:
+  /// **'마지막 분석: {date}'**
+  String aiDiscoveriesLastAnalysis(String date);
+
+  /// No description provided for @aiSuggestionTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'다음 주 제안'**
+  String get aiSuggestionTitle;
+
+  /// No description provided for @aiSuggestionGoalButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'목표 설정하기'**
+  String get aiSuggestionGoalButton;
+
+  /// No description provided for @aiSuggestionProOnly.
+  ///
+  /// In ko, this message translates to:
+  /// **'Clear Pro에서 사용 가능'**
+  String get aiSuggestionProOnly;
+
+  /// No description provided for @aiSuggestionEmpty.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출 기록을 더 모으면 맞춤 분석을 해드릴게요! 📝'**
+  String get aiSuggestionEmpty;
+
+  /// No description provided for @savingPotentialTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'숨은 절약 가능 금액'**
+  String get savingPotentialTitle;
+
+  /// No description provided for @savingPotentialMonthly.
+  ///
+  /// In ko, this message translates to:
+  /// **'월 {amount}'**
+  String savingPotentialMonthly(String amount);
+
+  /// No description provided for @savingPotentialYearly.
+  ///
+  /// In ko, this message translates to:
+  /// **'연 {amount} 절약 가능! 🎉'**
+  String savingPotentialYearly(String amount);
+
+  /// No description provided for @savingPotentialDetail.
+  ///
+  /// In ko, this message translates to:
+  /// **'상세 보기'**
+  String get savingPotentialDetail;
+
+  /// No description provided for @healthScoreTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출 건강도'**
+  String get healthScoreTitle;
+
+  /// No description provided for @healthScoreBudget.
+  ///
+  /// In ko, this message translates to:
+  /// **'예산 준수'**
+  String get healthScoreBudget;
+
+  /// No description provided for @healthScoreSaving.
+  ///
+  /// In ko, this message translates to:
+  /// **'절약 노력'**
+  String get healthScoreSaving;
+
+  /// No description provided for @healthScoreBalance.
+  ///
+  /// In ko, this message translates to:
+  /// **'지출 균형'**
+  String get healthScoreBalance;
+
+  /// No description provided for @healthScoreClear.
+  ///
+  /// In ko, this message translates to:
+  /// **'이체 정리'**
+  String get healthScoreClear;
+
+  /// No description provided for @healthGradeExcellent.
+  ///
+  /// In ko, this message translates to:
+  /// **'훌륭해요 🌟'**
+  String get healthGradeExcellent;
+
+  /// No description provided for @healthGradeGood.
+  ///
+  /// In ko, this message translates to:
+  /// **'양호 👍'**
+  String get healthGradeGood;
+
+  /// No description provided for @healthGradeAverage.
+  ///
+  /// In ko, this message translates to:
+  /// **'보통 📊'**
+  String get healthGradeAverage;
+
+  /// No description provided for @healthGradeCaution.
+  ///
+  /// In ko, this message translates to:
+  /// **'주의 ⚠️'**
+  String get healthGradeCaution;
+
+  /// No description provided for @healthGradeDanger.
+  ///
+  /// In ko, this message translates to:
+  /// **'위험 🚨'**
+  String get healthGradeDanger;
+
+  /// No description provided for @blurMessageInsight.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI가 분석한 당신만의\n지출 리포트를 확인해보세요'**
+  String get blurMessageInsight;
+
+  /// No description provided for @blurMessageSaving.
+  ///
+  /// In ko, this message translates to:
+  /// **'숨어있는 절약 가능\n금액을 발견해보세요'**
+  String get blurMessageSaving;
+
+  /// No description provided for @blurMessageHealth.
+  ///
+  /// In ko, this message translates to:
+  /// **'나의 지출 건강 점수는\n몇 점일까요?'**
+  String get blurMessageHealth;
+
+  /// No description provided for @blurCta.
+  ///
+  /// In ko, this message translates to:
+  /// **'Clear 시작하기'**
+  String get blurCta;
+
+  /// No description provided for @blurPrice.
+  ///
+  /// In ko, this message translates to:
+  /// **'월 ¥380'**
+  String get blurPrice;
+
+  /// No description provided for @blurPremiumComingSoon.
+  ///
+  /// In ko, this message translates to:
+  /// **'프리미엄 기능은 향후 업데이트 예정이에요!'**
+  String get blurPremiumComingSoon;
+
+  /// No description provided for @blurFutureUpdate.
+  ///
+  /// In ko, this message translates to:
+  /// **'향후 업데이트 예정'**
+  String get blurFutureUpdate;
 }
 
 class _AppLocalizationsDelegate

@@ -10,6 +10,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('settings');
   await Hive.openBox('transactions');
+  await Hive.openBox('ai_insights');
   runApp(
     const ProviderScope(
       child: HareruApp(),

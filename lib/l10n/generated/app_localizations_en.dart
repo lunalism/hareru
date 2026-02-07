@@ -430,4 +430,124 @@ class AppLocalizationsEn extends AppLocalizations {
   String nthWeek(int n) {
     return 'Week $n';
   }
+
+  @override
+  String get premiumDividerLabel => 'AI Analysis';
+
+  @override
+  String get premiumDividerLabelFree => 'AI Analysis (Clear only)';
+
+  @override
+  String get premiumBadge => 'Clear';
+
+  @override
+  String get aiInsightTitle => 'AI Analysis Report';
+
+  @override
+  String get clearComparisonTitle => 'Clear Comparison';
+
+  @override
+  String get clearComparisonOtherApp => 'In another app';
+
+  @override
+  String get clearComparisonReal => 'Hareru\'s real expense';
+
+  @override
+  String clearComparisonSaved(String amount) {
+    return 'Hareru automatically cleared ¥$amount of confusion';
+  }
+
+  @override
+  String get clearComparisonNoTransfer =>
+      'No transfers in this period. All spending is real expense ✨';
+
+  @override
+  String get aiDiscoveriesTitle => 'Key Discoveries This Week';
+
+  @override
+  String aiDiscoveriesLastAnalysis(String date) {
+    return 'Last analysis: $date';
+  }
+
+  @override
+  String get aiSuggestionTitle => 'Next Week\'s Suggestion';
+
+  @override
+  String get aiSuggestionGoalButton => 'Set Goal';
+
+  @override
+  String get aiSuggestionProOnly => 'Available in Clear Pro';
+
+  @override
+  String get aiSuggestionEmpty =>
+      'Record more expenses for personalized analysis! 📝';
+
+  @override
+  String get savingPotentialTitle => 'Hidden Saving Potential';
+
+  @override
+  String savingPotentialMonthly(String amount) {
+    return '$amount/mo';
+  }
+
+  @override
+  String savingPotentialYearly(String amount) {
+    return '$amount/yr potential savings! 🎉';
+  }
+
+  @override
+  String get savingPotentialDetail => 'View Details';
+
+  @override
+  String get healthScoreTitle => 'Spending Health Score';
+
+  @override
+  String get healthScoreBudget => 'Budget';
+
+  @override
+  String get healthScoreSaving => 'Savings';
+
+  @override
+  String get healthScoreBalance => 'Balance';
+
+  @override
+  String get healthScoreClear => 'Transfers';
+
+  @override
+  String get healthGradeExcellent => 'Excellent 🌟';
+
+  @override
+  String get healthGradeGood => 'Good 👍';
+
+  @override
+  String get healthGradeAverage => 'Average 📊';
+
+  @override
+  String get healthGradeCaution => 'Caution ⚠️';
+
+  @override
+  String get healthGradeDanger => 'Danger 🚨';
+
+  @override
+  String get blurMessageInsight =>
+      'Check out your personalized\nAI spending report';
+
+  @override
+  String get blurMessageSaving => 'Discover your hidden\nsaving potential';
+
+  @override
+  String get blurMessageHealth => 'What\'s your spending\nhealth score?';
+
+  @override
+  String get blurCta => 'Start Clear';
+
+  @override
+  String get blurPrice => '¥380/mo';
+
+  @override
+  String get blurPremiumComingSoon =>
+      'Premium features coming in a future update!';
+
+  @override
+  String get blurFutureUpdate => 'Coming in future update';
 }

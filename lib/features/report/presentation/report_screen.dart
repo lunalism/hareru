@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/l10n/generated/app_localizations.dart';
 import '../providers/report_providers.dart';
+import 'widgets/ai_clear_insight_card.dart';
 import 'widgets/category_detail_list.dart';
 import 'widgets/category_donut_card.dart';
+import 'widgets/health_score_card.dart';
 import 'widgets/insight_card.dart';
 import 'widgets/period_navigator.dart';
 import 'widgets/period_segment.dart';
+import 'widgets/premium_divider.dart';
 import 'widgets/report_empty_state.dart';
+import 'widgets/saving_potential_card.dart';
 import 'widgets/summary_card.dart';
 import 'widgets/trend_bar_card.dart';
 
@@ -59,6 +63,13 @@ class ReportScreen extends ConsumerWidget {
         InsightCard(),
         SizedBox(height: 16),
         CategoryDetailList(),
+        // Premium section
+        PremiumDivider(),
+        AiClearInsightCard(),
+        SizedBox(height: 16),
+        SavingPotentialCard(),
+        SizedBox(height: 16),
+        HealthScoreCard(),
       ],
     );
   }

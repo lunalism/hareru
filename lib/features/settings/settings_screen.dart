@@ -4,6 +4,7 @@ import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../core/theme/custom_colors.dart';
+import '../report/providers/premium_provider.dart';
 import 'pages/category_manage_page.dart';
 import 'providers/settings_provider.dart';
 import 'widgets/budget_bottom_sheet.dart';
@@ -275,6 +276,21 @@ class SettingsScreen extends ConsumerWidget {
             SettingsSection(
               title: l10n.etc,
               children: [
+                SettingsTile(
+                  emoji: '✨',
+                  title: 'Premium (테스트)',
+                  subtitle: 'AI 클리어 인사이트 잠금 해제',
+                  showChevron: false,
+                  trailing: CupertinoSwitch(
+                    value: ref.watch(isPremiumProvider),
+                    activeTrackColor: const Color(0xFF4A90D9),
+                    onChanged: (v) =>
+                        ref.read(isPremiumProvider.notifier).toggle(v),
+                  ),
+                  onTap: () => ref
+                      .read(isPremiumProvider.notifier)
+                      .toggle(!ref.read(isPremiumProvider)),
+                ),
                 SettingsTile(
                   emoji: '💬',
                   title: l10n.sendFeedback,

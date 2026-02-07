@@ -205,5 +205,67 @@
     "placeholders": {
       "n": {"type": "int"}
     }
-  }
+  },
+
+  "premiumDividerLabel": "AI Analysis",
+  "premiumDividerLabelFree": "AI Analysis (Clear only)",
+  "premiumBadge": "Clear",
+
+  "aiInsightTitle": "AI Analysis Report",
+  "clearComparisonTitle": "Clear Comparison",
+  "clearComparisonOtherApp": "In another app",
+  "clearComparisonReal": "Hareru's real expense",
+  "clearComparisonSaved": "Hareru automatically cleared ¥{amount} of confusion",
+  "@clearComparisonSaved": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "clearComparisonNoTransfer": "No transfers in this period. All spending is real expense ✨",
+
+  "aiDiscoveriesTitle": "Key Discoveries This Week",
+  "aiDiscoveriesLastAnalysis": "Last analysis: {date}",
+  "@aiDiscoveriesLastAnalysis": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "aiSuggestionTitle": "Next Week's Suggestion",
+  "aiSuggestionGoalButton": "Set Goal",
+  "aiSuggestionProOnly": "Available in Clear Pro",
+  "aiSuggestionEmpty": "Record more expenses for personalized analysis! 📝",
+
+  "savingPotentialTitle": "Hidden Saving Potential",
+  "savingPotentialMonthly": "{amount}/mo",
+  "@savingPotentialMonthly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "savingPotentialYearly": "{amount}/yr potential savings! 🎉",
+  "@savingPotentialYearly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "savingPotentialDetail": "View Details",
+
+  "healthScoreTitle": "Spending Health Score",
+  "healthScoreBudget": "Budget",
+  "healthScoreSaving": "Savings",
+  "healthScoreBalance": "Balance",
+  "healthScoreClear": "Transfers",
+  "healthGradeExcellent": "Excellent 🌟",
+  "healthGradeGood": "Good 👍",
+  "healthGradeAverage": "Average 📊",
+  "healthGradeCaution": "Caution ⚠️",
+  "healthGradeDanger": "Danger 🚨",
+
+  "blurMessageInsight": "Check out your personalized\nAI spending report",
+  "blurMessageSaving": "Discover your hidden\nsaving potential",
+  "blurMessageHealth": "What's your spending\nhealth score?",
+  "blurCta": "Start Clear",
+  "blurPrice": "¥380/mo",
+  "blurPremiumComingSoon": "Premium features coming in a future update!",
+  "blurFutureUpdate": "Coming in future update"
 }
