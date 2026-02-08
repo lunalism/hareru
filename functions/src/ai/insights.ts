@@ -5,41 +5,14 @@ import { anthropicApiKey, getAnthropicClient, CLAUDE_MODEL } from "./client";
 import { verifyAuth } from "../middleware/auth";
 import { checkSubscription } from "../utils/subscription";
 import { checkRateLimit } from "../utils/rateLimiter";
-
-const SYSTEM_PROMPT = `You are a financial advisor AI for Hareru, a Japanese household account book app.
-Analyze the user's monthly spending data and provide actionable insights.
-
-You MUST respond with valid JSON only, no markdown or extra text.
-
-Response format:
-{
-  "healthScore": <number 0-100>,
-  "healthLabel": "<short label>",
-  "savingsPotential": <number in JPY>,
-  "topInsight": "<most important insight, 1-2 sentences>",
-  "weeklyTrend": "<spending pattern observation>",
-  "suggestions": ["<suggestion 1>", "<suggestion 2>", "<suggestion 3>"],
-  "generatedAt": "<ISO 8601 timestamp>"
-}
-
-Guidelines:
-- healthScore: 0-30 = needs attention, 31-60 = fair, 61-80 = good, 81-100 = excellent
-- healthLabel: match the user's locale (e.g. 良好, 좋음, Good)
-- savingsPotential: realistic monthly savings estimate in JPY
-- suggestions: 2-4 concrete, actionable tips
-- Respond in the language matching the user's locale setting
-- Consider Japanese living costs and spending patterns
-- Be encouraging but honest`;
-
-interface InsightsResponse {
-  healthScore: number;
-  healthLabel: string;
-  savingsPotential: number;
-  topInsight: string;
-  weeklyTrend: string;
-  suggestions: string[];
-  generatedAt: string;
-}
+import {
+  INSIGHT_SYSTEM_PROMPT,
+  buildInsightUserPrompt,
+  getFallbackInsight,
+  getNoDataInsight,
+  InsightResponse,
+  InsightPromptData,
+} from "./prompts";
 
 interface TransactionData {
   amount: number;
@@ -58,7 +31,6 @@ export const generateInsights = onRequest(
     cors: true,
   },
   async (req, res) => {
-    // Only allow POST
     if (req.method !== "POST") {
       res.status(405).json({ error: "Method Not Allowed" });
       return;
@@ -92,8 +64,7 @@ export const generateInsights = onRequest(
         locale?: string;
       };
 
-      const targetMonth =
-        yearMonth || getCurrentYearMonth();
+      const targetMonth = yearMonth || getCurrentYearMonth();
 
       // 5. Check for cached insights
       const cachedInsights = await getCachedInsights(uid, targetMonth);
@@ -103,41 +74,24 @@ export const generateInsights = onRequest(
         return;
       }
 
-      // 6. Fetch spending data from Firestore
+      // 6. Fetch spending data
       const transactions = await fetchMonthlyTransactions(uid, targetMonth);
 
       if (transactions.length === 0) {
-        res.status(200).json({
-          healthScore: 0,
-          healthLabel: getNoDataLabel(locale),
-          savingsPotential: 0,
-          topInsight: getNoDataMessage(locale),
-          weeklyTrend: "",
-          suggestions: [],
-          generatedAt: new Date().toISOString(),
-        });
+        res.status(200).json(getNoDataInsight(locale));
         return;
       }
 
-      // 7. Call Claude API
-      const client = getAnthropicClient();
-      const userPrompt = buildUserPrompt(transactions, targetMonth, locale);
+      // 7. Build prompt data (current + previous month)
+      const promptData = await buildPromptData(
+        uid,
+        targetMonth,
+        locale,
+        transactions
+      );
 
-      const message = await client.messages.create({
-        model: CLAUDE_MODEL,
-        max_tokens: 1024,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: userPrompt }],
-      });
-
-      // 8. Parse response
-      const textBlock = message.content.find((block) => block.type === "text");
-      if (!textBlock || textBlock.type !== "text") {
-        throw new Error("No text response from Claude API");
-      }
-
-      const insights: InsightsResponse = JSON.parse(textBlock.text);
-      insights.generatedAt = new Date().toISOString();
+      // 8. Call Claude API with retry
+      const insights = await callClaudeWithRetry(promptData, locale);
 
       // 9. Cache to Firestore
       await cacheInsights(uid, targetMonth, insights);
@@ -155,15 +109,152 @@ export const generateInsights = onRequest(
   }
 );
 
+// ============================================================
+// Claude API call with 1 retry + fallback
+// ============================================================
+
+async function callClaudeWithRetry(
+  promptData: InsightPromptData,
+  locale: string
+): Promise<InsightResponse> {
+  const client = getAnthropicClient();
+  const userPrompt = buildInsightUserPrompt(promptData);
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const message = await client.messages.create({
+        model: CLAUDE_MODEL,
+        max_tokens: 1500,
+        temperature: 0.3,
+        system: INSIGHT_SYSTEM_PROMPT,
+        messages: [{ role: "user", content: userPrompt }],
+      });
+
+      const textBlock = message.content.find((b) => b.type === "text");
+      if (!textBlock || textBlock.type !== "text") {
+        throw new Error("No text block in Claude response");
+      }
+
+      const insights: InsightResponse = JSON.parse(textBlock.text);
+      insights.generatedAt = new Date().toISOString();
+      return insights;
+    } catch (error) {
+      if (attempt === 0) {
+        logger.warn("Claude API call failed, retrying...", { error });
+      } else {
+        logger.error("Claude API call failed after retry", { error });
+      }
+    }
+  }
+
+  // Both attempts failed — return fallback
+  logger.warn("Returning fallback insight", { locale });
+  return getFallbackInsight(locale);
+}
+
+// ============================================================
+// Prompt data builder
+// ============================================================
+
+async function buildPromptData(
+  uid: string,
+  targetMonth: string,
+  locale: string,
+  transactions: TransactionData[]
+): Promise<InsightPromptData> {
+  const expenses = transactions.filter((t) => t.type === "expense");
+  const totalSpending = expenses.reduce((sum, t) => sum + t.amount, 0);
+
+  // Category breakdown
+  const categoryBreakdown: Record<string, number> = {};
+  for (const t of expenses) {
+    categoryBreakdown[t.category] = (categoryBreakdown[t.category] || 0) + t.amount;
+  }
+
+  // Weekly breakdown
+  const weeklyData = buildWeeklyData(expenses, targetMonth);
+
+  // Previous month data
+  const prevMonth = getPreviousMonth(targetMonth);
+  const prevTransactions = await fetchMonthlyTransactions(uid, prevMonth);
+  let previousMonthTotal: number | null = null;
+  let previousCategoryBreakdown: Record<string, number> | null = null;
+
+  if (prevTransactions.length > 0) {
+    const prevExpenses = prevTransactions.filter((t) => t.type === "expense");
+    previousMonthTotal = prevExpenses.reduce((sum, t) => sum + t.amount, 0);
+    previousCategoryBreakdown = {};
+    for (const t of prevExpenses) {
+      previousCategoryBreakdown[t.category] =
+        (previousCategoryBreakdown[t.category] || 0) + t.amount;
+    }
+  }
+
+  return {
+    locale,
+    yearMonth: targetMonth,
+    totalSpending,
+    categoryBreakdown,
+    previousMonthTotal,
+    previousCategoryBreakdown,
+    weeklyData,
+    transactionCount: transactions.length,
+  };
+}
+
+function buildWeeklyData(
+  expenses: TransactionData[],
+  yearMonth: string
+): Record<string, number> {
+  const [year, month] = yearMonth.split("-").map(Number);
+  const lastDay = new Date(year, month, 0).getDate();
+
+  // Define week boundaries
+  const weeks: { label: string; start: number; end: number }[] = [
+    { label: `Week 1 (${month}/1-${month}/7)`, start: 1, end: 7 },
+    { label: `Week 2 (${month}/8-${month}/14)`, start: 8, end: 14 },
+    { label: `Week 3 (${month}/15-${month}/21)`, start: 15, end: 21 },
+    { label: `Week 4 (${month}/22-${month}/${lastDay})`, start: 22, end: lastDay },
+  ];
+
+  const result: Record<string, number> = {};
+  for (const week of weeks) {
+    result[week.label] = 0;
+  }
+
+  for (const t of expenses) {
+    const date = new Date(t.date);
+    const day = date.getDate();
+    const week = weeks.find((w) => day >= w.start && day <= w.end);
+    if (week) {
+      result[week.label] += t.amount;
+    }
+  }
+
+  return result;
+}
+
+// ============================================================
+// Firestore helpers
+// ============================================================
+
 function getCurrentYearMonth(): string {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 }
 
+function getPreviousMonth(yearMonth: string): string {
+  const [year, month] = yearMonth.split("-").map(Number);
+  if (month === 1) {
+    return `${year - 1}-12`;
+  }
+  return `${year}-${String(month - 1).padStart(2, "0")}`;
+}
+
 async function getCachedInsights(
   uid: string,
   yearMonth: string
-): Promise<InsightsResponse | null> {
+): Promise<InsightResponse | null> {
   try {
     const doc = await admin
       .firestore()
@@ -175,14 +266,13 @@ async function getCachedInsights(
 
     if (!doc.exists) return null;
 
-    const data = doc.data() as InsightsResponse & { cachedAt?: string };
+    const data = doc.data() as InsightResponse & { cachedAt?: string };
     if (!data.cachedAt) return null;
 
     // Cache is valid for 24 hours
     const cachedAt = new Date(data.cachedAt);
-    const now = new Date();
     const hoursSinceCache =
-      (now.getTime() - cachedAt.getTime()) / (1000 * 60 * 60);
+      (Date.now() - cachedAt.getTime()) / (1000 * 60 * 60);
 
     if (hoursSinceCache > 24) return null;
 
@@ -195,7 +285,7 @@ async function getCachedInsights(
 async function cacheInsights(
   uid: string,
   yearMonth: string,
-  insights: InsightsResponse
+  insights: InsightResponse
 ): Promise<void> {
   try {
     await admin
@@ -235,59 +325,4 @@ async function fetchMonthlyTransactions(
     .get();
 
   return snapshot.docs.map((doc) => doc.data() as TransactionData);
-}
-
-function buildUserPrompt(
-  transactions: TransactionData[],
-  yearMonth: string,
-  locale: string
-): string {
-  const expenses = transactions.filter((t) => t.type === "expense");
-  const incomes = transactions.filter((t) => t.type === "income");
-
-  const totalExpense = expenses.reduce((sum, t) => sum + t.amount, 0);
-  const totalIncome = incomes.reduce((sum, t) => sum + t.amount, 0);
-
-  // Group expenses by category
-  const byCategory: Record<string, number> = {};
-  for (const t of expenses) {
-    byCategory[t.category] = (byCategory[t.category] || 0) + t.amount;
-  }
-
-  const categorySummary = Object.entries(byCategory)
-    .sort(([, a], [, b]) => b - a)
-    .map(([cat, amount]) => `  ${cat}: ¥${amount.toLocaleString()}`)
-    .join("\n");
-
-  const localeInstruction =
-    locale === "ko"
-      ? "한국어로 응답해주세요."
-      : locale === "en"
-        ? "Respond in English."
-        : "日本語で応答してください。";
-
-  return `${localeInstruction}
-
-Analyze this spending data for ${yearMonth}:
-
-Total Income: ¥${totalIncome.toLocaleString()}
-Total Expenses: ¥${totalExpense.toLocaleString()}
-Number of transactions: ${transactions.length}
-
-Expense breakdown by category:
-${categorySummary}
-
-Please provide financial insights and actionable suggestions.`;
-}
-
-function getNoDataLabel(locale: string): string {
-  if (locale === "ko") return "데이터 없음";
-  if (locale === "en") return "No data";
-  return "データなし";
-}
-
-function getNoDataMessage(locale: string): string {
-  if (locale === "ko") return "이번 달 거래 내역이 없습니다. 지출을 기록해 주세요.";
-  if (locale === "en") return "No transactions found for this month. Start recording your expenses.";
-  return "今月の取引データがありません。支出を記録してください。";
 }
