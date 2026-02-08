@@ -335,6 +335,33 @@ class AppLocalizationsKo extends AppLocalizations {
   String get flash => '플래시';
 
   @override
+  String get autoDetected => '자동 감지';
+
+  @override
+  String get pleaseVerify => '확인해주세요';
+
+  @override
+  String get aiAnalyzed => 'AI 분석 완료';
+
+  @override
+  String get premiumOcrBanner => 'Clear Pro로 더 정확한 분석이 가능해요';
+
+  @override
+  String get premiumOcrBannerClearPro => 'AI가 영수증을 분석 중...';
+
+  @override
+  String get purchasedItems => '구매 품목';
+
+  @override
+  String get quantity => '수량';
+
+  @override
+  String get taxAmount => '세금';
+
+  @override
+  String get discountAmount => '할인';
+
+  @override
   String get noTransactions => '아직 거래 내역이 없어요';
 
   @override

@@ -335,6 +335,33 @@ class AppLocalizationsJa extends AppLocalizations {
   String get flash => 'フラッシュ';
 
   @override
+  String get autoDetected => '自動検出';
+
+  @override
+  String get pleaseVerify => '確認してください';
+
+  @override
+  String get aiAnalyzed => 'AI分析済み';
+
+  @override
+  String get premiumOcrBanner => 'Clear Proでより正確な分析が可能です';
+
+  @override
+  String get premiumOcrBannerClearPro => 'AIがレシートを分析中...';
+
+  @override
+  String get purchasedItems => '購入品目';
+
+  @override
+  String get quantity => '数量';
+
+  @override
+  String get taxAmount => '税額';
+
+  @override
+  String get discountAmount => '割引';
+
+  @override
   String get noTransactions => 'まだ取引履歴がありません';
 
   @override

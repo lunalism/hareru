@@ -71,6 +71,7 @@ class SettingsState {
     this.reminderTime = const TimeOfDay(hour: 21, minute: 0),
     this.language = '시스템',
     this.categories = _defaultCategories,
+    this.subscriptionTier = 'free',
   });
 
   final int monthlyBudget;
@@ -82,6 +83,7 @@ class SettingsState {
   final TimeOfDay reminderTime;
   final String language;
   final List<CategoryItem> categories;
+  final String subscriptionTier;
 
   static const _defaultCategories = [
     CategoryItem(emoji: '🍱', name: '식비', localeKey: 'food', isDefault: true),
@@ -128,6 +130,7 @@ class SettingsState {
     TimeOfDay? reminderTime,
     String? language,
     List<CategoryItem>? categories,
+    String? subscriptionTier,
   }) {
     return SettingsState(
       monthlyBudget: monthlyBudget ?? this.monthlyBudget,
@@ -139,6 +142,7 @@ class SettingsState {
       reminderTime: reminderTime ?? this.reminderTime,
       language: language ?? this.language,
       categories: categories ?? this.categories,
+      subscriptionTier: subscriptionTier ?? this.subscriptionTier,
     );
   }
 }
@@ -159,6 +163,7 @@ class SettingsNotifier extends Notifier<SettingsState> {
         minute: box.get('reminderMinute', defaultValue: 0),
       ),
       language: box.get('language', defaultValue: '시스템'),
+      subscriptionTier: box.get('subscriptionTier', defaultValue: 'free'),
     );
   }
 

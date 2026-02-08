@@ -341,6 +341,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get flash => 'Flash';
 
   @override
+  String get autoDetected => 'Auto';
+
+  @override
+  String get pleaseVerify => 'Please verify';
+
+  @override
+  String get aiAnalyzed => 'AI Analyzed';
+
+  @override
+  String get premiumOcrBanner => 'Get more accurate results with Clear Pro';
+
+  @override
+  String get premiumOcrBannerClearPro => 'AI is analyzing your receipt...';
+
+  @override
+  String get purchasedItems => 'Items';
+
+  @override
+  String get quantity => 'Qty';
+
+  @override
+  String get taxAmount => 'Tax';
+
+  @override
+  String get discountAmount => 'Discount';
+
+  @override
   String get noTransactions => 'No transactions yet';
 
   @override

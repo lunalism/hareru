@@ -1,5 +1,7 @@
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
+import 'category_matcher.dart';
+
 class OcrResult {
   const OcrResult({
     this.amount,
@@ -7,6 +9,7 @@ class OcrResult {
     this.date,
     required this.rawText,
     required this.confidence,
+    this.suggestedCategory,
   });
 
   final int? amount;
@@ -14,9 +17,12 @@ class OcrResult {
   final String? date;
   final String rawText;
   final double confidence;
+  final CategorySuggestion? suggestedCategory;
 }
 
 class OcrService {
+  final _categoryMatcher = CategoryMatcher();
+
   /// Recognizes text from an image file and extracts receipt data.
   Future<OcrResult> processReceipt(String imagePath) async {
     final inputImage = InputImage.fromFilePath(imagePath);
@@ -34,6 +40,7 @@ class OcrService {
       final storeName = _extractStoreName(recognizedText);
       final date = _extractDate(rawText);
       final confidence = _calculateConfidence(recognizedText);
+      final suggestedCategory = _categoryMatcher.suggestCategory(storeName, rawText);
 
       return OcrResult(
         amount: amount,
@@ -41,6 +48,9 @@ class OcrService {
         date: date,
         rawText: rawText,
         confidence: confidence,
+        suggestedCategory: suggestedCategory.confidence > 0
+            ? suggestedCategory
+            : null,
       );
     } finally {
       textRecognizer.close();

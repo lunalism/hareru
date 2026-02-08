@@ -10,6 +10,7 @@ import '../../../shared/models/default_categories.dart';
 import '../../../shared/models/transaction.dart';
 import '../../../shared/models/transaction_type.dart';
 import '../../../shared/services/sync_service.dart';
+import '../../../services/premium_ocr_service.dart';
 import '../../home/providers/home_provider.dart';
 import '../../settings/providers/settings_provider.dart';
 import '../widgets/category_chip.dart';
@@ -23,6 +24,10 @@ class ScanResultScreen extends ConsumerStatefulWidget {
     this.date,
     required this.rawText,
     required this.confidence,
+    this.suggestedCategoryKey,
+    this.suggestedCategoryEmoji,
+    this.categoryConfidence = 0.0,
+    this.categoryMatchReason,
   });
 
   final String imagePath;
@@ -31,6 +36,10 @@ class ScanResultScreen extends ConsumerStatefulWidget {
   final String? date;
   final String rawText;
   final double confidence;
+  final String? suggestedCategoryKey;
+  final String? suggestedCategoryEmoji;
+  final double categoryConfidence;
+  final String? categoryMatchReason;
 
   @override
   ConsumerState<ScanResultScreen> createState() => _ScanResultScreenState();
@@ -44,6 +53,11 @@ class _ScanResultScreenState extends ConsumerState<ScanResultScreen> {
   String? _selectedCategoryEmoji;
   String? _selectedCategoryKey;
   bool _isSaving = false;
+
+  // Premium OCR state
+  bool _isPremiumLoading = false;
+  PremiumOcrResult? _premiumResult;
+  bool _premiumApplied = false;
 
   @override
   void initState() {
@@ -61,6 +75,94 @@ class _ScanResultScreenState extends ConsumerState<ScanResultScreen> {
     } else {
       _selectedDate = DateTime.now();
     }
+
+    // Apply suggested category if confidence is high enough
+    if (widget.suggestedCategoryKey != null && widget.categoryConfidence >= 0.6) {
+      _selectedCategoryKey = widget.suggestedCategoryKey;
+      _selectedCategoryEmoji = widget.suggestedCategoryEmoji;
+    }
+
+    // Start premium OCR for ClearPro users
+    _tryPremiumOcr();
+  }
+
+  Future<void> _tryPremiumOcr() async {
+    final tier = ref.read(settingsProvider).subscriptionTier;
+    if (tier != 'clearPro') return;
+    if (widget.rawText.isEmpty) return;
+
+    setState(() => _isPremiumLoading = true);
+
+    final locale = ref.read(settingsProvider).language;
+    final localeCode = locale == '일본어'
+        ? 'ja'
+        : locale == '영어'
+            ? 'en'
+            : 'ko';
+
+    final result = await PremiumOcrService().parseReceipt(widget.rawText, localeCode);
+
+    if (!mounted) return;
+    setState(() {
+      _isPremiumLoading = false;
+      if (result != null) {
+        _premiumResult = result;
+        _applyPremiumResult(result);
+      }
+    });
+  }
+
+  void _applyPremiumResult(PremiumOcrResult result) {
+    _premiumApplied = true;
+    if (result.amount > 0) {
+      _amountController.text = result.amount.toString();
+    }
+    if (result.storeName.isNotEmpty) {
+      _storeNameController.text = result.storeName;
+    }
+    if (result.date.isNotEmpty) {
+      final parsed = DateTime.tryParse(result.date);
+      if (parsed != null) _selectedDate = parsed;
+    }
+    // Map premium category to our category keys
+    final premiumKey = _mapPremiumCategory(result.category);
+    if (premiumKey != null) {
+      _selectedCategoryKey = premiumKey;
+      _selectedCategoryEmoji = DefaultCategories.emojiForKey(premiumKey);
+    }
+    if (result.memo != null && result.memo!.isNotEmpty) {
+      _memoController.text = result.memo!;
+    }
+  }
+
+  String? _mapPremiumCategory(String category) {
+    final lower = category.toLowerCase();
+    const mapping = {
+      'food': 'food',
+      '食費': 'food',
+      'cafe': 'cafe',
+      'カフェ': 'cafe',
+      '外食': 'cafe',
+      'transport': 'transport',
+      '交通': 'transport',
+      '交通費': 'transport',
+      'shopping': 'shopping',
+      '買物': 'shopping',
+      '日用品': 'shopping',
+      'medical': 'medical',
+      '医療': 'medical',
+      '医療費': 'medical',
+      'entertainment': 'entertainment',
+      '娯楽': 'entertainment',
+      '趣味': 'entertainment',
+      'other': 'other',
+      'その他': 'other',
+    };
+
+    for (final entry in mapping.entries) {
+      if (lower.contains(entry.key.toLowerCase())) return entry.value;
+    }
+    return null;
   }
 
   @override
@@ -114,7 +216,6 @@ class _ScanResultScreenState extends ConsumerState<ScanResultScreen> {
       ),
     );
 
-    // Pop back to home (past scan screen)
     context.go('/');
   }
 
@@ -204,6 +305,27 @@ class _ScanResultScreenState extends ConsumerState<ScanResultScreen> {
           ),
         ),
         centerTitle: true,
+        actions: [
+          if (_premiumApplied)
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: Chip(
+                label: Text(
+                  l10n.aiAnalyzed,
+                  style: TextStyle(
+                    fontFamily: 'PretendardJP',
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.1),
+                side: BorderSide.none,
+                padding: EdgeInsets.zero,
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
+        ],
       ),
       body: Column(
         children: [
@@ -228,8 +350,12 @@ class _ScanResultScreenState extends ConsumerState<ScanResultScreen> {
                   ),
                   const SizedBox(height: 20),
 
+                  // Premium loading banner
+                  if (_isPremiumLoading)
+                    _buildPremiumLoadingBanner(theme, l10n),
+
                   // Amount not recognized warning
-                  if (widget.amount == null) ...[
+                  if (widget.amount == null && !_premiumApplied) ...[
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
@@ -358,18 +484,32 @@ class _ScanResultScreenState extends ConsumerState<ScanResultScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Category selection
-                  Text(
-                    l10n.selectCategory,
-                    style: TextStyle(
-                      fontFamily: 'PretendardJP',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                    ),
+                  // Category selection with auto-detect badge
+                  Row(
+                    children: [
+                      Text(
+                        l10n.selectCategory,
+                        style: TextStyle(
+                          fontFamily: 'PretendardJP',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                        ),
+                      ),
+                      if (_selectedCategoryKey != null &&
+                          _selectedCategoryKey == widget.suggestedCategoryKey &&
+                          !_premiumApplied) ...[
+                        const SizedBox(width: 8),
+                        _buildCategoryBadge(theme, l10n),
+                      ],
+                    ],
                   ),
                   const SizedBox(height: 8),
                   _buildCategoryGrid(context),
+
+                  // Premium items list (ClearPro only)
+                  if (_premiumResult != null && _premiumResult!.items.isNotEmpty)
+                    _buildItemsList(theme, l10n),
 
                   const SizedBox(height: 16),
 
@@ -393,6 +533,10 @@ class _ScanResultScreenState extends ConsumerState<ScanResultScreen> {
                         ),
                       ),
                     ),
+
+                  // Premium upsell banner (for Free/Clear users)
+                  if (_premiumResult == null && !_isPremiumLoading)
+                    _buildUpsellBanner(theme, l10n),
 
                   const SizedBox(height: 24),
                 ],
@@ -472,6 +616,202 @@ class _ScanResultScreenState extends ConsumerState<ScanResultScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryBadge(ThemeData theme, AppLocalizations l10n) {
+    final isHighConfidence = widget.categoryConfidence >= 0.8;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: isHighConfidence
+            ? theme.colorScheme.primary.withValues(alpha: 0.1)
+            : Colors.orange.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        isHighConfidence ? l10n.autoDetected : l10n.pleaseVerify,
+        style: TextStyle(
+          fontFamily: 'PretendardJP',
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+          color: isHighConfidence ? theme.colorScheme.primary : Colors.orange,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPremiumLoadingBanner(ThemeData theme, AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primary.withValues(alpha: 0.06),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text(
+              l10n.premiumOcrBannerClearPro,
+              style: TextStyle(
+                fontFamily: 'PretendardJP',
+                fontSize: 12,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUpsellBanner(ThemeData theme, AppLocalizations l10n) {
+    final tier = ref.watch(settingsProvider).subscriptionTier;
+    if (tier == 'clearPro') return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primary.withValues(alpha: 0.06),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: theme.colorScheme.primary.withValues(alpha: 0.15),
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.auto_awesome_rounded,
+                size: 18, color: theme.colorScheme.primary),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                l10n.premiumOcrBanner,
+                style: TextStyle(
+                  fontFamily: 'PretendardJP',
+                  fontSize: 12,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildItemsList(ThemeData theme, AppLocalizations l10n) {
+    final items = _premiumResult!.items;
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Theme(
+        data: theme.copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+          childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          collapsedShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          backgroundColor: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+          collapsedBackgroundColor: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+          title: Text(
+            '${l10n.purchasedItems} (${items.length})',
+            style: const TextStyle(
+              fontFamily: 'PretendardJP',
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          children: [
+            for (final item in items)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        item.name,
+                        style: const TextStyle(
+                          fontFamily: 'PretendardJP',
+                          fontSize: 13,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (item.quantity > 1) ...[
+                      Text(
+                        'x${item.quantity}',
+                        style: TextStyle(
+                          fontFamily: 'PretendardJP',
+                          fontSize: 12,
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                    Text(
+                      '¥${item.price}',
+                      style: const TextStyle(
+                        fontFamily: 'PretendardJP',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (_premiumResult!.tax > 0) ...[
+              const Divider(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(l10n.taxAmount,
+                      style: TextStyle(
+                          fontFamily: 'PretendardJP',
+                          fontSize: 12,
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6))),
+                  Text('¥${_premiumResult!.tax}',
+                      style: const TextStyle(
+                          fontFamily: 'PretendardJP', fontSize: 12)),
+                ],
+              ),
+            ],
+            if (_premiumResult!.discount > 0) ...[
+              const SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(l10n.discountAmount,
+                      style: TextStyle(
+                          fontFamily: 'PretendardJP',
+                          fontSize: 12,
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6))),
+                  Text('-¥${_premiumResult!.discount}',
+                      style: TextStyle(
+                          fontFamily: 'PretendardJP',
+                          fontSize: 12,
+                          color: theme.colorScheme.error)),
+                ],
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

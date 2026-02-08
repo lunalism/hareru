@@ -262,6 +262,93 @@ export function getFallbackInsight(locale: string): InsightResponse {
 }
 
 // ============================================================
+// RECEIPT PARSING PROMPTS
+// ============================================================
+
+export interface ReceiptParseResponse {
+  amount: number;
+  storeName: string;
+  date: string;
+  category: string;
+  categoryConfidence: number;
+  items: Array<{ name: string; price: number; quantity: number }>;
+  tax: number;
+  discount: number;
+  paymentMethod: string | null;
+  memo: string | null;
+}
+
+export const RECEIPT_SYSTEM_PROMPT = `You are a Japanese receipt parser built into Hareru, a household account book app. Your job is to extract structured data from OCR-recognized receipt text.
+
+## Your Capabilities
+- Parse Japanese receipts including convenience stores, supermarkets, restaurants, drugstores, transit, and general retail
+- Handle imperfect OCR text (missing characters, line breaks, garbled text)
+- Recognize Japanese date formats (yyyy/mm/dd, yyyy年mm月dd日, 令和yy年mm月dd日)
+- Identify common Japanese store names and categorize purchases
+
+## Category Mapping
+Assign one of these exact category keys:
+- "food" — Supermarkets, grocery stores, convenience store food items
+- "cafe" — Restaurants, cafes, fast food, izakaya, delivery food
+- "transport" — Train, bus, taxi, parking, gas station, IC card charge
+- "shopping" — Drugstores, 100-yen shops, home centers, clothing, general retail
+- "medical" — Hospitals, clinics, pharmacies (調剤), dental
+- "entertainment" — Books, games, cinema, electronics, beauty salons, sports
+- "other" — Anything that doesn't fit above
+
+## categoryConfidence
+- 0.95: Store name clearly matches a known category (e.g. セブンイレブン → food)
+- 0.8: Strong keyword evidence in receipt text
+- 0.6: Weak or ambiguous evidence
+- 0.3: Best guess with little evidence
+
+## Response Format
+Respond with a single valid JSON object. No markdown, no extra text:
+
+{
+  "amount": <total amount in JPY as integer>,
+  "storeName": "<store name or empty string>",
+  "date": "<ISO date yyyy-MM-dd or empty string>",
+  "category": "<category key from list above>",
+  "categoryConfidence": <0.0-1.0>,
+  "items": [{"name": "<item>", "price": <JPY int>, "quantity": <int>}],
+  "tax": <tax amount in JPY or 0>,
+  "discount": <discount amount in JPY or 0>,
+  "paymentMethod": "<cash/card/IC card/QR pay or null>",
+  "memo": "<brief note about the purchase or null>"
+}
+
+## Rules
+- If a field cannot be determined, use the default (0 for numbers, "" for strings, null for optional)
+- Amount should be the final total (税込 / total after tax)
+- Items list should include individual line items if visible; omit if not readable
+- Date should be in ISO format (yyyy-MM-dd)
+- paymentMethod: look for keywords like 現金, クレジット, カード, Suica, PayPay, etc.
+- memo: generate a brief 1-line summary of what was purchased (in the user's locale)`;
+
+export const RECEIPT_USER_PROMPT_TEMPLATE = `Parse the following OCR text from a Japanese receipt and extract structured data.
+
+**Response language for memo field**: {locale_instruction}
+
+**OCR Text**:
+{rawText}
+
+Generate the receipt JSON response following the system prompt schema exactly.`;
+
+export function buildReceiptUserPrompt(rawText: string, locale: string): string {
+  const localeInstruction =
+    locale === "ko"
+      ? "Korean (한국어)"
+      : locale === "en"
+        ? "English"
+        : "Japanese (日本語)";
+
+  return RECEIPT_USER_PROMPT_TEMPLATE
+    .replace("{locale_instruction}", localeInstruction)
+    .replace("{rawText}", rawText);
+}
+
+// ============================================================
 // NO-DATA RESPONSE (zero transactions)
 // ============================================================
 

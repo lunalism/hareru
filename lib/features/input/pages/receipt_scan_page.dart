@@ -116,6 +116,10 @@ class _ReceiptScanPageState extends State<ReceiptScanPage> {
         'date': result.date,
         'rawText': result.rawText,
         'confidence': result.confidence,
+        'suggestedCategoryKey': result.suggestedCategory?.categoryKey,
+        'suggestedCategoryEmoji': result.suggestedCategory?.categoryEmoji,
+        'categoryConfidence': result.suggestedCategory?.confidence ?? 0.0,
+        'categoryMatchReason': result.suggestedCategory?.matchReason,
       });
     } catch (_) {
       if (mounted) {

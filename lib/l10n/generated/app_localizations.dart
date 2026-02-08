@@ -736,6 +736,60 @@ abstract class AppLocalizations {
   /// **'플래시'**
   String get flash;
 
+  /// No description provided for @autoDetected.
+  ///
+  /// In ko, this message translates to:
+  /// **'자동 감지'**
+  String get autoDetected;
+
+  /// No description provided for @pleaseVerify.
+  ///
+  /// In ko, this message translates to:
+  /// **'확인해주세요'**
+  String get pleaseVerify;
+
+  /// No description provided for @aiAnalyzed.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI 분석 완료'**
+  String get aiAnalyzed;
+
+  /// No description provided for @premiumOcrBanner.
+  ///
+  /// In ko, this message translates to:
+  /// **'Clear Pro로 더 정확한 분석이 가능해요'**
+  String get premiumOcrBanner;
+
+  /// No description provided for @premiumOcrBannerClearPro.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI가 영수증을 분석 중...'**
+  String get premiumOcrBannerClearPro;
+
+  /// No description provided for @purchasedItems.
+  ///
+  /// In ko, this message translates to:
+  /// **'구매 품목'**
+  String get purchasedItems;
+
+  /// No description provided for @quantity.
+  ///
+  /// In ko, this message translates to:
+  /// **'수량'**
+  String get quantity;
+
+  /// No description provided for @taxAmount.
+  ///
+  /// In ko, this message translates to:
+  /// **'세금'**
+  String get taxAmount;
+
+  /// No description provided for @discountAmount.
+  ///
+  /// In ko, this message translates to:
+  /// **'할인'**
+  String get discountAmount;
+
   /// No description provided for @noTransactions.
   ///
   /// In ko, this message translates to:

@@ -117,6 +117,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             date: extra['date'] as String?,
             rawText: extra['rawText'] as String,
             confidence: extra['confidence'] as double,
+            suggestedCategoryKey: extra['suggestedCategoryKey'] as String?,
+            suggestedCategoryEmoji: extra['suggestedCategoryEmoji'] as String?,
+            categoryConfidence: (extra['categoryConfidence'] as num?)?.toDouble() ?? 0.0,
+            categoryMatchReason: extra['categoryMatchReason'] as String?,
           );
         },
       ),
