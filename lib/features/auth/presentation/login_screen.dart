@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../shared/widgets/hareru_logo.dart';
 import '../providers/auth_providers.dart';
@@ -131,14 +129,40 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const Spacer(flex: 2),
 
               // Apple Sign In
-              SignInWithAppleButton(
-                onPressed: _isLoading ? () {} : _signInWithApple,
-                style: isDark
-                    ? SignInWithAppleButtonStyle.white
-                    : SignInWithAppleButtonStyle.black,
-                text: l10n.loginWithApple,
+              SizedBox(
+                width: double.infinity,
                 height: 52,
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _signInWithApple,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isDark ? Colors.white : Colors.black,
+                    foregroundColor: isDark ? Colors.black : Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.apple,
+                        size: 22,
+                        color: isDark ? Colors.black : Colors.white,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        l10n.loginWithApple,
+                        style: TextStyle(
+                          fontFamily: 'PretendardJP',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: isDark ? Colors.black : Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 12),
 
@@ -163,13 +187,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Google "G" logo
                       SizedBox(
                         width: 20,
                         height: 20,
                         child: CustomPaint(painter: _GoogleLogoPainter()),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 10),
                       Text(
                         l10n.loginWithGoogle,
                         style: TextStyle(
