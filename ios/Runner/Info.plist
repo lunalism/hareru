@@ -42,9 +42,9 @@
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>NSCameraUsageDescription</key>
-		<string>영수증을 스캔하기 위해 카메라 접근이 필요합니다</string>
+		<string>Camera access is needed to scan receipts</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>영수증 사진을 선택하기 위해 사진 라이브러리 접근이 필요합니다</string>
+		<string>Photo library access is needed to select receipt images</string>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
