@@ -646,6 +646,96 @@ abstract class AppLocalizations {
   /// **'준비 중인 기능이에요'**
   String get receiptScanComingSoon;
 
+  /// No description provided for @receiptScanGuide.
+  ///
+  /// In ko, this message translates to:
+  /// **'영수증을 프레임 안에 맞춰주세요'**
+  String get receiptScanGuide;
+
+  /// No description provided for @scanning.
+  ///
+  /// In ko, this message translates to:
+  /// **'스캔 중...'**
+  String get scanning;
+
+  /// No description provided for @scanResultTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'스캔 결과'**
+  String get scanResultTitle;
+
+  /// No description provided for @saveThisRecord.
+  ///
+  /// In ko, this message translates to:
+  /// **'이대로 기록'**
+  String get saveThisRecord;
+
+  /// No description provided for @rescan.
+  ///
+  /// In ko, this message translates to:
+  /// **'다시 스캔'**
+  String get rescan;
+
+  /// No description provided for @amountNotRecognized.
+  ///
+  /// In ko, this message translates to:
+  /// **'금액을 인식하지 못했습니다. 직접 입력해주세요.'**
+  String get amountNotRecognized;
+
+  /// No description provided for @viewRawText.
+  ///
+  /// In ko, this message translates to:
+  /// **'원문 보기'**
+  String get viewRawText;
+
+  /// No description provided for @rawTextTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'인식 텍스트'**
+  String get rawTextTitle;
+
+  /// No description provided for @storeName.
+  ///
+  /// In ko, this message translates to:
+  /// **'가게명'**
+  String get storeName;
+
+  /// No description provided for @cameraPermissionDenied.
+  ///
+  /// In ko, this message translates to:
+  /// **'카메라 권한이 필요합니다. 설정에서 활성화해주세요.'**
+  String get cameraPermissionDenied;
+
+  /// No description provided for @cameraInitFailed.
+  ///
+  /// In ko, this message translates to:
+  /// **'카메라를 시작할 수 없습니다. 갤러리에서 선택해주세요.'**
+  String get cameraInitFailed;
+
+  /// No description provided for @ocrFailed.
+  ///
+  /// In ko, this message translates to:
+  /// **'텍스트를 인식하지 못했습니다. 다시 시도하거나 직접 입력해주세요.'**
+  String get ocrFailed;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In ko, this message translates to:
+  /// **'설정 열기'**
+  String get openSettings;
+
+  /// No description provided for @gallery.
+  ///
+  /// In ko, this message translates to:
+  /// **'갤러리'**
+  String get gallery;
+
+  /// No description provided for @flash.
+  ///
+  /// In ko, this message translates to:
+  /// **'플래시'**
+  String get flash;
+
   /// No description provided for @noTransactions.
   ///
   /// In ko, this message translates to:

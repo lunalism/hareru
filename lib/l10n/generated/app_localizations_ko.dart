@@ -290,6 +290,51 @@ class AppLocalizationsKo extends AppLocalizations {
   String get receiptScanComingSoon => '준비 중인 기능이에요';
 
   @override
+  String get receiptScanGuide => '영수증을 프레임 안에 맞춰주세요';
+
+  @override
+  String get scanning => '스캔 중...';
+
+  @override
+  String get scanResultTitle => '스캔 결과';
+
+  @override
+  String get saveThisRecord => '이대로 기록';
+
+  @override
+  String get rescan => '다시 스캔';
+
+  @override
+  String get amountNotRecognized => '금액을 인식하지 못했습니다. 직접 입력해주세요.';
+
+  @override
+  String get viewRawText => '원문 보기';
+
+  @override
+  String get rawTextTitle => '인식 텍스트';
+
+  @override
+  String get storeName => '가게명';
+
+  @override
+  String get cameraPermissionDenied => '카메라 권한이 필요합니다. 설정에서 활성화해주세요.';
+
+  @override
+  String get cameraInitFailed => '카메라를 시작할 수 없습니다. 갤러리에서 선택해주세요.';
+
+  @override
+  String get ocrFailed => '텍스트를 인식하지 못했습니다. 다시 시도하거나 직접 입력해주세요.';
+
+  @override
+  String get openSettings => '설정 열기';
+
+  @override
+  String get gallery => '갤러리';
+
+  @override
+  String get flash => '플래시';
+
+  @override
   String get noTransactions => '아직 거래 내역이 없어요';
 
   @override

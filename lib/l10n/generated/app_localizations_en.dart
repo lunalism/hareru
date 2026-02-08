@@ -292,6 +292,55 @@ class AppLocalizationsEn extends AppLocalizations {
   String get receiptScanComingSoon => 'This feature is coming soon';
 
   @override
+  String get receiptScanGuide => 'Align receipt within the frame';
+
+  @override
+  String get scanning => 'Scanning...';
+
+  @override
+  String get scanResultTitle => 'Scan Result';
+
+  @override
+  String get saveThisRecord => 'Save';
+
+  @override
+  String get rescan => 'Rescan';
+
+  @override
+  String get amountNotRecognized =>
+      'Could not read the amount. Please enter manually.';
+
+  @override
+  String get viewRawText => 'View Original Text';
+
+  @override
+  String get rawTextTitle => 'Recognized Text';
+
+  @override
+  String get storeName => 'Store';
+
+  @override
+  String get cameraPermissionDenied =>
+      'Camera permission is required. Please enable it in Settings.';
+
+  @override
+  String get cameraInitFailed =>
+      'Camera failed to start. Try selecting from gallery instead.';
+
+  @override
+  String get ocrFailed =>
+      'Could not recognize the text. Please try again or enter manually.';
+
+  @override
+  String get openSettings => 'Open Settings';
+
+  @override
+  String get gallery => 'Gallery';
+
+  @override
+  String get flash => 'Flash';
+
+  @override
   String get noTransactions => 'No transactions yet';
 
   @override

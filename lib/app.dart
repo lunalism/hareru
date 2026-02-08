@@ -13,6 +13,7 @@ import 'features/auth/presentation/login_screen.dart';
 import 'features/home/home_screen.dart';
 import 'features/input/input_screen.dart';
 import 'features/input/pages/receipt_scan_page.dart';
+import 'features/input/pages/scan_result_screen.dart';
 import 'features/input/widgets/input_method_sheet.dart';
 import 'features/report/presentation/report_screen.dart';
 import 'features/settings/settings_screen.dart';
@@ -104,6 +105,20 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/input/receipt',
         builder: (context, state) => const ReceiptScanPage(),
+      ),
+      GoRoute(
+        path: '/input/receipt/result',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return ScanResultScreen(
+            imagePath: extra['imagePath'] as String,
+            amount: extra['amount'] as int?,
+            storeName: extra['storeName'] as String?,
+            date: extra['date'] as String?,
+            rawText: extra['rawText'] as String,
+            confidence: extra['confidence'] as double,
+          );
+        },
       ),
     ],
   );

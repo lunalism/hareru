@@ -290,6 +290,51 @@ class AppLocalizationsJa extends AppLocalizations {
   String get receiptScanComingSoon => '準備中の機能です';
 
   @override
+  String get receiptScanGuide => 'レシートを枠内に合わせてください';
+
+  @override
+  String get scanning => 'スキャン中...';
+
+  @override
+  String get scanResultTitle => 'スキャン結果';
+
+  @override
+  String get saveThisRecord => 'この内容で記録';
+
+  @override
+  String get rescan => 'もう一度スキャン';
+
+  @override
+  String get amountNotRecognized => '金額を読み取れませんでした。手入力してください。';
+
+  @override
+  String get viewRawText => '原文を見る';
+
+  @override
+  String get rawTextTitle => '認識テキスト';
+
+  @override
+  String get storeName => '店名';
+
+  @override
+  String get cameraPermissionDenied => 'カメラの使用許可が必要です。設定から有効にしてください。';
+
+  @override
+  String get cameraInitFailed => 'カメラの起動に失敗しました。ギャラリーから選択してください。';
+
+  @override
+  String get ocrFailed => 'テキストを認識できませんでした。もう一度撮影するか手入力してください。';
+
+  @override
+  String get openSettings => '設定を開く';
+
+  @override
+  String get gallery => 'ギャラリー';
+
+  @override
+  String get flash => 'フラッシュ';
+
+  @override
   String get noTransactions => 'まだ取引履歴がありません';
 
   @override
