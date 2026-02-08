@@ -550,4 +550,79 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get blurFutureUpdate => 'Coming in future update';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get loginSubtitle => 'Sign in to safely back up your data';
+
+  @override
+  String get loginWithApple => 'Sign in with Apple';
+
+  @override
+  String get loginWithGoogle => 'Sign in with Google';
+
+  @override
+  String get loginSkip => 'Start without signing in';
+
+  @override
+  String get loginSkipNote => 'You can sign in later from Settings';
+
+  @override
+  String get loginError => 'Sign in failed. Please try again.';
+
+  @override
+  String get notLoggedIn => 'Not signed in';
+
+  @override
+  String get loginPrompt => 'Sign in to back up your data';
+
+  @override
+  String loggedInWith(String provider) {
+    return 'Signed in with $provider';
+  }
+
+  @override
+  String get logout => 'Sign out';
+
+  @override
+  String get logoutConfirm => 'Sign out';
+
+  @override
+  String get logoutConfirmDesc => 'Your data on this device will be kept.';
+
+  @override
+  String get deleteAccount => 'Delete account';
+
+  @override
+  String get deleteAccountConfirm =>
+      'Are you sure you want to delete your account?';
+
+  @override
+  String get deleteAccountWarning =>
+      'All data stored in the cloud will be deleted. This action cannot be undone.';
+
+  @override
+  String get deleteAccountFinal => 'Permanently delete account';
+
+  @override
+  String get migrationPrompt => 'Sync existing data to the cloud?';
+
+  @override
+  String get migrationSync => 'Sync';
+
+  @override
+  String get migrationLater => 'Later';
+
+  @override
+  String get migrationInProgress => 'Syncing data...';
+
+  @override
+  String get migrationComplete => 'Sync complete!';
+
+  @override
+  String migrationCount(int count) {
+    return 'Synced $count items';
+  }
 }

@@ -267,5 +267,39 @@
   "blurCta": "Start Clear",
   "blurPrice": "¥380/mo",
   "blurPremiumComingSoon": "Premium features coming in a future update!",
-  "blurFutureUpdate": "Coming in future update"
+  "blurFutureUpdate": "Coming in future update",
+
+  "account": "Account",
+  "loginSubtitle": "Sign in to safely back up your data",
+  "loginWithApple": "Sign in with Apple",
+  "loginWithGoogle": "Sign in with Google",
+  "loginSkip": "Start without signing in",
+  "loginSkipNote": "You can sign in later from Settings",
+  "loginError": "Sign in failed. Please try again.",
+  "notLoggedIn": "Not signed in",
+  "loginPrompt": "Sign in to back up your data",
+  "loggedInWith": "Signed in with {provider}",
+  "@loggedInWith": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "logout": "Sign out",
+  "logoutConfirm": "Sign out",
+  "logoutConfirmDesc": "Your data on this device will be kept.",
+  "deleteAccount": "Delete account",
+  "deleteAccountConfirm": "Are you sure you want to delete your account?",
+  "deleteAccountWarning": "All data stored in the cloud will be deleted. This action cannot be undone.",
+  "deleteAccountFinal": "Permanently delete account",
+  "migrationPrompt": "Sync existing data to the cloud?",
+  "migrationSync": "Sync",
+  "migrationLater": "Later",
+  "migrationInProgress": "Syncing data...",
+  "migrationComplete": "Sync complete!",
+  "migrationCount": "Synced {count} items",
+  "@migrationCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  }
 }

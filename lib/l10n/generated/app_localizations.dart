@@ -1094,6 +1094,144 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'향후 업데이트 예정'**
   String get blurFutureUpdate;
+
+  /// No description provided for @account.
+  ///
+  /// In ko, this message translates to:
+  /// **'계정'**
+  String get account;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그인하면 데이터가 안전하게 백업됩니다'**
+  String get loginSubtitle;
+
+  /// No description provided for @loginWithApple.
+  ///
+  /// In ko, this message translates to:
+  /// **'Apple로 로그인'**
+  String get loginWithApple;
+
+  /// No description provided for @loginWithGoogle.
+  ///
+  /// In ko, this message translates to:
+  /// **'Google로 로그인'**
+  String get loginWithGoogle;
+
+  /// No description provided for @loginSkip.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그인하지 않고 시작'**
+  String get loginSkip;
+
+  /// No description provided for @loginSkipNote.
+  ///
+  /// In ko, this message translates to:
+  /// **'나중에 설정에서 로그인할 수 있어요'**
+  String get loginSkipNote;
+
+  /// No description provided for @loginError.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그인에 실패했어요. 다시 시도해주세요.'**
+  String get loginError;
+
+  /// No description provided for @notLoggedIn.
+  ///
+  /// In ko, this message translates to:
+  /// **'미로그인'**
+  String get notLoggedIn;
+
+  /// No description provided for @loginPrompt.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그인하여 데이터를 백업하세요'**
+  String get loginPrompt;
+
+  /// No description provided for @loggedInWith.
+  ///
+  /// In ko, this message translates to:
+  /// **'{provider}로 로그인 중'**
+  String loggedInWith(String provider);
+
+  /// No description provided for @logout.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그아웃'**
+  String get logout;
+
+  /// No description provided for @logoutConfirm.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그아웃'**
+  String get logoutConfirm;
+
+  /// No description provided for @logoutConfirmDesc.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그아웃해도 기기의 데이터는 유지됩니다.'**
+  String get logoutConfirmDesc;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In ko, this message translates to:
+  /// **'계정 삭제'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountConfirm.
+  ///
+  /// In ko, this message translates to:
+  /// **'정말 계정을 삭제하시겠어요?'**
+  String get deleteAccountConfirm;
+
+  /// No description provided for @deleteAccountWarning.
+  ///
+  /// In ko, this message translates to:
+  /// **'클라우드에 저장된 모든 데이터가 삭제됩니다. 이 작업은 되돌릴 수 없습니다.'**
+  String get deleteAccountWarning;
+
+  /// No description provided for @deleteAccountFinal.
+  ///
+  /// In ko, this message translates to:
+  /// **'계정을 영구 삭제'**
+  String get deleteAccountFinal;
+
+  /// No description provided for @migrationPrompt.
+  ///
+  /// In ko, this message translates to:
+  /// **'기존 데이터를 클라우드에 동기화할까요?'**
+  String get migrationPrompt;
+
+  /// No description provided for @migrationSync.
+  ///
+  /// In ko, this message translates to:
+  /// **'동기화'**
+  String get migrationSync;
+
+  /// No description provided for @migrationLater.
+  ///
+  /// In ko, this message translates to:
+  /// **'나중에'**
+  String get migrationLater;
+
+  /// No description provided for @migrationInProgress.
+  ///
+  /// In ko, this message translates to:
+  /// **'데이터를 동기화하는 중...'**
+  String get migrationInProgress;
+
+  /// No description provided for @migrationComplete.
+  ///
+  /// In ko, this message translates to:
+  /// **'동기화 완료!'**
+  String get migrationComplete;
+
+  /// No description provided for @migrationCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'{count}건의 데이터를 동기화했어요'**
+  String migrationCount(int count);
 }
 
 class _AppLocalizationsDelegate

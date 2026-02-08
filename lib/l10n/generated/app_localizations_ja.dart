@@ -543,4 +543,77 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get blurFutureUpdate => '今後のアップデート予定';
+
+  @override
+  String get account => 'アカウント';
+
+  @override
+  String get loginSubtitle => 'ログインするとデータが安全にバックアップされます';
+
+  @override
+  String get loginWithApple => 'Appleでログイン';
+
+  @override
+  String get loginWithGoogle => 'Googleでログイン';
+
+  @override
+  String get loginSkip => 'ログインせずに始める';
+
+  @override
+  String get loginSkipNote => 'あとで設定からログインできます';
+
+  @override
+  String get loginError => 'ログインに失敗しました。もう一度お試しください。';
+
+  @override
+  String get notLoggedIn => '未ログイン';
+
+  @override
+  String get loginPrompt => 'ログインしてデータをバックアップ';
+
+  @override
+  String loggedInWith(String provider) {
+    return '$providerでログイン中';
+  }
+
+  @override
+  String get logout => 'ログアウト';
+
+  @override
+  String get logoutConfirm => 'ログアウト';
+
+  @override
+  String get logoutConfirmDesc => 'ログアウトしてもデバイスのデータは保持されます。';
+
+  @override
+  String get deleteAccount => 'アカウント削除';
+
+  @override
+  String get deleteAccountConfirm => '本当にアカウントを削除しますか？';
+
+  @override
+  String get deleteAccountWarning => 'クラウドに保存されたすべてのデータが削除されます。この操作は元に戻せません。';
+
+  @override
+  String get deleteAccountFinal => 'アカウントを完全に削除';
+
+  @override
+  String get migrationPrompt => '既存のデータをクラウドに同期しますか？';
+
+  @override
+  String get migrationSync => '同期する';
+
+  @override
+  String get migrationLater => 'あとで';
+
+  @override
+  String get migrationInProgress => 'データを同期中...';
+
+  @override
+  String get migrationComplete => '同期完了！';
+
+  @override
+  String migrationCount(int count) {
+    return '$count件のデータを同期しました';
+  }
 }

@@ -267,5 +267,39 @@
   "blurCta": "Clearを始める",
   "blurPrice": "月額 ¥380",
   "blurPremiumComingSoon": "プレミアム機能は今後のアップデートで提供予定です！",
-  "blurFutureUpdate": "今後のアップデート予定"
+  "blurFutureUpdate": "今後のアップデート予定",
+
+  "account": "アカウント",
+  "loginSubtitle": "ログインするとデータが安全にバックアップされます",
+  "loginWithApple": "Appleでログイン",
+  "loginWithGoogle": "Googleでログイン",
+  "loginSkip": "ログインせずに始める",
+  "loginSkipNote": "あとで設定からログインできます",
+  "loginError": "ログインに失敗しました。もう一度お試しください。",
+  "notLoggedIn": "未ログイン",
+  "loginPrompt": "ログインしてデータをバックアップ",
+  "loggedInWith": "{provider}でログイン中",
+  "@loggedInWith": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "logout": "ログアウト",
+  "logoutConfirm": "ログアウト",
+  "logoutConfirmDesc": "ログアウトしてもデバイスのデータは保持されます。",
+  "deleteAccount": "アカウント削除",
+  "deleteAccountConfirm": "本当にアカウントを削除しますか？",
+  "deleteAccountWarning": "クラウドに保存されたすべてのデータが削除されます。この操作は元に戻せません。",
+  "deleteAccountFinal": "アカウントを完全に削除",
+  "migrationPrompt": "既存のデータをクラウドに同期しますか？",
+  "migrationSync": "同期する",
+  "migrationLater": "あとで",
+  "migrationInProgress": "データを同期中...",
+  "migrationComplete": "同期完了！",
+  "migrationCount": "{count}件のデータを同期しました",
+  "@migrationCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  }
 }

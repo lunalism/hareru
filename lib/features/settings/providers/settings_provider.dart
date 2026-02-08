@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../../shared/services/firestore_service.dart';
 
 class CategoryItem {
   const CategoryItem({
@@ -159,45 +162,58 @@ class SettingsNotifier extends Notifier<SettingsState> {
 
   Box get _box => Hive.box('settings');
 
+  void _syncToFirestore(Map<String, dynamic> data) {
+    if (FirebaseAuth.instance.currentUser == null) return;
+    ref.read(firestoreServiceProvider).saveSettings(data);
+  }
+
   void setBudget(int budget) {
     state = state.copyWith(monthlyBudget: budget);
     _box.put('monthlyBudget', budget);
+    _syncToFirestore({'monthlyBudget': budget});
   }
 
   void setStartDay(String day) {
     state = state.copyWith(startDayOfWeek: day);
     _box.put('startDayOfWeek', day);
+    _syncToFirestore({'startDayOfWeek': day});
   }
 
   void toggleAutoExcludeTransfer(bool value) {
     state = state.copyWith(autoExcludeTransfer: value);
     _box.put('autoExcludeTransfer', value);
+    _syncToFirestore({'autoExcludeTransfer': value});
   }
 
   void toggleAppLock(bool value) {
     state = state.copyWith(appLockEnabled: value);
     _box.put('appLockEnabled', value);
+    _syncToFirestore({'appLockEnabled': value});
   }
 
   void setThemeMode(String mode) {
     state = state.copyWith(themeMode: mode);
     _box.put('themeMode', mode);
+    _syncToFirestore({'themeMode': mode});
   }
 
   void toggleReminder(bool value) {
     state = state.copyWith(reminderEnabled: value);
     _box.put('reminderEnabled', value);
+    _syncToFirestore({'reminderEnabled': value});
   }
 
   void setReminderTime(TimeOfDay time) {
     state = state.copyWith(reminderTime: time);
     _box.put('reminderHour', time.hour);
     _box.put('reminderMinute', time.minute);
+    _syncToFirestore({'reminderHour': time.hour, 'reminderMinute': time.minute});
   }
 
   void setLanguage(String lang) {
     state = state.copyWith(language: lang);
     _box.put('language', lang);
+    _syncToFirestore({'language': lang});
   }
 
   void reorderCategories(int oldIndex, int newIndex) {

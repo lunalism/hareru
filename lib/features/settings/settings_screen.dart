@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../core/theme/custom_colors.dart';
+import '../../shared/services/firestore_service.dart';
+import '../auth/providers/auth_providers.dart';
 import '../report/providers/premium_provider.dart';
 import 'pages/category_manage_page.dart';
 import 'providers/settings_provider.dart';
@@ -25,6 +28,8 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final settings = ref.watch(settingsProvider);
     final formatter = NumberFormat('#,###');
+    final isLoggedIn = ref.watch(isLoggedInProvider);
+    final userProfile = ref.watch(userProfileProvider);
 
     // Map theme mode display value to l10n
     String themeModeDisplay(String mode) {
@@ -70,6 +75,39 @@ class SettingsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Account section
+            SettingsSection(
+              title: l10n.account,
+              children: [
+                if (!isLoggedIn) ...[
+                  SettingsTile(
+                    emoji: '👤',
+                    title: l10n.notLoggedIn,
+                    subtitle: l10n.loginPrompt,
+                    onTap: () => context.go('/login'),
+                  ),
+                ] else ...[
+                  SettingsTile(
+                    emoji: '👤',
+                    title: userProfile.email ?? '',
+                    subtitle: l10n.loggedInWith(
+                      _providerDisplayName(userProfile.providerId),
+                    ),
+                    showChevron: false,
+                  ),
+                  SettingsTile(
+                    emoji: '🚪',
+                    title: l10n.logout,
+                    onTap: () => _showLogoutDialog(context, ref, l10n),
+                  ),
+                  SettingsTile(
+                    emoji: '⚠️',
+                    title: l10n.deleteAccount,
+                    onTap: () => _showDeleteAccountDialog(context, ref, l10n),
+                  ),
+                ],
+              ],
+            ),
             SettingsSection(
               title: l10n.household,
               children: [
@@ -134,11 +172,6 @@ class SettingsScreen extends ConsumerWidget {
                   onTap: () => ref
                       .read(settingsProvider.notifier)
                       .toggleAppLock(!settings.appLockEnabled),
-                ),
-                SettingsTile(
-                  emoji: '☁️',
-                  title: l10n.icloudBackup,
-                  onTap: () => _showComingSoon(context, l10n),
                 ),
               ],
             ),
@@ -411,6 +444,174 @@ class SettingsScreen extends ConsumerWidget {
     if (result != null) {
       ref.read(settingsProvider.notifier).setReminderTime(result);
     }
+  }
+
+  String _providerDisplayName(String? providerId) {
+    switch (providerId) {
+      case 'apple.com':
+        return 'Apple';
+      case 'google.com':
+        return 'Google';
+      default:
+        return providerId ?? '';
+    }
+  }
+
+  void _showLogoutDialog(
+      BuildContext context, WidgetRef ref, AppLocalizations l10n) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          l10n.logoutConfirm,
+          style: const TextStyle(
+            fontFamily: 'PretendardJP',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        content: Text(
+          l10n.logoutConfirmDesc,
+          style: const TextStyle(fontFamily: 'PretendardJP'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              l10n.cancel,
+              style: const TextStyle(fontFamily: 'PretendardJP'),
+            ),
+          ),
+          FilledButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              await ref.read(authServiceProvider).signOut();
+            },
+            child: Text(
+              l10n.logoutConfirm,
+              style: const TextStyle(fontFamily: 'PretendardJP'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteAccountDialog(
+      BuildContext context, WidgetRef ref, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          l10n.deleteAccountConfirm,
+          style: const TextStyle(
+            fontFamily: 'PretendardJP',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        content: Text(
+          l10n.deleteAccountWarning,
+          style: const TextStyle(fontFamily: 'PretendardJP'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              l10n.cancel,
+              style: const TextStyle(fontFamily: 'PretendardJP'),
+            ),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: theme.colorScheme.error,
+            ),
+            onPressed: () {
+              Navigator.pop(ctx);
+              // Show second confirmation
+              _showDeleteAccountFinalDialog(context, ref, l10n);
+            },
+            child: Text(
+              l10n.delete,
+              style: const TextStyle(fontFamily: 'PretendardJP'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteAccountFinalDialog(
+      BuildContext context, WidgetRef ref, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          l10n.deleteAccountFinal,
+          style: TextStyle(
+            fontFamily: 'PretendardJP',
+            fontWeight: FontWeight.w600,
+            color: theme.colorScheme.error,
+          ),
+        ),
+        content: Text(
+          l10n.deleteAccountWarning,
+          style: const TextStyle(fontFamily: 'PretendardJP'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              l10n.cancel,
+              style: const TextStyle(fontFamily: 'PretendardJP'),
+            ),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: theme.colorScheme.error,
+            ),
+            onPressed: () async {
+              Navigator.pop(ctx);
+              try {
+                // Delete Firestore data first
+                final firestoreService =
+                    ref.read(firestoreServiceProvider);
+                await firestoreService.deleteUserData();
+                // Then delete Firebase Auth account
+                await ref.read(authServiceProvider).deleteAccount();
+                if (context.mounted) {
+                  context.go('/login');
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        l10n.loginError,
+                        style: const TextStyle(
+                          fontFamily: 'PretendardJP',
+                          color: Colors.white,
+                        ),
+                      ),
+                      backgroundColor: theme.colorScheme.error,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    ),
+                  );
+                }
+              }
+            },
+            child: Text(
+              l10n.deleteAccountFinal,
+              style: const TextStyle(fontFamily: 'PretendardJP'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   void _showComingSoon(BuildContext context, AppLocalizations l10n) {

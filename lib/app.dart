@@ -1,9 +1,15 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hareru/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hareru/l10n/generated/app_localizations.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'core/theme/app_theme.dart';
+import 'features/auth/presentation/login_screen.dart';
 import 'features/home/home_screen.dart';
 import 'features/input/input_screen.dart';
 import 'features/input/pages/receipt_scan_page.dart';
@@ -14,49 +20,99 @@ import 'features/settings/providers/settings_provider.dart';
 import 'features/splash/splash_screen.dart';
 import 'shared/widgets/bottom_nav_bar.dart';
 
-final _router = GoRouter(
-  initialLocation: '/splash',
-  routes: [
-    GoRoute(
-      path: '/splash',
-      builder: (context, state) => const SplashScreen(),
-    ),
-    ShellRoute(
-      builder: (context, state, child) => _ScaffoldWithNav(child: child),
-      routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) => const HomeScreen(),
-        ),
-        GoRoute(
-          path: '/report',
-          builder: (context, state) => const ReportScreen(),
-        ),
-        GoRoute(
-          path: '/input',
-          builder: (context, state) => const _PlaceholderScreen(key: ValueKey('input')),
-        ),
-        GoRoute(
-          path: '/dictionary',
-          builder: (context, state) => const _PlaceholderScreen(key: ValueKey('dictionary')),
-        ),
-        GoRoute(
-          path: '/settings',
-          builder: (context, state) => const SettingsScreen(),
-        ),
-      ],
-    ),
-    // Routes outside ShellRoute (no bottom nav)
-    GoRoute(
-      path: '/input/manual',
-      builder: (context, state) => const InputScreen(),
-    ),
-    GoRoute(
-      path: '/input/receipt',
-      builder: (context, state) => const ReceiptScanPage(),
-    ),
-  ],
-);
+/// Listenable that fires when Firebase auth state changes,
+/// so GoRouter re-evaluates its redirect.
+class _AuthNotifier extends ChangeNotifier {
+  late final StreamSubscription<User?> _sub;
+
+  _AuthNotifier() {
+    _sub = FirebaseAuth.instance.authStateChanges().listen((_) {
+      notifyListeners();
+    });
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
+  }
+}
+
+final routerProvider = Provider<GoRouter>((ref) {
+  final authNotifier = _AuthNotifier();
+  ref.onDispose(() => authNotifier.dispose());
+
+  return GoRouter(
+    initialLocation: '/splash',
+    refreshListenable: authNotifier,
+    redirect: (context, state) {
+      final location = state.uri.path;
+      // Don't redirect while on splash
+      if (location == '/splash') return null;
+
+      final box = Hive.box('settings');
+      final hasSeenLogin = box.get('hasSeenLogin', defaultValue: false) as bool;
+
+      // If user hasn't seen login and is not on login screen → go to login
+      if (!hasSeenLogin && location != '/login') {
+        return '/login';
+      }
+
+      // If user already seen login and is on login screen → go home
+      if (hasSeenLogin && location == '/login') {
+        return '/';
+      }
+
+      return null;
+    },
+    routes: [
+      GoRoute(
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginScreen(),
+      ),
+      ShellRoute(
+        builder: (context, state, child) => _ScaffoldWithNav(child: child),
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: '/report',
+            builder: (context, state) => const ReportScreen(),
+          ),
+          GoRoute(
+            path: '/input',
+            builder: (context, state) =>
+                const _PlaceholderScreen(key: ValueKey('input')),
+          ),
+          GoRoute(
+            path: '/dictionary',
+            builder: (context, state) =>
+                const _PlaceholderScreen(key: ValueKey('dictionary')),
+          ),
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
+        ],
+      ),
+      // Routes outside ShellRoute (no bottom nav)
+      GoRoute(
+        path: '/input/manual',
+        builder: (context, state) => const InputScreen(),
+      ),
+      GoRoute(
+        path: '/input/receipt',
+        builder: (context, state) => const ReceiptScanPage(),
+      ),
+    ],
+  );
+});
 
 class HareruApp extends ConsumerWidget {
   const HareruApp({super.key});
@@ -64,6 +120,7 @@ class HareruApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
+    final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
       title: 'Hareru',
@@ -82,7 +139,7 @@ class HareruApp extends ConsumerWidget {
         Locale('ja'),
         Locale('en'),
       ],
-      routerConfig: _router,
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
   }

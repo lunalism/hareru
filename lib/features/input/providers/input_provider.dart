@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../../shared/models/transaction.dart';
 import '../../../shared/models/transaction_type.dart';
-import '../../../shared/repositories/transaction_repository.dart';
+import '../../../shared/services/sync_service.dart';
 import '../../home/providers/home_provider.dart';
 
 class InputFormState {
@@ -140,8 +140,8 @@ class InputNotifier extends AutoDisposeNotifier<InputFormState> {
       createdAt: DateTime.now(),
     );
 
-    final repo = ref.read(transactionRepositoryProvider);
-    await repo.add(transaction);
+    final syncService = ref.read(syncServiceProvider);
+    await syncService.add(transaction);
     ref.invalidate(allTransactionsProvider);
     state = state.copyWith(isSaving: false);
     return true;

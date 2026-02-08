@@ -543,4 +543,78 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get blurFutureUpdate => '향후 업데이트 예정';
+
+  @override
+  String get account => '계정';
+
+  @override
+  String get loginSubtitle => '로그인하면 데이터가 안전하게 백업됩니다';
+
+  @override
+  String get loginWithApple => 'Apple로 로그인';
+
+  @override
+  String get loginWithGoogle => 'Google로 로그인';
+
+  @override
+  String get loginSkip => '로그인하지 않고 시작';
+
+  @override
+  String get loginSkipNote => '나중에 설정에서 로그인할 수 있어요';
+
+  @override
+  String get loginError => '로그인에 실패했어요. 다시 시도해주세요.';
+
+  @override
+  String get notLoggedIn => '미로그인';
+
+  @override
+  String get loginPrompt => '로그인하여 데이터를 백업하세요';
+
+  @override
+  String loggedInWith(String provider) {
+    return '$provider로 로그인 중';
+  }
+
+  @override
+  String get logout => '로그아웃';
+
+  @override
+  String get logoutConfirm => '로그아웃';
+
+  @override
+  String get logoutConfirmDesc => '로그아웃해도 기기의 데이터는 유지됩니다.';
+
+  @override
+  String get deleteAccount => '계정 삭제';
+
+  @override
+  String get deleteAccountConfirm => '정말 계정을 삭제하시겠어요?';
+
+  @override
+  String get deleteAccountWarning =>
+      '클라우드에 저장된 모든 데이터가 삭제됩니다. 이 작업은 되돌릴 수 없습니다.';
+
+  @override
+  String get deleteAccountFinal => '계정을 영구 삭제';
+
+  @override
+  String get migrationPrompt => '기존 데이터를 클라우드에 동기화할까요?';
+
+  @override
+  String get migrationSync => '동기화';
+
+  @override
+  String get migrationLater => '나중에';
+
+  @override
+  String get migrationInProgress => '데이터를 동기화하는 중...';
+
+  @override
+  String get migrationComplete => '동기화 완료!';
+
+  @override
+  String migrationCount(int count) {
+    return '$count건의 데이터를 동기화했어요';
+  }
 }
