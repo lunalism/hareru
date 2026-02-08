@@ -84,7 +84,7 @@ class SettingsScreen extends ConsumerWidget {
                     emoji: '👤',
                     title: l10n.notLoggedIn,
                     subtitle: l10n.loginPrompt,
-                    onTap: () => context.go('/login'),
+                    onTap: () => context.push('/login'),
                   ),
                 ] else ...[
                   SettingsTile(

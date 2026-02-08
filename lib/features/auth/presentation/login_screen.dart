@@ -99,9 +99,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
+    final canGoBack = GoRouter.of(context).canPop();
 
     return Scaffold(
+      appBar: canGoBack
+          ? AppBar(
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              backgroundColor: Colors.transparent,
+            )
+          : null,
       body: SafeArea(
+        top: !canGoBack,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Column(
@@ -176,33 +185,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: 24),
 
-              // Skip button
-              TextButton(
-                onPressed: _isLoading ? null : _skip,
-                child: Column(
-                  children: [
-                    Text(
-                      l10n.loginSkip,
-                      style: TextStyle(
-                        fontFamily: 'PretendardJP',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: theme.colorScheme.primary,
+              // Skip button (first launch) or empty space (from settings)
+              if (!canGoBack)
+                TextButton(
+                  onPressed: _isLoading ? null : _skip,
+                  child: Column(
+                    children: [
+                      Text(
+                        l10n.loginSkip,
+                        style: TextStyle(
+                          fontFamily: 'PretendardJP',
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: theme.colorScheme.primary,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.loginSkipNote,
-                      style: TextStyle(
-                        fontFamily: 'PretendardJP',
-                        fontSize: 12,
-                        color:
-                            theme.colorScheme.onSurface.withValues(alpha: 0.45),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.loginSkipNote,
+                        style: TextStyle(
+                          fontFamily: 'PretendardJP',
+                          fontSize: 12,
+                          color: theme.colorScheme.onSurface
+                              .withValues(alpha: 0.45),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
               const SizedBox(height: 32),
 
               // Loading indicator

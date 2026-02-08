@@ -58,11 +58,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         return '/login';
       }
 
-      // If user already seen login and is on login screen → go home
-      if (hasSeenLogin && location == '/login') {
-        return '/';
-      }
-
       return null;
     },
     routes: [
