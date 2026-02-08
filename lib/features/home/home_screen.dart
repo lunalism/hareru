@@ -80,11 +80,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 color: theme.colorScheme.onSurface, size: 24),
             onPressed: () {},
           ),
-          IconButton(
-            icon: Icon(Icons.settings_outlined,
-                color: theme.colorScheme.onSurface, size: 24),
-            onPressed: () {},
-          ),
         ],
       ),
       body: SingleChildScrollView(
