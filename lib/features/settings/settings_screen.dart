@@ -301,7 +301,9 @@ class SettingsScreen extends ConsumerWidget {
                 SettingsTile(
                   emoji: '🌐',
                   title: l10n.language,
-                  value: settings.language,
+                  value: settings.language == '시스템'
+                      ? l10n.system
+                      : settings.language,
                   onTap: () => _showLanguagePicker(context, ref, settings),
                 ),
               ],

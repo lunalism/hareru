@@ -7,7 +7,7 @@ class LanguagePickerSheet extends StatelessWidget {
 
   final String current;
 
-  static const _options = ['한국어', '日本語', 'English'];
+  static const _options = ['시스템', '한국어', '日本語', 'English'];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class LanguagePickerSheet extends StatelessWidget {
           ..._options.map((opt) => ListTile(
                 onTap: () => Navigator.pop(context, opt),
                 title: Text(
-                  opt,
+                  opt == '시스템' ? l10n.system : opt,
                   style: TextStyle(
                     fontFamily: 'PretendardJP',
                     fontSize: 16,

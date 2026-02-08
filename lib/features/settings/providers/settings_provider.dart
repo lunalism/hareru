@@ -69,7 +69,7 @@ class SettingsState {
     this.themeMode = '시스템',
     this.reminderEnabled = false,
     this.reminderTime = const TimeOfDay(hour: 21, minute: 0),
-    this.language = '한국어',
+    this.language = '시스템',
     this.categories = _defaultCategories,
   });
 
@@ -105,14 +105,16 @@ class SettingsState {
     }
   }
 
-  Locale get flutterLocale {
+  Locale? get flutterLocale {
     switch (language) {
+      case '한국어':
+        return const Locale('ko');
       case '日本語':
         return const Locale('ja');
       case 'English':
         return const Locale('en');
       default:
-        return const Locale('ko');
+        return null; // system locale
     }
   }
 
@@ -156,7 +158,7 @@ class SettingsNotifier extends Notifier<SettingsState> {
         hour: box.get('reminderHour', defaultValue: 21),
         minute: box.get('reminderMinute', defaultValue: 0),
       ),
-      language: box.get('language', defaultValue: '한국어'),
+      language: box.get('language', defaultValue: '시스템'),
     );
   }
 
