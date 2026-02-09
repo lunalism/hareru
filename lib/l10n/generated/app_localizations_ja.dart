@@ -164,6 +164,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dictionary => '辞書';
 
   @override
+  String get learn => '学ぶ';
+
+  @override
+  String get learnSearchHint => '用語や気になるトピックを検索';
+
+  @override
+  String get learnForYou => 'あなたへのおすすめ';
+
+  @override
+  String get learnThisMonth => '今月のトピック';
+
+  @override
+  String get learnRelated => '関連する記事';
+
+  @override
+  String get learnNoResults => '該当する記事が見つかりませんでした';
+
+  @override
+  String get learnRecentSearches => '最近の検索';
+
+  @override
+  String get learnClearHistory => '削除';
+
+  @override
   String get categoryFood => '食費';
 
   @override

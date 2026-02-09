@@ -394,6 +394,54 @@ abstract class AppLocalizations {
   /// **'사전'**
   String get dictionary;
 
+  /// No description provided for @learn.
+  ///
+  /// In ko, this message translates to:
+  /// **'배우기'**
+  String get learn;
+
+  /// No description provided for @learnSearchHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'용어나 관심 주제를 검색'**
+  String get learnSearchHint;
+
+  /// No description provided for @learnForYou.
+  ///
+  /// In ko, this message translates to:
+  /// **'맞춤 추천'**
+  String get learnForYou;
+
+  /// No description provided for @learnThisMonth.
+  ///
+  /// In ko, this message translates to:
+  /// **'이달의 토픽'**
+  String get learnThisMonth;
+
+  /// No description provided for @learnRelated.
+  ///
+  /// In ko, this message translates to:
+  /// **'관련 글'**
+  String get learnRelated;
+
+  /// No description provided for @learnNoResults.
+  ///
+  /// In ko, this message translates to:
+  /// **'검색 결과가 없습니다'**
+  String get learnNoResults;
+
+  /// No description provided for @learnRecentSearches.
+  ///
+  /// In ko, this message translates to:
+  /// **'최근 검색'**
+  String get learnRecentSearches;
+
+  /// No description provided for @learnClearHistory.
+  ///
+  /// In ko, this message translates to:
+  /// **'삭제'**
+  String get learnClearHistory;
+
   /// No description provided for @categoryFood.
   ///
   /// In ko, this message translates to:

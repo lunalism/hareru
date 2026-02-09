@@ -34,7 +34,7 @@ class AppBottomNavBar extends StatelessWidget {
               _buildTab(context, 0, Icons.home_rounded, l10n.home, custom),
               _buildTab(context, 1, Icons.bar_chart_rounded, l10n.report, custom),
               _buildAddButton(context, l10n, custom),
-              _buildTab(context, 3, Icons.menu_book_rounded, l10n.dictionary, custom),
+              _buildTab(context, 3, Icons.auto_stories_rounded, l10n.learn, custom),
               _buildTab(context, 4, Icons.settings_rounded, l10n.settings, custom),
             ],
           ),

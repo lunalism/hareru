@@ -18,6 +18,9 @@ import 'features/input/widgets/input_method_sheet.dart';
 import 'features/report/presentation/report_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/settings/providers/settings_provider.dart';
+import 'features/learn/learn_tab.dart';
+import 'features/learn/guide_list_screen.dart';
+import 'features/learn/guide_detail_screen.dart';
 import 'features/splash/splash_screen.dart';
 import 'shared/widgets/bottom_nav_bar.dart';
 
@@ -87,15 +90,27 @@ final routerProvider = Provider<GoRouter>((ref) {
                 const _PlaceholderScreen(key: ValueKey('input')),
           ),
           GoRoute(
-            path: '/dictionary',
-            builder: (context, state) =>
-                const _PlaceholderScreen(key: ValueKey('dictionary')),
+            path: '/learn',
+            builder: (context, state) => const LearnTab(),
           ),
           GoRoute(
             path: '/settings',
             builder: (context, state) => const SettingsScreen(),
           ),
         ],
+      ),
+      // Learn sub-routes (no bottom nav)
+      GoRoute(
+        path: '/learn/category/:categoryId',
+        builder: (context, state) => GuideListScreen(
+          categoryId: state.pathParameters['categoryId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/learn/guide/:guideId',
+        builder: (context, state) => GuideDetailScreen(
+          guideId: state.pathParameters['guideId']!,
+        ),
       ),
       // Routes outside ShellRoute (no bottom nav)
       GoRoute(
@@ -164,7 +179,7 @@ class _ScaffoldWithNav extends StatelessWidget {
 
   final Widget child;
 
-  static const _paths = ['/', '/report', '/input', '/dictionary', '/settings'];
+  static const _paths = ['/', '/report', '/input', '/learn', '/settings'];
 
   @override
   Widget build(BuildContext context) {
@@ -199,8 +214,6 @@ class _PlaceholderScreen extends StatelessWidget {
         return l10n.report;
       case 'input':
         return l10n.input;
-      case 'dictionary':
-        return l10n.dictionary;
       default:
         return '';
     }

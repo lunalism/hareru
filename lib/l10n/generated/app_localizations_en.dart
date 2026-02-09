@@ -166,6 +166,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dictionary => 'Dictionary';
 
   @override
+  String get learn => 'Learn';
+
+  @override
+  String get learnSearchHint => 'Search topics';
+
+  @override
+  String get learnForYou => 'For You';
+
+  @override
+  String get learnThisMonth => 'This Month';
+
+  @override
+  String get learnRelated => 'Related';
+
+  @override
+  String get learnNoResults => 'No articles found';
+
+  @override
+  String get learnRecentSearches => 'Recent Searches';
+
+  @override
+  String get learnClearHistory => 'Clear';
+
+  @override
   String get categoryFood => 'Food';
 
   @override

@@ -164,6 +164,30 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dictionary => '사전';
 
   @override
+  String get learn => '배우기';
+
+  @override
+  String get learnSearchHint => '용어나 관심 주제를 검색';
+
+  @override
+  String get learnForYou => '맞춤 추천';
+
+  @override
+  String get learnThisMonth => '이달의 토픽';
+
+  @override
+  String get learnRelated => '관련 글';
+
+  @override
+  String get learnNoResults => '검색 결과가 없습니다';
+
+  @override
+  String get learnRecentSearches => '최근 검색';
+
+  @override
+  String get learnClearHistory => '삭제';
+
+  @override
   String get categoryFood => '식비';
 
   @override
