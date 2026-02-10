@@ -1,2 +1,0 @@
-NSCameraUsageDescription = "Camera access is needed to scan receipts";
-NSPhotoLibraryUsageDescription = "Photo library access is needed to select receipt images";

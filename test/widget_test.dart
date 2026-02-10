@@ -7,7 +7,6 @@ void main() {
     await tester.pumpWidget(
       const ProviderScope(child: HareruApp()),
     );
-
-    expect(find.text('Hareru'), findsWidgets);
+    expect(find.text('Hareru'), findsOneWidget);
   });
 }
