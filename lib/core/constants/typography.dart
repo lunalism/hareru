@@ -3,29 +3,47 @@ import 'package:flutter/material.dart';
 class AppTypography {
   AppTypography._();
 
-  static const String fontFamily = 'Noto Sans JP';
+  static const String fontFamily = 'PretendardJP';
 
-  static const TextStyle heading1 = TextStyle(
+  /// 메인 금액 (¥156,780)
+  static const TextStyle displayLarge = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
+    fontSize: 32,
+    fontWeight: FontWeight.w700,
   );
 
-  static const TextStyle heading2 = TextStyle(
+  /// 화면 타이틀
+  static const TextStyle titleLarge = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle body = TextStyle(
+  /// 섹션 헤더
+  static const TextStyle titleMedium = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 16,
-    fontWeight: FontWeight.normal,
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle caption = TextStyle(
+  /// 중요 본문
+  static const TextStyle bodyLarge = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+
+  /// 일반 본문
+  static const TextStyle bodyMedium = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
+
+  /// 보조 설명, 날짜
+  static const TextStyle bodySmall = TextStyle(
     fontFamily: fontFamily,
     fontSize: 12,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w300,
   );
 }
