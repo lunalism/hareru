@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
-        context.go('/home');
+        context.go('/onboarding');
       }
     });
   }
