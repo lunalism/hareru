@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7CB3E8"/>
+      <stop offset="100%" stop-color="#4A90D9"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bg-gradient)"/>
+  <!-- Diamond symbol centered and sized to ~55% -->
+  <polygon points="512,195 748,430 512,740 276,430" fill="white" opacity="0.95"/>
+  <!-- Top facet -->
+  <polygon points="512,195 748,430 512,430 276,430" fill="white" opacity="0.15"/>
+  <!-- Sparkle -->
+  <circle cx="430" cy="348" r="20" fill="white" opacity="0.5"/>
+</svg>

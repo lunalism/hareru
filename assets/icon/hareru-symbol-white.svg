@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- Main diamond -->
+  <polygon points="256,41 471,225 256,471 41,225" fill="white"/>
+  <!-- Top facet highlight -->
+  <polygon points="256,41 471,225 256,225 41,225" fill="white" opacity="0.15"/>
+  <!-- Sparkle -->
+  <circle cx="205" cy="174" r="13" fill="white" opacity="0.55"/>
+</svg>
