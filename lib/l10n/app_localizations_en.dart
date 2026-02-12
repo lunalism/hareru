@@ -113,6 +113,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get monthlyRealExpense => 'Real spending this month';
+
+  @override
   String get totalExpense => 'Total Expense';
 
   @override
@@ -180,4 +183,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get preparingFeature => 'Coming soon';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get languageTitle => 'Language';
 }

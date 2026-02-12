@@ -110,6 +110,9 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String get monthlyRealExpense => '이번 달 진짜 지출';
+
+  @override
   String get totalExpense => '총 지출';
 
   @override
@@ -175,4 +178,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get preparingFeature => '준비 중';
+
+  @override
+  String get settingsTitle => '설정';
+
+  @override
+  String get languageTitle => '언어';
 }

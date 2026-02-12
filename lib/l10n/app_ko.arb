@@ -42,6 +42,7 @@
     }
   },
 
+  "monthlyRealExpense": "이번 달 진짜 지출",
   "totalExpense": "총 지출",
   "totalIncome": "총 수입",
   "balance": "잔액",
@@ -76,5 +77,8 @@
   "guideCategoryTitle": "카테고리 관리",
   "guideCategoryDesc": "내 취향대로 커스터마이즈",
 
-  "preparingFeature": "준비 중"
+  "preparingFeature": "준비 중",
+
+  "settingsTitle": "설정",
+  "languageTitle": "언어"
 }

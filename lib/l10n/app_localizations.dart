@@ -199,7 +199,7 @@ abstract class AppLocalizations {
   /// No description provided for @savings.
   ///
   /// In ja, this message translates to:
-  /// **'貯蓄'**
+  /// **'貯金'**
   String get savings;
 
   /// No description provided for @savingsAlert.
@@ -297,6 +297,12 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'{year}年{month}月'**
   String monthFormat(int year, int month);
+
+  /// No description provided for @monthlyRealExpense.
+  ///
+  /// In ja, this message translates to:
+  /// **'今月の本当の支出'**
+  String get monthlyRealExpense;
 
   /// No description provided for @totalExpense.
   ///
@@ -423,6 +429,18 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'準備中'**
   String get preparingFeature;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'設定'**
+  String get settingsTitle;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'言語'**
+  String get languageTitle;
 }
 
 class _AppLocalizationsDelegate

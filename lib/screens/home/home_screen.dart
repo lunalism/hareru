@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/widgets/type_badge.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  // Toggle this to switch between filled and empty state
-  // ignore: constant_identifier_names
+  // Toggle: true → empty state, false → filled state
   static const _showEmptyState = false;
 
   @override
@@ -200,7 +200,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                l10n.totalExpense,
+                l10n.monthlyRealExpense,
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -209,7 +209,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               const Text(
-                '¥156,780',
+                '¥23,480',
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.w700,
@@ -244,36 +244,48 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(3),
                     child: LinearProgressIndicator(
                       value: budgetPercent / 100,
                       minHeight: 6,
-                      backgroundColor: Colors.white.withValues(alpha: 0.2),
-                      valueColor:
-                          const AlwaysStoppedAnimation<Color>(Colors.white),
+                      backgroundColor: Colors.white.withValues(alpha: 0.15),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                          Color(0xFFFFD54F)),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-              // 3-column split
+              // Divider
               Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    _amountColumn(
-                        l10n.totalIncome, '¥320,000', HareruColors.income),
-                    _verticalDivider(),
-                    _amountColumn(
-                        l10n.totalExpense, '¥156,780', HareruColors.expense),
-                    _verticalDivider(),
-                    _amountColumn(l10n.balance, '¥163,220', Colors.white),
-                  ],
-                ),
+                height: 1,
+                color: Colors.white.withValues(alpha: 0.12),
+              ),
+              const SizedBox(height: 16),
+              // 3-column: 支出 / 振替 / 貯金 (Killer Feature)
+              Row(
+                children: [
+                  _killerColumn(
+                    l10n.expense,
+                    '¥23,480',
+                    const Color(0xFFEF4444),
+                    const Color(0xFFFCA5A5),
+                  ),
+                  _killerDivider(),
+                  _killerColumn(
+                    l10n.transfer,
+                    '¥50,000',
+                    const Color(0xFF3B82F6),
+                    const Color(0xFF93C5FD),
+                  ),
+                  _killerDivider(),
+                  _killerColumn(
+                    l10n.savings,
+                    '¥30,000',
+                    const Color(0xFF10B981),
+                    const Color(0xFF6EE7B7),
+                  ),
+                ],
               ),
             ],
           ),
@@ -282,23 +294,39 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _amountColumn(String label, String amount, Color amountColor) {
+  Widget _killerColumn(
+      String label, String amount, Color dotColor, Color amountColor) {
     return Expanded(
       child: Column(
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              color: Colors.white.withValues(alpha: 0.6),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 6,
+                height: 6,
+                decoration: BoxDecoration(
+                  color: dotColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.white.withValues(alpha: 0.6),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           Text(
             amount,
             style: TextStyle(
               fontSize: 14,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               color: amountColor,
               fontFeatures: const [FontFeature.tabularFigures()],
             ),
@@ -308,11 +336,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _verticalDivider() {
+  Widget _killerDivider() {
     return Container(
       width: 1,
       height: 36,
-      color: Colors.white.withValues(alpha: 0.15),
+      color: Colors.white.withValues(alpha: 0.12),
     );
   }
 
@@ -320,11 +348,18 @@ class HomeScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     final records = [
-      _RecordItem('🛒', 'セブンイレブン', l10n.today, '¥850', true),
-      _RecordItem('🍱', 'すき家', l10n.today, '¥780', true),
-      _RecordItem('🚃', 'Suica チャージ', l10n.today, '¥3,000', true),
-      _RecordItem('☕', 'スターバックス', l10n.yesterday, '¥590', true),
-      _RecordItem('💰', '給与', l10n.yesterday, '¥320,000', false),
+      _RecordItem('🛒', 'セブンイレブン', '${l10n.today} 12:30',
+          TransactionType.expense, '¥850'),
+      _RecordItem(
+          '🍜', 'すき家', '${l10n.today} 11:45', TransactionType.expense, '¥780'),
+      _RecordItem('🏦', '貯金口座へ', '${l10n.today} 10:00',
+          TransactionType.transfer, '¥50,000'),
+      _RecordItem('💰', 'つみたて貯金', '${l10n.yesterday} 09:00',
+          TransactionType.savings, '¥30,000'),
+      _RecordItem('☕', 'スターバックス', '${l10n.yesterday} 15:20',
+          TransactionType.expense, '¥590'),
+      _RecordItem('🚃', 'Suicaチャージ', '2/10 08:30',
+          TransactionType.transfer, '¥3,000'),
     ];
 
     return Column(
@@ -363,6 +398,8 @@ class HomeScreen extends StatelessWidget {
             children: records.asMap().entries.map((entry) {
               final i = entry.key;
               final r = entry.value;
+              final isExpense = r.type == TransactionType.expense;
+
               return Column(
                 children: [
                   Padding(
@@ -380,22 +417,32 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           alignment: Alignment.center,
-                          child: Text(r.emoji, style: const TextStyle(fontSize: 20)),
+                          child: Text(r.emoji,
+                              style: const TextStyle(fontSize: 20)),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                r.title,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: isDark
-                                      ? HareruColors.darkTextPrimary
-                                      : HareruColors.lightTextPrimary,
-                                ),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      r.title,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? HareruColors.darkTextPrimary
+                                            : HareruColors.lightTextPrimary,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  TypeBadge(type: r.type),
+                                ],
                               ),
                               const SizedBox(height: 2),
                               Text(
@@ -411,14 +458,18 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${r.isExpense ? '-' : '+'}${r.amount}',
+                          '${isExpense ? '-' : ''}¥${r.amount.replaceAll('¥', '')}',
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
-                            color: r.isExpense
-                                ? HareruColors.expense
-                                : HareruColors.income,
-                            fontFeatures: const [FontFeature.tabularFigures()],
+                            color: isExpense
+                                ? (isDark
+                                    ? HareruColors.darkTextPrimary
+                                    : HareruColors.lightTextPrimary)
+                                : const Color(0xFF64748B),
+                            fontFeatures: const [
+                              FontFeature.tabularFigures()
+                            ],
                           ),
                         ),
                       ],
@@ -466,7 +517,8 @@ class HomeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             alignment: Alignment.center,
-            child: const Icon(Icons.auto_awesome, size: 22, color: Colors.white),
+            child:
+                const Icon(Icons.auto_awesome, size: 22, color: Colors.white),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -523,7 +575,7 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            l10n.totalExpense,
+            l10n.monthlyRealExpense,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -653,9 +705,9 @@ class _RecordItem {
   final String emoji;
   final String title;
   final String date;
+  final TransactionType type;
   final String amount;
-  final bool isExpense;
-  const _RecordItem(this.emoji, this.title, this.date, this.amount, this.isExpense);
+  const _RecordItem(this.emoji, this.title, this.date, this.type, this.amount);
 }
 
 class _GuideItem {

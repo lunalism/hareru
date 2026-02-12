@@ -57,7 +57,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transferAlert => '振込 ⚠️';
 
   @override
-  String get savings => '貯蓄';
+  String get savings => '貯金';
 
   @override
   String get savingsAlert => '貯蓄 ⚠️';
@@ -108,6 +108,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String monthFormat(int year, int month) {
     return '$year年$month月';
   }
+
+  @override
+  String get monthlyRealExpense => '今月の本当の支出';
 
   @override
   String get totalExpense => '総支出';
@@ -175,4 +178,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get preparingFeature => '準備中';
+
+  @override
+  String get settingsTitle => '設定';
+
+  @override
+  String get languageTitle => '言語';
 }
