@@ -27,5 +27,54 @@
   "cafe": "카페",
   "transferExample": "→ 저축계좌 ¥30,000",
   "savingsExample": "적립NISA ¥33,333",
-  "expenseExample": "편의점 ¥850"
+  "expenseExample": "편의점 ¥850",
+
+  "homeTab": "홈",
+  "reportTab": "리포트",
+  "dictionaryTab": "사전",
+  "settingsTab": "설정",
+
+  "monthFormat": "{year}년 {month}월",
+  "@monthFormat": {
+    "placeholders": {
+      "year": {"type": "int"},
+      "month": {"type": "int"}
+    }
+  },
+
+  "totalExpense": "총 지출",
+  "totalIncome": "총 수입",
+  "balance": "잔액",
+  "budget": "예산",
+  "budgetUsed": "예산의 {percent}% 사용",
+  "@budgetUsed": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "budgetRemaining": "남은 금액 ¥{amount}",
+  "@budgetRemaining": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "recentRecords": "최근 기록",
+  "seeAll": "모두 보기",
+  "today": "오늘",
+  "yesterday": "어제",
+
+  "aiInsightTitle": "AI 인사이트",
+  "aiInsightMessage": "지난달보다 식비가 12% 줄었어요! 이대로 계속해봐요.",
+
+  "emptyStateTitle": "아직 기록이 없어요",
+  "emptyStateDesc": "아래 + 버튼으로\n첫 번째 기록을 추가해보세요",
+  "guideExpenseTitle": "지출 기록",
+  "guideExpenseDesc": "일상 지출을 간편하게 기록",
+  "guideBudgetTitle": "예산 설정",
+  "guideBudgetDesc": "월별 예산을 설정하고 관리",
+  "guideCategoryTitle": "카테고리 관리",
+  "guideCategoryDesc": "내 취향대로 커스터마이즈",
+
+  "preparingFeature": "준비 중"
 }

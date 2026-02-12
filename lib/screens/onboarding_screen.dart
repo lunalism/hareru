@@ -27,7 +27,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _completeOnboarding() {
     // TODO: SharedPreferences에 온보딩 완료 저장
-    context.go('/home');
+    context.go('/main');
   }
 
   @override
@@ -229,9 +229,9 @@ Widget _buildCompareVisual(BuildContext context, AppLocalizations l10n, bool isD
         decoration: BoxDecoration(
           color: const Color(0xFFEFF6FF),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF4A90D9).withOpacity(0.3)),
+          border: Border.all(color: const Color(0xFF4A90D9).withValues(alpha: 0.3)),
           boxShadow: [
-            BoxShadow(color: const Color(0xFF4A90D9).withOpacity(0.1), blurRadius: 16, offset: const Offset(0, 4)),
+            BoxShadow(color: const Color(0xFF4A90D9).withValues(alpha: 0.1), blurRadius: 16, offset: const Offset(0, 4)),
           ],
         ),
         child: Column(

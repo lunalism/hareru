@@ -94,4 +94,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expenseExample => 'Convenience ¥850';
+
+  @override
+  String get homeTab => 'Home';
+
+  @override
+  String get reportTab => 'Report';
+
+  @override
+  String get dictionaryTab => 'Dictionary';
+
+  @override
+  String get settingsTab => 'Settings';
+
+  @override
+  String monthFormat(int year, int month) {
+    return '$month/$year';
+  }
+
+  @override
+  String get totalExpense => 'Total Expense';
+
+  @override
+  String get totalIncome => 'Total Income';
+
+  @override
+  String get balance => 'Balance';
+
+  @override
+  String get budget => 'Budget';
+
+  @override
+  String budgetUsed(int percent) {
+    return '$percent% of budget used';
+  }
+
+  @override
+  String budgetRemaining(String amount) {
+    return '¥$amount remaining';
+  }
+
+  @override
+  String get recentRecords => 'Recent Records';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get aiInsightTitle => 'AI Insight';
+
+  @override
+  String get aiInsightMessage =>
+      'Your food expenses decreased by 12% compared to last month! Keep it up.';
+
+  @override
+  String get emptyStateTitle => 'No records yet';
+
+  @override
+  String get emptyStateDesc =>
+      'Tap the + button below\nto add your first record';
+
+  @override
+  String get guideExpenseTitle => 'Record Expenses';
+
+  @override
+  String get guideExpenseDesc => 'Easily track your daily spending';
+
+  @override
+  String get guideBudgetTitle => 'Set Budget';
+
+  @override
+  String get guideBudgetDesc => 'Set and manage monthly budgets';
+
+  @override
+  String get guideCategoryTitle => 'Manage Categories';
+
+  @override
+  String get guideCategoryDesc => 'Customize to your preferences';
+
+  @override
+  String get preparingFeature => 'Coming soon';
 }

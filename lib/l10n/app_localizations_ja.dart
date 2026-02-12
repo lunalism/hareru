@@ -91,4 +91,88 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get expenseExample => 'コンビニ ¥850';
+
+  @override
+  String get homeTab => 'ホーム';
+
+  @override
+  String get reportTab => 'レポート';
+
+  @override
+  String get dictionaryTab => '辞書';
+
+  @override
+  String get settingsTab => '設定';
+
+  @override
+  String monthFormat(int year, int month) {
+    return '$year年$month月';
+  }
+
+  @override
+  String get totalExpense => '総支出';
+
+  @override
+  String get totalIncome => '総収入';
+
+  @override
+  String get balance => '残高';
+
+  @override
+  String get budget => '予算';
+
+  @override
+  String budgetUsed(int percent) {
+    return '予算の$percent%使用';
+  }
+
+  @override
+  String budgetRemaining(String amount) {
+    return '残り ¥$amount';
+  }
+
+  @override
+  String get recentRecords => '最近の記録';
+
+  @override
+  String get seeAll => 'すべて見る';
+
+  @override
+  String get today => '今日';
+
+  @override
+  String get yesterday => '昨日';
+
+  @override
+  String get aiInsightTitle => 'AIインサイト';
+
+  @override
+  String get aiInsightMessage => '先月より食費が12%減りました！この調子で続けましょう。';
+
+  @override
+  String get emptyStateTitle => 'まだ記録がありません';
+
+  @override
+  String get emptyStateDesc => '下の＋ボタンで\n最初の記録を追加しましょう';
+
+  @override
+  String get guideExpenseTitle => '支出を記録';
+
+  @override
+  String get guideExpenseDesc => '日々の支出を簡単に記録';
+
+  @override
+  String get guideBudgetTitle => '予算を設定';
+
+  @override
+  String get guideBudgetDesc => '月ごとの予算を設定して管理';
+
+  @override
+  String get guideCategoryTitle => 'カテゴリ管理';
+
+  @override
+  String get guideCategoryDesc => 'あなた好みにカスタマイズ';
+
+  @override
+  String get preparingFeature => '準備中';
 }

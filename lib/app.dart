@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hareru/core/theme/app_theme.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/screens/main_screen.dart';
 import 'package:hareru/screens/onboarding_screen.dart';
 import 'package:hareru/screens/splash_screen.dart';
 
@@ -18,12 +19,8 @@ final _router = GoRouter(
       builder: (context, state) => const OnboardingScreen(),
     ),
     GoRoute(
-      path: '/home',
-      builder: (context, state) => const Scaffold(
-        body: Center(
-          child: Text('Home'),
-        ),
-      ),
+      path: '/main',
+      builder: (context, state) => const MainScreen(),
     ),
   ],
 );

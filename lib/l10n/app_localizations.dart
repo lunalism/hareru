@@ -267,6 +267,162 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'コンビニ ¥850'**
   String get expenseExample;
+
+  /// No description provided for @homeTab.
+  ///
+  /// In ja, this message translates to:
+  /// **'ホーム'**
+  String get homeTab;
+
+  /// No description provided for @reportTab.
+  ///
+  /// In ja, this message translates to:
+  /// **'レポート'**
+  String get reportTab;
+
+  /// No description provided for @dictionaryTab.
+  ///
+  /// In ja, this message translates to:
+  /// **'辞書'**
+  String get dictionaryTab;
+
+  /// No description provided for @settingsTab.
+  ///
+  /// In ja, this message translates to:
+  /// **'設定'**
+  String get settingsTab;
+
+  /// No description provided for @monthFormat.
+  ///
+  /// In ja, this message translates to:
+  /// **'{year}年{month}月'**
+  String monthFormat(int year, int month);
+
+  /// No description provided for @totalExpense.
+  ///
+  /// In ja, this message translates to:
+  /// **'総支出'**
+  String get totalExpense;
+
+  /// No description provided for @totalIncome.
+  ///
+  /// In ja, this message translates to:
+  /// **'総収入'**
+  String get totalIncome;
+
+  /// No description provided for @balance.
+  ///
+  /// In ja, this message translates to:
+  /// **'残高'**
+  String get balance;
+
+  /// No description provided for @budget.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算'**
+  String get budget;
+
+  /// No description provided for @budgetUsed.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算の{percent}%使用'**
+  String budgetUsed(int percent);
+
+  /// No description provided for @budgetRemaining.
+  ///
+  /// In ja, this message translates to:
+  /// **'残り ¥{amount}'**
+  String budgetRemaining(String amount);
+
+  /// No description provided for @recentRecords.
+  ///
+  /// In ja, this message translates to:
+  /// **'最近の記録'**
+  String get recentRecords;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In ja, this message translates to:
+  /// **'すべて見る'**
+  String get seeAll;
+
+  /// No description provided for @today.
+  ///
+  /// In ja, this message translates to:
+  /// **'今日'**
+  String get today;
+
+  /// No description provided for @yesterday.
+  ///
+  /// In ja, this message translates to:
+  /// **'昨日'**
+  String get yesterday;
+
+  /// No description provided for @aiInsightTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'AIインサイト'**
+  String get aiInsightTitle;
+
+  /// No description provided for @aiInsightMessage.
+  ///
+  /// In ja, this message translates to:
+  /// **'先月より食費が12%減りました！この調子で続けましょう。'**
+  String get aiInsightMessage;
+
+  /// No description provided for @emptyStateTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'まだ記録がありません'**
+  String get emptyStateTitle;
+
+  /// No description provided for @emptyStateDesc.
+  ///
+  /// In ja, this message translates to:
+  /// **'下の＋ボタンで\n最初の記録を追加しましょう'**
+  String get emptyStateDesc;
+
+  /// No description provided for @guideExpenseTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'支出を記録'**
+  String get guideExpenseTitle;
+
+  /// No description provided for @guideExpenseDesc.
+  ///
+  /// In ja, this message translates to:
+  /// **'日々の支出を簡単に記録'**
+  String get guideExpenseDesc;
+
+  /// No description provided for @guideBudgetTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算を設定'**
+  String get guideBudgetTitle;
+
+  /// No description provided for @guideBudgetDesc.
+  ///
+  /// In ja, this message translates to:
+  /// **'月ごとの予算を設定して管理'**
+  String get guideBudgetDesc;
+
+  /// No description provided for @guideCategoryTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'カテゴリ管理'**
+  String get guideCategoryTitle;
+
+  /// No description provided for @guideCategoryDesc.
+  ///
+  /// In ja, this message translates to:
+  /// **'あなた好みにカスタマイズ'**
+  String get guideCategoryDesc;
+
+  /// No description provided for @preparingFeature.
+  ///
+  /// In ja, this message translates to:
+  /// **'準備中'**
+  String get preparingFeature;
 }
 
 class _AppLocalizationsDelegate

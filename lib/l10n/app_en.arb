@@ -27,5 +27,54 @@
   "cafe": "Cafe",
   "transferExample": "→ Savings ¥30,000",
   "savingsExample": "NISA ¥33,333",
-  "expenseExample": "Convenience ¥850"
+  "expenseExample": "Convenience ¥850",
+
+  "homeTab": "Home",
+  "reportTab": "Report",
+  "dictionaryTab": "Dictionary",
+  "settingsTab": "Settings",
+
+  "monthFormat": "{month}/{year}",
+  "@monthFormat": {
+    "placeholders": {
+      "year": {"type": "int"},
+      "month": {"type": "int"}
+    }
+  },
+
+  "totalExpense": "Total Expense",
+  "totalIncome": "Total Income",
+  "balance": "Balance",
+  "budget": "Budget",
+  "budgetUsed": "{percent}% of budget used",
+  "@budgetUsed": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "budgetRemaining": "¥{amount} remaining",
+  "@budgetRemaining": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "recentRecords": "Recent Records",
+  "seeAll": "See all",
+  "today": "Today",
+  "yesterday": "Yesterday",
+
+  "aiInsightTitle": "AI Insight",
+  "aiInsightMessage": "Your food expenses decreased by 12% compared to last month! Keep it up.",
+
+  "emptyStateTitle": "No records yet",
+  "emptyStateDesc": "Tap the + button below\nto add your first record",
+  "guideExpenseTitle": "Record Expenses",
+  "guideExpenseDesc": "Easily track your daily spending",
+  "guideBudgetTitle": "Set Budget",
+  "guideBudgetDesc": "Set and manage monthly budgets",
+  "guideCategoryTitle": "Manage Categories",
+  "guideCategoryDesc": "Customize to your preferences",
+
+  "preparingFeature": "Coming soon"
 }

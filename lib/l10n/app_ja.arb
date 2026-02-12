@@ -27,5 +27,54 @@
   "cafe": "カフェ",
   "transferExample": "→ 貯蓄口座 ¥30,000",
   "savingsExample": "積立NISA ¥33,333",
-  "expenseExample": "コンビニ ¥850"
+  "expenseExample": "コンビニ ¥850",
+
+  "homeTab": "ホーム",
+  "reportTab": "レポート",
+  "dictionaryTab": "辞書",
+  "settingsTab": "設定",
+
+  "monthFormat": "{year}年{month}月",
+  "@monthFormat": {
+    "placeholders": {
+      "year": {"type": "int"},
+      "month": {"type": "int"}
+    }
+  },
+
+  "totalExpense": "総支出",
+  "totalIncome": "総収入",
+  "balance": "残高",
+  "budget": "予算",
+  "budgetUsed": "予算の{percent}%使用",
+  "@budgetUsed": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "budgetRemaining": "残り ¥{amount}",
+  "@budgetRemaining": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "recentRecords": "最近の記録",
+  "seeAll": "すべて見る",
+  "today": "今日",
+  "yesterday": "昨日",
+
+  "aiInsightTitle": "AIインサイト",
+  "aiInsightMessage": "先月より食費が12%減りました！この調子で続けましょう。",
+
+  "emptyStateTitle": "まだ記録がありません",
+  "emptyStateDesc": "下の＋ボタンで\n最初の記録を追加しましょう",
+  "guideExpenseTitle": "支出を記録",
+  "guideExpenseDesc": "日々の支出を簡単に記録",
+  "guideBudgetTitle": "予算を設定",
+  "guideBudgetDesc": "月ごとの予算を設定して管理",
+  "guideCategoryTitle": "カテゴリ管理",
+  "guideCategoryDesc": "あなた好みにカスタマイズ",
+
+  "preparingFeature": "準備中"
 }
