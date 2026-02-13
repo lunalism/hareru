@@ -35,6 +35,10 @@ class TransactionNotifier extends StateNotifier<List<Transaction>> {
   double get savingsTotal => state
       .where((t) => t.type == TransactionType.savings)
       .fold(0.0, (sum, t) => sum + t.amount);
+
+  double get incomeTotal => state
+      .where((t) => t.type == TransactionType.income)
+      .fold(0.0, (sum, t) => sum + t.amount);
 }
 
 final transactionProvider =

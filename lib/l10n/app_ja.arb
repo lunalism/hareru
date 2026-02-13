@@ -105,5 +105,14 @@
   "memoPlaceholder": "メモを入力（任意）",
   "saveRecord": "記録する",
   "recordSaved": "記録しました！",
-  "inputAmount": "金額を入力"
+  "inputAmount": "金額を入力",
+  "income": "収入",
+  "salary": "給料",
+  "sideJob": "副業",
+  "bonus": "ボーナス",
+  "allowance": "お小遣い",
+  "investmentReturn": "投資収益",
+  "fleaMarket": "フリマ",
+  "extraIncome": "臨時収入",
+  "otherIncome": "その他"
 }

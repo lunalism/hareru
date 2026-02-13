@@ -27,6 +27,11 @@ class TypeBadge extends StatelessWidget {
         const Color(0xFF10B981),
         const Color(0xFFECFDF5),
       ),
+      TransactionType.income => (
+        l10n.income,
+        const Color(0xFFF59E0B),
+        const Color(0xFFFEF3C7),
+      ),
     };
 
     return Container(

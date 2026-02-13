@@ -256,4 +256,31 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get inputAmount => '금액을 입력하세요';
+
+  @override
+  String get income => '수입';
+
+  @override
+  String get salary => '급여';
+
+  @override
+  String get sideJob => '부업';
+
+  @override
+  String get bonus => '보너스';
+
+  @override
+  String get allowance => '용돈';
+
+  @override
+  String get investmentReturn => '투자수익';
+
+  @override
+  String get fleaMarket => '중고거래';
+
+  @override
+  String get extraIncome => '임시수입';
+
+  @override
+  String get otherIncome => '기타';
 }

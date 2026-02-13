@@ -105,5 +105,14 @@
   "memoPlaceholder": "Add memo (optional)",
   "saveRecord": "Save",
   "recordSaved": "Record saved!",
-  "inputAmount": "Enter amount"
+  "inputAmount": "Enter amount",
+  "income": "Income",
+  "salary": "Salary",
+  "sideJob": "Side Job",
+  "bonus": "Bonus",
+  "allowance": "Allowance",
+  "investmentReturn": "Investment",
+  "fleaMarket": "Flea Market",
+  "extraIncome": "Extra Income",
+  "otherIncome": "Other"
 }

@@ -105,5 +105,14 @@
   "memoPlaceholder": "메모 입력 (선택)",
   "saveRecord": "기록하기",
   "recordSaved": "기록했어요!",
-  "inputAmount": "금액을 입력하세요"
+  "inputAmount": "금액을 입력하세요",
+  "income": "수입",
+  "salary": "급여",
+  "sideJob": "부업",
+  "bonus": "보너스",
+  "allowance": "용돈",
+  "investmentReturn": "투자수익",
+  "fleaMarket": "중고거래",
+  "extraIncome": "임시수입",
+  "otherIncome": "기타"
 }

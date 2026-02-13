@@ -585,6 +585,60 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'金額を入力'**
   String get inputAmount;
+
+  /// No description provided for @income.
+  ///
+  /// In ja, this message translates to:
+  /// **'収入'**
+  String get income;
+
+  /// No description provided for @salary.
+  ///
+  /// In ja, this message translates to:
+  /// **'給料'**
+  String get salary;
+
+  /// No description provided for @sideJob.
+  ///
+  /// In ja, this message translates to:
+  /// **'副業'**
+  String get sideJob;
+
+  /// No description provided for @bonus.
+  ///
+  /// In ja, this message translates to:
+  /// **'ボーナス'**
+  String get bonus;
+
+  /// No description provided for @allowance.
+  ///
+  /// In ja, this message translates to:
+  /// **'お小遣い'**
+  String get allowance;
+
+  /// No description provided for @investmentReturn.
+  ///
+  /// In ja, this message translates to:
+  /// **'投資収益'**
+  String get investmentReturn;
+
+  /// No description provided for @fleaMarket.
+  ///
+  /// In ja, this message translates to:
+  /// **'フリマ'**
+  String get fleaMarket;
+
+  /// No description provided for @extraIncome.
+  ///
+  /// In ja, this message translates to:
+  /// **'臨時収入'**
+  String get extraIncome;
+
+  /// No description provided for @otherIncome.
+  ///
+  /// In ja, this message translates to:
+  /// **'その他'**
+  String get otherIncome;
 }
 
 class _AppLocalizationsDelegate

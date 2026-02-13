@@ -256,4 +256,31 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get inputAmount => '金額を入力';
+
+  @override
+  String get income => '収入';
+
+  @override
+  String get salary => '給料';
+
+  @override
+  String get sideJob => '副業';
+
+  @override
+  String get bonus => 'ボーナス';
+
+  @override
+  String get allowance => 'お小遣い';
+
+  @override
+  String get investmentReturn => '投資収益';
+
+  @override
+  String get fleaMarket => 'フリマ';
+
+  @override
+  String get extraIncome => '臨時収入';
+
+  @override
+  String get otherIncome => 'その他';
 }

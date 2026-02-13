@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-enum TransactionType { expense, transfer, savings }
+enum TransactionType { expense, transfer, savings, income }
 
 class Transaction extends HiveObject {
   final String id;

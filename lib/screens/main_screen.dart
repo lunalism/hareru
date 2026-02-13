@@ -36,12 +36,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       TransactionType.expense => const Color(0xFFEF4444),
       TransactionType.transfer => const Color(0xFF3B82F6),
       TransactionType.savings => const Color(0xFF10B981),
+      TransactionType.income => const Color(0xFFF59E0B),
     };
 
     final typeLabel = switch (transaction.type) {
       TransactionType.expense => l10n.expense,
       TransactionType.transfer => l10n.transfer,
       TransactionType.savings => l10n.savings,
+      TransactionType.income => l10n.income,
     };
 
     _toastEntry?.remove();

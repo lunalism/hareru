@@ -261,4 +261,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inputAmount => 'Enter amount';
+
+  @override
+  String get income => 'Income';
+
+  @override
+  String get salary => 'Salary';
+
+  @override
+  String get sideJob => 'Side Job';
+
+  @override
+  String get bonus => 'Bonus';
+
+  @override
+  String get allowance => 'Allowance';
+
+  @override
+  String get investmentReturn => 'Investment';
+
+  @override
+  String get fleaMarket => 'Flea Market';
+
+  @override
+  String get extraIncome => 'Extra Income';
+
+  @override
+  String get otherIncome => 'Other';
 }

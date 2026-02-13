@@ -24,12 +24,14 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
     TransactionType.expense: Color(0xFFEF4444),
     TransactionType.transfer: Color(0xFF3B82F6),
     TransactionType.savings: Color(0xFF10B981),
+    TransactionType.income: Color(0xFFF59E0B),
   };
 
   static const _saveGradients = {
     TransactionType.expense: [Color(0xFFEF4444), Color(0xFFDC2626)],
     TransactionType.transfer: [Color(0xFF3B82F6), Color(0xFF2563EB)],
     TransactionType.savings: [Color(0xFF10B981), Color(0xFF059669)],
+    TransactionType.income: [Color(0xFFF59E0B), Color(0xFFD97706)],
   };
 
   List<CategoryData> _categoriesForType(TransactionType type) {
@@ -59,6 +61,16 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
         (emoji: '📈', label: (l) => l.catInvestment, key: 'catInvestment'),
         (emoji: '🎯', label: (l) => l.catGoal, key: 'catGoal'),
         (emoji: '📦', label: (l) => l.catSavingsOther, key: 'catSavingsOther'),
+      ],
+      TransactionType.income => [
+        (emoji: '💰', label: (l) => l.salary, key: 'salary'),
+        (emoji: '💼', label: (l) => l.sideJob, key: 'sideJob'),
+        (emoji: '🎁', label: (l) => l.bonus, key: 'bonus'),
+        (emoji: '👛', label: (l) => l.allowance, key: 'allowance'),
+        (emoji: '📈', label: (l) => l.investmentReturn, key: 'investmentReturn'),
+        (emoji: '📦', label: (l) => l.fleaMarket, key: 'fleaMarket'),
+        (emoji: '💴', label: (l) => l.extraIncome, key: 'extraIncome'),
+        (emoji: '📁', label: (l) => l.otherIncome, key: 'otherIncome'),
       ],
     };
   }
@@ -222,6 +234,7 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
       (TransactionType.expense, l10n.expense),
       (TransactionType.transfer, l10n.transfer),
       (TransactionType.savings, l10n.savings),
+      (TransactionType.income, l10n.income),
     ];
 
     return Container(

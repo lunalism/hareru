@@ -296,6 +296,13 @@ class HomeScreen extends ConsumerWidget {
             const Color(0xFF10B981),
             labelColor,
           ),
+          Container(width: 1, height: 32, color: dividerColor),
+          _killerColumn(
+            l10n.income,
+            '¥${_formatAmount(notifier.incomeTotal)}',
+            const Color(0xFFF59E0B),
+            labelColor,
+          ),
         ],
       ),
     );
@@ -311,8 +318,8 @@ class HomeScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 8,
-                height: 8,
+                width: 6,
+                height: 6,
                 decoration: BoxDecoration(
                   color: typeColor,
                   shape: BoxShape.circle,
@@ -322,7 +329,7 @@ class HomeScreen extends ConsumerWidget {
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: labelColor,
                 ),
@@ -333,8 +340,8 @@ class HomeScreen extends ConsumerWidget {
           Text(
             amount,
             style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
               color: typeColor,
               fontFeatures: const [FontFeature.tabularFigures()],
             ),
@@ -366,6 +373,14 @@ class HomeScreen extends ConsumerWidget {
       'catInvestment' => '📈',
       'catGoal' => '🎯',
       'catSavingsOther' => '📦',
+      'salary' => '💰',
+      'sideJob' => '💼',
+      'bonus' => '🎁',
+      'allowance' => '👛',
+      'investmentReturn' => '📈',
+      'fleaMarket' => '📦',
+      'extraIncome' => '💴',
+      'otherIncome' => '📁',
       _ => '📝',
     };
   }
@@ -392,6 +407,14 @@ class HomeScreen extends ConsumerWidget {
       'catInvestment' => l10n.catInvestment,
       'catGoal' => l10n.catGoal,
       'catSavingsOther' => l10n.catSavingsOther,
+      'salary' => l10n.salary,
+      'sideJob' => l10n.sideJob,
+      'bonus' => l10n.bonus,
+      'allowance' => l10n.allowance,
+      'investmentReturn' => l10n.investmentReturn,
+      'fleaMarket' => l10n.fleaMarket,
+      'extraIncome' => l10n.extraIncome,
+      'otherIncome' => l10n.otherIncome,
       _ => category,
     };
   }
@@ -455,6 +478,7 @@ class HomeScreen extends ConsumerWidget {
               final i = entry.key;
               final t = entry.value;
               final isExpense = t.type == TransactionType.expense;
+              final isIncome = t.type == TransactionType.income;
               final emoji = _emojiForCategory(t.category);
               final title = t.memo ?? _categoryLabel(t.category, l10n);
               final date = _formatDate(t.createdAt, l10n);
@@ -517,15 +541,17 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          '${isExpense ? '-' : ''}¥${_formatAmount(t.amount)}',
+                          '${isExpense ? '-' : isIncome ? '+' : ''}¥${_formatAmount(t.amount)}',
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
-                            color: isExpense
-                                ? (isDark
-                                    ? HareruColors.darkTextPrimary
-                                    : HareruColors.lightTextPrimary)
-                                : const Color(0xFF64748B),
+                            color: isIncome
+                                ? const Color(0xFFF59E0B)
+                                : isExpense
+                                    ? (isDark
+                                        ? HareruColors.darkTextPrimary
+                                        : HareruColors.lightTextPrimary)
+                                    : const Color(0xFF64748B),
                             fontFeatures: const [
                               FontFeature.tabularFigures()
                             ],
