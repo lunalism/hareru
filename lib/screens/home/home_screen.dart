@@ -37,6 +37,8 @@ class HomeScreen extends ConsumerWidget {
                 _buildGuideCards(context, isDark),
               ] else ...[
                 _buildMainAmountCard(context, isDark, ref),
+                const SizedBox(height: 8),
+                _buildBreakdownCard(context, isDark, ref),
                 const SizedBox(height: 24),
                 _buildRecentRecords(context, isDark, transactions),
                 const SizedBox(height: 24),
@@ -166,10 +168,7 @@ class HomeScreen extends ConsumerWidget {
   Widget _buildMainAmountCard(
       BuildContext context, bool isDark, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final notifier = ref.read(transactionProvider.notifier);
-    final expenseTotal = notifier.expenseTotal;
-    final transferTotal = notifier.transferTotal;
-    final savingsTotal = notifier.savingsTotal;
+    final expenseTotal = ref.read(transactionProvider.notifier).expenseTotal;
 
     return Container(
       width: double.infinity,
@@ -244,34 +243,6 @@ class HomeScreen extends ConsumerWidget {
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
               ),
-              // 3-column: expense / transfer / savings (dark glass)
-              Container(
-                margin: const EdgeInsets.only(top: 16),
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.18),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Row(
-                  children: [
-                    _killerColumn(
-                      l10n.expense,
-                      '¥${_formatAmount(expenseTotal)}',
-                      const Color(0xFFEF4444),
-                    ),
-                    _killerColumn(
-                      l10n.transfer,
-                      '¥${_formatAmount(transferTotal)}',
-                      const Color(0xFF3B82F6),
-                    ),
-                    _killerColumn(
-                      l10n.savings,
-                      '¥${_formatAmount(savingsTotal)}',
-                      const Color(0xFF10B981),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ],
@@ -279,7 +250,59 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _killerColumn(String label, String amount, Color dotColor) {
+  Widget _buildBreakdownCard(
+      BuildContext context, bool isDark, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final notifier = ref.read(transactionProvider.notifier);
+    final labelColor =
+        isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+    final dividerColor =
+        isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9);
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1E293B) : Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: dividerColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 3,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          _killerColumn(
+            l10n.expense,
+            '¥${_formatAmount(notifier.expenseTotal)}',
+            const Color(0xFFEF4444),
+            labelColor,
+          ),
+          Container(width: 1, height: 32, color: dividerColor),
+          _killerColumn(
+            l10n.transfer,
+            '¥${_formatAmount(notifier.transferTotal)}',
+            const Color(0xFF3B82F6),
+            labelColor,
+          ),
+          Container(width: 1, height: 32, color: dividerColor),
+          _killerColumn(
+            l10n.savings,
+            '¥${_formatAmount(notifier.savingsTotal)}',
+            const Color(0xFF10B981),
+            labelColor,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _killerColumn(
+      String label, String amount, Color typeColor, Color labelColor) {
     return Expanded(
       child: Column(
         children: [
@@ -291,7 +314,7 @@ class HomeScreen extends ConsumerWidget {
                 width: 8,
                 height: 8,
                 decoration: BoxDecoration(
-                  color: dotColor,
+                  color: typeColor,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -299,21 +322,21 @@ class HomeScreen extends ConsumerWidget {
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white.withValues(alpha: 0.8),
+                  color: labelColor,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           Text(
             amount,
-            style: const TextStyle(
-              fontSize: 15,
+            style: TextStyle(
+              fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: Colors.white,
-              fontFeatures: [FontFeature.tabularFigures()],
+              color: typeColor,
+              fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
         ],
