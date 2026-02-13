@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/constants/colors.dart';
@@ -268,11 +269,14 @@ class HomeScreen extends ConsumerWidget {
               ] else
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    '${l10n.setBudget} →',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.white.withValues(alpha: 0.7),
+                  child: GestureDetector(
+                    onTap: () => _showBudgetDialog(context, ref),
+                    child: Text(
+                      '${l10n.setBudget} →',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white.withValues(alpha: 0.7),
+                      ),
                     ),
                   ),
                 ),
@@ -337,6 +341,111 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _showBudgetDialog(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final currentBudget = ref.read(budgetProvider);
+    final controller = TextEditingController(
+      text: currentBudget > 0 ? currentBudget.toString() : '',
+    );
+
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor:
+              isDark ? HareruColors.darkCard : HareruColors.lightCard,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            l10n.setBudgetTitle,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: isDark
+                  ? HareruColors.darkTextPrimary
+                  : HareruColors.lightTextPrimary,
+            ),
+          ),
+          content: TextField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            autofocus: true,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: isDark
+                  ? HareruColors.darkTextPrimary
+                  : HareruColors.lightTextPrimary,
+            ),
+            decoration: InputDecoration(
+              prefixText: '¥ ',
+              prefixStyle: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: HareruColors.primaryStart,
+              ),
+              hintText: '150000',
+              hintStyle: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+                color: isDark
+                    ? HareruColors.darkTextTertiary
+                    : HareruColors.lightTextTertiary,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: isDark
+                      ? HareruColors.darkDivider
+                      : HareruColors.lightDivider,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: HareruColors.primaryStart,
+                  width: 2,
+                ),
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(
+                l10n.cancel,
+                style: TextStyle(
+                  color: isDark
+                      ? HareruColors.darkTextSecondary
+                      : HareruColors.lightTextSecondary,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                final value = int.tryParse(controller.text) ?? 0;
+                ref.read(budgetProvider.notifier).setBudget(value);
+                Navigator.pop(dialogContext);
+              },
+              child: Text(
+                l10n.save,
+                style: const TextStyle(
+                  color: HareruColors.primaryStart,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
