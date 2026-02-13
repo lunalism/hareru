@@ -115,6 +115,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         index: _currentIndex,
         children: _screens,
       ),
+      floatingActionButton: _buildFab(context, isDark, bgColor),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _buildBottomNav(context, isDark, l10n, bgColor),
     );
   }
@@ -133,45 +135,33 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       _TabItem(Icons.settings_outlined, l10n.settingsTab),
     ];
 
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.topCenter,
-      children: [
-        // Nav bar body
-        Container(
-          decoration: BoxDecoration(
-            color: navBarColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
-                blurRadius: 10,
-                offset: const Offset(0, -2),
-              ),
-            ],
+    return Container(
+      decoration: BoxDecoration(
+        color: navBarColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
+            blurRadius: 10,
+            offset: const Offset(0, -2),
           ),
-          padding: EdgeInsets.only(bottom: bottomPadding, top: 8),
-          child: Row(
-            children: [
-              // Left 2 tabs
-              ...tabs.sublist(0, 2).asMap().entries.map((e) {
-                return _buildTab(e.key, tabs[e.key], inactiveColor, isDark);
-              }),
-              // FAB spacer
-              const Expanded(child: SizedBox(height: 50)),
-              // Right 2 tabs
-              ...tabs.sublist(2).asMap().entries.map((e) {
-                final index = e.key + 2;
-                return _buildTab(index, tabs[index], inactiveColor, isDark);
-              }),
-            ],
-          ),
-        ),
-        // FAB — positioned above nav bar
-        Positioned(
-          top: -28,
-          child: _buildFab(context, isDark, bgColor),
-        ),
-      ],
+        ],
+      ),
+      padding: EdgeInsets.only(bottom: bottomPadding, top: 8),
+      child: Row(
+        children: [
+          // Left 2 tabs
+          ...tabs.sublist(0, 2).asMap().entries.map((e) {
+            return _buildTab(e.key, tabs[e.key], inactiveColor, isDark);
+          }),
+          // FAB spacer
+          const Expanded(child: SizedBox(height: 50)),
+          // Right 2 tabs
+          ...tabs.sublist(2).asMap().entries.map((e) {
+            final index = e.key + 2;
+            return _buildTab(index, tabs[index], inactiveColor, isDark);
+          }),
+        ],
+      ),
     );
   }
 
@@ -207,39 +197,33 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: _openAddSheet,
-      child: Container(
+      child: SizedBox(
         width: 64,
         height: 64,
-        decoration: BoxDecoration(
-          color: bgColor,
-          shape: BoxShape.circle,
-        ),
-        padding: const EdgeInsets.all(4),
         child: Container(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [HareruColors.primaryStart, HareruColors.primaryEnd],
-            ),
+            color: bgColor,
             shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: HareruColors.primaryStart.withValues(alpha: 0.35),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
           ),
-          alignment: Alignment.center,
-          child: const Text(
-            '+',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w300,
-              color: Colors.white,
-              height: 1,
+          padding: const EdgeInsets.all(4),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [HareruColors.primaryStart, HareruColors.primaryEnd],
+              ),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: HareruColors.primaryStart.withValues(alpha: 0.35),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
+            alignment: Alignment.center,
+            child: const Icon(Icons.add, color: Colors.white, size: 28),
           ),
         ),
       ),
