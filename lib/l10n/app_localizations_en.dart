@@ -189,4 +189,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageTitle => 'Language';
+
+  @override
+  String get catFood => 'Food';
+
+  @override
+  String get catTransport => 'Transport';
+
+  @override
+  String get catDaily => 'Daily';
+
+  @override
+  String get catCafe => 'Cafe';
+
+  @override
+  String get catHobby => 'Hobby';
+
+  @override
+  String get catClothing => 'Clothing';
+
+  @override
+  String get catMedical => 'Medical';
+
+  @override
+  String get catPhone => 'Phone';
+
+  @override
+  String get catHousing => 'Housing';
+
+  @override
+  String get catSocial => 'Social';
+
+  @override
+  String get catEducation => 'Education';
+
+  @override
+  String get catOther => 'Other';
+
+  @override
+  String get catBankTransfer => 'Bank Transfer';
+
+  @override
+  String get catCard => 'Card Payment';
+
+  @override
+  String get catEMoney => 'E-Money';
+
+  @override
+  String get catTransferOther => 'Other Transfer';
+
+  @override
+  String get catSavings => 'Savings';
+
+  @override
+  String get catInvestment => 'Investment';
+
+  @override
+  String get catGoal => 'Goal Savings';
+
+  @override
+  String get catSavingsOther => 'Other Savings';
+
+  @override
+  String get memoPlaceholder => 'Add memo (optional)';
+
+  @override
+  String get saveRecord => 'Save';
+
+  @override
+  String get recordSaved => 'Record saved!';
+
+  @override
+  String get inputAmount => 'Enter amount';
 }

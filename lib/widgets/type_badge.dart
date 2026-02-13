@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hareru/l10n/app_localizations.dart';
-
-enum TransactionType { expense, transfer, savings }
+import 'package:hareru/models/transaction.dart';
 
 class TypeBadge extends StatelessWidget {
   const TypeBadge({super.key, required this.type});

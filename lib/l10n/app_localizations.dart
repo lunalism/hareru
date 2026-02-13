@@ -441,6 +441,150 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'言語'**
   String get languageTitle;
+
+  /// No description provided for @catFood.
+  ///
+  /// In ja, this message translates to:
+  /// **'食費'**
+  String get catFood;
+
+  /// No description provided for @catTransport.
+  ///
+  /// In ja, this message translates to:
+  /// **'交通費'**
+  String get catTransport;
+
+  /// No description provided for @catDaily.
+  ///
+  /// In ja, this message translates to:
+  /// **'日用品'**
+  String get catDaily;
+
+  /// No description provided for @catCafe.
+  ///
+  /// In ja, this message translates to:
+  /// **'カフェ'**
+  String get catCafe;
+
+  /// No description provided for @catHobby.
+  ///
+  /// In ja, this message translates to:
+  /// **'趣味'**
+  String get catHobby;
+
+  /// No description provided for @catClothing.
+  ///
+  /// In ja, this message translates to:
+  /// **'衣服'**
+  String get catClothing;
+
+  /// No description provided for @catMedical.
+  ///
+  /// In ja, this message translates to:
+  /// **'医療'**
+  String get catMedical;
+
+  /// No description provided for @catPhone.
+  ///
+  /// In ja, this message translates to:
+  /// **'通信費'**
+  String get catPhone;
+
+  /// No description provided for @catHousing.
+  ///
+  /// In ja, this message translates to:
+  /// **'住居費'**
+  String get catHousing;
+
+  /// No description provided for @catSocial.
+  ///
+  /// In ja, this message translates to:
+  /// **'交際費'**
+  String get catSocial;
+
+  /// No description provided for @catEducation.
+  ///
+  /// In ja, this message translates to:
+  /// **'教育'**
+  String get catEducation;
+
+  /// No description provided for @catOther.
+  ///
+  /// In ja, this message translates to:
+  /// **'その他'**
+  String get catOther;
+
+  /// No description provided for @catBankTransfer.
+  ///
+  /// In ja, this message translates to:
+  /// **'銀行振込'**
+  String get catBankTransfer;
+
+  /// No description provided for @catCard.
+  ///
+  /// In ja, this message translates to:
+  /// **'カード払い'**
+  String get catCard;
+
+  /// No description provided for @catEMoney.
+  ///
+  /// In ja, this message translates to:
+  /// **'電子マネー'**
+  String get catEMoney;
+
+  /// No description provided for @catTransferOther.
+  ///
+  /// In ja, this message translates to:
+  /// **'その他振替'**
+  String get catTransferOther;
+
+  /// No description provided for @catSavings.
+  ///
+  /// In ja, this message translates to:
+  /// **'定期貯金'**
+  String get catSavings;
+
+  /// No description provided for @catInvestment.
+  ///
+  /// In ja, this message translates to:
+  /// **'投資'**
+  String get catInvestment;
+
+  /// No description provided for @catGoal.
+  ///
+  /// In ja, this message translates to:
+  /// **'目標貯金'**
+  String get catGoal;
+
+  /// No description provided for @catSavingsOther.
+  ///
+  /// In ja, this message translates to:
+  /// **'その他貯蓄'**
+  String get catSavingsOther;
+
+  /// No description provided for @memoPlaceholder.
+  ///
+  /// In ja, this message translates to:
+  /// **'メモを入力（任意）'**
+  String get memoPlaceholder;
+
+  /// No description provided for @saveRecord.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録する'**
+  String get saveRecord;
+
+  /// No description provided for @recordSaved.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録しました！'**
+  String get recordSaved;
+
+  /// No description provided for @inputAmount.
+  ///
+  /// In ja, this message translates to:
+  /// **'金額を入力'**
+  String get inputAmount;
 }
 
 class _AppLocalizationsDelegate

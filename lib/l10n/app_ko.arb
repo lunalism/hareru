@@ -80,5 +80,30 @@
   "preparingFeature": "준비 중",
 
   "settingsTitle": "설정",
-  "languageTitle": "언어"
+  "languageTitle": "언어",
+
+  "catFood": "식비",
+  "catTransport": "교통비",
+  "catDaily": "생활용품",
+  "catCafe": "카페",
+  "catHobby": "취미",
+  "catClothing": "의류",
+  "catMedical": "의료",
+  "catPhone": "통신비",
+  "catHousing": "주거비",
+  "catSocial": "교제비",
+  "catEducation": "교육",
+  "catOther": "기타",
+  "catBankTransfer": "은행이체",
+  "catCard": "카드결제",
+  "catEMoney": "전자머니",
+  "catTransferOther": "기타이체",
+  "catSavings": "정기저축",
+  "catInvestment": "투자",
+  "catGoal": "목표저축",
+  "catSavingsOther": "기타저축",
+  "memoPlaceholder": "메모 입력 (선택)",
+  "saveRecord": "기록하기",
+  "recordSaved": "기록했어요!",
+  "inputAmount": "금액을 입력하세요"
 }

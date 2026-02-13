@@ -184,4 +184,76 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get languageTitle => '언어';
+
+  @override
+  String get catFood => '식비';
+
+  @override
+  String get catTransport => '교통비';
+
+  @override
+  String get catDaily => '생활용품';
+
+  @override
+  String get catCafe => '카페';
+
+  @override
+  String get catHobby => '취미';
+
+  @override
+  String get catClothing => '의류';
+
+  @override
+  String get catMedical => '의료';
+
+  @override
+  String get catPhone => '통신비';
+
+  @override
+  String get catHousing => '주거비';
+
+  @override
+  String get catSocial => '교제비';
+
+  @override
+  String get catEducation => '교육';
+
+  @override
+  String get catOther => '기타';
+
+  @override
+  String get catBankTransfer => '은행이체';
+
+  @override
+  String get catCard => '카드결제';
+
+  @override
+  String get catEMoney => '전자머니';
+
+  @override
+  String get catTransferOther => '기타이체';
+
+  @override
+  String get catSavings => '정기저축';
+
+  @override
+  String get catInvestment => '투자';
+
+  @override
+  String get catGoal => '목표저축';
+
+  @override
+  String get catSavingsOther => '기타저축';
+
+  @override
+  String get memoPlaceholder => '메모 입력 (선택)';
+
+  @override
+  String get saveRecord => '기록하기';
+
+  @override
+  String get recordSaved => '기록했어요!';
+
+  @override
+  String get inputAmount => '금액을 입력하세요';
 }

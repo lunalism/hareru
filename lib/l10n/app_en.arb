@@ -80,5 +80,30 @@
   "preparingFeature": "Coming soon",
 
   "settingsTitle": "Settings",
-  "languageTitle": "Language"
+  "languageTitle": "Language",
+
+  "catFood": "Food",
+  "catTransport": "Transport",
+  "catDaily": "Daily",
+  "catCafe": "Cafe",
+  "catHobby": "Hobby",
+  "catClothing": "Clothing",
+  "catMedical": "Medical",
+  "catPhone": "Phone",
+  "catHousing": "Housing",
+  "catSocial": "Social",
+  "catEducation": "Education",
+  "catOther": "Other",
+  "catBankTransfer": "Bank Transfer",
+  "catCard": "Card Payment",
+  "catEMoney": "E-Money",
+  "catTransferOther": "Other Transfer",
+  "catSavings": "Savings",
+  "catInvestment": "Investment",
+  "catGoal": "Goal Savings",
+  "catSavingsOther": "Other Savings",
+  "memoPlaceholder": "Add memo (optional)",
+  "saveRecord": "Save",
+  "recordSaved": "Record saved!",
+  "inputAmount": "Enter amount"
 }

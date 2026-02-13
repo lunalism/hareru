@@ -80,5 +80,30 @@
   "preparingFeature": "準備中",
 
   "settingsTitle": "設定",
-  "languageTitle": "言語"
+  "languageTitle": "言語",
+
+  "catFood": "食費",
+  "catTransport": "交通費",
+  "catDaily": "日用品",
+  "catCafe": "カフェ",
+  "catHobby": "趣味",
+  "catClothing": "衣服",
+  "catMedical": "医療",
+  "catPhone": "通信費",
+  "catHousing": "住居費",
+  "catSocial": "交際費",
+  "catEducation": "教育",
+  "catOther": "その他",
+  "catBankTransfer": "銀行振込",
+  "catCard": "カード払い",
+  "catEMoney": "電子マネー",
+  "catTransferOther": "その他振替",
+  "catSavings": "定期貯金",
+  "catInvestment": "投資",
+  "catGoal": "目標貯金",
+  "catSavingsOther": "その他貯蓄",
+  "memoPlaceholder": "メモを入力（任意）",
+  "saveRecord": "記録する",
+  "recordSaved": "記録しました！",
+  "inputAmount": "金額を入力"
 }

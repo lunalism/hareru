@@ -184,4 +184,76 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get languageTitle => '言語';
+
+  @override
+  String get catFood => '食費';
+
+  @override
+  String get catTransport => '交通費';
+
+  @override
+  String get catDaily => '日用品';
+
+  @override
+  String get catCafe => 'カフェ';
+
+  @override
+  String get catHobby => '趣味';
+
+  @override
+  String get catClothing => '衣服';
+
+  @override
+  String get catMedical => '医療';
+
+  @override
+  String get catPhone => '通信費';
+
+  @override
+  String get catHousing => '住居費';
+
+  @override
+  String get catSocial => '交際費';
+
+  @override
+  String get catEducation => '教育';
+
+  @override
+  String get catOther => 'その他';
+
+  @override
+  String get catBankTransfer => '銀行振込';
+
+  @override
+  String get catCard => 'カード払い';
+
+  @override
+  String get catEMoney => '電子マネー';
+
+  @override
+  String get catTransferOther => 'その他振替';
+
+  @override
+  String get catSavings => '定期貯金';
+
+  @override
+  String get catInvestment => '投資';
+
+  @override
+  String get catGoal => '目標貯金';
+
+  @override
+  String get catSavingsOther => 'その他貯蓄';
+
+  @override
+  String get memoPlaceholder => 'メモを入力（任意）';
+
+  @override
+  String get saveRecord => '記録する';
+
+  @override
+  String get recordSaved => '記録しました！';
+
+  @override
+  String get inputAmount => '金額を入力';
 }

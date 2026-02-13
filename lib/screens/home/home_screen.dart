@@ -1,20 +1,22 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/models/transaction.dart';
 import 'package:hareru/widgets/type_badge.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  // Toggle: true → empty state, false → filled state
-  static const _showEmptyState = false;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final transactions = ref.watch(transactionProvider);
+    final isEmpty = transactions.isEmpty;
 
     return Scaffold(
       backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
@@ -29,14 +31,14 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 20),
               _buildMonthSelector(context, isDark),
               const SizedBox(height: 16),
-              if (_showEmptyState) ...[
+              if (isEmpty) ...[
                 _buildEmptyMainCard(context, isDark),
                 const SizedBox(height: 24),
                 _buildGuideCards(context, isDark),
               ] else ...[
-                _buildMainAmountCard(context, isDark),
+                _buildMainAmountCard(context, isDark, ref),
                 const SizedBox(height: 24),
-                _buildRecentRecords(context, isDark),
+                _buildRecentRecords(context, isDark, transactions),
                 const SizedBox(height: 24),
                 _buildAiInsightCard(context, isDark),
               ],
@@ -140,9 +142,34 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMainAmountCard(BuildContext context, bool isDark) {
+  String _formatAmount(double value) {
+    if (value == value.truncateToDouble()) {
+      return _addCommas(value.truncate().toString());
+    }
+    return _addCommas(value.toStringAsFixed(2));
+  }
+
+  String _addCommas(String s) {
+    final parts = s.split('.');
+    final intPart = parts[0];
+    final result = StringBuffer();
+    var count = 0;
+    for (var i = intPart.length - 1; i >= 0; i--) {
+      result.write(intPart[i]);
+      count++;
+      if (count % 3 == 0 && i > 0) result.write(',');
+    }
+    final formatted = result.toString().split('').reversed.join();
+    return parts.length > 1 ? '$formatted.${parts[1]}' : formatted;
+  }
+
+  Widget _buildMainAmountCard(
+      BuildContext context, bool isDark, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    const budgetPercent = 62;
+    final notifier = ref.read(transactionProvider.notifier);
+    final expenseTotal = notifier.expenseTotal;
+    final transferTotal = notifier.transferTotal;
+    final savingsTotal = notifier.savingsTotal;
 
     return Container(
       width: double.infinity,
@@ -208,52 +235,14 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
-                '¥23,480',
-                style: TextStyle(
+              Text(
+                '¥${_formatAmount(expenseTotal)}',
+                style: const TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
-              ),
-              const SizedBox(height: 16),
-              // Budget progress bar
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        l10n.budgetUsed(budgetPercent),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.7),
-                        ),
-                      ),
-                      Text(
-                        l10n.budgetRemaining('93,220'),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.7),
-                          fontFeatures: const [FontFeature.tabularFigures()],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(3),
-                    child: LinearProgressIndicator(
-                      value: budgetPercent / 100,
-                      minHeight: 6,
-                      backgroundColor: Colors.white.withValues(alpha: 0.15),
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xFFFFD54F)),
-                    ),
-                  ),
-                ],
               ),
               const SizedBox(height: 20),
               // Divider
@@ -262,26 +251,26 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.white.withValues(alpha: 0.12),
               ),
               const SizedBox(height: 16),
-              // 3-column: 支出 / 振替 / 貯金 (Killer Feature)
+              // 3-column: expense / transfer / savings
               Row(
                 children: [
                   _killerColumn(
                     l10n.expense,
-                    '¥23,480',
+                    '¥${_formatAmount(expenseTotal)}',
                     const Color(0xFFEF4444),
                     const Color(0xFFFCA5A5),
                   ),
                   _killerDivider(),
                   _killerColumn(
                     l10n.transfer,
-                    '¥50,000',
+                    '¥${_formatAmount(transferTotal)}',
                     const Color(0xFF3B82F6),
                     const Color(0xFF93C5FD),
                   ),
                   _killerDivider(),
                   _killerColumn(
                     l10n.savings,
-                    '¥30,000',
+                    '¥${_formatAmount(savingsTotal)}',
                     const Color(0xFF10B981),
                     const Color(0xFF6EE7B7),
                   ),
@@ -344,23 +333,79 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentRecords(BuildContext context, bool isDark) {
-    final l10n = AppLocalizations.of(context)!;
+  String _emojiForCategory(String category) {
+    return switch (category) {
+      'catFood' => '🍚',
+      'catTransport' => '🚃',
+      'catDaily' => '🛒',
+      'catCafe' => '☕',
+      'catHobby' => '🎮',
+      'catClothing' => '👕',
+      'catMedical' => '🏥',
+      'catPhone' => '📱',
+      'catHousing' => '🏠',
+      'catSocial' => '🍻',
+      'catEducation' => '📚',
+      'catOther' => '📦',
+      'catBankTransfer' => '🏦',
+      'catCard' => '💳',
+      'catEMoney' => '📲',
+      'catTransferOther' => '📦',
+      'catSavings' => '🏦',
+      'catInvestment' => '📈',
+      'catGoal' => '🎯',
+      'catSavingsOther' => '📦',
+      _ => '📝',
+    };
+  }
 
-    final records = [
-      _RecordItem('🛒', 'セブンイレブン', '${l10n.today} 12:30',
-          TransactionType.expense, '¥850'),
-      _RecordItem(
-          '🍜', 'すき家', '${l10n.today} 11:45', TransactionType.expense, '¥780'),
-      _RecordItem('🏦', '貯金口座へ', '${l10n.today} 10:00',
-          TransactionType.transfer, '¥50,000'),
-      _RecordItem('💰', 'つみたて貯金', '${l10n.yesterday} 09:00',
-          TransactionType.savings, '¥30,000'),
-      _RecordItem('☕', 'スターバックス', '${l10n.yesterday} 15:20',
-          TransactionType.expense, '¥590'),
-      _RecordItem('🚃', 'Suicaチャージ', '2/10 08:30',
-          TransactionType.transfer, '¥3,000'),
-    ];
+  String _categoryLabel(String category, AppLocalizations l10n) {
+    return switch (category) {
+      'catFood' => l10n.catFood,
+      'catTransport' => l10n.catTransport,
+      'catDaily' => l10n.catDaily,
+      'catCafe' => l10n.catCafe,
+      'catHobby' => l10n.catHobby,
+      'catClothing' => l10n.catClothing,
+      'catMedical' => l10n.catMedical,
+      'catPhone' => l10n.catPhone,
+      'catHousing' => l10n.catHousing,
+      'catSocial' => l10n.catSocial,
+      'catEducation' => l10n.catEducation,
+      'catOther' => l10n.catOther,
+      'catBankTransfer' => l10n.catBankTransfer,
+      'catCard' => l10n.catCard,
+      'catEMoney' => l10n.catEMoney,
+      'catTransferOther' => l10n.catTransferOther,
+      'catSavings' => l10n.catSavings,
+      'catInvestment' => l10n.catInvestment,
+      'catGoal' => l10n.catGoal,
+      'catSavingsOther' => l10n.catSavingsOther,
+      _ => category,
+    };
+  }
+
+  String _formatDate(DateTime date, AppLocalizations l10n) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final dateOnly = DateTime(date.year, date.month, date.day);
+    final hour = date.hour.toString().padLeft(2, '0');
+    final minute = date.minute.toString().padLeft(2, '0');
+    final time = '$hour:$minute';
+
+    if (dateOnly == today) {
+      return '${l10n.today} $time';
+    } else if (dateOnly == today.subtract(const Duration(days: 1))) {
+      return '${l10n.yesterday} $time';
+    } else {
+      return '${date.month}/${date.day} $time';
+    }
+  }
+
+  Widget _buildRecentRecords(
+      BuildContext context, bool isDark, List<Transaction> transactions) {
+    final l10n = AppLocalizations.of(context)!;
+    final recent = transactions.take(6).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -395,10 +440,13 @@ class HomeScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
-            children: records.asMap().entries.map((entry) {
+            children: recent.asMap().entries.map((entry) {
               final i = entry.key;
-              final r = entry.value;
-              final isExpense = r.type == TransactionType.expense;
+              final t = entry.value;
+              final isExpense = t.type == TransactionType.expense;
+              final emoji = _emojiForCategory(t.category);
+              final title = t.memo ?? _categoryLabel(t.category, l10n);
+              final date = _formatDate(t.createdAt, l10n);
 
               return Column(
                 children: [
@@ -417,8 +465,8 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           alignment: Alignment.center,
-                          child: Text(r.emoji,
-                              style: const TextStyle(fontSize: 20)),
+                          child:
+                              Text(emoji, style: const TextStyle(fontSize: 20)),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -429,7 +477,7 @@ class HomeScreen extends StatelessWidget {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      r.title,
+                                      title,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
@@ -441,12 +489,12 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(width: 4),
-                                  TypeBadge(type: r.type),
+                                  TypeBadge(type: t.type),
                                 ],
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                r.date,
+                                date,
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: isDark
@@ -458,7 +506,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${isExpense ? '-' : ''}¥${r.amount.replaceAll('¥', '')}',
+                          '${isExpense ? '-' : ''}¥${_formatAmount(t.amount)}',
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
@@ -475,7 +523,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (i < records.length - 1)
+                  if (i < recent.length - 1)
                     Divider(
                       height: 1,
                       indent: 70,
@@ -699,15 +747,6 @@ class HomeScreen extends StatelessWidget {
       }).toList(),
     );
   }
-}
-
-class _RecordItem {
-  final String emoji;
-  final String title;
-  final String date;
-  final TransactionType type;
-  final String amount;
-  const _RecordItem(this.emoji, this.title, this.date, this.type, this.amount);
 }
 
 class _GuideItem {

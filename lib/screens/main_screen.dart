@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/models/transaction.dart';
 import 'package:hareru/screens/dictionary/dictionary_screen.dart';
 import 'package:hareru/screens/home/home_screen.dart';
+import 'package:hareru/screens/home/widgets/add_transaction_sheet.dart';
 import 'package:hareru/screens/report/report_screen.dart';
 import 'package:hareru/screens/settings/settings_screen.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends ConsumerState<MainScreen> {
   int _currentIndex = 0;
+  OverlayEntry? _toastEntry;
 
   final _screens = const [
     HomeScreen(),
@@ -22,6 +27,79 @@ class _MainScreenState extends State<MainScreen> {
     DictionaryScreen(),
     SettingsScreen(),
   ];
+
+  void _showToast(Transaction transaction) {
+    final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final color = switch (transaction.type) {
+      TransactionType.expense => const Color(0xFFEF4444),
+      TransactionType.transfer => const Color(0xFF3B82F6),
+      TransactionType.savings => const Color(0xFF10B981),
+    };
+
+    final typeLabel = switch (transaction.type) {
+      TransactionType.expense => l10n.expense,
+      TransactionType.transfer => l10n.transfer,
+      TransactionType.savings => l10n.savings,
+    };
+
+    _toastEntry?.remove();
+    _toastEntry = OverlayEntry(
+      builder: (context) => _ToastWidget(
+        color: color,
+        message: l10n.recordSaved,
+        detail: '$typeLabel ¥${_formatNumber(transaction.amount)}',
+        isDark: isDark,
+        onDismiss: () {
+          _toastEntry?.remove();
+          _toastEntry = null;
+        },
+      ),
+    );
+    Overlay.of(context).insert(_toastEntry!);
+  }
+
+  String _formatNumber(double value) {
+    if (value == value.truncateToDouble()) {
+      return _addCommas(value.truncate().toString());
+    }
+    return _addCommas(value.toStringAsFixed(2));
+  }
+
+  String _addCommas(String s) {
+    final parts = s.split('.');
+    final intPart = parts[0];
+    final result = StringBuffer();
+    var count = 0;
+    for (var i = intPart.length - 1; i >= 0; i--) {
+      result.write(intPart[i]);
+      count++;
+      if (count % 3 == 0 && i > 0) result.write(',');
+    }
+    final formatted = result.toString().split('').reversed.join();
+    return parts.length > 1 ? '$formatted.${parts[1]}' : formatted;
+  }
+
+  void _openAddSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.85,
+          child: AddTransactionSheet(
+            onSave: (transaction) {
+              ref.read(transactionProvider.notifier).add(transaction);
+              Navigator.pop(sheetContext);
+              _showToast(transaction);
+            },
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,18 +202,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildFab(BuildContext context, bool isDark, Color bgColor) {
-    final l10n = AppLocalizations.of(context)!;
-
     return GestureDetector(
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.preparingFeature),
-            duration: const Duration(seconds: 1),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      },
+      onTap: _openAddSheet,
       child: Container(
         width: 64,
         height: 64,
@@ -180,4 +248,124 @@ class _TabItem {
   final IconData icon;
   final String label;
   const _TabItem(this.icon, this.label);
+}
+
+class _ToastWidget extends StatefulWidget {
+  const _ToastWidget({
+    required this.color,
+    required this.message,
+    required this.detail,
+    required this.isDark,
+    required this.onDismiss,
+  });
+
+  final Color color;
+  final String message;
+  final String detail;
+  final bool isDark;
+  final VoidCallback onDismiss;
+
+  @override
+  State<_ToastWidget> createState() => _ToastWidgetState();
+}
+
+class _ToastWidgetState extends State<_ToastWidget>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<Offset> _slideAnimation;
+  late final Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, -1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(_controller);
+
+    _controller.forward();
+    Future.delayed(const Duration(milliseconds: 1800), () {
+      if (mounted) {
+        _controller.reverse().then((_) {
+          if (mounted) widget.onDismiss();
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
+
+    return Positioned(
+      top: topPadding + 8,
+      left: 20,
+      right: 20,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              decoration: BoxDecoration(
+                color: widget.color,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: widget.color.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.check_circle_rounded,
+                      color: Colors.white, size: 22),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          widget.message,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          widget.detail,
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.85),
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
