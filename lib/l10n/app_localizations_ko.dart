@@ -311,4 +311,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cancel => '취소';
+
+  @override
+  String get editBudget => '예산 수정';
 }

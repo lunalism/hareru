@@ -254,17 +254,32 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 12),
                 _buildProgressBar(progress),
                 const SizedBox(height: 8),
-                Text(
-                  isOver
-                      ? l10n.overBudget('¥${_formatAmount(remaining.abs())}')
-                      : l10n.remainingBudget('¥${_formatAmount(remaining)}'),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: isOver
-                        ? const Color(0xFFFECACA)
-                        : Colors.white.withValues(alpha: 0.85),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      isOver
+                          ? l10n.overBudget('¥${_formatAmount(remaining.abs())}')
+                          : l10n.remainingBudget('¥${_formatAmount(remaining)}'),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: isOver
+                            ? const Color(0xFFFECACA)
+                            : Colors.white.withValues(alpha: 0.85),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => _showBudgetDialog(context, ref),
+                      child: Text(
+                        '✏️ ${l10n.editBudget}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white.withValues(alpha: 0.6),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ] else
                 Padding(

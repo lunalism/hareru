@@ -311,4 +311,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cancel => 'キャンセル';
+
+  @override
+  String get editBudget => '予算変更';
 }

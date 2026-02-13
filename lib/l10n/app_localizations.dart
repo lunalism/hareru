@@ -687,6 +687,12 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'キャンセル'**
   String get cancel;
+
+  /// No description provided for @editBudget.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算変更'**
+  String get editBudget;
 }
 
 class _AppLocalizationsDelegate

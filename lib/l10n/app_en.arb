@@ -132,5 +132,6 @@
   },
   "budgetSettings": "Budget Settings",
   "save": "Save",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "editBudget": "Edit Budget"
 }
