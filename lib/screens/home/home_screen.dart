@@ -244,37 +244,33 @@ class HomeScreen extends ConsumerWidget {
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
               ),
-              const SizedBox(height: 20),
-              // Divider
+              // 3-column: expense / transfer / savings (dark glass)
               Container(
-                height: 1,
-                color: Colors.white.withValues(alpha: 0.12),
-              ),
-              const SizedBox(height: 16),
-              // 3-column: expense / transfer / savings
-              Row(
-                children: [
-                  _killerColumn(
-                    l10n.expense,
-                    '¥${_formatAmount(expenseTotal)}',
-                    const Color(0xFFEF4444),
-                    const Color(0xFFFCA5A5),
-                  ),
-                  _killerDivider(),
-                  _killerColumn(
-                    l10n.transfer,
-                    '¥${_formatAmount(transferTotal)}',
-                    const Color(0xFF3B82F6),
-                    const Color(0xFF93C5FD),
-                  ),
-                  _killerDivider(),
-                  _killerColumn(
-                    l10n.savings,
-                    '¥${_formatAmount(savingsTotal)}',
-                    const Color(0xFF10B981),
-                    const Color(0xFF6EE7B7),
-                  ),
-                ],
+                margin: const EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.18),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Row(
+                  children: [
+                    _killerColumn(
+                      l10n.expense,
+                      '¥${_formatAmount(expenseTotal)}',
+                      const Color(0xFFEF4444),
+                    ),
+                    _killerColumn(
+                      l10n.transfer,
+                      '¥${_formatAmount(transferTotal)}',
+                      const Color(0xFF3B82F6),
+                    ),
+                    _killerColumn(
+                      l10n.savings,
+                      '¥${_formatAmount(savingsTotal)}',
+                      const Color(0xFF10B981),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -283,8 +279,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _killerColumn(
-      String label, String amount, Color dotColor, Color amountColor) {
+  Widget _killerColumn(String label, String amount, Color dotColor) {
     return Expanded(
       child: Column(
         children: [
@@ -293,8 +288,8 @@ class HomeScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 6,
-                height: 6,
+                width: 8,
+                height: 8,
                 decoration: BoxDecoration(
                   color: dotColor,
                   shape: BoxShape.circle,
@@ -304,8 +299,9 @@ class HomeScreen extends ConsumerWidget {
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 10,
-                  color: Colors.white.withValues(alpha: 0.6),
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white.withValues(alpha: 0.8),
                 ),
               ),
             ],
@@ -313,23 +309,15 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: 6),
           Text(
             amount,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: amountColor,
-              fontFeatures: const [FontFeature.tabularFigures()],
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+              fontFeatures: [FontFeature.tabularFigures()],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _killerDivider() {
-    return Container(
-      width: 1,
-      height: 36,
-      color: Colors.white.withValues(alpha: 0.12),
     );
   }
 
