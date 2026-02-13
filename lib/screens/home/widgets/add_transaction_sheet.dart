@@ -388,7 +388,7 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
                 Text(
                   cat.label(l10n),
                   style: TextStyle(
-                    fontSize: 10.5,
+                    fontSize: 12,
                     fontWeight:
                         isSelected ? FontWeight.w600 : FontWeight.w400,
                     color: isSelected ? activeColor : textSecondary,
