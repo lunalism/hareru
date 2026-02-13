@@ -283,4 +283,32 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get otherIncome => '기타';
+
+  @override
+  String get setBudget => '예산 설정하기';
+
+  @override
+  String get monthlyBudget => '월 예산';
+
+  @override
+  String get setBudgetTitle => '월 예산 설정';
+
+  @override
+  String remainingBudget(String amount) {
+    return '앞으로 $amount 쓸 수 있어요';
+  }
+
+  @override
+  String overBudget(String amount) {
+    return '$amount 초과했어요';
+  }
+
+  @override
+  String get budgetSettings => '예산 설정';
+
+  @override
+  String get save => '저장';
+
+  @override
+  String get cancel => '취소';
 }

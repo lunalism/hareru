@@ -288,4 +288,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get otherIncome => 'Other';
+
+  @override
+  String get setBudget => 'Set your budget';
+
+  @override
+  String get monthlyBudget => 'Monthly Budget';
+
+  @override
+  String get setBudgetTitle => 'Set Monthly Budget';
+
+  @override
+  String remainingBudget(String amount) {
+    return '$amount remaining';
+  }
+
+  @override
+  String overBudget(String amount) {
+    return '$amount over budget';
+  }
+
+  @override
+  String get budgetSettings => 'Budget Settings';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get cancel => 'Cancel';
 }

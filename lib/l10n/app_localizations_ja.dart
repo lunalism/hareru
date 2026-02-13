@@ -283,4 +283,32 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get otherIncome => 'その他';
+
+  @override
+  String get setBudget => '予算を設定する';
+
+  @override
+  String get monthlyBudget => '月の予算';
+
+  @override
+  String get setBudgetTitle => '月の予算を設定';
+
+  @override
+  String remainingBudget(String amount) {
+    return 'あと $amount 使えます';
+  }
+
+  @override
+  String overBudget(String amount) {
+    return '$amount オーバーしています';
+  }
+
+  @override
+  String get budgetSettings => '予算設定';
+
+  @override
+  String get save => '保存';
+
+  @override
+  String get cancel => 'キャンセル';
 }

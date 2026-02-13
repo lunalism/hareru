@@ -114,5 +114,23 @@
   "investmentReturn": "투자수익",
   "fleaMarket": "중고거래",
   "extraIncome": "임시수입",
-  "otherIncome": "기타"
+  "otherIncome": "기타",
+  "setBudget": "예산 설정하기",
+  "monthlyBudget": "월 예산",
+  "setBudgetTitle": "월 예산 설정",
+  "remainingBudget": "앞으로 {amount} 쓸 수 있어요",
+  "@remainingBudget": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "overBudget": "{amount} 초과했어요",
+  "@overBudget": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budgetSettings": "예산 설정",
+  "save": "저장",
+  "cancel": "취소"
 }

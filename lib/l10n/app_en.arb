@@ -114,5 +114,23 @@
   "investmentReturn": "Investment",
   "fleaMarket": "Flea Market",
   "extraIncome": "Extra Income",
-  "otherIncome": "Other"
+  "otherIncome": "Other",
+  "setBudget": "Set your budget",
+  "monthlyBudget": "Monthly Budget",
+  "setBudgetTitle": "Set Monthly Budget",
+  "remainingBudget": "{amount} remaining",
+  "@remainingBudget": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "overBudget": "{amount} over budget",
+  "@overBudget": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budgetSettings": "Budget Settings",
+  "save": "Save",
+  "cancel": "Cancel"
 }

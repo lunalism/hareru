@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
@@ -169,6 +170,11 @@ class HomeScreen extends ConsumerWidget {
       BuildContext context, bool isDark, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final expenseTotal = ref.read(transactionProvider.notifier).expenseTotal;
+    final budget = ref.watch(budgetProvider);
+    final isBudgetSet = budget > 0;
+    final progress = isBudgetSet ? expenseTotal / budget : 0.0;
+    final remaining = budget - expenseTotal;
+    final isOver = remaining < 0;
 
     return Container(
       width: double.infinity,
@@ -243,10 +249,94 @@ class HomeScreen extends ConsumerWidget {
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
               ),
+              if (isBudgetSet) ...[
+                const SizedBox(height: 12),
+                _buildProgressBar(progress),
+                const SizedBox(height: 8),
+                Text(
+                  isOver
+                      ? l10n.overBudget('¥${_formatAmount(remaining.abs())}')
+                      : l10n.remainingBudget('¥${_formatAmount(remaining)}'),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: isOver
+                        ? const Color(0xFFFECACA)
+                        : Colors.white.withValues(alpha: 0.85),
+                  ),
+                ),
+              ] else
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(
+                    '${l10n.setBudget} →',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.white.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildProgressBar(double progress) {
+    final clampedProgress = progress.clamp(0.0, 1.0);
+    final percentage = (progress * 100).toStringAsFixed(1);
+
+    // Color based on progress level
+    final barColor = progress > 1.0
+        ? const Color(0xFFEF4444)
+        : progress > 0.9
+            ? const Color(0xFFFCA5A5)
+            : progress > 0.7
+                ? const Color(0xFFFCD34D)
+                : Colors.white.withValues(alpha: 0.9);
+
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 6,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(3),
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: clampedProgress),
+                duration: const Duration(milliseconds: 600),
+                curve: Curves.easeOut,
+                builder: (context, value, _) {
+                  return FractionallySizedBox(
+                    widthFactor: value,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: barColor,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          '$percentage%',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: Colors.white.withValues(alpha: 0.7),
+            fontFeatures: const [FontFeature.tabularFigures()],
+          ),
+        ),
+      ],
     );
   }
 

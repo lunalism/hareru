@@ -114,5 +114,23 @@
   "investmentReturn": "投資収益",
   "fleaMarket": "フリマ",
   "extraIncome": "臨時収入",
-  "otherIncome": "その他"
+  "otherIncome": "その他",
+  "setBudget": "予算を設定する",
+  "monthlyBudget": "月の予算",
+  "setBudgetTitle": "月の予算を設定",
+  "remainingBudget": "あと {amount} 使えます",
+  "@remainingBudget": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "overBudget": "{amount} オーバーしています",
+  "@overBudget": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budgetSettings": "予算設定",
+  "save": "保存",
+  "cancel": "キャンセル"
 }

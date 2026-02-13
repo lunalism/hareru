@@ -639,6 +639,54 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'その他'**
   String get otherIncome;
+
+  /// No description provided for @setBudget.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算を設定する'**
+  String get setBudget;
+
+  /// No description provided for @monthlyBudget.
+  ///
+  /// In ja, this message translates to:
+  /// **'月の予算'**
+  String get monthlyBudget;
+
+  /// No description provided for @setBudgetTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'月の予算を設定'**
+  String get setBudgetTitle;
+
+  /// No description provided for @remainingBudget.
+  ///
+  /// In ja, this message translates to:
+  /// **'あと {amount} 使えます'**
+  String remainingBudget(String amount);
+
+  /// No description provided for @overBudget.
+  ///
+  /// In ja, this message translates to:
+  /// **'{amount} オーバーしています'**
+  String overBudget(String amount);
+
+  /// No description provided for @budgetSettings.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算設定'**
+  String get budgetSettings;
+
+  /// No description provided for @save.
+  ///
+  /// In ja, this message translates to:
+  /// **'保存'**
+  String get save;
+
+  /// No description provided for @cancel.
+  ///
+  /// In ja, this message translates to:
+  /// **'キャンセル'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate
