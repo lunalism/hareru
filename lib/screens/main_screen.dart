@@ -205,6 +205,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   Widget _buildFab(BuildContext context, bool isDark, Color bgColor) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: _openAddSheet,
       child: Container(
         width: 64,
