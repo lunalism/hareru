@@ -133,5 +133,20 @@
   "budgetSettings": "예산 설정",
   "save": "저장",
   "cancel": "취소",
-  "editBudget": "예산 수정"
+  "editBudget": "예산 수정",
+
+  "easySetup": "간단 초기 설정",
+  "setupDescription": "맞춤 가계부 관리를 위해\n2가지만 알려주세요",
+  "payDay": "급여일",
+  "payDayLabel": "매월 {day}일",
+  "@payDayLabel": {
+    "placeholders": {
+      "day": {"type": "String"}
+    }
+  },
+  "payDayEndOfMonth": "말일",
+  "setPayDay": "급여일 설정",
+  "getStarted": "시작하기",
+  "setupLater": "나중에 설정하기",
+  "everyMonth": "매월"
 }

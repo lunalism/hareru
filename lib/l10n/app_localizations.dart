@@ -693,6 +693,60 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'予算変更'**
   String get editBudget;
+
+  /// No description provided for @easySetup.
+  ///
+  /// In ja, this message translates to:
+  /// **'かんたん初期設定'**
+  String get easySetup;
+
+  /// No description provided for @setupDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'あなたに合わせた家計管理のために、\n2つだけ教えてください'**
+  String get setupDescription;
+
+  /// No description provided for @payDay.
+  ///
+  /// In ja, this message translates to:
+  /// **'給料日'**
+  String get payDay;
+
+  /// No description provided for @payDayLabel.
+  ///
+  /// In ja, this message translates to:
+  /// **'毎月 {day} 日'**
+  String payDayLabel(String day);
+
+  /// No description provided for @payDayEndOfMonth.
+  ///
+  /// In ja, this message translates to:
+  /// **'末日'**
+  String get payDayEndOfMonth;
+
+  /// No description provided for @setPayDay.
+  ///
+  /// In ja, this message translates to:
+  /// **'給料日を設定'**
+  String get setPayDay;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In ja, this message translates to:
+  /// **'はじめる'**
+  String get getStarted;
+
+  /// No description provided for @setupLater.
+  ///
+  /// In ja, this message translates to:
+  /// **'あとで設定する'**
+  String get setupLater;
+
+  /// No description provided for @everyMonth.
+  ///
+  /// In ja, this message translates to:
+  /// **'毎月'**
+  String get everyMonth;
 }
 
 class _AppLocalizationsDelegate

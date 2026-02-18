@@ -319,4 +319,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editBudget => 'Edit Budget';
+
+  @override
+  String get easySetup => 'Quick Setup';
+
+  @override
+  String get setupDescription => 'Just 2 things to personalize\nyour budget';
+
+  @override
+  String get payDay => 'Pay Day';
+
+  @override
+  String payDayLabel(String day) {
+    return 'Every ${day}th';
+  }
+
+  @override
+  String get payDayEndOfMonth => 'End of month';
+
+  @override
+  String get setPayDay => 'Set Pay Day';
+
+  @override
+  String get getStarted => 'Get Started';
+
+  @override
+  String get setupLater => 'Set up later';
+
+  @override
+  String get everyMonth => 'Every month';
 }

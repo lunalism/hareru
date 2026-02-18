@@ -314,4 +314,33 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get editBudget => '予算変更';
+
+  @override
+  String get easySetup => 'かんたん初期設定';
+
+  @override
+  String get setupDescription => 'あなたに合わせた家計管理のために、\n2つだけ教えてください';
+
+  @override
+  String get payDay => '給料日';
+
+  @override
+  String payDayLabel(String day) {
+    return '毎月 $day 日';
+  }
+
+  @override
+  String get payDayEndOfMonth => '末日';
+
+  @override
+  String get setPayDay => '給料日を設定';
+
+  @override
+  String get getStarted => 'はじめる';
+
+  @override
+  String get setupLater => 'あとで設定する';
+
+  @override
+  String get everyMonth => '毎月';
 }

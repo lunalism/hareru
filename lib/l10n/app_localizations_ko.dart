@@ -314,4 +314,33 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get editBudget => '예산 수정';
+
+  @override
+  String get easySetup => '간단 초기 설정';
+
+  @override
+  String get setupDescription => '맞춤 가계부 관리를 위해\n2가지만 알려주세요';
+
+  @override
+  String get payDay => '급여일';
+
+  @override
+  String payDayLabel(String day) {
+    return '매월 $day일';
+  }
+
+  @override
+  String get payDayEndOfMonth => '말일';
+
+  @override
+  String get setPayDay => '급여일 설정';
+
+  @override
+  String get getStarted => '시작하기';
+
+  @override
+  String get setupLater => '나중에 설정하기';
+
+  @override
+  String get everyMonth => '매월';
 }

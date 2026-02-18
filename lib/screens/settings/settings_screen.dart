@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
+import 'package:hareru/core/providers/pay_day_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -26,6 +27,102 @@ class SettingsScreen extends ConsumerWidget {
       if (count % 3 == 0 && i > 0) result.write(',');
     }
     return '¥${result.toString().split('').reversed.join()}';
+  }
+
+  String _formatPayDay(int payDay, AppLocalizations l10n) {
+    if (payDay == 32) return l10n.payDayLabel(l10n.payDayEndOfMonth);
+    return l10n.payDayLabel('$payDay');
+  }
+
+  void _showPayDayDialog(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    var selected = ref.read(payDayProvider);
+    if (selected == 0) selected = 25;
+
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              backgroundColor:
+                  isDark ? HareruColors.darkCard : HareruColors.lightCard,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: Text(
+                l10n.setPayDay,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: isDark
+                      ? HareruColors.darkTextPrimary
+                      : HareruColors.lightTextPrimary,
+                ),
+              ),
+              content: DropdownButtonHideUnderline(
+                child: DropdownButton<int>(
+                  value: selected,
+                  isExpanded: true,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: HareruColors.primaryStart,
+                  ),
+                  dropdownColor:
+                      isDark ? HareruColors.darkCard : HareruColors.lightCard,
+                  items: [
+                    ...List.generate(
+                      31,
+                      (i) => DropdownMenuItem(
+                        value: i + 1,
+                        child: Text('${i + 1}'),
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 32,
+                      child: Text(l10n.payDayEndOfMonth),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    if (value != null) {
+                      setDialogState(() => selected = value);
+                    }
+                  },
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(dialogContext),
+                  child: Text(
+                    l10n.cancel,
+                    style: TextStyle(
+                      color: isDark
+                          ? HareruColors.darkTextSecondary
+                          : HareruColors.lightTextSecondary,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    ref.read(payDayProvider.notifier).setPayDay(selected);
+                    Navigator.pop(dialogContext);
+                  },
+                  child: Text(
+                    l10n.save,
+                    style: const TextStyle(
+                      color: HareruColors.primaryStart,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   void _showBudgetDialog(BuildContext context, WidgetRef ref) {
@@ -139,6 +236,7 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final currentLocale = ref.watch(localeProvider);
     final budget = ref.watch(budgetProvider);
+    final payDay = ref.watch(payDayProvider);
 
     return Scaffold(
       backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
@@ -179,53 +277,113 @@ class SettingsScreen extends ConsumerWidget {
                       isDark ? HareruColors.darkCard : HareruColors.lightCard,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => _showBudgetDialog(context, ref),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
-                    child: Row(
-                      children: [
-                        const Text('📊',
-                            style: TextStyle(fontSize: 24)),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Text(
-                            l10n.monthlyBudget,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: isDark
-                                  ? HareruColors.darkTextPrimary
-                                  : HareruColors.lightTextPrimary,
+                child: Column(
+                  children: [
+                    // Pay day row
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => _showPayDayDialog(context, ref),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
+                        child: Row(
+                          children: [
+                            const Text('\u{1F4B0}',
+                                style: TextStyle(fontSize: 24)),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Text(
+                                l10n.payDay,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: isDark
+                                      ? HareruColors.darkTextPrimary
+                                      : HareruColors.lightTextPrimary,
+                                ),
+                              ),
                             ),
-                          ),
+                            Text(
+                              payDay > 0
+                                  ? _formatPayDay(payDay, l10n)
+                                  : '-',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: isDark
+                                    ? HareruColors.darkTextSecondary
+                                    : HareruColors.lightTextSecondary,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.chevron_right_rounded,
+                              size: 22,
+                              color: isDark
+                                  ? HareruColors.darkTextTertiary
+                                  : HareruColors.lightTextTertiary,
+                            ),
+                          ],
                         ),
-                        Text(
-                          _formatBudget(budget),
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: isDark
-                                ? HareruColors.darkTextSecondary
-                                : HareruColors.lightTextSecondary,
-                            fontFeatures: const [
-                              FontFeature.tabularFigures()
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Icon(
-                          Icons.chevron_right_rounded,
-                          size: 22,
-                          color: isDark
-                              ? HareruColors.darkTextTertiary
-                              : HareruColors.lightTextTertiary,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Divider(
+                      height: 1,
+                      indent: 54,
+                      color: isDark
+                          ? HareruColors.darkDivider
+                          : HareruColors.lightDivider,
+                    ),
+                    // Budget row
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => _showBudgetDialog(context, ref),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
+                        child: Row(
+                          children: [
+                            const Text('\u{1F4CA}',
+                                style: TextStyle(fontSize: 24)),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Text(
+                                l10n.monthlyBudget,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: isDark
+                                      ? HareruColors.darkTextPrimary
+                                      : HareruColors.lightTextPrimary,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              _formatBudget(budget),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: isDark
+                                    ? HareruColors.darkTextSecondary
+                                    : HareruColors.lightTextSecondary,
+                                fontFeatures: const [
+                                  FontFeature.tabularFigures()
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.chevron_right_rounded,
+                              size: 22,
+                              color: isDark
+                                  ? HareruColors.darkTextTertiary
+                                  : HareruColors.lightTextTertiary,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 28),

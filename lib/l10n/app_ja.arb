@@ -133,5 +133,20 @@
   "budgetSettings": "予算設定",
   "save": "保存",
   "cancel": "キャンセル",
-  "editBudget": "予算変更"
+  "editBudget": "予算変更",
+
+  "easySetup": "かんたん初期設定",
+  "setupDescription": "あなたに合わせた家計管理のために、\n2つだけ教えてください",
+  "payDay": "給料日",
+  "payDayLabel": "毎月 {day} 日",
+  "@payDayLabel": {
+    "placeholders": {
+      "day": {"type": "String"}
+    }
+  },
+  "payDayEndOfMonth": "末日",
+  "setPayDay": "給料日を設定",
+  "getStarted": "はじめる",
+  "setupLater": "あとで設定する",
+  "everyMonth": "毎月"
 }
