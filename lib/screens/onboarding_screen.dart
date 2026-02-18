@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +23,17 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   // Setup slide state
   int _selectedPayDay = 25;
   final TextEditingController _budgetController = TextEditingController();
+  final FocusNode _budgetFocusNode = FocusNode();
+  bool _budgetFocused = false;
+  Timer? _payDayTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _budgetFocusNode.addListener(() {
+      setState(() => _budgetFocused = _budgetFocusNode.hasFocus);
+    });
+  }
 
   void _nextPage() {
     if (_currentPage < 3) {
@@ -55,9 +68,26 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   void dispose() {
+    _payDayTimer?.cancel();
     _pageController.dispose();
     _budgetController.dispose();
+    _budgetFocusNode.dispose();
     super.dispose();
+  }
+
+  void _startPayDayTimer(int delta) {
+    _payDayTimer = Timer.periodic(const Duration(milliseconds: 100), (_) {
+      setState(() {
+        _selectedPayDay += delta;
+        if (_selectedPayDay > 31) _selectedPayDay = 1;
+        if (_selectedPayDay < 1) _selectedPayDay = 31;
+      });
+    });
+  }
+
+  void _stopPayDayTimer() {
+    _payDayTimer?.cancel();
+    _payDayTimer = null;
   }
 
   @override
@@ -315,25 +345,29 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           ),
           const SizedBox(height: 32),
 
-          // Pay day card
+          // Pay day card — stepper style
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF1E293B) : Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: isDark
-                    ? const Color(0xFF334155)
-                    : const Color(0xFFE2E8F0),
-              ),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 3,
+                  offset: const Offset(0, 1),
+                ),
+              ],
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('\u{1F4B0}', style: TextStyle(fontSize: 20)),
+                    const Text('\u{1F4B0}',
+                        style: TextStyle(fontSize: 20)),
                     const SizedBox(width: 8),
                     Text(
                       l10n.payDay,
@@ -347,114 +381,126 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 20),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      l10n.everyMonth,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: isDark
-                            ? const Color(0xFF94A3B8)
-                            : const Color(0xFF475569),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? const Color(0xFF0F172A)
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
+                    // Left arrow
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedPayDay = _selectedPayDay <= 1
+                              ? 31
+                              : _selectedPayDay - 1;
+                        });
+                      },
+                      onLongPressStart: (_) => _startPayDayTimer(-1),
+                      onLongPressEnd: (_) => _stopPayDayTimer(),
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
                           color: isDark
                               ? const Color(0xFF334155)
-                              : const Color(0xFFE2E8F0),
+                              : const Color(0xFFF1F5F9),
+                          shape: BoxShape.circle,
                         ),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<int>(
-                          value: _selectedPayDay,
-                          isDense: true,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF3B82F6),
-                            fontFeatures: const [FontFeature.tabularFigures()],
-                          ),
-                          dropdownColor: isDark
-                              ? const Color(0xFF1E293B)
-                              : Colors.white,
-                          icon: Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: isDark
-                                ? const Color(0xFF64748B)
-                                : const Color(0xFF94A3B8),
-                          ),
-                          items: [
-                            ...List.generate(
-                              31,
-                              (i) => DropdownMenuItem(
-                                value: i + 1,
-                                child: Text('${i + 1}'),
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: 32,
-                              child: Text(l10n.payDayEndOfMonth),
-                            ),
-                          ],
-                          onChanged: (value) {
-                            if (value != null) {
-                              setState(() => _selectedPayDay = value);
-                            }
-                          },
+                        child: const Icon(
+                          Icons.chevron_left,
+                          size: 20,
+                          color: Color(0xFF64748B),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    if (_selectedPayDay <= 31)
-                      Text(
-                        _selectedPayDay == 32
-                            ? ''
-                            : Localizations.localeOf(context).languageCode ==
-                                    'en'
-                                ? ''
-                                : '\u65E5',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: isDark
-                              ? const Color(0xFF94A3B8)
-                              : const Color(0xFF475569),
+                    const SizedBox(width: 24),
+                    // Number with AnimatedSwitcher
+                    SizedBox(
+                      width: 60,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 150),
+                        transitionBuilder: (child, animation) {
+                          return FadeTransition(
+                              opacity: animation, child: child);
+                        },
+                        child: Text(
+                          '$_selectedPayDay',
+                          key: ValueKey<int>(_selectedPayDay),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF3B82F6),
+                            fontFeatures: [FontFeature.tabularFigures()],
+                          ),
                         ),
                       ),
+                    ),
+                    const SizedBox(width: 24),
+                    // Right arrow
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedPayDay = _selectedPayDay >= 31
+                              ? 1
+                              : _selectedPayDay + 1;
+                        });
+                      },
+                      onLongPressStart: (_) => _startPayDayTimer(1),
+                      onLongPressEnd: (_) => _stopPayDayTimer(),
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? const Color(0xFF334155)
+                              : const Color(0xFFF1F5F9),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.chevron_right,
+                          size: 20,
+                          color: Color(0xFF64748B),
+                        ),
+                      ),
+                    ),
                   ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  l10n.payDayEveryMonth('$_selectedPayDay'),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF94A3B8),
+                  ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 16),
 
-          // Budget card
+          // Budget card — underline style
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF1E293B) : Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: isDark
-                    ? const Color(0xFF334155)
-                    : const Color(0xFFE2E8F0),
-              ),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 3,
+                  offset: const Offset(0, 1),
+                ),
+              ],
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('\u{1F3AF}', style: TextStyle(fontSize: 20)),
+                    const Text('\u{1F3AF}',
+                        style: TextStyle(fontSize: 20)),
                     const SizedBox(width: 8),
                     Text(
                       l10n.monthlyBudget,
@@ -468,67 +514,73 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 14),
-                TextField(
-                  controller: _budgetController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF3B82F6),
-                  ),
-                  decoration: InputDecoration(
-                    prefixText: '$currencySymbol ',
-                    prefixStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF3B82F6),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: 200,
+                  child: TextField(
+                    controller: _budgetController,
+                    focusNode: _budgetFocusNode,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.w700,
+                      color: _budgetFocused
+                          ? const Color(0xFF3B82F6)
+                          : (isDark
+                              ? Colors.white
+                              : const Color(0xFF1E293B)),
+                      fontFeatures: const [
+                        FontFeature.tabularFigures(),
+                      ],
                     ),
-                    hintText: '0',
-                    hintStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: isDark
-                          ? const Color(0xFF64748B)
-                          : const Color(0xFF94A3B8),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
+                    decoration: InputDecoration(
+                      prefixText: '$currencySymbol ',
+                      prefixStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: _budgetFocused
+                            ? const Color(0xFF3B82F6)
+                                .withValues(alpha: 0.6)
+                            : const Color(0xFF94A3B8),
+                      ),
+                      hintText: '0',
+                      hintStyle: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.w700,
                         color: isDark
-                            ? const Color(0xFF334155)
-                            : const Color(0xFFE2E8F0),
+                            ? const Color(0xFF475569)
+                            : const Color(0xFFCBD5E1),
                       ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: isDark
-                            ? const Color(0xFF334155)
-                            : const Color(0xFFE2E8F0),
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF3B82F6),
+                          width: 2,
+                        ),
                       ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: Color(0xFF3B82F6),
-                        width: 2,
+                      focusedBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF3B82F6),
+                          width: 2,
+                        ),
                       ),
+                      contentPadding: const EdgeInsets.only(bottom: 8),
+                      isDense: true,
                     ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 14),
+                    onChanged: (value) {
+                      final formatted = _formatNumber(value);
+                      if (formatted != value) {
+                        _budgetController.value = TextEditingValue(
+                          text: formatted,
+                          selection: TextSelection.collapsed(
+                              offset: formatted.length),
+                        );
+                      }
+                    },
                   ),
-                  onChanged: (value) {
-                    final formatted = _formatNumber(value);
-                    if (formatted != value) {
-                      _budgetController.value = TextEditingValue(
-                        text: formatted,
-                        selection:
-                            TextSelection.collapsed(offset: formatted.length),
-                      );
-                    }
-                  },
                 ),
               ],
             ),

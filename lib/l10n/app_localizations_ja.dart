@@ -375,4 +375,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get add => '追加';
+
+  @override
+  String payDayEveryMonth(String day) {
+    return '毎月$day日';
+  }
 }

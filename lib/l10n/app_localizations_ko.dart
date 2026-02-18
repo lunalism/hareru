@@ -375,4 +375,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get add => '추가';
+
+  @override
+  String payDayEveryMonth(String day) {
+    return '매월 $day일';
+  }
 }

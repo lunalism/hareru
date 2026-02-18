@@ -380,4 +380,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get add => 'Add';
+
+  @override
+  String payDayEveryMonth(String day) {
+    return 'Every month, ${day}th';
+  }
 }

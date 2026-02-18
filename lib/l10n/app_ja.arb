@@ -164,5 +164,11 @@
       "count": {"type": "int"}
     }
   },
-  "add": "追加"
+  "add": "追加",
+  "payDayEveryMonth": "毎月{day}日",
+  "@payDayEveryMonth": {
+    "placeholders": {
+      "day": {"type": "String"}
+    }
+  }
 }

@@ -807,6 +807,12 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'追加'**
   String get add;
+
+  /// No description provided for @payDayEveryMonth.
+  ///
+  /// In ja, this message translates to:
+  /// **'毎月{day}日'**
+  String payDayEveryMonth(String day);
 }
 
 class _AppLocalizationsDelegate

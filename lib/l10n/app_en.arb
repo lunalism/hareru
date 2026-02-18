@@ -164,5 +164,11 @@
       "count": {"type": "int"}
     }
   },
-  "add": "Add"
+  "add": "Add",
+  "payDayEveryMonth": "Every month, {day}th",
+  "@payDayEveryMonth": {
+    "placeholders": {
+      "day": {"type": "String"}
+    }
+  }
 }

@@ -164,5 +164,11 @@
       "count": {"type": "int"}
     }
   },
-  "add": "추가"
+  "add": "추가",
+  "payDayEveryMonth": "매월 {day}일",
+  "@payDayEveryMonth": {
+    "placeholders": {
+      "day": {"type": "String"}
+    }
+  }
 }
