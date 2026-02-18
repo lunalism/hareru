@@ -348,4 +348,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get everyMonth => 'Every month';
+
+  @override
+  String get catUtility => 'Utilities';
+
+  @override
+  String get categoryManagement => 'Category Management';
+
+  @override
+  String get addCategory => 'Add Category';
+
+  @override
+  String get editCategory => 'Edit Category';
+
+  @override
+  String get deleteCategory => 'Delete Category';
+
+  @override
+  String get categoryName => 'Category Name';
+
+  @override
+  String get categoryEmoji => 'Icon';
+
+  @override
+  String get cannotDeleteDefault => 'Default categories cannot be deleted';
+
+  @override
+  String deleteCategoryConfirm(int count) {
+    return 'Deleting this category will move $count records to \'Other\'';
+  }
+
+  @override
+  String get add => 'Add';
 }

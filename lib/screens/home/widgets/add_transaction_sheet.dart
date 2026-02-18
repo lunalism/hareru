@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/models/category.dart' as cat_model;
 import 'package:hareru/models/transaction.dart';
 
-typedef CategoryData = ({String emoji, String Function(AppLocalizations) label, String key});
-
-class AddTransactionSheet extends StatefulWidget {
+class AddTransactionSheet extends ConsumerStatefulWidget {
   const AddTransactionSheet({super.key, required this.onSave});
 
   final void Function(Transaction transaction) onSave;
 
   @override
-  State<AddTransactionSheet> createState() => _AddTransactionSheetState();
+  ConsumerState<AddTransactionSheet> createState() =>
+      _AddTransactionSheetState();
 }
 
-class _AddTransactionSheetState extends State<AddTransactionSheet> {
+class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
   TransactionType _selectedType = TransactionType.expense;
   String _amount = '0';
   String? _selectedCategory;
@@ -34,44 +36,52 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
     TransactionType.income: [Color(0xFFF59E0B), Color(0xFFD97706)],
   };
 
-  List<CategoryData> _categoriesForType(TransactionType type) {
+  String _typeToString(TransactionType type) {
     return switch (type) {
-      TransactionType.expense => [
-        (emoji: '🍚', label: (l) => l.catFood, key: 'catFood'),
-        (emoji: '🚃', label: (l) => l.catTransport, key: 'catTransport'),
-        (emoji: '🛒', label: (l) => l.catDaily, key: 'catDaily'),
-        (emoji: '☕', label: (l) => l.catCafe, key: 'catCafe'),
-        (emoji: '🎮', label: (l) => l.catHobby, key: 'catHobby'),
-        (emoji: '👕', label: (l) => l.catClothing, key: 'catClothing'),
-        (emoji: '🏥', label: (l) => l.catMedical, key: 'catMedical'),
-        (emoji: '📱', label: (l) => l.catPhone, key: 'catPhone'),
-        (emoji: '🏠', label: (l) => l.catHousing, key: 'catHousing'),
-        (emoji: '🍻', label: (l) => l.catSocial, key: 'catSocial'),
-        (emoji: '📚', label: (l) => l.catEducation, key: 'catEducation'),
-        (emoji: '📦', label: (l) => l.catOther, key: 'catOther'),
-      ],
-      TransactionType.transfer => [
-        (emoji: '🏦', label: (l) => l.catBankTransfer, key: 'catBankTransfer'),
-        (emoji: '💳', label: (l) => l.catCard, key: 'catCard'),
-        (emoji: '📲', label: (l) => l.catEMoney, key: 'catEMoney'),
-        (emoji: '📦', label: (l) => l.catTransferOther, key: 'catTransferOther'),
-      ],
-      TransactionType.savings => [
-        (emoji: '🏦', label: (l) => l.catSavings, key: 'catSavings'),
-        (emoji: '📈', label: (l) => l.catInvestment, key: 'catInvestment'),
-        (emoji: '🎯', label: (l) => l.catGoal, key: 'catGoal'),
-        (emoji: '📦', label: (l) => l.catSavingsOther, key: 'catSavingsOther'),
-      ],
-      TransactionType.income => [
-        (emoji: '💰', label: (l) => l.salary, key: 'salary'),
-        (emoji: '💼', label: (l) => l.sideJob, key: 'sideJob'),
-        (emoji: '🎁', label: (l) => l.bonus, key: 'bonus'),
-        (emoji: '👛', label: (l) => l.allowance, key: 'allowance'),
-        (emoji: '📈', label: (l) => l.investmentReturn, key: 'investmentReturn'),
-        (emoji: '📦', label: (l) => l.fleaMarket, key: 'fleaMarket'),
-        (emoji: '💴', label: (l) => l.extraIncome, key: 'extraIncome'),
-        (emoji: '📁', label: (l) => l.otherIncome, key: 'otherIncome'),
-      ],
+      TransactionType.expense => 'expense',
+      TransactionType.transfer => 'transfer',
+      TransactionType.savings => 'savings',
+      TransactionType.income => 'income',
+    };
+  }
+
+  String _categoryDisplayName(cat_model.Category cat, AppLocalizations l10n) {
+    if (!cat.isDefault) return cat.name;
+    return _resolveL10nKey(cat.name, l10n);
+  }
+
+  String _resolveL10nKey(String key, AppLocalizations l10n) {
+    return switch (key) {
+      'catFood' => l10n.catFood,
+      'catTransport' => l10n.catTransport,
+      'catDaily' => l10n.catDaily,
+      'catCafe' => l10n.catCafe,
+      'catHobby' => l10n.catHobby,
+      'catClothing' => l10n.catClothing,
+      'catMedical' => l10n.catMedical,
+      'catPhone' => l10n.catPhone,
+      'catHousing' => l10n.catHousing,
+      'catSocial' => l10n.catSocial,
+      'catEducation' => l10n.catEducation,
+      'catOther' => l10n.catOther,
+      'catUtility' => l10n.catUtility,
+      'catBankTransfer' => l10n.catBankTransfer,
+      'catCard' => l10n.catCard,
+      'catEMoney' => l10n.catEMoney,
+      'catTransferOther' => l10n.catTransferOther,
+      'catSavings' => l10n.catSavings,
+      'catInvestment' => l10n.catInvestment,
+      'catGoal' => l10n.catGoal,
+      'catSavingsOther' => l10n.catSavingsOther,
+      'salary' => l10n.salary,
+      'sideJob' => l10n.sideJob,
+      'bonus' => l10n.bonus,
+      'allowance' => l10n.allowance,
+      'investmentReturn' => l10n.investmentReturn,
+      'fleaMarket' => l10n.fleaMarket,
+      'extraIncome' => l10n.extraIncome,
+      'otherIncome' => l10n.otherIncome,
+      _ => key,
     };
   }
 
@@ -149,6 +159,142 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
     widget.onSave(transaction);
   }
 
+  void _showQuickAddDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeColor = _typeColors[_selectedType]!;
+    final emojiController = TextEditingController();
+    final nameController = TextEditingController();
+
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor:
+              isDark ? HareruColors.darkCard : HareruColors.lightCard,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Text(
+            l10n.addCategory,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: isDark
+                  ? HareruColors.darkTextPrimary
+                  : HareruColors.lightTextPrimary,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: emojiController,
+                autofocus: true,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 32),
+                decoration: InputDecoration(
+                  hintText: '\u{1F4C1}',
+                  hintStyle: TextStyle(
+                    fontSize: 32,
+                    color: isDark
+                        ? HareruColors.darkTextTertiary
+                        : HareruColors.lightTextTertiary,
+                  ),
+                  labelText: l10n.categoryEmoji,
+                  labelStyle: TextStyle(
+                    color: isDark
+                        ? HareruColors.darkTextSecondary
+                        : HareruColors.lightTextSecondary,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: activeColor, width: 2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
+              TextField(
+                controller: nameController,
+                maxLength: 10,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: isDark
+                      ? HareruColors.darkTextPrimary
+                      : HareruColors.lightTextPrimary,
+                ),
+                decoration: InputDecoration(
+                  labelText: l10n.categoryName,
+                  labelStyle: TextStyle(
+                    color: isDark
+                        ? HareruColors.darkTextSecondary
+                        : HareruColors.lightTextSecondary,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: activeColor, width: 2),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(
+                l10n.cancel,
+                style: TextStyle(
+                  color: isDark
+                      ? HareruColors.darkTextSecondary
+                      : HareruColors.lightTextSecondary,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                final emoji = emojiController.text.trim();
+                final name = nameController.text.trim();
+                if (name.isNotEmpty) {
+                  ref.read(categoryProvider.notifier).addCategory(
+                        name,
+                        emoji.isEmpty ? '\u{1F4C1}' : emoji,
+                        _typeToString(_selectedType),
+                      );
+                  Navigator.pop(dialogContext);
+                  // Select the newly added category after a brief delay
+                  Future.delayed(const Duration(milliseconds: 100), () {
+                    if (mounted) {
+                      final cats = ref
+                          .read(categoryProvider.notifier)
+                          .getCategoriesByType(
+                              _typeToString(_selectedType));
+                      if (cats.isNotEmpty) {
+                        setState(
+                            () => _selectedCategory = cats.last.id);
+                      }
+                    }
+                  });
+                }
+              },
+              child: Text(
+                l10n.save,
+                style: TextStyle(
+                  color: activeColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -161,7 +307,11 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
         ? HareruColors.darkTextSecondary
         : HareruColors.lightTextSecondary;
     final activeColor = _typeColors[_selectedType]!;
-    final categories = _categoriesForType(_selectedType);
+
+    ref.watch(categoryProvider);
+    final categories = ref
+        .read(categoryProvider.notifier)
+        .getCategoriesByType(_typeToString(_selectedType));
 
     return Container(
       decoration: BoxDecoration(
@@ -321,7 +471,7 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
           textBaseline: TextBaseline.alphabetic,
           children: [
             Text(
-              '¥',
+              '\u00a5',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -354,13 +504,16 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
   }
 
   Widget _buildCategoryGrid(
-    List<CategoryData> categories,
+    List<cat_model.Category> categories,
     AppLocalizations l10n,
     bool isDark,
     Color cardColor,
     Color textSecondary,
     Color activeColor,
   ) {
+    // +1 for the add button
+    final itemCount = categories.length + 1;
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -370,13 +523,56 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
       ),
-      itemCount: categories.length,
+      itemCount: itemCount,
       itemBuilder: (context, index) {
+        // Last item is the add button
+        if (index == categories.length) {
+          return GestureDetector(
+            onTap: () => _showQuickAddDialog(context),
+            child: Container(
+              decoration: BoxDecoration(
+                color: isDark
+                    ? const Color(0xFF1E293B)
+                    : const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: isDark
+                      ? HareruColors.darkDivider
+                      : HareruColors.lightDivider,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_rounded,
+                    size: 24,
+                    color: isDark
+                        ? const Color(0xFF64748B)
+                        : const Color(0xFF94A3B8),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.add,
+                    style: TextStyle(
+                      fontSize: 10.5,
+                      color: isDark
+                          ? const Color(0xFF64748B)
+                          : const Color(0xFF94A3B8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
         final cat = categories[index];
-        final isSelected = _selectedCategory == cat.key;
+        final isSelected = _selectedCategory == cat.id;
+        final displayName = _categoryDisplayName(cat, l10n);
 
         return GestureDetector(
-          onTap: () => setState(() => _selectedCategory = cat.key),
+          onTap: () => setState(() => _selectedCategory = cat.id),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 150),
             decoration: BoxDecoration(
@@ -399,7 +595,7 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
                 Text(cat.emoji, style: const TextStyle(fontSize: 22)),
                 const SizedBox(height: 4),
                 Text(
-                  cat.label(l10n),
+                  displayName,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight:
@@ -433,7 +629,7 @@ class _AddTransactionSheetState extends State<AddTransactionSheet> {
       ),
       child: Row(
         children: [
-          Text('📝', style: TextStyle(fontSize: 16, color: textTertiary)),
+          Text('\u{1F4DD}', style: TextStyle(fontSize: 16, color: textTertiary)),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(

@@ -747,6 +747,66 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'毎月'**
   String get everyMonth;
+
+  /// No description provided for @catUtility.
+  ///
+  /// In ja, this message translates to:
+  /// **'光熱費'**
+  String get catUtility;
+
+  /// No description provided for @categoryManagement.
+  ///
+  /// In ja, this message translates to:
+  /// **'カテゴリ管理'**
+  String get categoryManagement;
+
+  /// No description provided for @addCategory.
+  ///
+  /// In ja, this message translates to:
+  /// **'カテゴリを追加'**
+  String get addCategory;
+
+  /// No description provided for @editCategory.
+  ///
+  /// In ja, this message translates to:
+  /// **'カテゴリを編集'**
+  String get editCategory;
+
+  /// No description provided for @deleteCategory.
+  ///
+  /// In ja, this message translates to:
+  /// **'カテゴリを削除'**
+  String get deleteCategory;
+
+  /// No description provided for @categoryName.
+  ///
+  /// In ja, this message translates to:
+  /// **'カテゴリ名'**
+  String get categoryName;
+
+  /// No description provided for @categoryEmoji.
+  ///
+  /// In ja, this message translates to:
+  /// **'アイコン'**
+  String get categoryEmoji;
+
+  /// No description provided for @cannotDeleteDefault.
+  ///
+  /// In ja, this message translates to:
+  /// **'デフォルトカテゴリは削除できません'**
+  String get cannotDeleteDefault;
+
+  /// No description provided for @deleteCategoryConfirm.
+  ///
+  /// In ja, this message translates to:
+  /// **'このカテゴリを削除すると、{count}件の記録が「その他」に移動します'**
+  String deleteCategoryConfirm(int count);
+
+  /// No description provided for @add.
+  ///
+  /// In ja, this message translates to:
+  /// **'追加'**
+  String get add;
 }
 
 class _AppLocalizationsDelegate

@@ -6,6 +6,7 @@ import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
 import 'package:hareru/core/providers/pay_day_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/screens/settings/category_management_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -384,6 +385,56 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+              const SizedBox(height: 28),
+
+              // Category management
+              Container(
+                decoration: BoxDecoration(
+                  color:
+                      isDark ? HareruColors.darkCard : HareruColors.lightCard,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) =>
+                          const CategoryManagementScreen(),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: Row(
+                      children: [
+                        const Text('\u{1F4C2}',
+                            style: TextStyle(fontSize: 24)),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Text(
+                            l10n.categoryManagement,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: isDark
+                                  ? HareruColors.darkTextPrimary
+                                  : HareruColors.lightTextPrimary,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right_rounded,
+                          size: 22,
+                          color: isDark
+                              ? HareruColors.darkTextTertiary
+                              : HareruColors.lightTextTertiary,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 28),

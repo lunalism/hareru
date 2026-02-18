@@ -343,4 +343,36 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get everyMonth => '매월';
+
+  @override
+  String get catUtility => '공과금';
+
+  @override
+  String get categoryManagement => '카테고리 관리';
+
+  @override
+  String get addCategory => '카테고리 추가';
+
+  @override
+  String get editCategory => '카테고리 편집';
+
+  @override
+  String get deleteCategory => '카테고리 삭제';
+
+  @override
+  String get categoryName => '카테고리 이름';
+
+  @override
+  String get categoryEmoji => '아이콘';
+
+  @override
+  String get cannotDeleteDefault => '기본 카테고리는 삭제할 수 없습니다';
+
+  @override
+  String deleteCategoryConfirm(int count) {
+    return '이 카테고리를 삭제하면 $count건의 기록이 \'기타\'로 이동합니다';
+  }
+
+  @override
+  String get add => '추가';
 }

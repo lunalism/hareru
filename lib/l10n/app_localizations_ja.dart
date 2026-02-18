@@ -343,4 +343,36 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get everyMonth => '毎月';
+
+  @override
+  String get catUtility => '光熱費';
+
+  @override
+  String get categoryManagement => 'カテゴリ管理';
+
+  @override
+  String get addCategory => 'カテゴリを追加';
+
+  @override
+  String get editCategory => 'カテゴリを編集';
+
+  @override
+  String get deleteCategory => 'カテゴリを削除';
+
+  @override
+  String get categoryName => 'カテゴリ名';
+
+  @override
+  String get categoryEmoji => 'アイコン';
+
+  @override
+  String get cannotDeleteDefault => 'デフォルトカテゴリは削除できません';
+
+  @override
+  String deleteCategoryConfirm(int count) {
+    return 'このカテゴリを削除すると、$count件の記録が「その他」に移動します';
+  }
+
+  @override
+  String get add => '追加';
 }

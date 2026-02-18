@@ -148,5 +148,21 @@
   "setPayDay": "給料日を設定",
   "getStarted": "はじめる",
   "setupLater": "あとで設定する",
-  "everyMonth": "毎月"
+  "everyMonth": "毎月",
+
+  "catUtility": "光熱費",
+  "categoryManagement": "カテゴリ管理",
+  "addCategory": "カテゴリを追加",
+  "editCategory": "カテゴリを編集",
+  "deleteCategory": "カテゴリを削除",
+  "categoryName": "カテゴリ名",
+  "categoryEmoji": "アイコン",
+  "cannotDeleteDefault": "デフォルトカテゴリは削除できません",
+  "deleteCategoryConfirm": "このカテゴリを削除すると、{count}件の記録が「その他」に移動します",
+  "@deleteCategoryConfirm": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "add": "追加"
 }

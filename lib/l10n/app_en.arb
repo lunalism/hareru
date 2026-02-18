@@ -148,5 +148,21 @@
   "setPayDay": "Set Pay Day",
   "getStarted": "Get Started",
   "setupLater": "Set up later",
-  "everyMonth": "Every month"
+  "everyMonth": "Every month",
+
+  "catUtility": "Utilities",
+  "categoryManagement": "Category Management",
+  "addCategory": "Add Category",
+  "editCategory": "Edit Category",
+  "deleteCategory": "Delete Category",
+  "categoryName": "Category Name",
+  "categoryEmoji": "Icon",
+  "cannotDeleteDefault": "Default categories cannot be deleted",
+  "deleteCategoryConfirm": "Deleting this category will move {count} records to 'Other'",
+  "@deleteCategoryConfirm": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "add": "Add"
 }

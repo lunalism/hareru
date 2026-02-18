@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
+import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
@@ -42,7 +43,7 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 8),
                 _buildBreakdownCard(context, isDark, ref),
                 const SizedBox(height: 24),
-                _buildRecentRecords(context, isDark, transactions),
+                _buildRecentRecords(context, isDark, transactions, ref),
                 const SizedBox(height: 24),
                 _buildAiInsightCard(context, isDark),
               ],
@@ -565,42 +566,20 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  String _emojiForCategory(String category) {
-    return switch (category) {
-      'catFood' => '🍚',
-      'catTransport' => '🚃',
-      'catDaily' => '🛒',
-      'catCafe' => '☕',
-      'catHobby' => '🎮',
-      'catClothing' => '👕',
-      'catMedical' => '🏥',
-      'catPhone' => '📱',
-      'catHousing' => '🏠',
-      'catSocial' => '🍻',
-      'catEducation' => '📚',
-      'catOther' => '📦',
-      'catBankTransfer' => '🏦',
-      'catCard' => '💳',
-      'catEMoney' => '📲',
-      'catTransferOther' => '📦',
-      'catSavings' => '🏦',
-      'catInvestment' => '📈',
-      'catGoal' => '🎯',
-      'catSavingsOther' => '📦',
-      'salary' => '💰',
-      'sideJob' => '💼',
-      'bonus' => '🎁',
-      'allowance' => '👛',
-      'investmentReturn' => '📈',
-      'fleaMarket' => '📦',
-      'extraIncome' => '💴',
-      'otherIncome' => '📁',
-      _ => '📝',
-    };
+  String _emojiForCategory(String category, WidgetRef ref) {
+    final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
+    return cat?.emoji ?? '\u{1F4DD}';
   }
 
-  String _categoryLabel(String category, AppLocalizations l10n) {
-    return switch (category) {
+  String _categoryLabel(String category, AppLocalizations l10n, WidgetRef ref) {
+    final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
+    if (cat == null) return category;
+    if (!cat.isDefault) return cat.name;
+    return _resolveL10nKey(cat.name, l10n);
+  }
+
+  String _resolveL10nKey(String key, AppLocalizations l10n) {
+    return switch (key) {
       'catFood' => l10n.catFood,
       'catTransport' => l10n.catTransport,
       'catDaily' => l10n.catDaily,
@@ -613,6 +592,7 @@ class HomeScreen extends ConsumerWidget {
       'catSocial' => l10n.catSocial,
       'catEducation' => l10n.catEducation,
       'catOther' => l10n.catOther,
+      'catUtility' => l10n.catUtility,
       'catBankTransfer' => l10n.catBankTransfer,
       'catCard' => l10n.catCard,
       'catEMoney' => l10n.catEMoney,
@@ -629,7 +609,7 @@ class HomeScreen extends ConsumerWidget {
       'fleaMarket' => l10n.fleaMarket,
       'extraIncome' => l10n.extraIncome,
       'otherIncome' => l10n.otherIncome,
-      _ => category,
+      _ => key,
     };
   }
 
@@ -651,7 +631,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
   Widget _buildRecentRecords(
-      BuildContext context, bool isDark, List<Transaction> transactions) {
+      BuildContext context, bool isDark, List<Transaction> transactions, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final recent = transactions.take(6).toList();
 
@@ -693,8 +673,8 @@ class HomeScreen extends ConsumerWidget {
               final t = entry.value;
               final isExpense = t.type == TransactionType.expense;
               final isIncome = t.type == TransactionType.income;
-              final emoji = _emojiForCategory(t.category);
-              final title = t.memo ?? _categoryLabel(t.category, l10n);
+              final emoji = _emojiForCategory(t.category, ref);
+              final title = t.memo ?? _categoryLabel(t.category, l10n, ref);
               final date = _formatDate(t.createdAt, l10n);
 
               return Column(

@@ -148,5 +148,21 @@
   "setPayDay": "급여일 설정",
   "getStarted": "시작하기",
   "setupLater": "나중에 설정하기",
-  "everyMonth": "매월"
+  "everyMonth": "매월",
+
+  "catUtility": "공과금",
+  "categoryManagement": "카테고리 관리",
+  "addCategory": "카테고리 추가",
+  "editCategory": "카테고리 편집",
+  "deleteCategory": "카테고리 삭제",
+  "categoryName": "카테고리 이름",
+  "categoryEmoji": "아이콘",
+  "cannotDeleteDefault": "기본 카테고리는 삭제할 수 없습니다",
+  "deleteCategoryConfirm": "이 카테고리를 삭제하면 {count}건의 기록이 '기타'로 이동합니다",
+  "@deleteCategoryConfirm": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "add": "추가"
 }
