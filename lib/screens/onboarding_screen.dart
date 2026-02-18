@@ -682,7 +682,7 @@ Widget _buildCompareVisual(
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF4A90D9))),
             const SizedBox(height: 4),
-            Text(l10n.realExpense,
+            Text('${l10n.realExpense} \u2728',
                 style:
                     const TextStyle(fontSize: 10, color: Color(0xFF2D6BB0))),
             const SizedBox(height: 12),

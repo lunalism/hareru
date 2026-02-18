@@ -11,7 +11,7 @@
   "onboarding3Desc": "金額 → カテゴリ1タップ → 終わり。\n世界一カンタンな家計簿。",
   "otherApps": "他のアプリ",
   "looksLikeExpense": "支出に見える 😰",
-  "realExpense": "本当の支出 ✨",
+  "realExpense": "本当の支出",
   "food": "食費",
   "transport": "交通費",
   "transfer": "振替",
@@ -170,5 +170,43 @@
     "placeholders": {
       "day": {"type": "String"}
     }
-  }
+  },
+
+  "remaining": "残り",
+  "savingsRate": "貯蓄率",
+  "showAll": "すべて表示",
+  "showLess": "閉じる",
+  "budgetNotSet": "予算を設定すると進捗が表示されます",
+  "notIncludedInReal": "本当の支出に含まれません",
+  "monthlyInsight": "今月のまとめ",
+  "noRecordsYet": "まだ記録がありません",
+  "noRecordsDescription": "支出を記録するとレポートが表示されます",
+  "startRecording": "記録する",
+  "savedComparedLastMonth": "先月より{amount}節約できました！",
+  "@savedComparedLastMonth": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "spentMoreThanLastMonth": "先月より{amount}多く使っています",
+  "@spentMoreThanLastMonth": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "topCategory": "今月は{category}が一番多く、全体の{percent}%です",
+  "@topCategory": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "percent": {"type": "String"}
+    }
+  },
+  "withinBudget": "予算内でやりくりできています！",
+  "overBudgetReport": "予算を{amount}超えています",
+  "@overBudgetReport": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "needMoreData": "記録が増えると、AIがアドバイスをお届けします"
 }

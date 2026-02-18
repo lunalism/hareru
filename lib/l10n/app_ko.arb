@@ -11,7 +11,7 @@
   "onboarding3Desc": "금액 → 카테고리 1탭 → 끝.\n세상에서 가장 간단한 가계부.",
   "otherApps": "다른 앱",
   "looksLikeExpense": "지출로 보임 😰",
-  "realExpense": "진짜 지출 ✨",
+  "realExpense": "진짜 지출",
   "food": "식비",
   "transport": "교통비",
   "transfer": "이체",
@@ -170,5 +170,43 @@
     "placeholders": {
       "day": {"type": "String"}
     }
-  }
+  },
+
+  "remaining": "잔액",
+  "savingsRate": "저축률",
+  "showAll": "전체 보기",
+  "showLess": "접기",
+  "budgetNotSet": "예산을 설정하면 진행률이 표시됩니다",
+  "notIncludedInReal": "진짜 지출에 포함되지 않습니다",
+  "monthlyInsight": "이번 달 요약",
+  "noRecordsYet": "아직 기록이 없습니다",
+  "noRecordsDescription": "지출을 기록하면 리포트가 표시됩니다",
+  "startRecording": "기록하기",
+  "savedComparedLastMonth": "지난달보다 {amount} 절약했어요!",
+  "@savedComparedLastMonth": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "spentMoreThanLastMonth": "지난달보다 {amount} 더 사용했어요",
+  "@spentMoreThanLastMonth": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "topCategory": "이번 달은 {category}이(가) 가장 많아 전체의 {percent}%입니다",
+  "@topCategory": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "percent": {"type": "String"}
+    }
+  },
+  "withinBudget": "예산 안에서 잘 관리하고 있어요!",
+  "overBudgetReport": "예산을 {amount} 초과했어요",
+  "@overBudgetReport": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "needMoreData": "기록이 늘어나면 AI가 조언을 드려요"
 }

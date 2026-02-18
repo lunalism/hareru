@@ -169,7 +169,7 @@ abstract class AppLocalizations {
   /// No description provided for @realExpense.
   ///
   /// In ja, this message translates to:
-  /// **'本当の支出 ✨'**
+  /// **'本当の支出'**
   String get realExpense;
 
   /// No description provided for @food.
@@ -813,6 +813,102 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'毎月{day}日'**
   String payDayEveryMonth(String day);
+
+  /// No description provided for @remaining.
+  ///
+  /// In ja, this message translates to:
+  /// **'残り'**
+  String get remaining;
+
+  /// No description provided for @savingsRate.
+  ///
+  /// In ja, this message translates to:
+  /// **'貯蓄率'**
+  String get savingsRate;
+
+  /// No description provided for @showAll.
+  ///
+  /// In ja, this message translates to:
+  /// **'すべて表示'**
+  String get showAll;
+
+  /// No description provided for @showLess.
+  ///
+  /// In ja, this message translates to:
+  /// **'閉じる'**
+  String get showLess;
+
+  /// No description provided for @budgetNotSet.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算を設定すると進捗が表示されます'**
+  String get budgetNotSet;
+
+  /// No description provided for @notIncludedInReal.
+  ///
+  /// In ja, this message translates to:
+  /// **'本当の支出に含まれません'**
+  String get notIncludedInReal;
+
+  /// No description provided for @monthlyInsight.
+  ///
+  /// In ja, this message translates to:
+  /// **'今月のまとめ'**
+  String get monthlyInsight;
+
+  /// No description provided for @noRecordsYet.
+  ///
+  /// In ja, this message translates to:
+  /// **'まだ記録がありません'**
+  String get noRecordsYet;
+
+  /// No description provided for @noRecordsDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'支出を記録するとレポートが表示されます'**
+  String get noRecordsDescription;
+
+  /// No description provided for @startRecording.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録する'**
+  String get startRecording;
+
+  /// No description provided for @savedComparedLastMonth.
+  ///
+  /// In ja, this message translates to:
+  /// **'先月より{amount}節約できました！'**
+  String savedComparedLastMonth(String amount);
+
+  /// No description provided for @spentMoreThanLastMonth.
+  ///
+  /// In ja, this message translates to:
+  /// **'先月より{amount}多く使っています'**
+  String spentMoreThanLastMonth(String amount);
+
+  /// No description provided for @topCategory.
+  ///
+  /// In ja, this message translates to:
+  /// **'今月は{category}が一番多く、全体の{percent}%です'**
+  String topCategory(String category, String percent);
+
+  /// No description provided for @withinBudget.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算内でやりくりできています！'**
+  String get withinBudget;
+
+  /// No description provided for @overBudgetReport.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算を{amount}超えています'**
+  String overBudgetReport(String amount);
+
+  /// No description provided for @needMoreData.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録が増えると、AIがアドバイスをお届けします'**
+  String get needMoreData;
 }
 
 class _AppLocalizationsDelegate

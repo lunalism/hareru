@@ -11,7 +11,7 @@
   "onboarding3Desc": "Amount → one tap on category → done.\nThe simplest budget app ever.",
   "otherApps": "Other apps",
   "looksLikeExpense": "Looks like spending 😰",
-  "realExpense": "Real spending ✨",
+  "realExpense": "Real spending",
   "food": "Food",
   "transport": "Transport",
   "transfer": "Transfer",
@@ -170,5 +170,43 @@
     "placeholders": {
       "day": {"type": "String"}
     }
-  }
+  },
+
+  "remaining": "Remaining",
+  "savingsRate": "Savings Rate",
+  "showAll": "Show All",
+  "showLess": "Show Less",
+  "budgetNotSet": "Set a budget to see your progress",
+  "notIncludedInReal": "Not included in real spending",
+  "monthlyInsight": "Monthly Summary",
+  "noRecordsYet": "No records yet",
+  "noRecordsDescription": "Start recording to see your report",
+  "startRecording": "Record",
+  "savedComparedLastMonth": "You saved {amount} compared to last month!",
+  "@savedComparedLastMonth": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "spentMoreThanLastMonth": "You spent {amount} more than last month",
+  "@spentMoreThanLastMonth": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "topCategory": "{category} was your top expense at {percent}%",
+  "@topCategory": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "percent": {"type": "String"}
+    }
+  },
+  "withinBudget": "You're within budget!",
+  "overBudgetReport": "You're {amount} over budget",
+  "@overBudgetReport": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "needMoreData": "AI insights will appear as you add more records"
 }

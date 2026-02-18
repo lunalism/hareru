@@ -42,7 +42,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get looksLikeExpense => '지출로 보임 😰';
 
   @override
-  String get realExpense => '진짜 지출 ✨';
+  String get realExpense => '진짜 지출';
 
   @override
   String get food => '식비';
@@ -380,4 +380,60 @@ class AppLocalizationsKo extends AppLocalizations {
   String payDayEveryMonth(String day) {
     return '매월 $day일';
   }
+
+  @override
+  String get remaining => '잔액';
+
+  @override
+  String get savingsRate => '저축률';
+
+  @override
+  String get showAll => '전체 보기';
+
+  @override
+  String get showLess => '접기';
+
+  @override
+  String get budgetNotSet => '예산을 설정하면 진행률이 표시됩니다';
+
+  @override
+  String get notIncludedInReal => '진짜 지출에 포함되지 않습니다';
+
+  @override
+  String get monthlyInsight => '이번 달 요약';
+
+  @override
+  String get noRecordsYet => '아직 기록이 없습니다';
+
+  @override
+  String get noRecordsDescription => '지출을 기록하면 리포트가 표시됩니다';
+
+  @override
+  String get startRecording => '기록하기';
+
+  @override
+  String savedComparedLastMonth(String amount) {
+    return '지난달보다 $amount 절약했어요!';
+  }
+
+  @override
+  String spentMoreThanLastMonth(String amount) {
+    return '지난달보다 $amount 더 사용했어요';
+  }
+
+  @override
+  String topCategory(String category, String percent) {
+    return '이번 달은 $category이(가) 가장 많아 전체의 $percent%입니다';
+  }
+
+  @override
+  String get withinBudget => '예산 안에서 잘 관리하고 있어요!';
+
+  @override
+  String overBudgetReport(String amount) {
+    return '예산을 $amount 초과했어요';
+  }
+
+  @override
+  String get needMoreData => '기록이 늘어나면 AI가 조언을 드려요';
 }

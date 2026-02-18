@@ -45,7 +45,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get looksLikeExpense => 'Looks like spending 😰';
 
   @override
-  String get realExpense => 'Real spending ✨';
+  String get realExpense => 'Real spending';
 
   @override
   String get food => 'Food';
@@ -385,4 +385,60 @@ class AppLocalizationsEn extends AppLocalizations {
   String payDayEveryMonth(String day) {
     return 'Every month, ${day}th';
   }
+
+  @override
+  String get remaining => 'Remaining';
+
+  @override
+  String get savingsRate => 'Savings Rate';
+
+  @override
+  String get showAll => 'Show All';
+
+  @override
+  String get showLess => 'Show Less';
+
+  @override
+  String get budgetNotSet => 'Set a budget to see your progress';
+
+  @override
+  String get notIncludedInReal => 'Not included in real spending';
+
+  @override
+  String get monthlyInsight => 'Monthly Summary';
+
+  @override
+  String get noRecordsYet => 'No records yet';
+
+  @override
+  String get noRecordsDescription => 'Start recording to see your report';
+
+  @override
+  String get startRecording => 'Record';
+
+  @override
+  String savedComparedLastMonth(String amount) {
+    return 'You saved $amount compared to last month!';
+  }
+
+  @override
+  String spentMoreThanLastMonth(String amount) {
+    return 'You spent $amount more than last month';
+  }
+
+  @override
+  String topCategory(String category, String percent) {
+    return '$category was your top expense at $percent%';
+  }
+
+  @override
+  String get withinBudget => 'You\'re within budget!';
+
+  @override
+  String overBudgetReport(String amount) {
+    return 'You\'re $amount over budget';
+  }
+
+  @override
+  String get needMoreData => 'AI insights will appear as you add more records';
 }

@@ -42,7 +42,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get looksLikeExpense => '支出に見える 😰';
 
   @override
-  String get realExpense => '本当の支出 ✨';
+  String get realExpense => '本当の支出';
 
   @override
   String get food => '食費';
@@ -380,4 +380,60 @@ class AppLocalizationsJa extends AppLocalizations {
   String payDayEveryMonth(String day) {
     return '毎月$day日';
   }
+
+  @override
+  String get remaining => '残り';
+
+  @override
+  String get savingsRate => '貯蓄率';
+
+  @override
+  String get showAll => 'すべて表示';
+
+  @override
+  String get showLess => '閉じる';
+
+  @override
+  String get budgetNotSet => '予算を設定すると進捗が表示されます';
+
+  @override
+  String get notIncludedInReal => '本当の支出に含まれません';
+
+  @override
+  String get monthlyInsight => '今月のまとめ';
+
+  @override
+  String get noRecordsYet => 'まだ記録がありません';
+
+  @override
+  String get noRecordsDescription => '支出を記録するとレポートが表示されます';
+
+  @override
+  String get startRecording => '記録する';
+
+  @override
+  String savedComparedLastMonth(String amount) {
+    return '先月より$amount節約できました！';
+  }
+
+  @override
+  String spentMoreThanLastMonth(String amount) {
+    return '先月より$amount多く使っています';
+  }
+
+  @override
+  String topCategory(String category, String percent) {
+    return '今月は$categoryが一番多く、全体の$percent%です';
+  }
+
+  @override
+  String get withinBudget => '予算内でやりくりできています！';
+
+  @override
+  String overBudgetReport(String amount) {
+    return '予算を$amount超えています';
+  }
+
+  @override
+  String get needMoreData => '記録が増えると、AIがアドバイスをお届けします';
 }

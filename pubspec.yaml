@@ -18,6 +18,7 @@ dependencies:
   go_router: ^15.1.2
   hive_flutter: ^1.1.0
   intl: any
+  fl_chart: ^0.69.0
 
 dev_dependencies:
   flutter_test:
