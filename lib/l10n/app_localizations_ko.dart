@@ -508,4 +508,64 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get enableNotificationInSettings => '설정 앱에서 알림을 허용해주세요';
+
+  @override
+  String get dictionary => '사전';
+
+  @override
+  String get searchTerms => '용어 검색...';
+
+  @override
+  String get allCategories => '전체';
+
+  @override
+  String get householdBasics => '가계 기본';
+
+  @override
+  String get taxPension => '세금·연금';
+
+  @override
+  String get insurance => '보험';
+
+  @override
+  String get savingsInvestment => '저축·투자';
+
+  @override
+  String get loanDebt => '대출·차입';
+
+  @override
+  String get japanSystem => '일본 제도';
+
+  @override
+  String get cashlessPayment => '캐시리스·결제';
+
+  @override
+  String get explanation => '해설';
+
+  @override
+  String get example => '예를 들면';
+
+  @override
+  String get relatedTerms => '관련 용어';
+
+  @override
+  String get askAi => 'AI에게 돈에 대해 물어보기';
+
+  @override
+  String get askAiDescription => '\'신NISA가 뭐야?\' 등 무엇이든 물어보세요';
+
+  @override
+  String get learnMoreWithAi => '이 용어를 더 자세히';
+
+  @override
+  String get learnMoreAiDescription => 'AI가 내 가계에 맞춰 쉽게 설명해줍니다';
+
+  @override
+  String get unlockWithClear => 'Clear 플랜으로 해제';
+
+  @override
+  String get premiumComingSoon => '프리미엄 기능은 곧 출시 예정입니다';
+
+  @override
+  String get noTermsFound => '해당하는 용어를 찾을 수 없습니다';
 }

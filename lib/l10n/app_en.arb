@@ -233,5 +233,26 @@
   "version": "Version",
   "reminderTitle": "Time to log your expenses!",
   "reminderBody": "Record today's spending and manage your money wisely",
-  "enableNotificationInSettings": "Please enable notifications in Settings"
+  "enableNotificationInSettings": "Please enable notifications in Settings",
+
+  "dictionary": "Dictionary",
+  "searchTerms": "Search terms...",
+  "allCategories": "All",
+  "householdBasics": "Budget Basics",
+  "taxPension": "Tax & Pension",
+  "insurance": "Insurance",
+  "savingsInvestment": "Savings & Investing",
+  "loanDebt": "Loans & Debt",
+  "japanSystem": "Japan System",
+  "cashlessPayment": "Cashless & Payments",
+  "explanation": "Explanation",
+  "example": "For example",
+  "relatedTerms": "Related Terms",
+  "askAi": "Ask AI about money",
+  "askAiDescription": "Ask anything like 'What is New NISA?'",
+  "learnMoreWithAi": "Learn more about this term",
+  "learnMoreAiDescription": "AI explains tailored to your finances",
+  "unlockWithClear": "Unlock with Clear Plan",
+  "premiumComingSoon": "Premium features coming soon",
+  "noTermsFound": "No matching terms found"
 }

@@ -233,5 +233,26 @@
   "version": "バージョン",
   "reminderTitle": "家計簿をつけましょう！",
   "reminderBody": "今日の支出を記録して、賢くお金を管理しましょう",
-  "enableNotificationInSettings": "設定アプリから通知を許可してください"
+  "enableNotificationInSettings": "設定アプリから通知を許可してください",
+
+  "dictionary": "辞書",
+  "searchTerms": "用語を検索...",
+  "allCategories": "全て",
+  "householdBasics": "家計の基本",
+  "taxPension": "税金・年金",
+  "insurance": "保険",
+  "savingsInvestment": "貯蓄・投資",
+  "loanDebt": "ローン・借入",
+  "japanSystem": "日本の制度",
+  "cashlessPayment": "キャッシュレス・決済",
+  "explanation": "解説",
+  "example": "たとえば",
+  "relatedTerms": "関連用語",
+  "askAi": "AIにお金のことを聞く",
+  "askAiDescription": "「新NISAって何？」など何でも聞けます",
+  "learnMoreWithAi": "この用語をもっと詳しく",
+  "learnMoreAiDescription": "AIがあなたの家計に合わせて分かりやすく解説します",
+  "unlockWithClear": "Clear プランで解放",
+  "premiumComingSoon": "プレミアム機能は近日公開予定です",
+  "noTermsFound": "該当する用語が見つかりません"
 }

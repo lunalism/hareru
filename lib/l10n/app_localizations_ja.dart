@@ -508,4 +508,64 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get enableNotificationInSettings => '設定アプリから通知を許可してください';
+
+  @override
+  String get dictionary => '辞書';
+
+  @override
+  String get searchTerms => '用語を検索...';
+
+  @override
+  String get allCategories => '全て';
+
+  @override
+  String get householdBasics => '家計の基本';
+
+  @override
+  String get taxPension => '税金・年金';
+
+  @override
+  String get insurance => '保険';
+
+  @override
+  String get savingsInvestment => '貯蓄・投資';
+
+  @override
+  String get loanDebt => 'ローン・借入';
+
+  @override
+  String get japanSystem => '日本の制度';
+
+  @override
+  String get cashlessPayment => 'キャッシュレス・決済';
+
+  @override
+  String get explanation => '解説';
+
+  @override
+  String get example => 'たとえば';
+
+  @override
+  String get relatedTerms => '関連用語';
+
+  @override
+  String get askAi => 'AIにお金のことを聞く';
+
+  @override
+  String get askAiDescription => '「新NISAって何？」など何でも聞けます';
+
+  @override
+  String get learnMoreWithAi => 'この用語をもっと詳しく';
+
+  @override
+  String get learnMoreAiDescription => 'AIがあなたの家計に合わせて分かりやすく解説します';
+
+  @override
+  String get unlockWithClear => 'Clear プランで解放';
+
+  @override
+  String get premiumComingSoon => 'プレミアム機能は近日公開予定です';
+
+  @override
+  String get noTermsFound => '該当する用語が見つかりません';
 }

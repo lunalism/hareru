@@ -515,4 +515,64 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get enableNotificationInSettings =>
       'Please enable notifications in Settings';
+
+  @override
+  String get dictionary => 'Dictionary';
+
+  @override
+  String get searchTerms => 'Search terms...';
+
+  @override
+  String get allCategories => 'All';
+
+  @override
+  String get householdBasics => 'Budget Basics';
+
+  @override
+  String get taxPension => 'Tax & Pension';
+
+  @override
+  String get insurance => 'Insurance';
+
+  @override
+  String get savingsInvestment => 'Savings & Investing';
+
+  @override
+  String get loanDebt => 'Loans & Debt';
+
+  @override
+  String get japanSystem => 'Japan System';
+
+  @override
+  String get cashlessPayment => 'Cashless & Payments';
+
+  @override
+  String get explanation => 'Explanation';
+
+  @override
+  String get example => 'For example';
+
+  @override
+  String get relatedTerms => 'Related Terms';
+
+  @override
+  String get askAi => 'Ask AI about money';
+
+  @override
+  String get askAiDescription => 'Ask anything like \'What is New NISA?\'';
+
+  @override
+  String get learnMoreWithAi => 'Learn more about this term';
+
+  @override
+  String get learnMoreAiDescription => 'AI explains tailored to your finances';
+
+  @override
+  String get unlockWithClear => 'Unlock with Clear Plan';
+
+  @override
+  String get premiumComingSoon => 'Premium features coming soon';
+
+  @override
+  String get noTermsFound => 'No matching terms found';
 }

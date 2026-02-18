@@ -1053,6 +1053,126 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'設定アプリから通知を許可してください'**
   String get enableNotificationInSettings;
+
+  /// No description provided for @dictionary.
+  ///
+  /// In ja, this message translates to:
+  /// **'辞書'**
+  String get dictionary;
+
+  /// No description provided for @searchTerms.
+  ///
+  /// In ja, this message translates to:
+  /// **'用語を検索...'**
+  String get searchTerms;
+
+  /// No description provided for @allCategories.
+  ///
+  /// In ja, this message translates to:
+  /// **'全て'**
+  String get allCategories;
+
+  /// No description provided for @householdBasics.
+  ///
+  /// In ja, this message translates to:
+  /// **'家計の基本'**
+  String get householdBasics;
+
+  /// No description provided for @taxPension.
+  ///
+  /// In ja, this message translates to:
+  /// **'税金・年金'**
+  String get taxPension;
+
+  /// No description provided for @insurance.
+  ///
+  /// In ja, this message translates to:
+  /// **'保険'**
+  String get insurance;
+
+  /// No description provided for @savingsInvestment.
+  ///
+  /// In ja, this message translates to:
+  /// **'貯蓄・投資'**
+  String get savingsInvestment;
+
+  /// No description provided for @loanDebt.
+  ///
+  /// In ja, this message translates to:
+  /// **'ローン・借入'**
+  String get loanDebt;
+
+  /// No description provided for @japanSystem.
+  ///
+  /// In ja, this message translates to:
+  /// **'日本の制度'**
+  String get japanSystem;
+
+  /// No description provided for @cashlessPayment.
+  ///
+  /// In ja, this message translates to:
+  /// **'キャッシュレス・決済'**
+  String get cashlessPayment;
+
+  /// No description provided for @explanation.
+  ///
+  /// In ja, this message translates to:
+  /// **'解説'**
+  String get explanation;
+
+  /// No description provided for @example.
+  ///
+  /// In ja, this message translates to:
+  /// **'たとえば'**
+  String get example;
+
+  /// No description provided for @relatedTerms.
+  ///
+  /// In ja, this message translates to:
+  /// **'関連用語'**
+  String get relatedTerms;
+
+  /// No description provided for @askAi.
+  ///
+  /// In ja, this message translates to:
+  /// **'AIにお金のことを聞く'**
+  String get askAi;
+
+  /// No description provided for @askAiDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'「新NISAって何？」など何でも聞けます'**
+  String get askAiDescription;
+
+  /// No description provided for @learnMoreWithAi.
+  ///
+  /// In ja, this message translates to:
+  /// **'この用語をもっと詳しく'**
+  String get learnMoreWithAi;
+
+  /// No description provided for @learnMoreAiDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'AIがあなたの家計に合わせて分かりやすく解説します'**
+  String get learnMoreAiDescription;
+
+  /// No description provided for @unlockWithClear.
+  ///
+  /// In ja, this message translates to:
+  /// **'Clear プランで解放'**
+  String get unlockWithClear;
+
+  /// No description provided for @premiumComingSoon.
+  ///
+  /// In ja, this message translates to:
+  /// **'プレミアム機能は近日公開予定です'**
+  String get premiumComingSoon;
+
+  /// No description provided for @noTermsFound.
+  ///
+  /// In ja, this message translates to:
+  /// **'該当する用語が見つかりません'**
+  String get noTermsFound;
 }
 
 class _AppLocalizationsDelegate

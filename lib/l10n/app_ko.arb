@@ -233,5 +233,26 @@
   "version": "버전",
   "reminderTitle": "가계부를 기록하세요!",
   "reminderBody": "오늘의 지출을 기록하고 똑똑하게 관리하세요",
-  "enableNotificationInSettings": "설정 앱에서 알림을 허용해주세요"
+  "enableNotificationInSettings": "설정 앱에서 알림을 허용해주세요",
+
+  "dictionary": "사전",
+  "searchTerms": "용어 검색...",
+  "allCategories": "전체",
+  "householdBasics": "가계 기본",
+  "taxPension": "세금·연금",
+  "insurance": "보험",
+  "savingsInvestment": "저축·투자",
+  "loanDebt": "대출·차입",
+  "japanSystem": "일본 제도",
+  "cashlessPayment": "캐시리스·결제",
+  "explanation": "해설",
+  "example": "예를 들면",
+  "relatedTerms": "관련 용어",
+  "askAi": "AI에게 돈에 대해 물어보기",
+  "askAiDescription": "'신NISA가 뭐야?' 등 무엇이든 물어보세요",
+  "learnMoreWithAi": "이 용어를 더 자세히",
+  "learnMoreAiDescription": "AI가 내 가계에 맞춰 쉽게 설명해줍니다",
+  "unlockWithClear": "Clear 플랜으로 해제",
+  "premiumComingSoon": "프리미엄 기능은 곧 출시 예정입니다",
+  "noTermsFound": "해당하는 용어를 찾을 수 없습니다"
 }
