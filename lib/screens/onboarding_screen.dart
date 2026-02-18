@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hareru/core/providers/pay_day_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -55,8 +56,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     _completeOnboarding();
   }
 
-  void _completeOnboarding() {
-    context.go('/main');
+  void _completeOnboarding() async {
+    final box = await Hive.openBox('settings');
+    await box.put('onboarding_completed', true);
+    if (mounted) context.go('/main');
   }
 
   String _formatNumber(String value) {

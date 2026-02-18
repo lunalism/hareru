@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,10 +27,12 @@ class _SplashScreenState extends State<SplashScreen>
     );
     _controller.forward();
 
-    Future.delayed(const Duration(milliseconds: 1500), () {
-      if (mounted) {
-        context.go('/onboarding');
-      }
+    Future.delayed(const Duration(milliseconds: 1500), () async {
+      if (!mounted) return;
+      final box = await Hive.openBox('settings');
+      final completed = box.get('onboarding_completed', defaultValue: false);
+      if (!mounted) return;
+      context.go(completed == true ? '/main' : '/onboarding');
     });
   }
 
