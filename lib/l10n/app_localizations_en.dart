@@ -441,4 +441,78 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get needMoreData => 'AI insights will appear as you add more records';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get notification => 'Notifications';
+
+  @override
+  String get recordReminder => 'Record Reminder';
+
+  @override
+  String get reminderTime => 'Reminder Time';
+
+  @override
+  String get data => 'Data';
+
+  @override
+  String get backupData => 'Backup Data';
+
+  @override
+  String get restoreData => 'Restore Data';
+
+  @override
+  String get resetData => 'Reset Data';
+
+  @override
+  String get restoreConfirm => 'Current data will be overwritten. Continue?';
+
+  @override
+  String get resetConfirm => 'All data will be deleted. This cannot be undone.';
+
+  @override
+  String get resetDoubleConfirm => 'Are you sure? Type \'RESET\' to confirm';
+
+  @override
+  String get resetKeyword => 'RESET';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get aboutApp => 'About';
+
+  @override
+  String get feedback => 'Feedback';
+
+  @override
+  String get rateApp => 'Rate App';
+
+  @override
+  String get rateAppLater => 'Available after App Store launch';
+
+  @override
+  String get termsOfService => 'Terms of Service';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get version => 'Version';
+
+  @override
+  String get reminderTitle => 'Time to log your expenses!';
+
+  @override
+  String get reminderBody =>
+      'Record today\'s spending and manage your money wisely';
+
+  @override
+  String get enableNotificationInSettings =>
+      'Please enable notifications in Settings';
 }

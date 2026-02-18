@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hareru/core/providers/dark_mode_provider.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
 import 'package:hareru/core/theme/app_theme.dart';
 import 'package:hareru/l10n/app_localizations.dart';
@@ -33,12 +34,14 @@ class HareruApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(darkModeProvider);
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Hareru',
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
+      themeMode: themeMode,
       locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,

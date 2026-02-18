@@ -436,4 +436,76 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get needMoreData => '기록이 늘어나면 AI가 조언을 드려요';
+
+  @override
+  String get appearance => '외관';
+
+  @override
+  String get darkMode => '다크 모드';
+
+  @override
+  String get notification => '알림';
+
+  @override
+  String get recordReminder => '기록 리마인더';
+
+  @override
+  String get reminderTime => '리마인더 시간';
+
+  @override
+  String get data => '데이터';
+
+  @override
+  String get backupData => '데이터 백업';
+
+  @override
+  String get restoreData => '데이터 복원';
+
+  @override
+  String get resetData => '데이터 초기화';
+
+  @override
+  String get restoreConfirm => '현재 데이터가 덮어씌워집니다. 계속하시겠습니까?';
+
+  @override
+  String get resetConfirm => '모든 데이터가 삭제됩니다. 이 작업은 되돌릴 수 없습니다.';
+
+  @override
+  String get resetDoubleConfirm => '정말 초기화하시겠습니까? \'리셋\'을 입력해주세요';
+
+  @override
+  String get resetKeyword => '리셋';
+
+  @override
+  String get reset => '초기화';
+
+  @override
+  String get aboutApp => '앱 정보';
+
+  @override
+  String get feedback => '피드백';
+
+  @override
+  String get rateApp => '앱 평가하기';
+
+  @override
+  String get rateAppLater => 'App Store 출시 후 이용 가능합니다';
+
+  @override
+  String get termsOfService => '이용약관';
+
+  @override
+  String get privacyPolicy => '개인정보처리방침';
+
+  @override
+  String get version => '버전';
+
+  @override
+  String get reminderTitle => '가계부를 기록하세요!';
+
+  @override
+  String get reminderBody => '오늘의 지출을 기록하고 똑똑하게 관리하세요';
+
+  @override
+  String get enableNotificationInSettings => '설정 앱에서 알림을 허용해주세요';
 }

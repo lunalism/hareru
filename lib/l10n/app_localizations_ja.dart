@@ -436,4 +436,76 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get needMoreData => '記録が増えると、AIがアドバイスをお届けします';
+
+  @override
+  String get appearance => '外観';
+
+  @override
+  String get darkMode => 'ダークモード';
+
+  @override
+  String get notification => '通知';
+
+  @override
+  String get recordReminder => '記録リマインダー';
+
+  @override
+  String get reminderTime => 'リマインダー時間';
+
+  @override
+  String get data => 'データ';
+
+  @override
+  String get backupData => 'データをバックアップ';
+
+  @override
+  String get restoreData => 'データを復元';
+
+  @override
+  String get resetData => 'データを初期化';
+
+  @override
+  String get restoreConfirm => '現在のデータは上書きされます。よろしいですか？';
+
+  @override
+  String get resetConfirm => 'すべてのデータが削除されます。この操作は元に戻せません。';
+
+  @override
+  String get resetDoubleConfirm => '本当に初期化しますか？「リセット」と入力してください';
+
+  @override
+  String get resetKeyword => 'リセット';
+
+  @override
+  String get reset => '初期化する';
+
+  @override
+  String get aboutApp => 'アプリについて';
+
+  @override
+  String get feedback => 'フィードバック';
+
+  @override
+  String get rateApp => 'アプリを評価する';
+
+  @override
+  String get rateAppLater => 'App Store公開後にご利用いただけます';
+
+  @override
+  String get termsOfService => '利用規約';
+
+  @override
+  String get privacyPolicy => 'プライバシーポリシー';
+
+  @override
+  String get version => 'バージョン';
+
+  @override
+  String get reminderTitle => '家計簿をつけましょう！';
+
+  @override
+  String get reminderBody => '今日の支出を記録して、賢くお金を管理しましょう';
+
+  @override
+  String get enableNotificationInSettings => '設定アプリから通知を許可してください';
 }

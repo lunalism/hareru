@@ -909,6 +909,150 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'記録が増えると、AIがアドバイスをお届けします'**
   String get needMoreData;
+
+  /// No description provided for @appearance.
+  ///
+  /// In ja, this message translates to:
+  /// **'外観'**
+  String get appearance;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In ja, this message translates to:
+  /// **'ダークモード'**
+  String get darkMode;
+
+  /// No description provided for @notification.
+  ///
+  /// In ja, this message translates to:
+  /// **'通知'**
+  String get notification;
+
+  /// No description provided for @recordReminder.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録リマインダー'**
+  String get recordReminder;
+
+  /// No description provided for @reminderTime.
+  ///
+  /// In ja, this message translates to:
+  /// **'リマインダー時間'**
+  String get reminderTime;
+
+  /// No description provided for @data.
+  ///
+  /// In ja, this message translates to:
+  /// **'データ'**
+  String get data;
+
+  /// No description provided for @backupData.
+  ///
+  /// In ja, this message translates to:
+  /// **'データをバックアップ'**
+  String get backupData;
+
+  /// No description provided for @restoreData.
+  ///
+  /// In ja, this message translates to:
+  /// **'データを復元'**
+  String get restoreData;
+
+  /// No description provided for @resetData.
+  ///
+  /// In ja, this message translates to:
+  /// **'データを初期化'**
+  String get resetData;
+
+  /// No description provided for @restoreConfirm.
+  ///
+  /// In ja, this message translates to:
+  /// **'現在のデータは上書きされます。よろしいですか？'**
+  String get restoreConfirm;
+
+  /// No description provided for @resetConfirm.
+  ///
+  /// In ja, this message translates to:
+  /// **'すべてのデータが削除されます。この操作は元に戻せません。'**
+  String get resetConfirm;
+
+  /// No description provided for @resetDoubleConfirm.
+  ///
+  /// In ja, this message translates to:
+  /// **'本当に初期化しますか？「リセット」と入力してください'**
+  String get resetDoubleConfirm;
+
+  /// No description provided for @resetKeyword.
+  ///
+  /// In ja, this message translates to:
+  /// **'リセット'**
+  String get resetKeyword;
+
+  /// No description provided for @reset.
+  ///
+  /// In ja, this message translates to:
+  /// **'初期化する'**
+  String get reset;
+
+  /// No description provided for @aboutApp.
+  ///
+  /// In ja, this message translates to:
+  /// **'アプリについて'**
+  String get aboutApp;
+
+  /// No description provided for @feedback.
+  ///
+  /// In ja, this message translates to:
+  /// **'フィードバック'**
+  String get feedback;
+
+  /// No description provided for @rateApp.
+  ///
+  /// In ja, this message translates to:
+  /// **'アプリを評価する'**
+  String get rateApp;
+
+  /// No description provided for @rateAppLater.
+  ///
+  /// In ja, this message translates to:
+  /// **'App Store公開後にご利用いただけます'**
+  String get rateAppLater;
+
+  /// No description provided for @termsOfService.
+  ///
+  /// In ja, this message translates to:
+  /// **'利用規約'**
+  String get termsOfService;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In ja, this message translates to:
+  /// **'プライバシーポリシー'**
+  String get privacyPolicy;
+
+  /// No description provided for @version.
+  ///
+  /// In ja, this message translates to:
+  /// **'バージョン'**
+  String get version;
+
+  /// No description provided for @reminderTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'家計簿をつけましょう！'**
+  String get reminderTitle;
+
+  /// No description provided for @reminderBody.
+  ///
+  /// In ja, this message translates to:
+  /// **'今日の支出を記録して、賢くお金を管理しましょう'**
+  String get reminderBody;
+
+  /// No description provided for @enableNotificationInSettings.
+  ///
+  /// In ja, this message translates to:
+  /// **'設定アプリから通知を許可してください'**
+  String get enableNotificationInSettings;
 }
 
 class _AppLocalizationsDelegate

@@ -208,5 +208,30 @@
       "amount": {"type": "String"}
     }
   },
-  "needMoreData": "記録が増えると、AIがアドバイスをお届けします"
+  "needMoreData": "記録が増えると、AIがアドバイスをお届けします",
+
+  "appearance": "外観",
+  "darkMode": "ダークモード",
+  "notification": "通知",
+  "recordReminder": "記録リマインダー",
+  "reminderTime": "リマインダー時間",
+  "data": "データ",
+  "backupData": "データをバックアップ",
+  "restoreData": "データを復元",
+  "resetData": "データを初期化",
+  "restoreConfirm": "現在のデータは上書きされます。よろしいですか？",
+  "resetConfirm": "すべてのデータが削除されます。この操作は元に戻せません。",
+  "resetDoubleConfirm": "本当に初期化しますか？「リセット」と入力してください",
+  "resetKeyword": "リセット",
+  "reset": "初期化する",
+  "aboutApp": "アプリについて",
+  "feedback": "フィードバック",
+  "rateApp": "アプリを評価する",
+  "rateAppLater": "App Store公開後にご利用いただけます",
+  "termsOfService": "利用規約",
+  "privacyPolicy": "プライバシーポリシー",
+  "version": "バージョン",
+  "reminderTitle": "家計簿をつけましょう！",
+  "reminderBody": "今日の支出を記録して、賢くお金を管理しましょう",
+  "enableNotificationInSettings": "設定アプリから通知を許可してください"
 }

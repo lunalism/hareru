@@ -208,5 +208,30 @@
       "amount": {"type": "String"}
     }
   },
-  "needMoreData": "AI insights will appear as you add more records"
+  "needMoreData": "AI insights will appear as you add more records",
+
+  "appearance": "Appearance",
+  "darkMode": "Dark Mode",
+  "notification": "Notifications",
+  "recordReminder": "Record Reminder",
+  "reminderTime": "Reminder Time",
+  "data": "Data",
+  "backupData": "Backup Data",
+  "restoreData": "Restore Data",
+  "resetData": "Reset Data",
+  "restoreConfirm": "Current data will be overwritten. Continue?",
+  "resetConfirm": "All data will be deleted. This cannot be undone.",
+  "resetDoubleConfirm": "Are you sure? Type 'RESET' to confirm",
+  "resetKeyword": "RESET",
+  "reset": "Reset",
+  "aboutApp": "About",
+  "feedback": "Feedback",
+  "rateApp": "Rate App",
+  "rateAppLater": "Available after App Store launch",
+  "termsOfService": "Terms of Service",
+  "privacyPolicy": "Privacy Policy",
+  "version": "Version",
+  "reminderTitle": "Time to log your expenses!",
+  "reminderBody": "Record today's spending and manage your money wisely",
+  "enableNotificationInSettings": "Please enable notifications in Settings"
 }

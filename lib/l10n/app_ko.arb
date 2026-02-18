@@ -208,5 +208,30 @@
       "amount": {"type": "String"}
     }
   },
-  "needMoreData": "기록이 늘어나면 AI가 조언을 드려요"
+  "needMoreData": "기록이 늘어나면 AI가 조언을 드려요",
+
+  "appearance": "외관",
+  "darkMode": "다크 모드",
+  "notification": "알림",
+  "recordReminder": "기록 리마인더",
+  "reminderTime": "리마인더 시간",
+  "data": "데이터",
+  "backupData": "데이터 백업",
+  "restoreData": "데이터 복원",
+  "resetData": "데이터 초기화",
+  "restoreConfirm": "현재 데이터가 덮어씌워집니다. 계속하시겠습니까?",
+  "resetConfirm": "모든 데이터가 삭제됩니다. 이 작업은 되돌릴 수 없습니다.",
+  "resetDoubleConfirm": "정말 초기화하시겠습니까? '리셋'을 입력해주세요",
+  "resetKeyword": "리셋",
+  "reset": "초기화",
+  "aboutApp": "앱 정보",
+  "feedback": "피드백",
+  "rateApp": "앱 평가하기",
+  "rateAppLater": "App Store 출시 후 이용 가능합니다",
+  "termsOfService": "이용약관",
+  "privacyPolicy": "개인정보처리방침",
+  "version": "버전",
+  "reminderTitle": "가계부를 기록하세요!",
+  "reminderBody": "오늘의 지출을 기록하고 똑똑하게 관리하세요",
+  "enableNotificationInSettings": "설정 앱에서 알림을 허용해주세요"
 }
