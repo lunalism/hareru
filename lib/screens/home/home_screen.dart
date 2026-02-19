@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
@@ -543,44 +544,9 @@ class HomeScreen extends ConsumerWidget {
 
   String _categoryLabel(String category, AppLocalizations l10n, WidgetRef ref) {
     final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
-    if (cat == null) return category;
+    if (cat == null) return resolveL10nKey(category, l10n);
     if (!cat.isDefault) return cat.name;
-    return _resolveL10nKey(cat.name, l10n);
-  }
-
-  String _resolveL10nKey(String key, AppLocalizations l10n) {
-    return switch (key) {
-      'catFood' => l10n.catFood,
-      'catTransport' => l10n.catTransport,
-      'catDaily' => l10n.catDaily,
-      'catCafe' => l10n.catCafe,
-      'catHobby' => l10n.catHobby,
-      'catClothing' => l10n.catClothing,
-      'catMedical' => l10n.catMedical,
-      'catPhone' => l10n.catPhone,
-      'catHousing' => l10n.catHousing,
-      'catSocial' => l10n.catSocial,
-      'catEducation' => l10n.catEducation,
-      'catOther' => l10n.catOther,
-      'catUtility' => l10n.catUtility,
-      'catBankTransfer' => l10n.catBankTransfer,
-      'catCard' => l10n.catCard,
-      'catEMoney' => l10n.catEMoney,
-      'catTransferOther' => l10n.catTransferOther,
-      'catSavings' => l10n.catSavings,
-      'catInvestment' => l10n.catInvestment,
-      'catGoal' => l10n.catGoal,
-      'catSavingsOther' => l10n.catSavingsOther,
-      'salary' => l10n.salary,
-      'sideJob' => l10n.sideJob,
-      'bonus' => l10n.bonus,
-      'allowance' => l10n.allowance,
-      'investmentReturn' => l10n.investmentReturn,
-      'fleaMarket' => l10n.fleaMarket,
-      'extraIncome' => l10n.extraIncome,
-      'otherIncome' => l10n.otherIncome,
-      _ => key,
-    };
+    return resolveL10nKey(cat.name, l10n);
   }
 
   String _formatDate(DateTime date, AppLocalizations l10n) {
