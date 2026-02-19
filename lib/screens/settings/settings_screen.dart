@@ -921,7 +921,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     showChevron: true,
                     isDark: isDark,
                     onTap: () => launchUrl(Uri.parse(
-                        'mailto:support@hareru.app?subject=Hareru フィードバック')),
+                        'mailto:support@hareru.app?subject=Hareru ${l10n.feedback}')),
                   ),
                   _divider(isDark),
                   _row(
