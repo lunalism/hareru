@@ -638,4 +638,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get asOf => 'Information as of February 2026';
+
+  @override
+  String get allRecords => 'All Records';
+
+  @override
+  String get recordDetail => 'Record Detail';
+
+  @override
+  String get transactionType => 'Type';
+
+  @override
+  String get transactionAmount => 'Amount';
+
+  @override
+  String get transactionDateTime => 'Date & Time';
+
+  @override
+  String get transactionMemo => 'Memo';
+
+  @override
+  String get noMemo => 'No memo';
+
+  @override
+  String get editRecord => 'Edit';
+
+  @override
+  String get deleteRecord => 'Delete';
+
+  @override
+  String get updateRecord => 'Update';
+
+  @override
+  String get deleteConfirm => 'Delete this record?';
+
+  @override
+  String get deleteConfirmSub => 'This action cannot be undone.';
+
+  @override
+  String get recordDeleted => 'Record deleted';
+
+  @override
+  String get recordUpdated => 'Record updated';
+
+  @override
+  String get undoAction => 'Undo';
+
+  @override
+  String get noRecordsEmpty => 'No records';
 }

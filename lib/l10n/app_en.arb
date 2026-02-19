@@ -275,5 +275,22 @@
   "aiBankQ3": "\"Are online banks OK?\"",
   "aiBankDescription": "AI recommends the best bank based on your needs",
   "rateDisclaimer": "Interest rates may change. Please check each bank's official website for the latest information.",
-  "asOf": "Information as of February 2026"
+  "asOf": "Information as of February 2026",
+
+  "allRecords": "All Records",
+  "recordDetail": "Record Detail",
+  "transactionType": "Type",
+  "transactionAmount": "Amount",
+  "transactionDateTime": "Date & Time",
+  "transactionMemo": "Memo",
+  "noMemo": "No memo",
+  "editRecord": "Edit",
+  "deleteRecord": "Delete",
+  "updateRecord": "Update",
+  "deleteConfirm": "Delete this record?",
+  "deleteConfirmSub": "This action cannot be undone.",
+  "recordDeleted": "Record deleted",
+  "recordUpdated": "Record updated",
+  "undoAction": "Undo",
+  "noRecordsEmpty": "No records"
 }

@@ -275,5 +275,22 @@
   "aiBankQ3": "「인터넷 은행도 괜찮아?」",
   "aiBankDescription": "AI가 내 조건에 맞는 최적의 은행을 추천합니다",
   "rateDisclaimer": "금리는 변동됩니다. 최신 정보는 각 은행 공식 사이트를 확인하세요.",
-  "asOf": "2026년 2월 기준 정보입니다"
+  "asOf": "2026년 2월 기준 정보입니다",
+
+  "allRecords": "전체 기록",
+  "recordDetail": "기록 상세",
+  "transactionType": "타입",
+  "transactionAmount": "금액",
+  "transactionDateTime": "날짜·시간",
+  "transactionMemo": "메모",
+  "noMemo": "메모 없음",
+  "editRecord": "편집하기",
+  "deleteRecord": "삭제하기",
+  "updateRecord": "수정하기",
+  "deleteConfirm": "이 기록을 삭제할까요?",
+  "deleteConfirmSub": "이 작업은 되돌릴 수 없습니다.",
+  "recordDeleted": "기록을 삭제했습니다",
+  "recordUpdated": "기록을 수정했습니다",
+  "undoAction": "되돌리기",
+  "noRecordsEmpty": "기록이 없습니다"
 }

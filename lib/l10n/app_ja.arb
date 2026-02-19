@@ -275,5 +275,22 @@
   "aiBankQ3": "「ネット銀行はOK？」",
   "aiBankDescription": "AIがあなたの条件に合った最適な銀行を提案します",
   "rateDisclaimer": "金利は変動します。最新情報は各銀行の公式サイトをご確認ください。",
-  "asOf": "2026年2月時点の情報です"
+  "asOf": "2026年2月時点の情報です",
+
+  "allRecords": "すべての記録",
+  "recordDetail": "記録の詳細",
+  "transactionType": "タイプ",
+  "transactionAmount": "金額",
+  "transactionDateTime": "日時",
+  "transactionMemo": "メモ",
+  "noMemo": "メモなし",
+  "editRecord": "編集する",
+  "deleteRecord": "削除する",
+  "updateRecord": "更新する",
+  "deleteConfirm": "この記録を削除しますか？",
+  "deleteConfirmSub": "この操作は元に戻せません。",
+  "recordDeleted": "記録を削除しました",
+  "recordUpdated": "記録を更新しました",
+  "undoAction": "元に戻す",
+  "noRecordsEmpty": "記録がありません"
 }

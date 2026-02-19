@@ -24,6 +24,22 @@ class TransactionNotifier extends StateNotifier<List<Transaction>> {
     state = items;
   }
 
+  Future<void> update(Transaction transaction) async {
+    final box = await Hive.openBox<Transaction>(_boxName);
+    await box.put(transaction.id, transaction);
+    final items = box.values.toList();
+    items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    state = items;
+  }
+
+  Future<void> delete(String id) async {
+    final box = await Hive.openBox<Transaction>(_boxName);
+    await box.delete(id);
+    final items = box.values.toList();
+    items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    state = items;
+  }
+
   double get expenseTotal => state
       .where((t) => t.type == TransactionType.expense)
       .fold(0.0, (sum, t) => sum + t.amount);

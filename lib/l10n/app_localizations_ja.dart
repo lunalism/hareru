@@ -629,4 +629,52 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get asOf => '2026年2月時点の情報です';
+
+  @override
+  String get allRecords => 'すべての記録';
+
+  @override
+  String get recordDetail => '記録の詳細';
+
+  @override
+  String get transactionType => 'タイプ';
+
+  @override
+  String get transactionAmount => '金額';
+
+  @override
+  String get transactionDateTime => '日時';
+
+  @override
+  String get transactionMemo => 'メモ';
+
+  @override
+  String get noMemo => 'メモなし';
+
+  @override
+  String get editRecord => '編集する';
+
+  @override
+  String get deleteRecord => '削除する';
+
+  @override
+  String get updateRecord => '更新する';
+
+  @override
+  String get deleteConfirm => 'この記録を削除しますか？';
+
+  @override
+  String get deleteConfirmSub => 'この操作は元に戻せません。';
+
+  @override
+  String get recordDeleted => '記録を削除しました';
+
+  @override
+  String get recordUpdated => '記録を更新しました';
+
+  @override
+  String get undoAction => '元に戻す';
+
+  @override
+  String get noRecordsEmpty => '記録がありません';
 }

@@ -8,9 +8,14 @@ import 'package:hareru/models/category.dart' as cat_model;
 import 'package:hareru/models/transaction.dart';
 
 class AddTransactionSheet extends ConsumerStatefulWidget {
-  const AddTransactionSheet({super.key, required this.onSave});
+  const AddTransactionSheet({
+    super.key,
+    required this.onSave,
+    this.editTransaction,
+  });
 
   final void Function(Transaction transaction) onSave;
+  final Transaction? editTransaction;
 
   @override
   ConsumerState<AddTransactionSheet> createState() =>
@@ -22,6 +27,30 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
   String _amount = '0';
   String? _selectedCategory;
   String _memo = '';
+  final _memoController = TextEditingController();
+
+  bool get _isEditing => widget.editTransaction != null;
+
+  @override
+  void initState() {
+    super.initState();
+    final t = widget.editTransaction;
+    if (t != null) {
+      _selectedType = t.type;
+      _amount = t.amount.truncateToDouble() == t.amount
+          ? t.amount.toInt().toString()
+          : t.amount.toString();
+      _selectedCategory = t.category;
+      _memo = t.memo ?? '';
+      _memoController.text = _memo;
+    }
+  }
+
+  @override
+  void dispose() {
+    _memoController.dispose();
+    super.dispose();
+  }
 
   static const _typeColors = {
     TransactionType.expense: Color(0xFFEF4444),
@@ -114,13 +143,14 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
 
   void _save() {
     if (!_canSave) return;
+    final existing = widget.editTransaction;
     final transaction = Transaction(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: existing?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
       type: _selectedType,
       amount: double.parse(_amount),
       category: _selectedCategory!,
       memo: _memo.isEmpty ? null : _memo,
-      createdAt: DateTime.now(),
+      createdAt: existing?.createdAt ?? DateTime.now(),
     );
     widget.onSave(transaction);
   }
@@ -599,6 +629,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
           const SizedBox(width: 8),
           Expanded(
             child: TextField(
+              controller: _memoController,
               onChanged: (v) => _memo = v,
               style: TextStyle(fontSize: 13, color: textPrimary),
               decoration: InputDecoration(
@@ -759,7 +790,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
         ),
         alignment: Alignment.center,
         child: Text(
-          l10n.saveRecord,
+          _isEditing ? l10n.updateRecord : l10n.saveRecord,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w700,

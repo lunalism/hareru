@@ -11,6 +11,8 @@ import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
+import 'package:hareru/screens/home/all_records_screen.dart';
+import 'package:hareru/screens/home/record_detail_screen.dart';
 import 'package:hareru/widgets/type_badge.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -587,12 +589,19 @@ class HomeScreen extends ConsumerWidget {
                     : HareruColors.lightTextPrimary,
               ),
             ),
-            Text(
-              l10n.seeAll,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: HareruColors.primaryStart,
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => const AllRecordsScreen()),
+              ),
+              child: Text(
+                l10n.seeAll,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HareruColors.primaryStart,
+                ),
               ),
             ),
           ],
@@ -603,6 +612,7 @@ class HomeScreen extends ConsumerWidget {
             color: isDark ? HareruColors.darkCard : HareruColors.lightCard,
             borderRadius: BorderRadius.circular(16),
           ),
+          clipBehavior: Clip.antiAlias,
           child: Column(
             children: recent.asMap().entries.map((entry) {
               final i = entry.key;
@@ -615,79 +625,109 @@ class HomeScreen extends ConsumerWidget {
 
               return Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 14),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 42,
-                          height: 42,
-                          decoration: BoxDecoration(
-                            color: isDark
-                                ? HareruColors.darkBg
-                                : HareruColors.lightBg,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          alignment: Alignment.center,
-                          child:
-                              Text(emoji, style: const TextStyle(fontSize: 20)),
+                  Dismissible(
+                    key: Key(t.id),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      color: const Color(0xFFEF4444),
+                      child: const Icon(Icons.delete_outline_rounded,
+                          color: Colors.white, size: 24),
+                    ),
+                    confirmDismiss: (_) =>
+                        _confirmDelete(context, l10n, isDark),
+                    onDismissed: (_) {
+                      ref
+                          .read(transactionProvider.notifier)
+                          .delete(t.id);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.recordDeleted)),
+                      );
+                    },
+                    child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              RecordDetailScreen(transaction: t),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 14),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 42,
+                              height: 42,
+                              decoration: BoxDecoration(
+                                color: isDark
+                                    ? HareruColors.darkBg
+                                    : HareruColors.lightBg,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(emoji,
+                                  style: const TextStyle(fontSize: 20)),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Flexible(
-                                    child: Text(
-                                      title,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: isDark
-                                            ? HareruColors.darkTextPrimary
-                                            : HareruColors.lightTextPrimary,
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          title,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: isDark
+                                                ? HareruColors.darkTextPrimary
+                                                : HareruColors.lightTextPrimary,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                      overflow: TextOverflow.ellipsis,
+                                      const SizedBox(width: 4),
+                                      TypeBadge(type: t.type),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    date,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: isDark
+                                          ? HareruColors.darkTextTertiary
+                                          : HareruColors.lightTextTertiary,
                                     ),
                                   ),
-                                  const SizedBox(width: 4),
-                                  TypeBadge(type: t.type),
                                 ],
                               ),
-                              const SizedBox(height: 2),
-                              Text(
-                                date,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: isDark
-                                      ? HareruColors.darkTextTertiary
-                                      : HareruColors.lightTextTertiary,
-                                ),
+                            ),
+                            Text(
+                              '${isExpense ? '-' : isIncome ? '+' : ''}¥${_formatAmount(t.amount)}',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: isIncome
+                                    ? const Color(0xFFF59E0B)
+                                    : isExpense
+                                        ? (isDark
+                                            ? HareruColors.darkTextPrimary
+                                            : HareruColors.lightTextPrimary)
+                                        : const Color(0xFF64748B),
+                                fontFeatures: const [
+                                  FontFeature.tabularFigures()
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          '${isExpense ? '-' : isIncome ? '+' : ''}¥${_formatAmount(t.amount)}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: isIncome
-                                ? const Color(0xFFF59E0B)
-                                : isExpense
-                                    ? (isDark
-                                        ? HareruColors.darkTextPrimary
-                                        : HareruColors.lightTextPrimary)
-                                    : const Color(0xFF64748B),
-                            fontFeatures: const [
-                              FontFeature.tabularFigures()
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                   if (i < recent.length - 1)
@@ -767,6 +807,57 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<bool> _confirmDelete(
+      BuildContext context, AppLocalizations l10n, bool isDark) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor:
+            isDark ? HareruColors.darkCard : HareruColors.lightCard,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          l10n.deleteConfirm,
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+            color: isDark
+                ? HareruColors.darkTextPrimary
+                : HareruColors.lightTextPrimary,
+          ),
+        ),
+        content: Text(
+          l10n.deleteConfirmSub,
+          style: TextStyle(
+            fontSize: 14,
+            color: isDark
+                ? HareruColors.darkTextSecondary
+                : HareruColors.lightTextSecondary,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(
+              l10n.cancel,
+              style: const TextStyle(color: Color(0xFF64748B)),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(
+              l10n.deleteRecord,
+              style: const TextStyle(
+                color: Color(0xFFEF4444),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
   }
 
   // ============ Empty State ============

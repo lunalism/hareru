@@ -630,4 +630,52 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get asOf => '2026년 2월 기준 정보입니다';
+
+  @override
+  String get allRecords => '전체 기록';
+
+  @override
+  String get recordDetail => '기록 상세';
+
+  @override
+  String get transactionType => '타입';
+
+  @override
+  String get transactionAmount => '금액';
+
+  @override
+  String get transactionDateTime => '날짜·시간';
+
+  @override
+  String get transactionMemo => '메모';
+
+  @override
+  String get noMemo => '메모 없음';
+
+  @override
+  String get editRecord => '편집하기';
+
+  @override
+  String get deleteRecord => '삭제하기';
+
+  @override
+  String get updateRecord => '수정하기';
+
+  @override
+  String get deleteConfirm => '이 기록을 삭제할까요?';
+
+  @override
+  String get deleteConfirmSub => '이 작업은 되돌릴 수 없습니다.';
+
+  @override
+  String get recordDeleted => '기록을 삭제했습니다';
+
+  @override
+  String get recordUpdated => '기록을 수정했습니다';
+
+  @override
+  String get undoAction => '되돌리기';
+
+  @override
+  String get noRecordsEmpty => '기록이 없습니다';
 }

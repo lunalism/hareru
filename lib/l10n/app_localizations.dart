@@ -1293,6 +1293,102 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'2026年2月時点の情報です'**
   String get asOf;
+
+  /// No description provided for @allRecords.
+  ///
+  /// In ja, this message translates to:
+  /// **'すべての記録'**
+  String get allRecords;
+
+  /// No description provided for @recordDetail.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録の詳細'**
+  String get recordDetail;
+
+  /// No description provided for @transactionType.
+  ///
+  /// In ja, this message translates to:
+  /// **'タイプ'**
+  String get transactionType;
+
+  /// No description provided for @transactionAmount.
+  ///
+  /// In ja, this message translates to:
+  /// **'金額'**
+  String get transactionAmount;
+
+  /// No description provided for @transactionDateTime.
+  ///
+  /// In ja, this message translates to:
+  /// **'日時'**
+  String get transactionDateTime;
+
+  /// No description provided for @transactionMemo.
+  ///
+  /// In ja, this message translates to:
+  /// **'メモ'**
+  String get transactionMemo;
+
+  /// No description provided for @noMemo.
+  ///
+  /// In ja, this message translates to:
+  /// **'メモなし'**
+  String get noMemo;
+
+  /// No description provided for @editRecord.
+  ///
+  /// In ja, this message translates to:
+  /// **'編集する'**
+  String get editRecord;
+
+  /// No description provided for @deleteRecord.
+  ///
+  /// In ja, this message translates to:
+  /// **'削除する'**
+  String get deleteRecord;
+
+  /// No description provided for @updateRecord.
+  ///
+  /// In ja, this message translates to:
+  /// **'更新する'**
+  String get updateRecord;
+
+  /// No description provided for @deleteConfirm.
+  ///
+  /// In ja, this message translates to:
+  /// **'この記録を削除しますか？'**
+  String get deleteConfirm;
+
+  /// No description provided for @deleteConfirmSub.
+  ///
+  /// In ja, this message translates to:
+  /// **'この操作は元に戻せません。'**
+  String get deleteConfirmSub;
+
+  /// No description provided for @recordDeleted.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録を削除しました'**
+  String get recordDeleted;
+
+  /// No description provided for @recordUpdated.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録を更新しました'**
+  String get recordUpdated;
+
+  /// No description provided for @undoAction.
+  ///
+  /// In ja, this message translates to:
+  /// **'元に戻す'**
+  String get undoAction;
+
+  /// No description provided for @noRecordsEmpty.
+  ///
+  /// In ja, this message translates to:
+  /// **'記録がありません'**
+  String get noRecordsEmpty;
 }
 
 class _AppLocalizationsDelegate
