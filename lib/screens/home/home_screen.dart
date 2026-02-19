@@ -57,57 +57,27 @@ class HomeScreen extends ConsumerWidget {
 
   Widget _buildHeader(BuildContext context, bool isDark) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            SvgPicture.asset(
-              isDark
-                  ? 'assets/icon/hareru-symbol-white.svg'
-                  : 'assets/icon/hareru-symbol-color.svg',
-              width: 28,
-              height: 28,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              'Hareru',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: isDark
-                    ? HareruColors.darkTextPrimary
-                    : HareruColors.primaryStart,
-                letterSpacing: 0.5,
-              ),
-            ),
-          ],
+        SvgPicture.asset(
+          isDark
+              ? 'assets/icon/hareru-symbol-white.svg'
+              : 'assets/icon/hareru-symbol-color.svg',
+          width: 28,
+          height: 28,
         ),
-        Row(
-          children: [
-            _headerIcon(Icons.notifications_none_rounded, isDark),
-            const SizedBox(width: 4),
-            _headerIcon(Icons.settings_outlined, isDark),
-          ],
+        const SizedBox(width: 8),
+        Text(
+          'Hareru',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: isDark
+                ? HareruColors.darkTextPrimary
+                : HareruColors.primaryStart,
+            letterSpacing: 0.5,
+          ),
         ),
       ],
-    );
-  }
-
-  Widget _headerIcon(IconData icon, bool isDark) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: isDark ? HareruColors.darkCard : HareruColors.lightCard,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Icon(
-        icon,
-        size: 22,
-        color: isDark
-            ? HareruColors.darkTextSecondary
-            : HareruColors.lightTextSecondary,
-      ),
     );
   }
 
