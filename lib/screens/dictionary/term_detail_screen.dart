@@ -14,6 +14,7 @@ class TermDetailScreen extends ConsumerWidget {
   String _categoryLabel(DictionaryCategory cat, AppLocalizations l10n) {
     return switch (cat) {
       DictionaryCategory.all => l10n.allCategories,
+      DictionaryCategory.banking => l10n.bankingDeposit,
       DictionaryCategory.household => l10n.householdBasics,
       DictionaryCategory.tax => l10n.taxPension,
       DictionaryCategory.insurance => l10n.insurance,

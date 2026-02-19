@@ -1173,6 +1173,126 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'該当する用語が見つかりません'**
   String get noTermsFound;
+
+  /// No description provided for @bankingDeposit.
+  ///
+  /// In ja, this message translates to:
+  /// **'銀行・預金'**
+  String get bankingDeposit;
+
+  /// No description provided for @bankComparison.
+  ///
+  /// In ja, this message translates to:
+  /// **'積立預金 銀行比較'**
+  String get bankComparison;
+
+  /// No description provided for @bankComparisonSub.
+  ///
+  /// In ja, this message translates to:
+  /// **'金利・条件をかんたん比較'**
+  String get bankComparisonSub;
+
+  /// No description provided for @viewComparison.
+  ///
+  /// In ja, this message translates to:
+  /// **'比較を見る'**
+  String get viewComparison;
+
+  /// No description provided for @interestRate.
+  ///
+  /// In ja, this message translates to:
+  /// **'金利'**
+  String get interestRate;
+
+  /// No description provided for @minimumAmount.
+  ///
+  /// In ja, this message translates to:
+  /// **'最低金額'**
+  String get minimumAmount;
+
+  /// No description provided for @depositPeriod.
+  ///
+  /// In ja, this message translates to:
+  /// **'期間'**
+  String get depositPeriod;
+
+  /// No description provided for @feature.
+  ///
+  /// In ja, this message translates to:
+  /// **'特徴'**
+  String get feature;
+
+  /// No description provided for @recommendedFor.
+  ///
+  /// In ja, this message translates to:
+  /// **'おすすめ'**
+  String get recommendedFor;
+
+  /// No description provided for @foreignerTipTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'外国人の方へ'**
+  String get foreignerTipTitle;
+
+  /// No description provided for @foreignerTipBody.
+  ///
+  /// In ja, this message translates to:
+  /// **'在留カードがあれば、ほとんどの銀行で口座開設できます。ゆうちょ銀行は窓口対応が丁寧で、外国人にも人気です。'**
+  String get foreignerTipBody;
+
+  /// No description provided for @koreaCompareTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **''**
+  String get koreaCompareTitle;
+
+  /// No description provided for @koreaCompareBody.
+  ///
+  /// In ja, this message translates to:
+  /// **''**
+  String get koreaCompareBody;
+
+  /// No description provided for @aiBankRecommend.
+  ///
+  /// In ja, this message translates to:
+  /// **'あなたに合った銀行は？'**
+  String get aiBankRecommend;
+
+  /// No description provided for @aiBankQ1.
+  ///
+  /// In ja, this message translates to:
+  /// **'「毎月いくら貯めたい？」'**
+  String get aiBankQ1;
+
+  /// No description provided for @aiBankQ2.
+  ///
+  /// In ja, this message translates to:
+  /// **'「いつまでに必要？」'**
+  String get aiBankQ2;
+
+  /// No description provided for @aiBankQ3.
+  ///
+  /// In ja, this message translates to:
+  /// **'「ネット銀行はOK？」'**
+  String get aiBankQ3;
+
+  /// No description provided for @aiBankDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'AIがあなたの条件に合った最適な銀行を提案します'**
+  String get aiBankDescription;
+
+  /// No description provided for @rateDisclaimer.
+  ///
+  /// In ja, this message translates to:
+  /// **'金利は変動します。最新情報は各銀行の公式サイトをご確認ください。'**
+  String get rateDisclaimer;
+
+  /// No description provided for @asOf.
+  ///
+  /// In ja, this message translates to:
+  /// **'2026年2月時点の情報です'**
+  String get asOf;
 }
 
 class _AppLocalizationsDelegate

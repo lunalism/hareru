@@ -5,6 +5,7 @@ import 'package:hareru/core/providers/locale_provider.dart';
 import 'package:hareru/data/dictionary_data.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/dictionary_term.dart';
+import 'package:hareru/screens/dictionary/bank_comparison_screen.dart';
 import 'package:hareru/screens/dictionary/term_detail_screen.dart';
 
 class DictionaryScreen extends ConsumerStatefulWidget {
@@ -47,6 +48,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
   String _categoryLabel(DictionaryCategory cat, AppLocalizations l10n) {
     return switch (cat) {
       DictionaryCategory.all => l10n.allCategories,
+      DictionaryCategory.banking => l10n.bankingDeposit,
       DictionaryCategory.household => l10n.householdBasics,
       DictionaryCategory.tax => l10n.taxPension,
       DictionaryCategory.insurance => l10n.insurance,
@@ -86,6 +88,13 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
             ),
             const SizedBox(height: 16),
 
+            // Featured banner
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: _buildFeaturedBanner(isDark, l10n),
+            ),
+            const SizedBox(height: 16),
+
             // Search bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -105,6 +114,73 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
               child: terms.isEmpty
                   ? _buildEmptyState(isDark, l10n)
                   : _buildTermList(terms, isDark, lang, l10n),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeaturedBanner(bool isDark, AppLocalizations l10n) {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (_) => const BankComparisonScreen(),
+        ),
+      ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark
+                ? [const Color(0xFF0F172A), const Color(0xFF1E3A8A)]
+                : [const Color(0xFF3B82F6), const Color(0xFF2563EB)],
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              '\u{1F3E6}',
+              style: TextStyle(fontSize: 32),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.bankComparison,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              l10n.bankComparisonSub,
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.white.withValues(alpha: 0.7),
+              ),
+            ),
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '${l10n.viewComparison} \u2192',
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF3B82F6),
+                ),
+              ),
             ),
           ],
         ),

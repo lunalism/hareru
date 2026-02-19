@@ -254,5 +254,26 @@
   "learnMoreAiDescription": "AIがあなたの家計に合わせて分かりやすく解説します",
   "unlockWithClear": "Clear プランで解放",
   "premiumComingSoon": "プレミアム機能は近日公開予定です",
-  "noTermsFound": "該当する用語が見つかりません"
+  "noTermsFound": "該当する用語が見つかりません",
+
+  "bankingDeposit": "銀行・預金",
+  "bankComparison": "積立預金 銀行比較",
+  "bankComparisonSub": "金利・条件をかんたん比較",
+  "viewComparison": "比較を見る",
+  "interestRate": "金利",
+  "minimumAmount": "最低金額",
+  "depositPeriod": "期間",
+  "feature": "特徴",
+  "recommendedFor": "おすすめ",
+  "foreignerTipTitle": "外国人の方へ",
+  "foreignerTipBody": "在留カードがあれば、ほとんどの銀行で口座開設できます。ゆうちょ銀行は窓口対応が丁寧で、外国人にも人気です。",
+  "koreaCompareTitle": "",
+  "koreaCompareBody": "",
+  "aiBankRecommend": "あなたに合った銀行は？",
+  "aiBankQ1": "「毎月いくら貯めたい？」",
+  "aiBankQ2": "「いつまでに必要？」",
+  "aiBankQ3": "「ネット銀行はOK？」",
+  "aiBankDescription": "AIがあなたの条件に合った最適な銀行を提案します",
+  "rateDisclaimer": "金利は変動します。最新情報は各銀行の公式サイトをご確認ください。",
+  "asOf": "2026年2月時点の情報です"
 }

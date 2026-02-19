@@ -575,4 +575,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noTermsFound => 'No matching terms found';
+
+  @override
+  String get bankingDeposit => 'Banking';
+
+  @override
+  String get bankComparison => 'Savings Account Comparison';
+
+  @override
+  String get bankComparisonSub => 'Compare rates & conditions easily';
+
+  @override
+  String get viewComparison => 'View Comparison';
+
+  @override
+  String get interestRate => 'Interest Rate';
+
+  @override
+  String get minimumAmount => 'Minimum Amount';
+
+  @override
+  String get depositPeriod => 'Period';
+
+  @override
+  String get feature => 'Features';
+
+  @override
+  String get recommendedFor => 'Best for';
+
+  @override
+  String get foreignerTipTitle => 'For Foreign Residents';
+
+  @override
+  String get foreignerTipBody =>
+      'With a Residence Card, you can open an account at most banks. Japan Post Bank (Yucho) is popular among foreigners for their helpful in-person service.';
+
+  @override
+  String get koreaCompareTitle => '';
+
+  @override
+  String get koreaCompareBody => '';
+
+  @override
+  String get aiBankRecommend => 'Which bank is right for you?';
+
+  @override
+  String get aiBankQ1 => '\"How much do you want to save monthly?\"';
+
+  @override
+  String get aiBankQ2 => '\"When do you need it by?\"';
+
+  @override
+  String get aiBankQ3 => '\"Are online banks OK?\"';
+
+  @override
+  String get aiBankDescription =>
+      'AI recommends the best bank based on your needs';
+
+  @override
+  String get rateDisclaimer =>
+      'Interest rates may change. Please check each bank\'s official website for the latest information.';
+
+  @override
+  String get asOf => 'Information as of February 2026';
 }

@@ -1,5 +1,6 @@
 enum DictionaryCategory {
   all,
+  banking,
   household,
   tax,
   insurance,

@@ -568,4 +568,65 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noTermsFound => '該当する用語が見つかりません';
+
+  @override
+  String get bankingDeposit => '銀行・預金';
+
+  @override
+  String get bankComparison => '積立預金 銀行比較';
+
+  @override
+  String get bankComparisonSub => '金利・条件をかんたん比較';
+
+  @override
+  String get viewComparison => '比較を見る';
+
+  @override
+  String get interestRate => '金利';
+
+  @override
+  String get minimumAmount => '最低金額';
+
+  @override
+  String get depositPeriod => '期間';
+
+  @override
+  String get feature => '特徴';
+
+  @override
+  String get recommendedFor => 'おすすめ';
+
+  @override
+  String get foreignerTipTitle => '外国人の方へ';
+
+  @override
+  String get foreignerTipBody =>
+      '在留カードがあれば、ほとんどの銀行で口座開設できます。ゆうちょ銀行は窓口対応が丁寧で、外国人にも人気です。';
+
+  @override
+  String get koreaCompareTitle => '';
+
+  @override
+  String get koreaCompareBody => '';
+
+  @override
+  String get aiBankRecommend => 'あなたに合った銀行は？';
+
+  @override
+  String get aiBankQ1 => '「毎月いくら貯めたい？」';
+
+  @override
+  String get aiBankQ2 => '「いつまでに必要？」';
+
+  @override
+  String get aiBankQ3 => '「ネット銀行はOK？」';
+
+  @override
+  String get aiBankDescription => 'AIがあなたの条件に合った最適な銀行を提案します';
+
+  @override
+  String get rateDisclaimer => '金利は変動します。最新情報は各銀行の公式サイトをご確認ください。';
+
+  @override
+  String get asOf => '2026年2月時点の情報です';
 }

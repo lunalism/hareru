@@ -568,4 +568,66 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get noTermsFound => '해당하는 용어를 찾을 수 없습니다';
+
+  @override
+  String get bankingDeposit => '은행·예금';
+
+  @override
+  String get bankComparison => '적립예금 은행 비교';
+
+  @override
+  String get bankComparisonSub => '금리·조건을 간편 비교';
+
+  @override
+  String get viewComparison => '비교 보기';
+
+  @override
+  String get interestRate => '금리';
+
+  @override
+  String get minimumAmount => '최소 금액';
+
+  @override
+  String get depositPeriod => '기간';
+
+  @override
+  String get feature => '특징';
+
+  @override
+  String get recommendedFor => '추천';
+
+  @override
+  String get foreignerTipTitle => '외국인 분들께';
+
+  @override
+  String get foreignerTipBody =>
+      '재류카드가 있으면 대부분의 은행에서 계좌 개설이 가능합니다. 유초은행(우체국)은 창구 대응이 친절하여 외국인에게도 인기입니다.';
+
+  @override
+  String get koreaCompareTitle => '한국 적금과의 차이';
+
+  @override
+  String get koreaCompareBody =>
+      '한국의 적금은 만기 시 약정금리가 일괄 적용되지만, 일본의 적립정기는 매달 적립할 때마다 개별 정기예금이 생성되어 각각 금리가 따로 적용됩니다. 구조가 다르니 주의하세요!';
+
+  @override
+  String get aiBankRecommend => '나에게 맞는 은행은?';
+
+  @override
+  String get aiBankQ1 => '「매달 얼마나 저축하고 싶어?」';
+
+  @override
+  String get aiBankQ2 => '「언제까지 필요해?」';
+
+  @override
+  String get aiBankQ3 => '「인터넷 은행도 괜찮아?」';
+
+  @override
+  String get aiBankDescription => 'AI가 내 조건에 맞는 최적의 은행을 추천합니다';
+
+  @override
+  String get rateDisclaimer => '금리는 변동됩니다. 최신 정보는 각 은행 공식 사이트를 확인하세요.';
+
+  @override
+  String get asOf => '2026년 2월 기준 정보입니다';
 }
