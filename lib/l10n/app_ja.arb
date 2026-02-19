@@ -292,5 +292,9 @@
   "recordDeleted": "記録を削除しました",
   "recordUpdated": "記録を更新しました",
   "undoAction": "元に戻す",
-  "noRecordsEmpty": "記録がありません"
+  "noRecordsEmpty": "記録がありません",
+  "listView": "リスト",
+  "calendarView": "カレンダー",
+  "dailyTotal": "合計",
+  "noRecordsForDay": "この日の記録はありません"
 }

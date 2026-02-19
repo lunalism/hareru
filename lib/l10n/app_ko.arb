@@ -292,5 +292,9 @@
   "recordDeleted": "기록을 삭제했습니다",
   "recordUpdated": "기록을 수정했습니다",
   "undoAction": "되돌리기",
-  "noRecordsEmpty": "기록이 없습니다"
+  "noRecordsEmpty": "기록이 없습니다",
+  "listView": "리스트",
+  "calendarView": "캘린더",
+  "dailyTotal": "합계",
+  "noRecordsForDay": "이 날의 기록이 없습니다"
 }

@@ -292,5 +292,9 @@
   "recordDeleted": "Record deleted",
   "recordUpdated": "Record updated",
   "undoAction": "Undo",
-  "noRecordsEmpty": "No records"
+  "noRecordsEmpty": "No records",
+  "listView": "List",
+  "calendarView": "Calendar",
+  "dailyTotal": "Total",
+  "noRecordsForDay": "No records for this day"
 }

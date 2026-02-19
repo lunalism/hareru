@@ -678,4 +678,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get noRecordsEmpty => '기록이 없습니다';
+
+  @override
+  String get listView => '리스트';
+
+  @override
+  String get calendarView => '캘린더';
+
+  @override
+  String get dailyTotal => '합계';
+
+  @override
+  String get noRecordsForDay => '이 날의 기록이 없습니다';
 }

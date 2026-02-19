@@ -686,4 +686,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noRecordsEmpty => 'No records';
+
+  @override
+  String get listView => 'List';
+
+  @override
+  String get calendarView => 'Calendar';
+
+  @override
+  String get dailyTotal => 'Total';
+
+  @override
+  String get noRecordsForDay => 'No records for this day';
 }

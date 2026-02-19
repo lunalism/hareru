@@ -677,4 +677,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noRecordsEmpty => '記録がありません';
+
+  @override
+  String get listView => 'リスト';
+
+  @override
+  String get calendarView => 'カレンダー';
+
+  @override
+  String get dailyTotal => '合計';
+
+  @override
+  String get noRecordsForDay => 'この日の記録はありません';
 }

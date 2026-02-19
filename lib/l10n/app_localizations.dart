@@ -1389,6 +1389,30 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'記録がありません'**
   String get noRecordsEmpty;
+
+  /// No description provided for @listView.
+  ///
+  /// In ja, this message translates to:
+  /// **'リスト'**
+  String get listView;
+
+  /// No description provided for @calendarView.
+  ///
+  /// In ja, this message translates to:
+  /// **'カレンダー'**
+  String get calendarView;
+
+  /// No description provided for @dailyTotal.
+  ///
+  /// In ja, this message translates to:
+  /// **'合計'**
+  String get dailyTotal;
+
+  /// No description provided for @noRecordsForDay.
+  ///
+  /// In ja, this message translates to:
+  /// **'この日の記録はありません'**
+  String get noRecordsForDay;
 }
 
 class _AppLocalizationsDelegate
