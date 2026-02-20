@@ -296,5 +296,32 @@
   "listView": "리스트",
   "calendarView": "캘린더",
   "dailyTotal": "합계",
-  "noRecordsForDay": "이 날의 기록이 없습니다"
+  "noRecordsForDay": "이 날의 기록이 없습니다",
+
+  "pdfReportTitle": "월간 PDF 리포트",
+  "pdfReportDescription": "이번 달 가계부를 PDF로 공유하세요",
+  "pdfShareButton": "PDF 리포트 공유",
+  "pdfGenerating": "PDF 생성 중...",
+  "pdfMonthlyReport": "월간 리포트",
+  "pdfApparentExpense": "겉보기 지출",
+  "pdfDifference": "차이",
+  "pdfTransactionCount": "{count}건",
+  "@pdfTransactionCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pdfAndMore": "외 {count}건",
+  "@pdfAndMore": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pdfGeneratedOn": "생성일: {date}",
+  "@pdfGeneratedOn": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "pdfBrandFooter": "Hareru - 스마트 가계부"
 }

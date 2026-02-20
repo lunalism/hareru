@@ -26,6 +26,8 @@ dependencies:
   url_launcher: ^6.0.0
   timezone: any
   table_calendar: ^3.1.0
+  pdf: ^3.11.0
+  path_provider: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +56,7 @@ flutter:
 
   assets:
     - assets/icon/
+    - assets/fonts/NotoSansJP-Regular.ttf
 
   fonts:
     - family: PretendardJP

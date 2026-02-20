@@ -690,4 +690,43 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get noRecordsForDay => '이 날의 기록이 없습니다';
+
+  @override
+  String get pdfReportTitle => '월간 PDF 리포트';
+
+  @override
+  String get pdfReportDescription => '이번 달 가계부를 PDF로 공유하세요';
+
+  @override
+  String get pdfShareButton => 'PDF 리포트 공유';
+
+  @override
+  String get pdfGenerating => 'PDF 생성 중...';
+
+  @override
+  String get pdfMonthlyReport => '월간 리포트';
+
+  @override
+  String get pdfApparentExpense => '겉보기 지출';
+
+  @override
+  String get pdfDifference => '차이';
+
+  @override
+  String pdfTransactionCount(int count) {
+    return '$count건';
+  }
+
+  @override
+  String pdfAndMore(int count) {
+    return '외 $count건';
+  }
+
+  @override
+  String pdfGeneratedOn(String date) {
+    return '생성일: $date';
+  }
+
+  @override
+  String get pdfBrandFooter => 'Hareru - 스마트 가계부';
 }

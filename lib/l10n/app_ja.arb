@@ -296,5 +296,32 @@
   "listView": "リスト",
   "calendarView": "カレンダー",
   "dailyTotal": "合計",
-  "noRecordsForDay": "この日の記録はありません"
+  "noRecordsForDay": "この日の記録はありません",
+
+  "pdfReportTitle": "月間PDFレポート",
+  "pdfReportDescription": "今月の家計簿をPDFで共有しましょう",
+  "pdfShareButton": "PDFレポートを共有",
+  "pdfGenerating": "PDF作成中...",
+  "pdfMonthlyReport": "月間レポート",
+  "pdfApparentExpense": "見かけの支出",
+  "pdfDifference": "差額",
+  "pdfTransactionCount": "{count}件",
+  "@pdfTransactionCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pdfAndMore": "他 {count}件",
+  "@pdfAndMore": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pdfGeneratedOn": "作成日: {date}",
+  "@pdfGeneratedOn": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "pdfBrandFooter": "Hareru - スマート家計簿"
 }

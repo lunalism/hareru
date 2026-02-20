@@ -689,4 +689,43 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noRecordsForDay => 'この日の記録はありません';
+
+  @override
+  String get pdfReportTitle => '月間PDFレポート';
+
+  @override
+  String get pdfReportDescription => '今月の家計簿をPDFで共有しましょう';
+
+  @override
+  String get pdfShareButton => 'PDFレポートを共有';
+
+  @override
+  String get pdfGenerating => 'PDF作成中...';
+
+  @override
+  String get pdfMonthlyReport => '月間レポート';
+
+  @override
+  String get pdfApparentExpense => '見かけの支出';
+
+  @override
+  String get pdfDifference => '差額';
+
+  @override
+  String pdfTransactionCount(int count) {
+    return '$count件';
+  }
+
+  @override
+  String pdfAndMore(int count) {
+    return '他 $count件';
+  }
+
+  @override
+  String pdfGeneratedOn(String date) {
+    return '作成日: $date';
+  }
+
+  @override
+  String get pdfBrandFooter => 'Hareru - スマート家計簿';
 }

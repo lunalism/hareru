@@ -1413,6 +1413,72 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'この日の記録はありません'**
   String get noRecordsForDay;
+
+  /// No description provided for @pdfReportTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'月間PDFレポート'**
+  String get pdfReportTitle;
+
+  /// No description provided for @pdfReportDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'今月の家計簿をPDFで共有しましょう'**
+  String get pdfReportDescription;
+
+  /// No description provided for @pdfShareButton.
+  ///
+  /// In ja, this message translates to:
+  /// **'PDFレポートを共有'**
+  String get pdfShareButton;
+
+  /// No description provided for @pdfGenerating.
+  ///
+  /// In ja, this message translates to:
+  /// **'PDF作成中...'**
+  String get pdfGenerating;
+
+  /// No description provided for @pdfMonthlyReport.
+  ///
+  /// In ja, this message translates to:
+  /// **'月間レポート'**
+  String get pdfMonthlyReport;
+
+  /// No description provided for @pdfApparentExpense.
+  ///
+  /// In ja, this message translates to:
+  /// **'見かけの支出'**
+  String get pdfApparentExpense;
+
+  /// No description provided for @pdfDifference.
+  ///
+  /// In ja, this message translates to:
+  /// **'差額'**
+  String get pdfDifference;
+
+  /// No description provided for @pdfTransactionCount.
+  ///
+  /// In ja, this message translates to:
+  /// **'{count}件'**
+  String pdfTransactionCount(int count);
+
+  /// No description provided for @pdfAndMore.
+  ///
+  /// In ja, this message translates to:
+  /// **'他 {count}件'**
+  String pdfAndMore(int count);
+
+  /// No description provided for @pdfGeneratedOn.
+  ///
+  /// In ja, this message translates to:
+  /// **'作成日: {date}'**
+  String pdfGeneratedOn(String date);
+
+  /// No description provided for @pdfBrandFooter.
+  ///
+  /// In ja, this message translates to:
+  /// **'Hareru - スマート家計簿'**
+  String get pdfBrandFooter;
 }
 
 class _AppLocalizationsDelegate

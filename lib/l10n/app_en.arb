@@ -296,5 +296,32 @@
   "listView": "List",
   "calendarView": "Calendar",
   "dailyTotal": "Total",
-  "noRecordsForDay": "No records for this day"
+  "noRecordsForDay": "No records for this day",
+
+  "pdfReportTitle": "Monthly PDF Report",
+  "pdfReportDescription": "Share this month's finances as a PDF",
+  "pdfShareButton": "Share PDF Report",
+  "pdfGenerating": "Generating PDF...",
+  "pdfMonthlyReport": "Monthly Report",
+  "pdfApparentExpense": "Apparent expense",
+  "pdfDifference": "Difference",
+  "pdfTransactionCount": "{count} transactions",
+  "@pdfTransactionCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pdfAndMore": "and {count} more",
+  "@pdfAndMore": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pdfGeneratedOn": "Generated on {date}",
+  "@pdfGeneratedOn": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "pdfBrandFooter": "Hareru - Smart Budget App"
 }

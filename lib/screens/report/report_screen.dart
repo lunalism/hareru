@@ -8,6 +8,7 @@ import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
+import 'package:hareru/features/pdf_report/pdf_report_button.dart';
 import 'package:hareru/screens/home/widgets/add_transaction_sheet.dart';
 
 const _categoryColors = [
@@ -339,6 +340,8 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
           const SizedBox(height: 16),
           _buildInsightCard(isDark, l10n, expenseTotal,
               prevExpenseTotal, incomeTotal, budget, categoryMap),
+          const SizedBox(height: 24),
+          PdfReportButton(selectedMonth: _selectedMonth),
           const SizedBox(height: 100),
         ],
       ),

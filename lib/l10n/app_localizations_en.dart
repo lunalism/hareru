@@ -698,4 +698,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noRecordsForDay => 'No records for this day';
+
+  @override
+  String get pdfReportTitle => 'Monthly PDF Report';
+
+  @override
+  String get pdfReportDescription => 'Share this month\'s finances as a PDF';
+
+  @override
+  String get pdfShareButton => 'Share PDF Report';
+
+  @override
+  String get pdfGenerating => 'Generating PDF...';
+
+  @override
+  String get pdfMonthlyReport => 'Monthly Report';
+
+  @override
+  String get pdfApparentExpense => 'Apparent expense';
+
+  @override
+  String get pdfDifference => 'Difference';
+
+  @override
+  String pdfTransactionCount(int count) {
+    return '$count transactions';
+  }
+
+  @override
+  String pdfAndMore(int count) {
+    return 'and $count more';
+  }
+
+  @override
+  String pdfGeneratedOn(String date) {
+    return 'Generated on $date';
+  }
+
+  @override
+  String get pdfBrandFooter => 'Hareru - Smart Budget App';
 }
