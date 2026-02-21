@@ -227,6 +227,18 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
 
       final locale = Localizations.localeOf(context).languageCode;
 
+      // Build category display name map for all transactions
+      final categoryDisplayNames = <String, String>{};
+      for (final t in monthTxns) {
+        if (categoryDisplayNames.containsKey(t.category)) continue;
+        final cat = ref
+            .read(categoryProvider.notifier)
+            .getCategoryById(t.category);
+        categoryDisplayNames[t.category] = cat != null
+            ? (cat.isDefault ? resolveL10nKey(cat.name, l10n) : cat.name)
+            : resolveL10nKey(t.category, l10n);
+      }
+
       final reportData = PdfReportData(
         month: month,
         incomeTotal: incomeTotal,
@@ -238,6 +250,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
         transactions: monthTxns,
         insights: insights,
         locale: locale,
+        categoryDisplayNames: categoryDisplayNames,
         lMonthlyReport: l10n.pdfMonthlyReport,
         lRealExpense: l10n.realExpense,
         lApparentExpense: l10n.pdfApparentExpense,

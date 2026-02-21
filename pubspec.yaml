@@ -57,6 +57,7 @@ flutter:
   assets:
     - assets/icon/
     - assets/fonts/NotoSansJP-Regular.ttf
+    - assets/fonts/NotoSansKR-Regular.ttf
 
   fonts:
     - family: PretendardJP
