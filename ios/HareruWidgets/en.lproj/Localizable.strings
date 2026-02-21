@@ -1,0 +1,21 @@
+/* Widget strings - English */
+"app_name" = "Hareru";
+"real_expense" = "Real Expense";
+"apparent_short" = "Apparent";
+"budget" = "Budget";
+"remaining" = "Remaining";
+"set_budget" = "Set your budget";
+"budget_of_man" = "of ¥%d0,000";
+"budget_remaining_pct" = "Budget %d%% left";
+"expense" = "Expense";
+"transfer_label" = "Transfer";
+"saving" = "Savings";
+"income_label" = "Income";
+"widget_real_expense_title" = "Real Expense";
+"widget_real_expense_desc" = "Shows this month's real expense";
+"widget_budget_title" = "Budget";
+"widget_budget_desc" = "Shows remaining budget this month";
+"widget_summary_title" = "Monthly Summary";
+"widget_summary_desc" = "Overview of this month's spending and income";
+"widget_lockscreen_title" = "Lock Screen";
+"widget_lockscreen_desc" = "Check your expense from the lock screen";

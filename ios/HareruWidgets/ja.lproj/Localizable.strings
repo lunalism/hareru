@@ -1,0 +1,21 @@
+/* Widget strings - Japanese */
+"app_name" = "ハレル";
+"real_expense" = "本当の支出";
+"apparent_short" = "見かけ";
+"budget" = "予算";
+"remaining" = "残り";
+"set_budget" = "予算を設定しよう";
+"budget_of_man" = "%d万円中";
+"budget_remaining_pct" = "予算残り%d%%";
+"expense" = "支出";
+"transfer_label" = "振替";
+"saving" = "貯蓄";
+"income_label" = "収入";
+"widget_real_expense_title" = "本当の支出";
+"widget_real_expense_desc" = "今月の本当の支出を表示します";
+"widget_budget_title" = "予算";
+"widget_budget_desc" = "今月の予算の残りを表示します";
+"widget_summary_title" = "月間サマリー";
+"widget_summary_desc" = "今月の支出・収入をまとめて表示します";
+"widget_lockscreen_title" = "ロック画面";
+"widget_lockscreen_desc" = "ロック画面で支出を確認できます";

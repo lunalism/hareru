@@ -1,0 +1,21 @@
+/* Widget strings - Korean */
+"app_name" = "하레루";
+"real_expense" = "진짜 지출";
+"apparent_short" = "겉보기";
+"budget" = "예산";
+"remaining" = "남은 금액";
+"set_budget" = "예산을 설정해보세요";
+"budget_of_man" = "%d만엔 중";
+"budget_remaining_pct" = "예산 잔여 %d%%";
+"expense" = "지출";
+"transfer_label" = "이체";
+"saving" = "저축";
+"income_label" = "수입";
+"widget_real_expense_title" = "진짜 지출";
+"widget_real_expense_desc" = "이번 달 진짜 지출을 표시합니다";
+"widget_budget_title" = "예산";
+"widget_budget_desc" = "이번 달 예산 잔여를 표시합니다";
+"widget_summary_title" = "월간 요약";
+"widget_summary_desc" = "이번 달 지출/수입을 한눈에 봅니다";
+"widget_lockscreen_title" = "잠금 화면";
+"widget_lockscreen_desc" = "잠금 화면에서 지출을 확인합니다";
