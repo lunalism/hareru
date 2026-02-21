@@ -16,7 +16,7 @@ struct RealExpenseWidgetView: View {
                 Text("◇")
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.hareruPrimary)
-                Text(NSLocalizedString("app_name", comment: ""))
+                Text("Hareru")
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.hareruPrimary)
             }
