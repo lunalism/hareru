@@ -1,19 +1,24 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hareru/core/providers/budget_provider.dart';
+import 'package:hareru/core/services/widget_data_service.dart';
 import 'package:hareru/models/transaction.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const _boxName = 'transactions';
 
 class TransactionNotifier extends StateNotifier<List<Transaction>> {
-  TransactionNotifier() : super([]) {
+  TransactionNotifier(this._ref) : super([]) {
     _load();
   }
+
+  final Ref _ref;
 
   Future<void> _load() async {
     final box = await Hive.openBox<Transaction>(_boxName);
     final items = box.values.toList();
     items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     state = items;
+    _syncWidget();
   }
 
   Future<void> add(Transaction transaction) async {
@@ -22,6 +27,7 @@ class TransactionNotifier extends StateNotifier<List<Transaction>> {
     final items = box.values.toList();
     items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     state = items;
+    _syncWidget();
   }
 
   Future<void> update(Transaction transaction) async {
@@ -30,6 +36,7 @@ class TransactionNotifier extends StateNotifier<List<Transaction>> {
     final items = box.values.toList();
     items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     state = items;
+    _syncWidget();
   }
 
   Future<void> delete(String id) async {
@@ -38,6 +45,15 @@ class TransactionNotifier extends StateNotifier<List<Transaction>> {
     final items = box.values.toList();
     items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     state = items;
+    _syncWidget();
+  }
+
+  void _syncWidget() {
+    final budget = _ref.read(budgetProvider);
+    WidgetDataService.updateWidgetData(
+      transactions: state,
+      budget: budget,
+    );
   }
 
   double get expenseTotal => state
@@ -59,5 +75,5 @@ class TransactionNotifier extends StateNotifier<List<Transaction>> {
 
 final transactionProvider =
     StateNotifierProvider<TransactionNotifier, List<Transaction>>(
-  (ref) => TransactionNotifier(),
+  (ref) => TransactionNotifier(ref),
 );
