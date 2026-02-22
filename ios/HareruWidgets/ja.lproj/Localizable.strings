@@ -21,5 +21,7 @@
 "over" = "超過";
 "no_transfer" = "振替なし";
 "no_budget" = "予算未設定";
+"budget_of_label" = "中";
+"budget_remaining_label" = "予算残り";
 "widget_lockscreen_title" = "ロック画面";
 "widget_lockscreen_desc" = "ロック画面で支出を確認できます";
