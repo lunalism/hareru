@@ -47,20 +47,5 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
-		<key>CFBundleURLTypes</key>
-		<array>
-			<dict>
-				<key>CFBundleTypeRole</key>
-				<string>Editor</string>
-				<key>CFBundleURLName</key>
-				<string>app.hareru.ios</string>
-				<key>CFBundleURLSchemes</key>
-				<array>
-					<string>hareru</string>
-				</array>
-			</dict>
-		</array>
-		<key>FlutterDeepLinkingEnabled</key>
-		<true/>
 	</dict>
 </plist>

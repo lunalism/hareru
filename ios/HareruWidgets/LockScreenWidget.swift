@@ -13,7 +13,6 @@ struct LockScreenCircularView: View {
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
         }
-        .widgetURL(URL(string: "hareru://report"))
     }
 }
 
@@ -36,7 +35,6 @@ struct LockScreenRectangularView: View {
             }
             Spacer()
         }
-        .widgetURL(URL(string: "hareru://report"))
     }
 }
 

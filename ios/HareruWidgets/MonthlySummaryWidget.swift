@@ -148,7 +148,6 @@ struct MonthlySummaryWidgetView: View {
             }
         }
         .padding(16)
-        .widgetURL(URL(string: "hareru://report"))
     }
 }
 

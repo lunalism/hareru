@@ -72,7 +72,6 @@ struct RealExpenseWidgetView: View {
             }
         }
         .padding(16)
-        .widgetURL(URL(string: "hareru://report"))
     }
 
     private func barRow(

@@ -35,7 +35,6 @@ struct BudgetWidgetView: View {
             }
         }
         .padding(16)
-        .widgetURL(URL(string: "hareru://report"))
     }
 
     private var budgetGauge: some View {
