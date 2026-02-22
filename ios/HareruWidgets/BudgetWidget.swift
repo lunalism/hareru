@@ -1,6 +1,8 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - Small: Budget Widget
+
 struct BudgetWidgetView: View {
     let entry: HareruEntry
 
@@ -19,21 +21,22 @@ struct BudgetWidgetView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Brand
-            Text("◇ Hareru")
-                .font(.system(size: 10, weight: .medium))
-                .foregroundColor(.secondary)
+            HStack {
+                Text("Hareru")
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.secondary)
+                Spacer()
+            }
 
             if data.hasBudget {
                 Spacer()
 
-                // Main amount
                 VStack(alignment: .leading, spacing: 2) {
                     Text(NSLocalizedString("remaining", comment: ""))
                         .font(.system(size: 11))
                         .foregroundColor(.secondary)
                     Text(formatYen(data.budgetRemaining, currency: data.currency))
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundColor(remainingColor)
                         .minimumScaleFactor(0.5)
                         .lineLimit(1)
@@ -41,13 +44,12 @@ struct BudgetWidgetView: View {
 
                 Spacer()
 
-                // Footer
                 Rectangle()
                     .fill(Color(UIColor.separator))
                     .frame(height: 0.5)
                 Spacer().frame(height: 8)
                 Text(formatYen(data.budgetTotal, currency: data.currency) + " " + NSLocalizedString("budget_of_label", comment: "") + " · " + "\(percentUsed)%")
-                    .font(.system(size: 12))
+                    .font(.system(size: 11))
                     .foregroundColor(.tertiary)
             } else {
                 Spacer()

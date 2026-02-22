@@ -4,9 +4,8 @@ import SwiftUI
 @main
 struct HareruWidgetsBundle: WidgetBundle {
     var body: some Widget {
-        RealExpenseWidget()
         BudgetWidget()
+        RealExpenseWidget()
         MonthlySummaryWidget()
-        LockScreenWidget()
     }
 }
