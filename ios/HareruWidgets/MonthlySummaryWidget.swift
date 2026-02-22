@@ -7,125 +7,138 @@ struct MonthlySummaryWidgetView: View {
 
     private var data: HareruWidgetData { entry.data }
 
+    private var budgetPercentRemaining: Double {
+        max(1.0 - data.budgetPercentUsed, 0)
+    }
+
+    private var miniRingColor: Color {
+        let pct = data.budgetPercentUsed
+        if pct > 0.85 { return .budgetRed }
+        if pct > 0.60 { return .budgetYellow }
+        return .budgetGreen
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Header
+            // Header bar
             HStack {
-                HStack(spacing: 5) {
-                    Text("◇")
-                        .font(.system(size: 12, weight: .heavy))
-                    Text("Hareru")
-                        .font(.system(size: 12, weight: .bold))
-                }
-                .foregroundColor(.white)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 4)
-                .background(
-                    Capsule().fill(Color.hareruBrandBlue)
-                )
+                Text("◇ Hareru")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(.secondary)
 
                 Spacer()
 
                 Text(formatMonth(data.month))
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundColor(.secondary)
-            }
-
-            Spacer().frame(height: 12)
-
-            // 2x2 grid with tinted cards
-            HStack(spacing: 8) {
-                VStack(spacing: 8) {
-                    typeCard(
-                        label: NSLocalizedString("expense", comment: ""),
-                        amount: data.realExpense,
-                        color: .hareruExpense,
-                        tint: .expenseTint
-                    )
-                    typeCard(
-                        label: NSLocalizedString("transfer_label", comment: ""),
-                        amount: data.transfer,
-                        color: .hareruTransfer,
-                        tint: .transferTint
-                    )
-                }
-
-                VStack(spacing: 8) {
-                    typeCard(
-                        label: NSLocalizedString("saving", comment: ""),
-                        amount: data.saving,
-                        color: .hareruSaving,
-                        tint: .savingTint
-                    )
-                    typeCard(
-                        label: NSLocalizedString("income_label", comment: ""),
-                        amount: data.income,
-                        color: .hareruIncome,
-                        tint: .incomeTint
-                    )
-                }
             }
 
             Spacer().frame(height: 10)
 
-            // Footer banner
-            HStack {
-                HStack(spacing: 4) {
-                    Circle()
-                        .fill(Color.hareruExpense)
-                        .frame(width: 6, height: 6)
-                    Text(NSLocalizedString("real_expense", comment: ""))
-                        .font(.system(size: 10, weight: .semibold))
-                    Text(formatYen(data.realExpense, currency: data.currency))
-                        .font(.system(size: 11, weight: .bold, design: .rounded))
+            // 2x2 grid
+            HStack(spacing: 6) {
+                VStack(spacing: 6) {
+                    categoryCard(
+                        label: NSLocalizedString("expense", comment: ""),
+                        amount: data.realExpense,
+                        color: .hareruExpense
+                    )
+                    categoryCard(
+                        label: NSLocalizedString("transfer_label", comment: ""),
+                        amount: data.transfer,
+                        color: .hareruTransfer
+                    )
                 }
-                .foregroundColor(.white)
+
+                VStack(spacing: 6) {
+                    categoryCard(
+                        label: NSLocalizedString("saving", comment: ""),
+                        amount: data.saving,
+                        color: .hareruSaving
+                    )
+                    categoryCard(
+                        label: NSLocalizedString("income_label", comment: ""),
+                        amount: data.income,
+                        color: .hareruIncome
+                    )
+                }
+            }
+
+            Spacer().frame(height: 8)
+
+            // Separator
+            Rectangle()
+                .fill(Color(UIColor.separator))
+                .frame(height: 0.5)
+
+            Spacer().frame(height: 8)
+
+            // Footer bar
+            HStack {
+                // Real expense
+                Text(NSLocalizedString("real_expense", comment: ""))
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.hareruExpense)
+                Text(formatYen(data.realExpense, currency: data.currency))
+                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                    .foregroundColor(.hareruExpense)
 
                 Spacer()
 
+                // Mini progress ring + percentage
                 if data.hasBudget {
-                    let pct = Int((1.0 - data.budgetPercentUsed) * 100)
-                    Text(String(format: NSLocalizedString("budget_remaining_pct", comment: ""), max(pct, 0)))
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundColor(.white.opacity(0.85))
+                    HStack(spacing: 4) {
+                        ZStack {
+                            Circle()
+                                .stroke(
+                                    Color(UIColor.separator).opacity(0.3),
+                                    style: StrokeStyle(lineWidth: 3, lineCap: .round)
+                                )
+                            Circle()
+                                .trim(from: 0, to: budgetPercentRemaining)
+                                .stroke(
+                                    miniRingColor,
+                                    style: StrokeStyle(lineWidth: 3, lineCap: .round)
+                                )
+                                .rotationEffect(.degrees(-90))
+                        }
+                        .frame(width: 24, height: 24)
+
+                        Text("\(Int(budgetPercentRemaining * 100))%")
+                            .font(.system(size: 11, weight: .bold, design: .rounded))
+                            .foregroundColor(miniRingColor)
+                    }
                 }
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 7)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.hareruBrandBlue)
-            )
         }
-        .padding(14)
+        .padding(16)
         .widgetURL(URL(string: "hareru://report"))
     }
 
-    private func typeCard(label: String, amount: Int, color: Color, tint: Color) -> some View {
-        HStack(spacing: 6) {
-            Circle()
-                .fill(color)
-                .frame(width: 8, height: 8)
-
-            VStack(alignment: .leading, spacing: 1) {
+    private func categoryCard(label: String, amount: Int, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            // Color dot + category name
+            HStack(spacing: 4) {
+                Circle()
+                    .fill(color)
+                    .frame(width: 6, height: 6)
                 Text(label)
-                    .font(.system(size: 9))
+                    .font(.system(size: 10))
                     .foregroundColor(.secondary)
-                Text(formatYen(amount, currency: data.currency))
-                    .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundColor(colorScheme == .dark ? .white : .primary)
-                    .minimumScaleFactor(0.6)
-                    .lineLimit(1)
             }
 
-            Spacer()
+            // Amount
+            Text(formatYen(amount, currency: data.currency))
+                .font(.system(size: 16, weight: .bold, design: .rounded))
+                .foregroundColor(.primary)
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 6)
+        .padding(8)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .fill(tint)
+                .fill(color.opacity(0.08))
         )
     }
 }
@@ -138,12 +151,12 @@ struct MonthlySummaryWidget: Widget {
             if #available(iOS 17.0, *) {
                 MonthlySummaryWidgetView(entry: entry)
                     .containerBackground(for: .widget) {
-                        WidgetGradientBackground()
+                        Color(UIColor.systemBackground)
                     }
             } else {
                 MonthlySummaryWidgetView(entry: entry)
                     .padding()
-                    .background(WidgetGradientBackground())
+                    .background(Color(UIColor.systemBackground))
             }
         }
         .configurationDisplayName(NSLocalizedString("widget_summary_title", comment: ""))

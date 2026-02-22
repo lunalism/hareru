@@ -7,113 +7,118 @@ struct BudgetWidgetView: View {
 
     private var data: HareruWidgetData { entry.data }
 
-    private var barColor: Color {
-        let pct = data.budgetPercentUsed
-        if pct > 0.9 { return .hareruExpense }
-        if pct > 0.7 { return .orange }
-        return .hareruSaving
-    }
+    private var percentUsed: Double { data.budgetPercentUsed }
+    private var percentRemaining: Double { max(1.0 - percentUsed, 0) }
 
-    private var remainingColor: Color {
-        data.budgetRemaining < 0 ? .hareruExpense : barColor
+    private var ringColor: Color {
+        if percentUsed > 0.85 { return .budgetRed }
+        if percentUsed > 0.60 { return .budgetYellow }
+        return .budgetGreen
     }
 
     private var percentText: String {
-        let pct = Int(data.budgetPercentUsed * 100)
-        return "\(min(pct, 999))%"
+        "\(Int(percentRemaining * 100))%"
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Header banner
-            HStack(spacing: 5) {
-                Text("◇")
-                    .font(.system(size: 11, weight: .heavy))
-                Text(NSLocalizedString("budget", comment: ""))
-                    .font(.system(size: 11, weight: .bold))
-            }
-            .foregroundColor(.white)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 5)
-            .background(
-                Capsule().fill(Color.hareruBrandBlue)
-            )
+            // Brand mark
+            Text("◇ Hareru")
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(.secondary)
 
             Spacer()
 
             if data.hasBudget {
-                // Yen icon + remaining label
-                HStack(spacing: 4) {
-                    Image(systemName: "yensign.circle.fill")
-                        .font(.system(size: 13))
-                        .foregroundColor(remainingColor)
-                    Text(NSLocalizedString("remaining", comment: ""))
-                        .font(.system(size: 11))
-                        .foregroundColor(.secondary)
-                }
-
-                // Amount
-                Text(formatYen(data.budgetRemaining, currency: data.currency))
-                    .font(.system(size: 24, weight: .heavy, design: .rounded))
-                    .foregroundColor(remainingColor)
-                    .minimumScaleFactor(0.5)
-                    .lineLimit(1)
-
-                Spacer().frame(height: 10)
-
-                // Progress bar + percent
-                HStack(spacing: 8) {
-                    GeometryReader { geo in
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(colorScheme == .dark
-                                      ? Color(white: 0.22)
-                                      : Color(red: 0.93, green: 0.94, blue: 0.96))
-                                .frame(height: 8)
-
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(barColor)
-                                .frame(
-                                    width: geo.size.width * min(data.budgetPercentUsed, 1.0),
-                                    height: 8
-                                )
-                        }
-                    }
-                    .frame(height: 8)
-
-                    Text(percentText)
-                        .font(.system(size: 11, weight: .bold, design: .rounded))
-                        .foregroundColor(barColor)
-                        .frame(width: 36, alignment: .trailing)
-                }
-
-                Spacer().frame(height: 6)
-
-                // Budget total
-                let man = data.budgetTotal / 10000
-                let remainder = data.budgetTotal % 10000
-                Text(remainder == 0 && man > 0
-                     ? String(format: NSLocalizedString("budget_of_man", comment: ""), man)
-                     : formatYen(data.budgetTotal, currency: data.currency))
-                    .font(.system(size: 10))
-                    .foregroundColor(.secondary)
+                budgetContent
             } else {
-                Spacer()
-                VStack(spacing: 6) {
-                    Image(systemName: "yensign.circle")
-                        .font(.system(size: 24))
-                        .foregroundColor(.secondary.opacity(0.5))
-                    Text(NSLocalizedString("set_budget", comment: ""))
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
+                noBudgetContent
             }
 
             Spacer()
         }
-        .padding(14)
+        .padding(16)
         .widgetURL(URL(string: "hareru://report"))
+    }
+
+    private var budgetContent: some View {
+        HStack(spacing: 0) {
+            Spacer()
+
+            // Progress ring
+            ZStack {
+                // Background ring
+                Circle()
+                    .stroke(
+                        Color(UIColor.separator).opacity(0.3),
+                        style: StrokeStyle(lineWidth: 8, lineCap: .round)
+                    )
+
+                // Foreground ring
+                Circle()
+                    .trim(from: 0, to: percentRemaining)
+                    .stroke(
+                        ringColor,
+                        style: StrokeStyle(lineWidth: 8, lineCap: .round)
+                    )
+                    .rotationEffect(.degrees(-90))
+
+                // Inner text
+                VStack(spacing: 0) {
+                    Text(NSLocalizedString("remaining", comment: ""))
+                        .font(.system(size: 10))
+                        .foregroundColor(.secondary)
+
+                    Text(formatYen(data.budgetRemaining, currency: data.currency))
+                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .foregroundColor(.primary)
+                        .minimumScaleFactor(0.4)
+                        .lineLimit(1)
+
+                    Text("/ " + formatYen(data.budgetTotal, currency: data.currency))
+                        .font(.system(size: 9))
+                        .foregroundColor(.tertiary)
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                }
+                .padding(.horizontal, 12)
+            }
+            .frame(width: 110, height: 110)
+
+            // Percentage outside ring
+            Text(percentText)
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .foregroundColor(ringColor)
+                .frame(width: 36, alignment: .leading)
+
+            Spacer()
+        }
+    }
+
+    private var noBudgetContent: some View {
+        VStack(spacing: 8) {
+            Spacer()
+
+            ZStack {
+                Circle()
+                    .stroke(
+                        Color(UIColor.separator).opacity(0.3),
+                        style: StrokeStyle(lineWidth: 8, lineCap: .round)
+                    )
+                    .frame(width: 60, height: 60)
+
+                Image(systemName: "yensign")
+                    .font(.system(size: 20, weight: .light))
+                    .foregroundColor(.secondary.opacity(0.5))
+            }
+
+            Text(NSLocalizedString("set_budget", comment: ""))
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(.secondary)
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -125,12 +130,12 @@ struct BudgetWidget: Widget {
             if #available(iOS 17.0, *) {
                 BudgetWidgetView(entry: entry)
                     .containerBackground(for: .widget) {
-                        WidgetGradientBackground()
+                        Color(UIColor.systemBackground)
                     }
             } else {
                 BudgetWidgetView(entry: entry)
                     .padding()
-                    .background(WidgetGradientBackground())
+                    .background(Color(UIColor.systemBackground))
             }
         }
         .configurationDisplayName(NSLocalizedString("widget_budget_title", comment: ""))
