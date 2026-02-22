@@ -20,5 +20,6 @@
 "saved" = "saved";
 "over" = "over";
 "no_transfer" = "No transfers";
+"no_budget" = "No budget set";
 "widget_lockscreen_title" = "Lock Screen";
 "widget_lockscreen_desc" = "Check your expense from the lock screen";

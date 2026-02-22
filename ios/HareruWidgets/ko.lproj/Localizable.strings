@@ -20,5 +20,6 @@
 "saved" = "절약";
 "over" = "초과";
 "no_transfer" = "이체 없음";
+"no_budget" = "예산 미설정";
 "widget_lockscreen_title" = "잠금 화면";
 "widget_lockscreen_desc" = "잠금 화면에서 지출을 확인합니다";
