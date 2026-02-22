@@ -11,14 +11,16 @@ import 'package:hareru/screens/report/report_screen.dart';
 import 'package:hareru/screens/settings/settings_screen.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({super.key, this.initialTab = 0});
+
+  final int initialTab;
 
   @override
   ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _currentIndex = 0;
+  late int _currentIndex = widget.initialTab;
   OverlayEntry? _toastEntry;
 
   final _screens = const [

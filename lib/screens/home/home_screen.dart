@@ -13,6 +13,8 @@ import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
 import 'package:hareru/screens/home/all_records_screen.dart';
 import 'package:hareru/screens/home/record_detail_screen.dart';
+import 'package:hareru/screens/home/widgets/add_transaction_sheet.dart';
+import 'package:hareru/screens/settings/category_management_screen.dart';
 import 'package:hareru/widgets/type_badge.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -40,7 +42,7 @@ class HomeScreen extends ConsumerWidget {
               if (isEmpty) ...[
                 _buildEmptyMainCard(context, isDark),
                 const SizedBox(height: 24),
-                _buildGuideCards(context, isDark),
+                _buildGuideCards(context, isDark, ref),
               ] else ...[
                 _buildMainAmountCard(context, isDark, ref),
                 const SizedBox(height: 8),
@@ -929,22 +931,54 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildGuideCards(BuildContext context, bool isDark) {
+  void _openAddTransactionSheet(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.85,
+          child: AddTransactionSheet(
+            onSave: (transaction) {
+              ref.read(transactionProvider.notifier).add(transaction);
+              Navigator.pop(sheetContext);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildGuideCards(BuildContext context, bool isDark, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
 
     final guides = [
       _GuideItem(Icons.receipt_long_outlined, l10n.guideExpenseTitle,
-          l10n.guideExpenseDesc, const Color(0xFFEF4444)),
+          l10n.guideExpenseDesc, const Color(0xFFEF4444), onTap: () {
+        _openAddTransactionSheet(context, ref);
+      }),
       _GuideItem(Icons.account_balance_wallet_outlined, l10n.guideBudgetTitle,
-          l10n.guideBudgetDesc, const Color(0xFF4A90D9)),
+          l10n.guideBudgetDesc, const Color(0xFF4A90D9), onTap: () {
+        _showBudgetDialog(context, ref);
+      }),
       _GuideItem(Icons.category_outlined, l10n.guideCategoryTitle,
-          l10n.guideCategoryDesc, const Color(0xFF10B981)),
+          l10n.guideCategoryDesc, const Color(0xFF10B981), onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const CategoryManagementScreen(),
+          ),
+        );
+      }),
     ];
 
     return Column(
       children: guides.map((g) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
+          child: GestureDetector(
+          onTap: g.onTap,
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
@@ -1001,6 +1035,7 @@ class HomeScreen extends ConsumerWidget {
               ],
             ),
           ),
+          ),
         );
       }).toList(),
     );
@@ -1012,5 +1047,6 @@ class _GuideItem {
   final String title;
   final String desc;
   final Color color;
-  const _GuideItem(this.icon, this.title, this.desc, this.color);
+  final VoidCallback? onTap;
+  const _GuideItem(this.icon, this.title, this.desc, this.color, {this.onTap});
 }

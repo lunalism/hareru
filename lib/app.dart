@@ -23,7 +23,18 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: '/main',
-      builder: (context, state) => const MainScreen(),
+      builder: (context, state) {
+        final tab = int.tryParse(
+              state.uri.queryParameters['tab'] ?? '',
+            ) ??
+            0;
+        return MainScreen(initialTab: tab);
+      },
+    ),
+    // Deep link route: hareru://report -> report tab (index 1)
+    GoRoute(
+      path: '/report',
+      redirect: (context, state) => '/main?tab=1',
     ),
   ],
 );
