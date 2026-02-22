@@ -7,11 +7,34 @@ struct MonthlySummaryWidgetView: View {
 
     private var data: HareruWidgetData { entry.data }
 
-    private var budgetPercentRemaining: Double {
-        max(1.0 - data.budgetPercentUsed, 0)
+    // Donut segments: only include categories with amount > 0
+    private var segments: [(color: Color, value: Double, label: String, amount: Int)] {
+        let all: [(Color, Double, String, Int)] = [
+            (.hareruExpense, Double(data.realExpense), NSLocalizedString("expense", comment: ""), data.realExpense),
+            (.hareruTransfer, Double(data.transfer), NSLocalizedString("transfer_label", comment: ""), data.transfer),
+            (.hareruSaving, Double(data.saving), NSLocalizedString("saving", comment: ""), data.saving),
+            (.hareruIncome, Double(data.income), NSLocalizedString("income_label", comment: ""), data.income),
+        ]
+        return all
+            .filter { $0.1 > 0 }
+            .map { (color: $0.0, value: $0.1, label: $0.2, amount: $0.3) }
     }
 
-    private var miniRingColor: Color {
+    private var totalAmount: Double {
+        segments.reduce(0) { $0 + $1.value }
+    }
+
+    // All 4 legend items (even if 0)
+    private var legendItems: [(color: Color, label: String, amount: Int)] {
+        [
+            (.hareruExpense, NSLocalizedString("expense", comment: ""), data.realExpense),
+            (.hareruTransfer, NSLocalizedString("transfer_label", comment: ""), data.transfer),
+            (.hareruSaving, NSLocalizedString("saving", comment: ""), data.saving),
+            (.hareruIncome, NSLocalizedString("income_label", comment: ""), data.income),
+        ]
+    }
+
+    private var budgetBarColor: Color {
         let pct = data.budgetPercentUsed
         if pct > 0.85 { return .budgetRed }
         if pct > 0.60 { return .budgetYellow }
@@ -20,128 +43,169 @@ struct MonthlySummaryWidgetView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Header bar
+            // Header
             HStack {
                 Text("◇ Hareru")
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundColor(.secondary)
-
                 Spacer()
-
                 Text(formatMonth(data.month))
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundColor(.secondary)
             }
 
-            Spacer().frame(height: 10)
+            Spacer().frame(height: 8)
 
-            // 2x2 grid
-            HStack(spacing: 6) {
-                VStack(spacing: 6) {
-                    categoryCard(
-                        label: NSLocalizedString("expense", comment: ""),
-                        amount: data.realExpense,
-                        color: .hareruExpense
-                    )
-                    categoryCard(
-                        label: NSLocalizedString("transfer_label", comment: ""),
-                        amount: data.transfer,
-                        color: .hareruTransfer
-                    )
-                }
+            // Main content: donut + legend
+            HStack(alignment: .center, spacing: 10) {
+                // Left: Donut chart (45%)
+                ZStack {
+                    DonutChart(segments: segments, totalAmount: totalAmount, lineWidth: 14)
 
-                VStack(spacing: 6) {
-                    categoryCard(
-                        label: NSLocalizedString("saving", comment: ""),
-                        amount: data.saving,
-                        color: .hareruSaving
-                    )
-                    categoryCard(
-                        label: NSLocalizedString("income_label", comment: ""),
-                        amount: data.income,
-                        color: .hareruIncome
-                    )
+                    // Center text
+                    VStack(spacing: 0) {
+                        Text(NSLocalizedString("real_expense", comment: ""))
+                            .font(.system(size: 8))
+                            .foregroundColor(.secondary)
+                        Text(formatYen(data.realExpense, currency: data.currency))
+                            .font(.system(size: 16, weight: .bold, design: .rounded))
+                            .foregroundColor(.hareruExpense)
+                            .minimumScaleFactor(0.4)
+                            .lineLimit(1)
+                    }
+                    .padding(.horizontal, 4)
                 }
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+
+                // Right: Legend (55%)
+                VStack(alignment: .leading, spacing: 6) {
+                    ForEach(Array(legendItems.enumerated()), id: \.offset) { _, item in
+                        HStack(spacing: 6) {
+                            Circle()
+                                .fill(item.color)
+                                .frame(width: 8, height: 8)
+                            Text(item.label)
+                                .font(.system(size: 11))
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text(formatYen(item.amount, currency: data.currency))
+                                .font(.system(size: 13, weight: .bold, design: .rounded))
+                                .foregroundColor(.primary)
+                                .minimumScaleFactor(0.5)
+                                .lineLimit(1)
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity)
             }
 
-            Spacer().frame(height: 10)
+            Spacer().frame(height: 8)
 
-            // Separator
+            // Bottom bar: separator + budget progress
             Rectangle()
                 .fill(Color(UIColor.separator))
                 .frame(height: 0.5)
 
-            Spacer().frame(height: 10)
+            Spacer().frame(height: 6)
 
-            // Footer bar
-            HStack(spacing: 0) {
-                // Real expense
-                Text(NSLocalizedString("real_expense", comment: ""))
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(.hareruExpense)
-                Text(" ")
-                Text(formatYen(data.realExpense, currency: data.currency))
-                    .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundColor(.hareruExpense)
+            if data.hasBudget {
+                // Budget labels
+                HStack {
+                    Text(NSLocalizedString("budget", comment: ""))
+                        .font(.system(size: 10))
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Text(formatYen(data.budgetUsed, currency: data.currency) + " / " + formatYen(data.budgetTotal, currency: data.currency))
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
+                        .foregroundColor(.secondary)
+                }
 
-                Spacer()
+                Spacer().frame(height: 4)
 
-                // Mini progress ring + percentage
-                if data.hasBudget {
-                    HStack(spacing: 6) {
-                        ZStack {
-                            Circle()
-                                .stroke(
-                                    Color(UIColor.separator).opacity(0.3),
-                                    style: StrokeStyle(lineWidth: 3, lineCap: .round)
-                                )
-                            Circle()
-                                .trim(from: 0, to: budgetPercentRemaining)
-                                .stroke(
-                                    miniRingColor,
-                                    style: StrokeStyle(lineWidth: 3, lineCap: .round)
-                                )
-                                .rotationEffect(.degrees(-90))
-                        }
-                        .frame(width: 24, height: 24)
-
-                        Text("\(Int(budgetPercentRemaining * 100))%")
-                            .font(.system(size: 12, weight: .bold, design: .rounded))
-                            .foregroundColor(miniRingColor)
+                // Progress bar
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 3)
+                            .fill(Color(UIColor.separator).opacity(0.25))
+                            .frame(height: 6)
+                        RoundedRectangle(cornerRadius: 3)
+                            .fill(budgetBarColor)
+                            .frame(width: geo.size.width * min(data.budgetPercentUsed, 1.0), height: 6)
                     }
+                }
+                .frame(height: 6)
+            } else {
+                HStack {
+                    Text(NSLocalizedString("budget", comment: ""))
+                        .font(.system(size: 10))
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Text(NSLocalizedString("set_budget", comment: ""))
+                        .font(.system(size: 10))
+                        .foregroundColor(.tertiary)
                 }
             }
         }
         .padding(16)
         .widgetURL(URL(string: "hareru://report"))
     }
+}
 
-    private func categoryCard(label: String, amount: Int, color: Color) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            // Color dot + category name
-            HStack(spacing: 5) {
-                Circle()
-                    .fill(color)
-                    .frame(width: 7, height: 7)
-                Text(label)
-                    .font(.system(size: 11))
-                    .foregroundColor(.secondary)
+// MARK: - Donut Chart
+
+struct DonutChart: View {
+    let segments: [(color: Color, value: Double, label: String, amount: Int)]
+    let totalAmount: Double
+    let lineWidth: CGFloat
+
+    // Gap between segments in degrees
+    private let gapDegrees: Double = 4.0
+
+    var body: some View {
+        GeometryReader { geo in
+            let size = min(geo.size.width, geo.size.height)
+
+            ZStack {
+                if segments.isEmpty {
+                    // Empty state
+                    Circle()
+                        .stroke(Color(UIColor.separator).opacity(0.25), lineWidth: lineWidth)
+                } else if segments.count == 1 {
+                    // Single segment = full ring
+                    Circle()
+                        .stroke(segments[0].color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                } else {
+                    // Multi-segment donut
+                    let totalGap = gapDegrees * Double(segments.count)
+                    let availableDegrees = 360.0 - totalGap
+
+                    ForEach(Array(segments.enumerated()), id: \.offset) { index, segment in
+                        let startAngle = segmentStartAngle(at: index, available: availableDegrees)
+                        let sweepAngle = (segment.value / totalAmount) * availableDegrees
+
+                        Circle()
+                            .trim(
+                                from: startAngle / 360.0,
+                                to: (startAngle + sweepAngle) / 360.0
+                            )
+                            .stroke(segment.color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                            .rotationEffect(.degrees(-90))
+                    }
+                }
             }
-
-            // Amount
-            Text(formatYen(amount, currency: data.currency))
-                .font(.system(size: 17, weight: .bold, design: .rounded))
-                .foregroundColor(.primary)
-                .minimumScaleFactor(0.5)
-                .lineLimit(1)
+            .frame(width: size, height: size)
+            .position(x: geo.size.width / 2, y: geo.size.height / 2)
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 10)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(color.opacity(0.12))
-        )
+    }
+
+    private func segmentStartAngle(at index: Int, available: Double) -> Double {
+        var angle = 0.0
+        for i in 0..<index {
+            let sweep = (segments[i].value / totalAmount) * available
+            angle += sweep + gapDegrees
+        }
+        return angle
     }
 }
 

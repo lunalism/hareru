@@ -16,5 +16,9 @@
 "widget_budget_desc" = "이번 달 예산 잔여를 표시합니다";
 "widget_summary_title" = "월간 요약";
 "widget_summary_desc" = "이번 달 지출/수입을 한눈에 봅니다";
+"real_expense_short" = "진짜";
+"saved" = "절약";
+"over" = "초과";
+"no_transfer" = "이체 없음";
 "widget_lockscreen_title" = "잠금 화면";
 "widget_lockscreen_desc" = "잠금 화면에서 지출을 확인합니다";

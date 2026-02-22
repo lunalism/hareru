@@ -9,6 +9,10 @@ struct RealExpenseWidgetView: View {
 
     private var diff: Int { data.apparentExpense - data.realExpense }
     private var isSaving: Bool { diff > 0 }
+    private var barRatio: CGFloat {
+        guard data.apparentExpense > 0 else { return 1.0 }
+        return CGFloat(data.realExpense) / CGFloat(data.apparentExpense)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -19,53 +23,84 @@ struct RealExpenseWidgetView: View {
 
             Spacer()
 
-            // Label
-            Text(NSLocalizedString("real_expense", comment: ""))
-                .font(.system(size: 11))
-                .foregroundColor(.secondary)
+            // Bar chart comparison
+            VStack(alignment: .leading, spacing: 10) {
+                // Real expense bar
+                barRow(
+                    label: NSLocalizedString("real_expense_short", comment: ""),
+                    amount: data.realExpense,
+                    ratio: barRatio,
+                    barColor: .hareruExpense,
+                    amountFont: .system(size: 20, weight: .bold, design: .rounded),
+                    amountColor: .hareruExpense
+                )
 
-            Spacer().frame(height: 2)
-
-            // Amount
-            Text(formatYen(data.realExpense, currency: data.currency))
-                .font(.system(size: 28, weight: .bold, design: .rounded))
-                .foregroundColor(.hareruExpense)
-                .minimumScaleFactor(0.5)
-                .lineLimit(1)
+                // Apparent expense bar
+                barRow(
+                    label: NSLocalizedString("apparent_short", comment: ""),
+                    amount: data.apparentExpense,
+                    ratio: 1.0,
+                    barColor: Color(UIColor.separator),
+                    amountFont: .system(size: 14, weight: .medium, design: .rounded),
+                    amountColor: .secondary
+                )
+            }
 
             Spacer()
 
-            // Separator
-            Rectangle()
-                .fill(Color(UIColor.separator))
-                .frame(height: 0.5)
-
-            Spacer().frame(height: 8)
-
-            // Apparent + diff
-            HStack(spacing: 0) {
-                Text(NSLocalizedString("apparent_short", comment: ""))
-                    .font(.system(size: 11))
-                    .foregroundColor(.tertiary)
-                Text(" ")
-                Text(formatYen(data.apparentExpense, currency: data.currency))
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundColor(.tertiary)
-
-                Spacer()
-
-                if diff != 0 {
-                    Text(isSaving ? "▼ " : "▲ ")
-                        .font(.system(size: 11))
-                        .foregroundColor(isSaving ? .hareruSaving : .hareruExpense)
-                    Text(formatYen(abs(diff), currency: data.currency))
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(isSaving ? .hareruSaving : .hareruExpense)
+            // Savings indicator
+            if diff > 0 {
+                HStack(spacing: 3) {
+                    Image(systemName: "arrow.down")
+                        .font(.system(size: 10, weight: .bold))
+                    Text(formatYen(diff, currency: data.currency) + " " + NSLocalizedString("saved", comment: ""))
+                        .font(.system(size: 12, weight: .bold, design: .rounded))
                 }
+                .foregroundColor(.hareruSaving)
+            } else if diff < 0 {
+                HStack(spacing: 3) {
+                    Image(systemName: "arrow.up")
+                        .font(.system(size: 10, weight: .bold))
+                    Text(formatYen(abs(diff), currency: data.currency) + " " + NSLocalizedString("over", comment: ""))
+                        .font(.system(size: 12, weight: .bold, design: .rounded))
+                }
+                .foregroundColor(.hareruExpense)
+            } else {
+                Text(NSLocalizedString("no_transfer", comment: ""))
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(.secondary)
             }
         }
         .padding(16)
         .widgetURL(URL(string: "hareru://report"))
+    }
+
+    private func barRow(
+        label: String,
+        amount: Int,
+        ratio: CGFloat,
+        barColor: Color,
+        amountFont: Font,
+        amountColor: Color
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(label)
+                .font(.system(size: 10))
+                .foregroundColor(.secondary)
+
+            GeometryReader { geo in
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(barColor)
+                    .frame(width: geo.size.width * min(ratio, 1.0), height: 12)
+            }
+            .frame(height: 12)
+
+            Text(formatYen(amount, currency: data.currency))
+                .font(amountFont)
+                .foregroundColor(amountColor)
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
+        }
     }
 }
 

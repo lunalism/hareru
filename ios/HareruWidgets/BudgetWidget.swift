@@ -8,117 +8,116 @@ struct BudgetWidgetView: View {
     private var data: HareruWidgetData { entry.data }
 
     private var percentUsed: Double { data.budgetPercentUsed }
-    private var percentRemaining: Double { max(1.0 - percentUsed, 0) }
 
-    private var ringColor: Color {
+    private var gaugeColor: Color {
         if percentUsed > 0.85 { return .budgetRed }
         if percentUsed > 0.60 { return .budgetYellow }
         return .budgetGreen
     }
 
-    private var percentText: String {
-        "\(Int(percentRemaining * 100))%"
-    }
-
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(spacing: 0) {
             // Brand mark
-            Text("◇ Hareru")
-                .font(.system(size: 10, weight: .medium))
-                .foregroundColor(.secondary)
-
-            Spacer()
-
-            if data.hasBudget {
-                budgetContent
-            } else {
-                noBudgetContent
+            HStack {
+                Text("◇ Hareru")
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.secondary)
+                Spacer()
             }
 
-            Spacer()
+            if data.hasBudget {
+                Spacer().frame(height: 4)
+                budgetGauge
+            } else {
+                Spacer()
+                noBudgetContent
+                Spacer()
+            }
         }
         .padding(16)
         .widgetURL(URL(string: "hareru://report"))
     }
 
-    private var budgetContent: some View {
-        HStack(spacing: 0) {
-            Spacer()
-
-            // Progress ring
-            ZStack {
-                // Background ring
-                Circle()
+    private var budgetGauge: some View {
+        VStack(spacing: 0) {
+            // Semi-circle gauge
+            ZStack(alignment: .bottom) {
+                // Background arc (180 degrees, bottom half = upside down arc)
+                SemiCircleArc()
                     .stroke(
-                        Color(UIColor.separator).opacity(0.3),
-                        style: StrokeStyle(lineWidth: 8, lineCap: .round)
+                        Color(UIColor.separator).opacity(0.25),
+                        style: StrokeStyle(lineWidth: 10, lineCap: .round)
                     )
+                    .frame(height: 55)
 
-                // Foreground ring
-                Circle()
-                    .trim(from: 0, to: percentRemaining)
+                // Foreground arc
+                SemiCircleArc()
+                    .trim(from: 0, to: min(percentUsed, 1.0))
                     .stroke(
-                        ringColor,
-                        style: StrokeStyle(lineWidth: 8, lineCap: .round)
+                        gaugeColor,
+                        style: StrokeStyle(lineWidth: 10, lineCap: .round)
                     )
-                    .rotationEffect(.degrees(-90))
+                    .frame(height: 55)
 
-                // Inner text
+                // Center label (below arc center)
                 VStack(spacing: 0) {
+                    Spacer().frame(height: 12)
                     Text(NSLocalizedString("remaining", comment: ""))
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
-
                     Text(formatYen(data.budgetRemaining, currency: data.currency))
-                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
                         .foregroundColor(.primary)
                         .minimumScaleFactor(0.4)
                         .lineLimit(1)
-
-                    Text("/ " + formatYen(data.budgetTotal, currency: data.currency))
-                        .font(.system(size: 9))
-                        .foregroundColor(.tertiary)
-                        .minimumScaleFactor(0.5)
-                        .lineLimit(1)
                 }
-                .padding(.horizontal, 12)
             }
-            .frame(width: 110, height: 110)
 
-            // Percentage outside ring
-            Text(percentText)
-                .font(.system(size: 14, weight: .bold, design: .rounded))
-                .foregroundColor(ringColor)
-                .frame(width: 36, alignment: .leading)
+            Spacer().frame(height: 4)
 
-            Spacer()
+            // Gauge end labels
+            HStack {
+                Text(data.currency + "0")
+                    .font(.system(size: 9))
+                    .foregroundColor(.tertiary)
+                Spacer()
+                Text(formatYen(data.budgetTotal, currency: data.currency))
+                    .font(.system(size: 9))
+                    .foregroundColor(.tertiary)
+            }
         }
     }
 
     private var noBudgetContent: some View {
         VStack(spacing: 8) {
-            Spacer()
-
-            ZStack {
-                Circle()
-                    .stroke(
-                        Color(UIColor.separator).opacity(0.3),
-                        style: StrokeStyle(lineWidth: 8, lineCap: .round)
-                    )
-                    .frame(width: 60, height: 60)
-
-                Image(systemName: "yensign")
-                    .font(.system(size: 20, weight: .light))
-                    .foregroundColor(.secondary.opacity(0.5))
-            }
+            // Dashed semi-circle
+            SemiCircleArc()
+                .stroke(
+                    Color(UIColor.separator).opacity(0.3),
+                    style: StrokeStyle(lineWidth: 10, lineCap: .round, dash: [6, 8])
+                )
+                .frame(width: 100, height: 50)
 
             Text(NSLocalizedString("set_budget", comment: ""))
                 .font(.system(size: 12, weight: .medium))
                 .foregroundColor(.secondary)
-
-            Spacer()
         }
         .frame(maxWidth: .infinity)
+    }
+}
+
+/// A shape that draws a 180-degree arc (top half of a circle)
+struct SemiCircleArc: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.addArc(
+            center: CGPoint(x: rect.midX, y: rect.maxY),
+            radius: min(rect.width / 2, rect.height),
+            startAngle: .degrees(180),
+            endAngle: .degrees(0),
+            clockwise: false
+        )
+        return path
     }
 }
 

@@ -16,5 +16,9 @@
 "widget_budget_desc" = "Shows remaining budget this month";
 "widget_summary_title" = "Monthly Summary";
 "widget_summary_desc" = "Overview of this month's spending and income";
+"real_expense_short" = "Real";
+"saved" = "saved";
+"over" = "over";
+"no_transfer" = "No transfers";
 "widget_lockscreen_title" = "Lock Screen";
 "widget_lockscreen_desc" = "Check your expense from the lock screen";
