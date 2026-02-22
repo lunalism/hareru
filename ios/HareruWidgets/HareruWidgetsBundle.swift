@@ -6,6 +6,5 @@ struct HareruWidgetsBundle: WidgetBundle {
     var body: some Widget {
         BudgetWidget()
         RealExpenseWidget()
-        MonthlySummaryWidget()
     }
 }
