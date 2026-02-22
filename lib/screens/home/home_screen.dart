@@ -335,12 +335,23 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
+  String _formatBudgetCommas(String digits) {
+    final buf = StringBuffer();
+    var count = 0;
+    for (var i = digits.length - 1; i >= 0; i--) {
+      buf.write(digits[i]);
+      count++;
+      if (count % 3 == 0 && i > 0) buf.write(',');
+    }
+    return buf.toString().split('').reversed.join();
+  }
+
   void _showBudgetDialog(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final currentBudget = ref.read(budgetProvider);
     final controller = TextEditingController(
-      text: currentBudget > 0 ? currentBudget.toString() : '',
+      text: currentBudget > 0 ? _formatBudgetCommas(currentBudget.toString()) : '',
     );
 
     showDialog<void>(
@@ -365,7 +376,7 @@ class HomeScreen extends ConsumerWidget {
           content: TextField(
             controller: controller,
             keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            inputFormatters: [_BudgetCommaFormatter()],
             autofocus: true,
             style: TextStyle(
               fontSize: 24,
@@ -381,7 +392,7 @@ class HomeScreen extends ConsumerWidget {
                 fontWeight: FontWeight.w700,
                 color: HareruColors.primaryStart,
               ),
-              hintText: '150000',
+              hintText: '150,000',
               hintStyle: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w400,
@@ -422,7 +433,8 @@ class HomeScreen extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () {
-                final value = int.tryParse(controller.text) ?? 0;
+                final digits = controller.text.replaceAll(',', '');
+                final value = int.tryParse(digits) ?? 0;
                 ref.read(budgetProvider.notifier).setBudget(value);
                 Navigator.pop(dialogContext);
               },
@@ -1049,4 +1061,33 @@ class _GuideItem {
   final Color color;
   final VoidCallback? onTap;
   const _GuideItem(this.icon, this.title, this.desc, this.color, {this.onTap});
+}
+
+class _BudgetCommaFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digits = newValue.text.replaceAll(',', '');
+    if (digits.isEmpty) {
+      return newValue.copyWith(text: '');
+    }
+    if (int.tryParse(digits) == null) {
+      return oldValue;
+    }
+
+    final buf = StringBuffer();
+    var count = 0;
+    for (var i = digits.length - 1; i >= 0; i--) {
+      buf.write(digits[i]);
+      count++;
+      if (count % 3 == 0 && i > 0) buf.write(',');
+    }
+    final formatted = buf.toString().split('').reversed.join();
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
 }

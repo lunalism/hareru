@@ -4,6 +4,8 @@ import WidgetKit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
+  private var deepLinkChannel: FlutterMethodChannel?
+
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -12,6 +14,7 @@ import WidgetKit
 
     let controller = window?.rootViewController as! FlutterViewController
     let channel = FlutterMethodChannel(name: "app.hareru.ios/widget", binaryMessenger: controller.binaryMessenger)
+    deepLinkChannel = channel
 
     channel.setMethodCallHandler { (call, result) in
       switch call.method {
@@ -37,6 +40,26 @@ import WidgetKit
       }
     }
 
+    // Handle deep link from widget tap when app is cold-launched
+    if let url = launchOptions?[.url] as? URL,
+       url.scheme == "hareru" {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        self.deepLinkChannel?.invokeMethod("onDeepLink", arguments: url.host ?? "home")
+      }
+    }
+
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+
+  override func application(
+    _ app: UIApplication,
+    open url: URL,
+    options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+  ) -> Bool {
+    if url.scheme == "hareru" {
+      deepLinkChannel?.invokeMethod("onDeepLink", arguments: url.host ?? "home")
+      return true
+    }
+    return super.application(app, open: url, options: options)
   }
 }
