@@ -23,13 +23,13 @@ struct MonthlySummaryWidgetView: View {
             // Header bar
             HStack {
                 Text("◇ Hareru")
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 13, weight: .medium))
                     .foregroundColor(.secondary)
 
                 Spacer()
 
                 Text(formatMonth(data.month))
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 13, weight: .medium))
                     .foregroundColor(.secondary)
             }
 
@@ -64,30 +64,31 @@ struct MonthlySummaryWidgetView: View {
                 }
             }
 
-            Spacer().frame(height: 8)
+            Spacer().frame(height: 10)
 
             // Separator
             Rectangle()
                 .fill(Color(UIColor.separator))
                 .frame(height: 0.5)
 
-            Spacer().frame(height: 8)
+            Spacer().frame(height: 10)
 
             // Footer bar
-            HStack {
+            HStack(spacing: 0) {
                 // Real expense
                 Text(NSLocalizedString("real_expense", comment: ""))
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.hareruExpense)
+                Text(" ")
                 Text(formatYen(data.realExpense, currency: data.currency))
-                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
                     .foregroundColor(.hareruExpense)
 
                 Spacer()
 
                 // Mini progress ring + percentage
                 if data.hasBudget {
-                    HStack(spacing: 4) {
+                    HStack(spacing: 6) {
                         ZStack {
                             Circle()
                                 .stroke(
@@ -105,7 +106,7 @@ struct MonthlySummaryWidgetView: View {
                         .frame(width: 24, height: 24)
 
                         Text("\(Int(budgetPercentRemaining * 100))%")
-                            .font(.system(size: 11, weight: .bold, design: .rounded))
+                            .font(.system(size: 12, weight: .bold, design: .rounded))
                             .foregroundColor(miniRingColor)
                     }
                 }
@@ -116,29 +117,30 @@ struct MonthlySummaryWidgetView: View {
     }
 
     private func categoryCard(label: String, amount: Int, color: Color) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 3) {
             // Color dot + category name
-            HStack(spacing: 4) {
+            HStack(spacing: 5) {
                 Circle()
                     .fill(color)
-                    .frame(width: 6, height: 6)
+                    .frame(width: 7, height: 7)
                 Text(label)
-                    .font(.system(size: 10))
+                    .font(.system(size: 11))
                     .foregroundColor(.secondary)
             }
 
             // Amount
             Text(formatYen(amount, currency: data.currency))
-                .font(.system(size: 16, weight: .bold, design: .rounded))
+                .font(.system(size: 17, weight: .bold, design: .rounded))
                 .foregroundColor(.primary)
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
         }
-        .padding(8)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 10)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .fill(color.opacity(0.08))
+                .fill(color.opacity(0.12))
         )
     }
 }

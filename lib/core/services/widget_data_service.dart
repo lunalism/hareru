@@ -1,47 +1,65 @@
-import 'package:hareru/models/transaction.dart';
-import 'package:home_widget/home_widget.dart';
+import 'dart:io';
 
-const _appGroupId = 'group.com.lunalism.hareru';
+import 'package:flutter/services.dart';
+import 'package:hareru/models/transaction.dart';
+
 const _iOSWidgetName = 'HareruWidgets';
 
 class WidgetDataService {
+  static const _channel = MethodChannel('app.hareru.ios/widget');
+  static bool _available = false;
+
   static Future<void> init() async {
-    await HomeWidget.setAppGroupId(_appGroupId);
+    _available = Platform.isIOS;
   }
 
   static Future<void> updateWidgetData({
     required List<Transaction> transactions,
     required int budget,
   }) async {
-    final now = DateTime.now();
-    final monthTxns = transactions
-        .where((t) =>
-            t.createdAt.year == now.year && t.createdAt.month == now.month)
-        .toList();
+    if (!_available) return;
 
-    double totalByType(TransactionType type) =>
-        monthTxns.where((t) => t.type == type).fold(0.0, (s, t) => s + t.amount);
+    try {
+      final now = DateTime.now();
+      final monthTxns = transactions
+          .where((t) =>
+              t.createdAt.year == now.year && t.createdAt.month == now.month)
+          .toList();
 
-    final expense = totalByType(TransactionType.expense);
-    final transfer = totalByType(TransactionType.transfer);
-    final saving = totalByType(TransactionType.savings);
-    final income = totalByType(TransactionType.income);
-    final apparent = expense + transfer + saving;
+      double totalByType(TransactionType type) =>
+          monthTxns.where((t) => t.type == type).fold(0.0, (s, t) => s + t.amount);
 
-    await Future.wait([
-      HomeWidget.saveWidgetData('widget_real_expense', expense.truncate()),
-      HomeWidget.saveWidgetData('widget_apparent_expense', apparent.truncate()),
-      HomeWidget.saveWidgetData('widget_income', income.truncate()),
-      HomeWidget.saveWidgetData('widget_transfer', transfer.truncate()),
-      HomeWidget.saveWidgetData('widget_saving', saving.truncate()),
-      HomeWidget.saveWidgetData('widget_budget_total', budget),
-      HomeWidget.saveWidgetData('widget_budget_used', expense.truncate()),
-      HomeWidget.saveWidgetData(
-          'widget_month', '${now.year}-${now.month.toString().padLeft(2, '0')}'),
-      HomeWidget.saveWidgetData('widget_currency', '\u00a5'),
-      HomeWidget.saveWidgetData('widget_last_updated', now.toIso8601String()),
-    ]);
+      final expense = totalByType(TransactionType.expense);
+      final transfer = totalByType(TransactionType.transfer);
+      final saving = totalByType(TransactionType.savings);
+      final income = totalByType(TransactionType.income);
+      final apparent = expense + transfer + saving;
 
-    await HomeWidget.updateWidget(iOSName: _iOSWidgetName);
+      final data = <String, dynamic>{
+        'widget_real_expense': expense.truncate(),
+        'widget_apparent_expense': apparent.truncate(),
+        'widget_income': income.truncate(),
+        'widget_transfer': transfer.truncate(),
+        'widget_saving': saving.truncate(),
+        'widget_budget_total': budget,
+        'widget_budget_used': expense.truncate(),
+        'widget_month': '${now.year}-${now.month.toString().padLeft(2, '0')}',
+        'widget_currency': '\u00a5',
+        'widget_last_updated': now.toIso8601String(),
+      };
+
+      for (final entry in data.entries) {
+        await _channel.invokeMethod('saveWidgetData', {
+          'id': entry.key,
+          'data': entry.value,
+        });
+      }
+
+      await _channel.invokeMethod('updateWidget', {
+        'ios_name': _iOSWidgetName,
+      });
+    } catch (_) {
+      // Widget sync may fail silently
+    }
   }
 }
