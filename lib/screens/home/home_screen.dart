@@ -13,7 +13,7 @@ import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
 import 'package:hareru/screens/home/all_records_screen.dart';
 import 'package:hareru/screens/home/record_detail_screen.dart';
-import 'package:hareru/screens/home/widgets/add_transaction_sheet.dart';
+import 'package:hareru/screens/home/widgets/add_transaction_screen.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
 import 'package:hareru/widgets/type_badge.dart';
 
@@ -935,22 +935,18 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  void _openAddTransactionSheet(BuildContext context, WidgetRef ref) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheetContext) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.85,
-          child: AddTransactionSheet(
-            onSave: (transaction) {
-              ref.read(transactionProvider.notifier).add(transaction);
-              Navigator.pop(sheetContext);
-            },
-          ),
-        );
-      },
+  void _openAddTransactionScreen(BuildContext context, WidgetRef ref) {
+    Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (_) => AddTransactionScreen(
+          onSave: (transaction) {
+            ref.read(transactionProvider.notifier).add(transaction);
+            Navigator.pop(context);
+          },
+        ),
+      ),
     );
   }
 
@@ -960,7 +956,7 @@ class HomeScreen extends ConsumerWidget {
     final guides = [
       _GuideItem(Icons.receipt_long_outlined, l10n.guideExpenseTitle,
           l10n.guideExpenseDesc, const Color(0xFFE8453C), onTap: () {
-        _openAddTransactionSheet(context, ref);
+        _openAddTransactionScreen(context, ref);
       }),
       _GuideItem(Icons.account_balance_wallet_outlined, l10n.guideBudgetTitle,
           l10n.guideBudgetDesc, const Color(0xFFE8453C), onTap: () {

@@ -6,7 +6,7 @@ import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
-import 'package:hareru/screens/home/widgets/add_transaction_sheet.dart';
+import 'package:hareru/screens/home/widgets/add_transaction_screen.dart';
 
 class RecordDetailScreen extends ConsumerStatefulWidget {
   const RecordDetailScreen({super.key, required this.transaction});
@@ -164,17 +164,15 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
   void _openEditSheet() {
     final l10n = AppLocalizations.of(context)!;
 
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => SizedBox(
-        height: MediaQuery.of(context).size.height * 0.92,
-        child: AddTransactionSheet(
+    Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (_) => AddTransactionScreen(
           editTransaction: _transaction,
           onSave: (updated) {
             ref.read(transactionProvider.notifier).update(updated);
-            Navigator.pop(context); // close sheet
+            Navigator.pop(context); // close edit screen
             setState(() => _transaction = updated);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(l10n.recordUpdated)),

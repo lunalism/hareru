@@ -8,7 +8,7 @@ import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
 import 'package:hareru/screens/dictionary/dictionary_screen.dart';
 import 'package:hareru/screens/home/home_screen.dart';
-import 'package:hareru/screens/home/widgets/add_transaction_sheet.dart';
+import 'package:hareru/screens/home/widgets/add_transaction_screen.dart';
 import 'package:hareru/screens/report/report_screen.dart';
 import 'package:hareru/screens/settings/settings_screen.dart';
 
@@ -229,22 +229,18 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   }
 
   void _openAddSheet() {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheetContext) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.92,
-          child: AddTransactionSheet(
-            onSave: (transaction) {
-              ref.read(transactionProvider.notifier).add(transaction);
-              Navigator.pop(sheetContext);
-              _showToast(transaction);
-            },
-          ),
-        );
-      },
+    Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (_) => AddTransactionScreen(
+          onSave: (transaction) {
+            ref.read(transactionProvider.notifier).add(transaction);
+            Navigator.pop(context);
+            _showToast(transaction);
+          },
+        ),
+      ),
     );
   }
 

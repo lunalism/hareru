@@ -8,8 +8,8 @@ import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/category.dart' as cat_model;
 import 'package:hareru/models/transaction.dart';
 
-class AddTransactionSheet extends ConsumerStatefulWidget {
-  const AddTransactionSheet({
+class AddTransactionScreen extends ConsumerStatefulWidget {
+  const AddTransactionScreen({
     super.key,
     required this.onSave,
     this.editTransaction,
@@ -19,11 +19,11 @@ class AddTransactionSheet extends ConsumerStatefulWidget {
   final Transaction? editTransaction;
 
   @override
-  ConsumerState<AddTransactionSheet> createState() =>
-      _AddTransactionSheetState();
+  ConsumerState<AddTransactionScreen> createState() =>
+      _AddTransactionScreenState();
 }
 
-class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
+class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   TransactionType _selectedType = TransactionType.expense;
   String? _selectedCategory;
   String _memo = '';
@@ -271,111 +271,109 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
         ? (isExpense ? l10n.editExpense : l10n.editIncome)
         : (isExpense ? l10n.addExpense : l10n.addIncome);
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Container(
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        child: Column(
-          children: [
-            // === Header ===
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 8, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    headerTitle,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: textPrimary,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(
-                      Icons.close_rounded,
-                      size: 24,
-                      color: isDark
-                          ? HareruColors.darkTextSecondary
-                          : HareruColors.lightTextSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // === 2-tab segment ===
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: _buildSegmentControl(l10n, isDark),
-            ),
-            const SizedBox(height: 20),
-
-            // === Scrollable content ===
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      backgroundColor: bgColor,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // === Header ===
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 8, 8, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Amount input
-                    _buildAmountInput(isDark, l10n),
-                    const SizedBox(height: 24),
-
-                    // Category section
                     Text(
-                      l10n.category,
+                      headerTitle,
                       style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: textPrimary,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(
+                        Icons.close_rounded,
+                        size: 24,
                         color: isDark
                             ? HareruColors.darkTextSecondary
                             : HareruColors.lightTextSecondary,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    _buildCategoryGrid(categories, l10n, isDark),
-                    const SizedBox(height: 24),
-
-                    // Payment method chips
-                    Text(
-                      l10n.paymentMethod,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? HareruColors.darkTextSecondary
-                            : HareruColors.lightTextSecondary,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    _buildPaymentChips(l10n, isDark),
-                    const SizedBox(height: 24),
-
-                    // Memo field
-                    _buildMemoField(l10n, isDark),
-                    const SizedBox(height: 16),
-
-                    // Monthly recurring toggle
-                    _buildRecurringToggle(l10n, isDark),
-                    const SizedBox(height: 24),
                   ],
                 ),
               ),
-            ),
+              const SizedBox(height: 12),
 
-            // === Save button ===
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                24, 8, 24, MediaQuery.of(context).padding.bottom + 12),
-              child: _buildSaveButton(l10n, isDark),
-            ),
-          ],
+              // === 2-tab segment ===
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: _buildSegmentControl(l10n, isDark),
+              ),
+              const SizedBox(height: 20),
+
+              // === Scrollable content ===
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Amount input
+                      _buildAmountInput(isDark, l10n),
+                      const SizedBox(height: 24),
+
+                      // Category section
+                      Text(
+                        l10n.category,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? HareruColors.darkTextSecondary
+                              : HareruColors.lightTextSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      _buildCategoryGrid(categories, l10n, isDark),
+                      const SizedBox(height: 24),
+
+                      // Payment method chips
+                      Text(
+                        l10n.paymentMethod,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? HareruColors.darkTextSecondary
+                              : HareruColors.lightTextSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      _buildPaymentChips(l10n, isDark),
+                      const SizedBox(height: 24),
+
+                      // Memo field
+                      _buildMemoField(l10n, isDark),
+                      const SizedBox(height: 16),
+
+                      // Monthly recurring toggle
+                      _buildRecurringToggle(l10n, isDark),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
+              ),
+
+              // === Save button (bottom-fixed) ===
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 8, 24, 12),
+                child: _buildSaveButton(l10n, isDark),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -9,7 +9,7 @@ import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
 import 'package:hareru/features/pdf_report/pdf_report_button.dart';
-import 'package:hareru/screens/home/widgets/add_transaction_sheet.dart';
+import 'package:hareru/screens/home/widgets/add_transaction_screen.dart';
 
 const _categoryColors = [
   Color(0xFFEF4444),
@@ -130,21 +130,17 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
   }
 
   void _openAddSheet() {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheetContext) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.85,
-          child: AddTransactionSheet(
-            onSave: (transaction) {
-              ref.read(transactionProvider.notifier).add(transaction);
-              Navigator.pop(sheetContext);
-            },
-          ),
-        );
-      },
+    Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (_) => AddTransactionScreen(
+          onSave: (transaction) {
+            ref.read(transactionProvider.notifier).add(transaction);
+            Navigator.pop(context);
+          },
+        ),
+      ),
     );
   }
 
