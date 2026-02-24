@@ -729,4 +729,34 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get pdfBrandFooter => 'Hareru - 스마트 가계부';
+
+  @override
+  String get addExpense => '지출 추가';
+
+  @override
+  String get addIncome => '수입 추가';
+
+  @override
+  String get editExpense => '지출 수정';
+
+  @override
+  String get editIncome => '수입 수정';
+
+  @override
+  String get paymentMethod => '결제수단';
+
+  @override
+  String get creditCard => '신용카드';
+
+  @override
+  String get debitCard => '체크카드';
+
+  @override
+  String get cash => '현금';
+
+  @override
+  String get monthlyRecurring => '매월 반복';
+
+  @override
+  String get amountHint => '금액을 입력하세요';
 }

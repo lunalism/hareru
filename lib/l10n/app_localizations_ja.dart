@@ -728,4 +728,34 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get pdfBrandFooter => 'Hareru - スマート家計簿';
+
+  @override
+  String get addExpense => '支出を追加';
+
+  @override
+  String get addIncome => '収入を追加';
+
+  @override
+  String get editExpense => '支出を編集';
+
+  @override
+  String get editIncome => '収入を編集';
+
+  @override
+  String get paymentMethod => '決済方法';
+
+  @override
+  String get creditCard => 'クレジット';
+
+  @override
+  String get debitCard => 'デビット';
+
+  @override
+  String get cash => '現金';
+
+  @override
+  String get monthlyRecurring => '毎月繰り返し';
+
+  @override
+  String get amountHint => '金額を入力';
 }

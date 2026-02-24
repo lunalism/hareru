@@ -323,5 +323,16 @@
       "date": {"type": "String"}
     }
   },
-  "pdfBrandFooter": "Hareru - 스마트 가계부"
+  "pdfBrandFooter": "Hareru - 스마트 가계부",
+
+  "addExpense": "지출 추가",
+  "addIncome": "수입 추가",
+  "editExpense": "지출 수정",
+  "editIncome": "수입 수정",
+  "paymentMethod": "결제수단",
+  "creditCard": "신용카드",
+  "debitCard": "체크카드",
+  "cash": "현금",
+  "monthlyRecurring": "매월 반복",
+  "amountHint": "금액을 입력하세요"
 }

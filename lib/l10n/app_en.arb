@@ -323,5 +323,16 @@
       "date": {"type": "String"}
     }
   },
-  "pdfBrandFooter": "Hareru - Smart Budget App"
+  "pdfBrandFooter": "Hareru - Smart Budget App",
+
+  "addExpense": "Add Expense",
+  "addIncome": "Add Income",
+  "editExpense": "Edit Expense",
+  "editIncome": "Edit Income",
+  "paymentMethod": "Payment",
+  "creditCard": "Credit",
+  "debitCard": "Debit",
+  "cash": "Cash",
+  "monthlyRecurring": "Monthly recurring",
+  "amountHint": "Enter amount"
 }

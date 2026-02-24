@@ -323,5 +323,16 @@
       "date": {"type": "String"}
     }
   },
-  "pdfBrandFooter": "Hareru - スマート家計簿"
+  "pdfBrandFooter": "Hareru - スマート家計簿",
+
+  "addExpense": "支出を追加",
+  "addIncome": "収入を追加",
+  "editExpense": "支出を編集",
+  "editIncome": "収入を編集",
+  "paymentMethod": "決済方法",
+  "creditCard": "クレジット",
+  "debitCard": "デビット",
+  "cash": "現金",
+  "monthlyRecurring": "毎月繰り返し",
+  "amountHint": "金額を入力"
 }

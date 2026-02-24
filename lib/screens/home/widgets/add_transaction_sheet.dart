@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
@@ -24,10 +25,14 @@ class AddTransactionSheet extends ConsumerStatefulWidget {
 
 class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
   TransactionType _selectedType = TransactionType.expense;
-  String _amount = '0';
   String? _selectedCategory;
   String _memo = '';
+  int _selectedPayment = 0; // 0=credit, 1=debit, 2=cash (UI only)
+  bool _isRecurring = false; // UI only
+
   final _memoController = TextEditingController();
+  final _amountController = TextEditingController();
+  final _amountFocusNode = FocusNode();
 
   bool get _isEditing => widget.editTransaction != null;
 
@@ -37,9 +42,10 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     final t = widget.editTransaction;
     if (t != null) {
       _selectedType = t.type;
-      _amount = t.amount.truncateToDouble() == t.amount
+      final amountStr = t.amount.truncateToDouble() == t.amount
           ? t.amount.toInt().toString()
           : t.amount.toString();
+      _amountController.text = _formatWithCommas(amountStr);
       _selectedCategory = t.category;
       _memo = t.memo ?? '';
       _memoController.text = _memo;
@@ -49,22 +55,10 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
   @override
   void dispose() {
     _memoController.dispose();
+    _amountController.dispose();
+    _amountFocusNode.dispose();
     super.dispose();
   }
-
-  static const _typeColors = {
-    TransactionType.expense: Color(0xFFEF4444),
-    TransactionType.transfer: Color(0xFFF59E0B),
-    TransactionType.savings: Color(0xFF10B981),
-    TransactionType.income: Color(0xFFF59E0B),
-  };
-
-  static const _saveGradients = {
-    TransactionType.expense: [Color(0xFFEF4444), Color(0xFFDC2626)],
-    TransactionType.transfer: [Color(0xFFF59E0B), Color(0xFFD97706)],
-    TransactionType.savings: [Color(0xFF10B981), Color(0xFF059669)],
-    TransactionType.income: [Color(0xFFF59E0B), Color(0xFFD97706)],
-  };
 
   String _typeToString(TransactionType type) {
     return switch (type) {
@@ -80,52 +74,19 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     return resolveL10nKey(cat.name, l10n);
   }
 
-  void _onDigit(String digit) {
-    setState(() {
-      if (_amount == '0') {
-        _amount = digit;
-      } else if (_amount.length < 10) {
-        _amount += digit;
-      }
-    });
-  }
-
-  void _onDoubleZero() {
-    setState(() {
-      if (_amount != '0' && _amount.length < 9) {
-        _amount += '00';
-      }
-    });
-  }
-
-  void _onDot() {
-    setState(() {
-      if (!_amount.contains('.') && _amount.length < 9) {
-        _amount += '.';
-      }
-    });
-  }
-
-  void _onBackspace() {
-    setState(() {
-      if (_amount.length > 1) {
-        _amount = _amount.substring(0, _amount.length - 1);
-      } else {
-        _amount = '0';
-      }
-    });
-  }
-
-  String _formatAmount(String raw) {
-    if (raw.contains('.')) {
-      final parts = raw.split('.');
-      final intPart = _addCommas(parts[0]);
-      return '$intPart.${parts[1]}';
+  String _formatWithCommas(String raw) {
+    // Remove existing commas
+    final clean = raw.replaceAll(',', '');
+    if (clean.isEmpty) return '';
+    if (clean.contains('.')) {
+      final parts = clean.split('.');
+      return '${_addCommas(parts[0])}.${parts[1]}';
     }
-    return _addCommas(raw);
+    return _addCommas(clean);
   }
 
   String _addCommas(String s) {
+    if (s.isEmpty) return '';
     final result = StringBuffer();
     var count = 0;
     for (var i = s.length - 1; i >= 0; i--) {
@@ -136,10 +97,12 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     return result.toString().split('').reversed.join();
   }
 
-  bool get _canSave {
-    final parsed = double.tryParse(_amount) ?? 0;
-    return parsed > 0 && _selectedCategory != null;
+  double get _parsedAmount {
+    final clean = _amountController.text.replaceAll(',', '');
+    return double.tryParse(clean) ?? 0;
   }
+
+  bool get _canSave => _parsedAmount > 0 && _selectedCategory != null;
 
   void _save() {
     if (!_canSave) return;
@@ -147,7 +110,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     final transaction = Transaction(
       id: existing?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
       type: _selectedType,
-      amount: double.parse(_amount),
+      amount: _parsedAmount,
       category: _selectedCategory!,
       memo: _memo.isEmpty ? null : _memo,
       createdAt: existing?.createdAt ?? DateTime.now(),
@@ -158,7 +121,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
   void _showQuickAddDialog(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final activeColor = _typeColors[_selectedType]!;
+    final activeColor = const Color(0xFFE8453C);
     final emojiController = TextEditingController();
     final nameController = TextEditingController();
 
@@ -262,7 +225,6 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
                         _typeToString(_selectedType),
                       );
                   Navigator.pop(dialogContext);
-                  // Select the newly added category after a brief delay
                   Future.delayed(const Duration(milliseconds: 100), () {
                     if (mounted) {
                       final cats = ref
@@ -296,104 +258,145 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
     final bgColor = isDark ? HareruColors.darkBg : HareruColors.lightBg;
-    final cardColor = isDark ? HareruColors.darkCard : HareruColors.lightCard;
     final textPrimary =
         isDark ? HareruColors.darkTextPrimary : HareruColors.lightTextPrimary;
-    final textSecondary = isDark
-        ? HareruColors.darkTextSecondary
-        : HareruColors.lightTextSecondary;
-    final activeColor = _typeColors[_selectedType]!;
 
     ref.watch(categoryProvider);
     final categories = ref
         .read(categoryProvider.notifier)
         .getCategoriesByType(_typeToString(_selectedType));
 
-    return Container(
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      child: Column(
-        children: [
-          // === Fixed top: drag handle + type tabs ===
-          const SizedBox(height: 10),
-          // Drag handle
-          Container(
-            width: 36,
-            height: 4,
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF5A5A5A) : const Color(0xFFE5E0DB),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 12),
-          // Type tabs
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: _buildTypeTabs(l10n, isDark, cardColor),
-          ),
-          const SizedBox(height: 14),
+    final isExpense = _selectedType == TransactionType.expense;
+    final headerTitle = _isEditing
+        ? (isExpense ? l10n.editExpense : l10n.editIncome)
+        : (isExpense ? l10n.addExpense : l10n.addIncome);
 
-          // === Scrollable middle: amount + categories + memo ===
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Container(
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          children: [
+            // === Header ===
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 16, 8, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Amount display
-                  _buildAmountDisplay(activeColor, isDark),
-                  const SizedBox(height: 14),
-
-                  // Category grid
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: _buildCategoryGrid(
-                        categories, l10n, isDark, cardColor, textSecondary, activeColor),
+                  Text(
+                    headerTitle,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: textPrimary,
+                    ),
                   ),
-                  const SizedBox(height: 12),
-
-                  // Memo field
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: _buildMemoField(l10n, isDark, cardColor, textPrimary),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(
+                      Icons.close_rounded,
+                      size: 24,
+                      color: isDark
+                          ? HareruColors.darkTextSecondary
+                          : HareruColors.lightTextSecondary,
+                    ),
                   ),
-                  const SizedBox(height: 12),
                 ],
               ),
             ),
-          ),
+            const SizedBox(height: 12),
 
-          // === Fixed bottom: numpad ===
-          _buildNumpad(isDark, cardColor, textPrimary, activeColor, l10n),
-          SizedBox(height: MediaQuery.of(context).padding.bottom + 8),
-        ],
+            // === 2-tab segment ===
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: _buildSegmentControl(l10n, isDark),
+            ),
+            const SizedBox(height: 20),
+
+            // === Scrollable content ===
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Amount input
+                    _buildAmountInput(isDark, l10n),
+                    const SizedBox(height: 24),
+
+                    // Category section
+                    Text(
+                      l10n.category,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? HareruColors.darkTextSecondary
+                            : HareruColors.lightTextSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    _buildCategoryGrid(categories, l10n, isDark),
+                    const SizedBox(height: 24),
+
+                    // Payment method chips
+                    Text(
+                      l10n.paymentMethod,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? HareruColors.darkTextSecondary
+                            : HareruColors.lightTextSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    _buildPaymentChips(l10n, isDark),
+                    const SizedBox(height: 24),
+
+                    // Memo field
+                    _buildMemoField(l10n, isDark),
+                    const SizedBox(height: 16),
+
+                    // Monthly recurring toggle
+                    _buildRecurringToggle(l10n, isDark),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
+            ),
+
+            // === Save button ===
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                24, 8, 24, MediaQuery.of(context).padding.bottom + 12),
+              child: _buildSaveButton(l10n, isDark),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildTypeTabs(AppLocalizations l10n, bool isDark, Color cardColor) {
-    final inactiveColor = isDark
-        ? HareruColors.darkTextTertiary
-        : HareruColors.lightTextTertiary;
-
+  Widget _buildSegmentControl(AppLocalizations l10n, bool isDark) {
     final types = [
       (TransactionType.expense, l10n.expense),
-      (TransactionType.transfer, l10n.transfer),
-      (TransactionType.savings, l10n.savings),
       (TransactionType.income, l10n.income),
     ];
 
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: isDark ? HareruColors.darkCard : const Color(0xFFF5F0EB),
+        color: isDark ? HareruColors.darkCard : const Color(0xFFEDE8E3),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: types.map((entry) {
           final (type, label) = entry;
           final isSelected = type == _selectedType;
-          final color = _typeColors[type]!;
 
           return Expanded(
             child: GestureDetector(
@@ -415,32 +418,25 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
                             color: Colors.black.withValues(alpha: 0.06),
                             blurRadius: 4,
                             offset: const Offset(0, 1),
-                          )
+                          ),
                         ]
                       : null,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: isSelected ? color : inactiveColor,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      label,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight:
-                            isSelected ? FontWeight.w600 : FontWeight.w400,
-                        color: isSelected ? color : inactiveColor,
-                      ),
-                    ),
-                  ],
+                alignment: Alignment.center,
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight:
+                        isSelected ? FontWeight.w600 : FontWeight.w400,
+                    color: isSelected
+                        ? (isDark
+                            ? HareruColors.darkTextPrimary
+                            : HareruColors.lightTextPrimary)
+                        : (isDark
+                            ? HareruColors.darkTextTertiary
+                            : HareruColors.lightTextTertiary),
+                  ),
                 ),
               ),
             ),
@@ -450,52 +446,73 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     );
   }
 
-  Widget _buildAmountDisplay(Color activeColor, bool isDark) {
-    final isZero = _amount == '0';
-    final displayAmount = isZero ? '0' : _formatAmount(_amount);
-    final amountFontSize = displayAmount.length >= 8 ? 36.0 : 44.0;
-    final amountColor = isZero
-        ? const Color(0xFFBFBFBF)
-        : (isDark ? const Color(0xFFF0ECE7) : const Color(0xFF1A1A1A));
-    final yenColor = isZero ? const Color(0xFFBFBFBF) : activeColor;
-
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            Text(
-              '\u00a5',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: yenColor,
+  Widget _buildAmountInput(bool isDark, AppLocalizations l10n) {
+    return Center(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                '\u00a5',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: _parsedAmount > 0
+                      ? const Color(0xFFE8453C)
+                      : const Color(0xFFBFBFBF),
+                ),
               ),
-            ),
-            const SizedBox(width: 4),
-            Text(
-              displayAmount,
-              style: TextStyle(
-                fontSize: amountFontSize,
-                fontWeight: FontWeight.w700,
-                color: amountColor,
-                fontFeatures: const [FontFeature.tabularFigures()],
+              const SizedBox(width: 4),
+              IntrinsicWidth(
+                child: TextField(
+                  controller: _amountController,
+                  focusNode: _amountFocusNode,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  autofocus: !_isEditing,
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w700,
+                    color: isDark
+                        ? HareruColors.darkTextPrimary
+                        : HareruColors.lightTextPrimary,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: '0',
+                    hintStyle: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFFBFBFBF),
+                    ),
+                    isDense: true,
+                    contentPadding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(minWidth: 40),
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    _CommaFormatter(),
+                    LengthLimitingTextInputFormatter(14), // 10 digits + 3 commas
+                  ],
+                  onChanged: (_) => setState(() {}),
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
-        Container(
-          width: 60,
-          height: 3,
-          decoration: BoxDecoration(
-            color: activeColor.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(2),
+            ],
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+          if (_parsedAmount == 0)
+            Text(
+              l10n.amountHint,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Color(0xFFBFBFBF),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -503,11 +520,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     List<cat_model.Category> categories,
     AppLocalizations l10n,
     bool isDark,
-    Color cardColor,
-    Color textSecondary,
-    Color activeColor,
   ) {
-    // +1 for the add button
     final itemCount = categories.length + 1;
 
     return GridView.builder(
@@ -515,26 +528,26 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        childAspectRatio: 1.15,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
+        childAspectRatio: 1.05,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
       ),
       itemCount: itemCount,
       itemBuilder: (context, index) {
-        // Last item is the add button
         if (index == categories.length) {
           return GestureDetector(
             onTap: () => _showQuickAddDialog(context),
             child: Container(
               decoration: BoxDecoration(
                 color: isDark
-                    ? const Color(0xFF2A2A2A)
+                    ? HareruColors.darkCard
                     : const Color(0xFFF5F0EB),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: isDark
                       ? HareruColors.darkDivider
                       : HareruColors.lightDivider,
+                  style: BorderStyle.solid,
                 ),
               ),
               child: Column(
@@ -544,17 +557,17 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
                     Icons.add_rounded,
                     size: 24,
                     color: isDark
-                        ? const Color(0xFF8A8A8A)
-                        : const Color(0xFFBFBFBF),
+                        ? HareruColors.darkTextTertiary
+                        : HareruColors.lightTextTertiary,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Text(
                     l10n.add,
                     style: TextStyle(
-                      fontSize: 10.5,
+                      fontSize: 11,
                       color: isDark
-                          ? const Color(0xFF8A8A8A)
-                          : const Color(0xFFBFBFBF),
+                          ? HareruColors.darkTextTertiary
+                          : HareruColors.lightTextTertiary,
                     ),
                   ),
                 ],
@@ -573,30 +586,28 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
             duration: const Duration(milliseconds: 150),
             decoration: BoxDecoration(
               color: isSelected
-                  ? activeColor.withValues(alpha: 0.12)
-                  : cardColor,
+                  ? const Color(0xFFE8453C)
+                  : (isDark
+                      ? HareruColors.darkCard
+                      : const Color(0xFFF5F0EB)),
               borderRadius: BorderRadius.circular(14),
-              border: isSelected
-                  ? Border.all(color: activeColor, width: 1.5)
-                  : Border.all(
-                      color: isDark
-                          ? HareruColors.darkDivider
-                          : HareruColors.lightDivider,
-                      width: 1,
-                    ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(cat.emoji, style: const TextStyle(fontSize: 22)),
-                const SizedBox(height: 4),
+                Text(cat.emoji, style: const TextStyle(fontSize: 24)),
+                const SizedBox(height: 3),
                 Text(
                   displayName,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight:
                         isSelected ? FontWeight.w600 : FontWeight.w400,
-                    color: isSelected ? activeColor : textSecondary,
+                    color: isSelected
+                        ? Colors.white
+                        : (isDark
+                            ? HareruColors.darkTextPrimary
+                            : HareruColors.lightTextPrimary),
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -608,36 +619,88 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     );
   }
 
-  Widget _buildMemoField(AppLocalizations l10n, bool isDark, Color cardColor,
-      Color textPrimary) {
-    final textTertiary = isDark
-        ? HareruColors.darkTextTertiary
-        : HareruColors.lightTextTertiary;
+  Widget _buildPaymentChips(AppLocalizations l10n, bool isDark) {
+    final labels = [l10n.creditCard, l10n.debitCard, l10n.cash];
 
+    return Row(
+      children: List.generate(labels.length, (i) {
+        final isSelected = _selectedPayment == i;
+        return Padding(
+          padding: EdgeInsets.only(right: i < labels.length - 1 ? 8 : 0),
+          child: GestureDetector(
+            onTap: () => setState(() => _selectedPayment = i),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? (isDark
+                        ? HareruColors.darkTextPrimary
+                        : HareruColors.lightTextPrimary)
+                    : (isDark ? HareruColors.darkCard : Colors.white),
+                borderRadius: BorderRadius.circular(20),
+                border: isSelected
+                    ? null
+                    : Border.all(
+                        color: isDark
+                            ? HareruColors.darkDivider
+                            : HareruColors.lightDivider,
+                      ),
+              ),
+              child: Text(
+                labels[i],
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight:
+                      isSelected ? FontWeight.w600 : FontWeight.w400,
+                  color: isSelected
+                      ? (isDark
+                          ? HareruColors.darkBg
+                          : Colors.white)
+                      : (isDark
+                          ? HareruColors.darkTextSecondary
+                          : HareruColors.lightTextSecondary),
+                ),
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildMemoField(AppLocalizations l10n, bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
       decoration: BoxDecoration(
-        color: cardColor,
+        color: isDark ? HareruColors.darkCard : const Color(0xFFF5F0EB),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isDark ? HareruColors.darkDivider : HareruColors.lightDivider,
-        ),
       ),
       child: Row(
         children: [
-          Text('\u{1F4DD}', style: TextStyle(fontSize: 16, color: textTertiary)),
-          const SizedBox(width: 8),
+          const Text('\u{270F}\u{FE0F}', style: TextStyle(fontSize: 16)),
+          const SizedBox(width: 10),
           Expanded(
             child: TextField(
               controller: _memoController,
               onChanged: (v) => _memo = v,
-              style: TextStyle(fontSize: 13, color: textPrimary),
+              style: TextStyle(
+                fontSize: 14,
+                color: isDark
+                    ? HareruColors.darkTextPrimary
+                    : HareruColors.lightTextPrimary,
+              ),
               decoration: InputDecoration(
                 hintText: l10n.memoPlaceholder,
-                hintStyle: TextStyle(fontSize: 13, color: textTertiary),
+                hintStyle: TextStyle(
+                  fontSize: 14,
+                  color: isDark
+                      ? HareruColors.darkTextTertiary
+                      : HareruColors.lightTextTertiary,
+                ),
                 border: InputBorder.none,
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                contentPadding: const EdgeInsets.symmetric(vertical: 12),
               ),
             ),
           ),
@@ -646,158 +709,98 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     );
   }
 
-  Widget _buildNumpad(bool isDark, Color cardColor, Color textPrimary,
-      Color activeColor, AppLocalizations l10n) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        children: [
-          // Row 1: 7 8 9 backspace
-          _numpadRow(['7', '8', '9', 'backspace'], isDark, cardColor,
-              textPrimary, activeColor, l10n),
-          const SizedBox(height: 6),
-          // Row 2: 4 5 6 00
-          _numpadRow(['4', '5', '6', '00'], isDark, cardColor, textPrimary,
-              activeColor, l10n),
-          const SizedBox(height: 6),
-          // Row 3: 1 2 3 .
-          _numpadRow(['1', '2', '3', '.'], isDark, cardColor, textPrimary,
-              activeColor, l10n),
-          const SizedBox(height: 6),
-          // Row 4: [Save (2 cols)] [0 (1 col)]
-          _buildLastRow(isDark, cardColor, textPrimary, activeColor, l10n),
-        ],
-      ),
-    );
-  }
-
-  Widget _numpadRow(List<String> keys, bool isDark, Color cardColor,
-      Color textPrimary, Color activeColor, AppLocalizations l10n) {
+  Widget _buildRecurringToggle(AppLocalizations l10n, bool isDark) {
     return Row(
-      children: keys.asMap().entries.map((entry) {
-        final i = entry.key;
-        final key = entry.value;
-
-        return Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(left: i > 0 ? 8 : 0),
-            child: key == 'backspace'
-                ? _buildKeyButton(
-                    child: Icon(
-                      Icons.backspace_outlined,
-                      size: 20,
-                      color: textPrimary,
-                    ),
-                    onTap: _onBackspace,
-                    isDark: isDark,
-                    cardColor: cardColor,
-                  )
-                : _buildKeyButton(
-                    child: Text(
-                      key,
-                      style: TextStyle(
-                        fontSize: key == '00' || key == '.' ? 18 : 22,
-                        fontWeight: FontWeight.w500,
-                        color: textPrimary,
-                      ),
-                    ),
-                    onTap: () {
-                      if (key == '00') {
-                        _onDoubleZero();
-                      } else if (key == '.') {
-                        _onDot();
-                      } else {
-                        _onDigit(key);
-                      }
-                    },
-                    isDark: isDark,
-                    cardColor: cardColor,
-                  ),
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _buildLastRow(bool isDark, Color cardColor, Color textPrimary,
-      Color activeColor, AppLocalizations l10n) {
-    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Save button (2 cols)
-        Expanded(
-          flex: 2,
-          child: _buildSaveButton(activeColor, l10n, isDark),
-        ),
-        const SizedBox(width: 8),
-        // 0 button (1 col)
-        Expanded(
-          child: _buildKeyButton(
-            child: Text(
-              '0',
+        Row(
+          children: [
+            Icon(
+              Icons.repeat_rounded,
+              size: 20,
+              color: isDark
+                  ? HareruColors.darkTextSecondary
+                  : HareruColors.lightTextSecondary,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              l10n.monthlyRecurring,
               style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w500,
-                color: textPrimary,
+                fontSize: 15,
+                color: isDark
+                    ? HareruColors.darkTextPrimary
+                    : HareruColors.lightTextPrimary,
               ),
             ),
-            onTap: () => _onDigit('0'),
-            isDark: isDark,
-            cardColor: cardColor,
+          ],
+        ),
+        SizedBox(
+          height: 28,
+          child: Switch.adaptive(
+            value: _isRecurring,
+            onChanged: (v) => setState(() => _isRecurring = v),
+            activeColor: const Color(0xFFE8453C),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildKeyButton({
-    required Widget child,
-    required VoidCallback onTap,
-    required bool isDark,
-    required Color cardColor,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 46,
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        alignment: Alignment.center,
-        child: child,
-      ),
-    );
-  }
-
-  Widget _buildSaveButton(Color activeColor, AppLocalizations l10n, bool isDark) {
-    final gradientColors = _saveGradients[_selectedType]!;
-
+  Widget _buildSaveButton(AppLocalizations l10n, bool isDark) {
     return GestureDetector(
       onTap: _canSave ? _save : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        height: 46,
+        width: double.infinity,
+        height: 52,
         decoration: BoxDecoration(
-          gradient: _canSave
-              ? LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: gradientColors,
-                )
-              : null,
-          color: _canSave ? null : const Color(0xFFE5E0DB),
-          borderRadius: BorderRadius.circular(12),
+          color: _canSave
+              ? const Color(0xFFE8453C)
+              : (isDark ? const Color(0xFF3A3A3A) : const Color(0xFFE5E0DB)),
+          borderRadius: BorderRadius.circular(16),
         ),
         alignment: Alignment.center,
         child: Text(
           _isEditing ? l10n.updateRecord : l10n.saveRecord,
           style: TextStyle(
-            fontSize: 15,
+            fontSize: 16,
             fontWeight: FontWeight.w700,
-            color: _canSave ? Colors.white : const Color(0xFFBFBFBF),
+            color: _canSave
+                ? Colors.white
+                : (isDark
+                    ? const Color(0xFF5A5A5A)
+                    : const Color(0xFFBFBFBF)),
           ),
         ),
       ),
+    );
+  }
+}
+
+/// TextInputFormatter that adds commas for thousands grouping.
+class _CommaFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text.isEmpty) return newValue;
+
+    // Strip commas for pure digits
+    final clean = newValue.text.replaceAll(',', '');
+    if (clean.isEmpty) return newValue.copyWith(text: '');
+
+    // Format with commas
+    final buf = StringBuffer();
+    for (var i = 0; i < clean.length; i++) {
+      if (i > 0 && (clean.length - i) % 3 == 0) buf.write(',');
+      buf.write(clean[i]);
+    }
+    final formatted = buf.toString();
+
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
     );
   }
 }

@@ -1479,6 +1479,66 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'Hareru - スマート家計簿'**
   String get pdfBrandFooter;
+
+  /// No description provided for @addExpense.
+  ///
+  /// In ja, this message translates to:
+  /// **'支出を追加'**
+  String get addExpense;
+
+  /// No description provided for @addIncome.
+  ///
+  /// In ja, this message translates to:
+  /// **'収入を追加'**
+  String get addIncome;
+
+  /// No description provided for @editExpense.
+  ///
+  /// In ja, this message translates to:
+  /// **'支出を編集'**
+  String get editExpense;
+
+  /// No description provided for @editIncome.
+  ///
+  /// In ja, this message translates to:
+  /// **'収入を編集'**
+  String get editIncome;
+
+  /// No description provided for @paymentMethod.
+  ///
+  /// In ja, this message translates to:
+  /// **'決済方法'**
+  String get paymentMethod;
+
+  /// No description provided for @creditCard.
+  ///
+  /// In ja, this message translates to:
+  /// **'クレジット'**
+  String get creditCard;
+
+  /// No description provided for @debitCard.
+  ///
+  /// In ja, this message translates to:
+  /// **'デビット'**
+  String get debitCard;
+
+  /// No description provided for @cash.
+  ///
+  /// In ja, this message translates to:
+  /// **'現金'**
+  String get cash;
+
+  /// No description provided for @monthlyRecurring.
+  ///
+  /// In ja, this message translates to:
+  /// **'毎月繰り返し'**
+  String get monthlyRecurring;
+
+  /// No description provided for @amountHint.
+  ///
+  /// In ja, this message translates to:
+  /// **'金額を入力'**
+  String get amountHint;
 }
 
 class _AppLocalizationsDelegate

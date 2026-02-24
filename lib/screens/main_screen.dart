@@ -235,7 +235,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       backgroundColor: Colors.transparent,
       builder: (sheetContext) {
         return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.85,
+          height: MediaQuery.of(context).size.height * 0.92,
           child: AddTransactionSheet(
             onSave: (transaction) {
               ref.read(transactionProvider.notifier).add(transaction);

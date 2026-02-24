@@ -737,4 +737,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pdfBrandFooter => 'Hareru - Smart Budget App';
+
+  @override
+  String get addExpense => 'Add Expense';
+
+  @override
+  String get addIncome => 'Add Income';
+
+  @override
+  String get editExpense => 'Edit Expense';
+
+  @override
+  String get editIncome => 'Edit Income';
+
+  @override
+  String get paymentMethod => 'Payment';
+
+  @override
+  String get creditCard => 'Credit';
+
+  @override
+  String get debitCard => 'Debit';
+
+  @override
+  String get cash => 'Cash';
+
+  @override
+  String get monthlyRecurring => 'Monthly recurring';
+
+  @override
+  String get amountHint => 'Enter amount';
 }
