@@ -435,34 +435,67 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
-      child: Row(
+      child: Column(
         children: [
-          _killerColumn(
-            l10n.expense,
-            '¥${_formatAmount(notifier.expenseTotal)}',
-            const Color(0xFFEF4444),
-            labelColor,
+          // Top row: expense / transfer / savings
+          Row(
+            children: [
+              _killerColumn(
+                l10n.expense,
+                '¥${_formatAmount(notifier.expenseTotal)}',
+                const Color(0xFFEF4444),
+                labelColor,
+              ),
+              Container(width: 1, height: 32, color: dividerColor),
+              _killerColumn(
+                l10n.transfer,
+                '¥${_formatAmount(notifier.transferTotal)}',
+                const Color(0xFFF59E0B),
+                labelColor,
+              ),
+              Container(width: 1, height: 32, color: dividerColor),
+              _killerColumn(
+                l10n.savings,
+                '¥${_formatAmount(notifier.savingsTotal)}',
+                const Color(0xFF10B981),
+                labelColor,
+              ),
+            ],
           ),
-          Container(width: 1, height: 32, color: dividerColor),
-          _killerColumn(
-            l10n.transfer,
-            '¥${_formatAmount(notifier.transferTotal)}',
-            const Color(0xFFF59E0B),
-            labelColor,
-          ),
-          Container(width: 1, height: 32, color: dividerColor),
-          _killerColumn(
-            l10n.savings,
-            '¥${_formatAmount(notifier.savingsTotal)}',
-            const Color(0xFF10B981),
-            labelColor,
-          ),
-          Container(width: 1, height: 32, color: dividerColor),
-          _killerColumn(
-            l10n.income,
-            '¥${_formatAmount(notifier.incomeTotal)}',
-            const Color(0xFFF59E0B),
-            labelColor,
+          const SizedBox(height: 8),
+          Divider(height: 1, color: dividerColor),
+          const SizedBox(height: 8),
+          // Bottom row: income (full width)
+          Row(
+            children: [
+              Container(
+                width: 6,
+                height: 6,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFF59E0B),
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                l10n.income,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: labelColor,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                '¥${_formatAmount(notifier.incomeTotal)}',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFFF59E0B),
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
+              ),
+            ],
           ),
         ],
       ),
