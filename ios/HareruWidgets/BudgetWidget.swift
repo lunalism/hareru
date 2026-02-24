@@ -4,9 +4,11 @@ import WidgetKit
 // MARK: - Small: Budget Widget
 
 struct BudgetWidgetView: View {
+    @Environment(\.colorScheme) var colorScheme
     let entry: HareruEntry
 
     private var data: HareruWidgetData { entry.data }
+    private var isDark: Bool { colorScheme == .dark }
 
     private var percentUsed: Int {
         Int(data.budgetPercentUsed * 100)
@@ -19,43 +21,66 @@ struct BudgetWidgetView: View {
         return .budgetGreen
     }
 
+    private var progressRatio: CGFloat {
+        min(CGFloat(data.budgetPercentUsed), 1.0)
+    }
+
+    private var textPrimary: Color {
+        isDark ? .warmTextLight : .warmTextPrimary
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                Text("Hareru")
-                    .font(.system(size: 10, weight: .medium))
-                    .foregroundColor(.secondary)
-                Spacer()
-            }
+            // Header
+            Text("Hareru")
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(.warmTextSub)
 
             if data.hasBudget {
                 Spacer()
 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(NSLocalizedString("remaining", comment: ""))
-                        .font(.system(size: 11))
-                        .foregroundColor(.secondary)
-                    Text(formatYen(data.budgetRemaining, currency: data.currency))
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
-                        .foregroundColor(remainingColor)
-                        .minimumScaleFactor(0.5)
-                        .lineLimit(1)
+                // Label
+                Text(NSLocalizedString("monthly_budget", comment: ""))
+                    .font(.system(size: 10))
+                    .foregroundColor(.warmTextSub)
+
+                Spacer().frame(height: 4)
+
+                // Amount
+                Text(formatYen(data.budgetRemaining, currency: data.currency))
+                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                    .foregroundColor(remainingColor)
+                    .minimumScaleFactor(0.5)
+                    .lineLimit(1)
+
+                Spacer().frame(height: 10)
+
+                // Progress bar
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(isDark ? Color.warmDividerDark : Color.warmDivider)
+                            .frame(height: 4)
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(remainingColor)
+                            .frame(width: geo.size.width * progressRatio, height: 4)
+                    }
                 }
+                .frame(height: 4)
 
-                Spacer()
-
-                Rectangle()
-                    .fill(Color(UIColor.separator))
-                    .frame(height: 0.5)
                 Spacer().frame(height: 8)
-                Text(formatYen(data.budgetTotal, currency: data.currency) + " " + NSLocalizedString("budget_of_label", comment: "") + " · " + "\(percentUsed)%")
-                    .font(.system(size: 11))
-                    .foregroundColor(.tertiary)
+
+                // Footer
+                Text(formatYen(data.budgetTotal, currency: data.currency)
+                     + " " + NSLocalizedString("budget_of_label", comment: "")
+                     + " · " + "\(percentUsed)%")
+                    .font(.system(size: 10))
+                    .foregroundColor(.warmTextSub)
             } else {
                 Spacer()
                 Text(NSLocalizedString("set_budget", comment: ""))
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.warmTextSub)
                     .frame(maxWidth: .infinity, alignment: .center)
                 Spacer()
             }
@@ -72,11 +97,13 @@ struct BudgetWidget: Widget {
         StaticConfiguration(kind: kind, provider: HareruTimelineProvider()) { entry in
             if #available(iOS 17.0, *) {
                 BudgetWidgetView(entry: entry)
-                    .containerBackground(.fill, for: .widget)
+                    .containerBackground(for: .widget) {
+                        WidgetBackground()
+                    }
             } else {
                 BudgetWidgetView(entry: entry)
                     .padding()
-                    .background(Color(UIColor.systemBackground))
+                    .background(WidgetBackground())
             }
         }
         .configurationDisplayName(NSLocalizedString("widget_budget_title", comment: ""))
