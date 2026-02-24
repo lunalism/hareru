@@ -422,7 +422,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
       decoration: BoxDecoration(
         color: isDark ? HareruColors.darkCard : Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -462,9 +462,9 @@ class HomeScreen extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Divider(height: 1, color: dividerColor),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           // Bottom row: income (full width)
           Row(
             children: [
