@@ -67,7 +67,7 @@ class PdfReportData {
 
 const _categoryPdfColors = [
   PdfColor.fromInt(0xFFEF4444),
-  PdfColor.fromInt(0xFF3B82F6),
+  PdfColor.fromInt(0xFFF59E0B),
   PdfColor.fromInt(0xFF10B981),
   PdfColor.fromInt(0xFFF59E0B),
   PdfColor.fromInt(0xFF8B5CF6),
@@ -76,22 +76,22 @@ const _categoryPdfColors = [
   PdfColor.fromInt(0xFFFF6B35),
   PdfColor.fromInt(0xFF6366F1),
   PdfColor.fromInt(0xFF84CC16),
-  PdfColor.fromInt(0xFF94A3B8),
+  PdfColor.fromInt(0xFFBFBFBF),
 ];
 
 // ── Type colors (강화) ──
 const _expenseColor = PdfColor.fromInt(0xFFFF5252);
-const _transferColor = PdfColor.fromInt(0xFF448AFF);
+const _transferColor = PdfColor.fromInt(0xFFE8453C);
 const _savingsColor = PdfColor.fromInt(0xFF4CAF50);
 const _incomeColor = PdfColor.fromInt(0xFF7C4DFF);
 
 // ── Shared colors ──
-const _textPrimary = PdfColor.fromInt(0xFF1E293B);
-const _textSecondary = PdfColor.fromInt(0xFF64748B);
-const _textTertiary = PdfColor.fromInt(0xFF94A3B8);
-const _headerBg = PdfColor.fromInt(0xFF4A90D9);
-const _cardBorder = PdfColor.fromInt(0xFFE2E8F0);
-const _stripeBg = PdfColor.fromInt(0xFFF8FAFC);
+const _textPrimary = PdfColor.fromInt(0xFF1A1A1A);
+const _textSecondary = PdfColor.fromInt(0xFF8A8A8A);
+const _textTertiary = PdfColor.fromInt(0xFFBFBFBF);
+const _headerBg = PdfColor.fromInt(0xFFE8453C);
+const _cardBorder = PdfColor.fromInt(0xFFE5E0DB);
+const _stripeBg = PdfColor.fromInt(0xFFF5F0EB);
 
 class PdfReportGenerator {
   static Future<Uint8List> generate(PdfReportData data) async {
@@ -490,7 +490,7 @@ class PdfReportGenerator {
         ? const PdfColor.fromInt(0xFFEF4444)
         : progress > 0.7
             ? const PdfColor.fromInt(0xFFF59E0B)
-            : const PdfColor.fromInt(0xFF448AFF);
+            : const PdfColor.fromInt(0xFFE8453C);
 
     return pw.Container(
       width: double.infinity,
@@ -531,7 +531,7 @@ class PdfReportGenerator {
               pw.Container(
                 height: 16,
                 decoration: const pw.BoxDecoration(
-                  color: PdfColor.fromInt(0xFFF1F5F9),
+                  color: PdfColor.fromInt(0xFFF5F0EB),
                   borderRadius:
                       pw.BorderRadius.all(pw.Radius.circular(8)),
                 ),
@@ -704,10 +704,10 @@ class PdfReportGenerator {
       width: double.infinity,
       padding: const pw.EdgeInsets.all(22),
       decoration: pw.BoxDecoration(
-        color: const PdfColor.fromInt(0xFFF0F9FF),
+        color: const PdfColor.fromInt(0xFFFFF0EF),
         borderRadius: const pw.BorderRadius.all(pw.Radius.circular(16)),
         border: pw.Border.all(
-          color: const PdfColor.fromInt(0xFFBAE6FD),
+          color: const PdfColor.fromInt(0xFFE5E0DB),
           width: 1.5,
         ),
       ),

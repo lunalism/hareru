@@ -21,7 +21,7 @@ class _CategoryManagementScreenState
 
   static const _typeColors = {
     'expense': Color(0xFFEF4444),
-    'transfer': Color(0xFF3B82F6),
+    'transfer': Color(0xFFF59E0B),
     'savings': Color(0xFF10B981),
     'income': Color(0xFFF59E0B),
   };
@@ -562,7 +562,7 @@ class _CategoryManagementScreenState
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: isDark ? HareruColors.darkCard : const Color(0xFFF1F5F9),
+        color: isDark ? HareruColors.darkCard : const Color(0xFFF5F0EB),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

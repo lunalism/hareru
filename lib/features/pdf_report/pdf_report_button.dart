@@ -40,12 +40,12 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
       width: double.infinity,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0F2744) : const Color(0xFFF0F9FF),
+        color: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFFFF0EF),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isDark
-              ? const Color(0xFF1E3A5F)
-              : const Color(0xFFBFDBFE),
+              ? const Color(0xFF3A3A3A)
+              : const Color(0xFFE5E0DB),
         ),
       ),
       child: Column(
@@ -59,7 +59,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
               fontWeight: FontWeight.w700,
               color: isDark
                   ? HareruColors.darkTextPrimary
-                  : const Color(0xFF1E293B),
+                  : HareruColors.lightTextPrimary,
             ),
           ),
           const SizedBox(height: 4),
@@ -69,7 +69,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
               fontSize: 13,
               color: isDark
                   ? HareruColors.darkTextSecondary
-                  : const Color(0xFF64748B),
+                  : const Color(0xFF8A8A8A),
             ),
           ),
           const SizedBox(height: 14),
@@ -83,7 +83,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: const Color(0xFF3B82F6),
+                color: const Color(0xFFE8453C),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -108,9 +108,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF4A90D9), Color(0xFF6BA3E0)],
-          ),
+          color: const Color(0xFFE8453C),
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(

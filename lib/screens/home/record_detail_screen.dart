@@ -51,7 +51,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
   Color _typeColor(TransactionType type) {
     return switch (type) {
       TransactionType.expense => const Color(0xFFEF4444),
-      TransactionType.transfer => const Color(0xFF3B82F6),
+      TransactionType.transfer => const Color(0xFFF59E0B),
       TransactionType.savings => const Color(0xFF10B981),
       TransactionType.income => const Color(0xFFF59E0B),
     };
@@ -134,7 +134,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
             onPressed: () => Navigator.pop(ctx),
             child: Text(
               l10n.cancel,
-              style: const TextStyle(color: Color(0xFF64748B)),
+              style: const TextStyle(color: Color(0xFF8A8A8A)),
             ),
           ),
           TextButton(
@@ -275,7 +275,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: isDark
-                            ? const Color(0xFF1E293B)
+                            ? HareruColors.darkCard
                             : Colors.white,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: isDark
@@ -342,8 +342,8 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: isDark
-                                    ? const Color(0xFFF1F5F9)
-                                    : const Color(0xFF1E293B),
+                                    ? HareruColors.darkTextPrimary
+                                    : HareruColors.lightTextPrimary,
                               ),
                             ),
                             isDark,
@@ -357,8 +357,8 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: isDark
-                                    ? const Color(0xFFF1F5F9)
-                                    : const Color(0xFF1E293B),
+                                    ? HareruColors.darkTextPrimary
+                                    : HareruColors.lightTextPrimary,
                               ),
                             ),
                             isDark,
@@ -375,10 +375,10 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                                     ? FontStyle.italic
                                     : FontStyle.normal,
                                 color: t.memo == null
-                                    ? const Color(0xFF94A3B8)
+                                    ? const Color(0xFFBFBFBF)
                                     : (isDark
-                                        ? const Color(0xFFF1F5F9)
-                                        : const Color(0xFF1E293B)),
+                                        ? HareruColors.darkTextPrimary
+                                        : HareruColors.darkCard),
                               ),
                             ),
                             isDark,
@@ -395,7 +395,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                         width: double.infinity,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF3B82F6),
+                          color: const Color(0xFFE8453C),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         alignment: Alignment.center,
@@ -454,7 +454,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
               label,
               style: const TextStyle(
                 fontSize: 14,
-                color: Color(0xFF94A3B8),
+                color: Color(0xFFBFBFBF),
               ),
             ),
           ),

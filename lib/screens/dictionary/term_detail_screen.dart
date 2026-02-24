@@ -94,8 +94,8 @@ class TermDetailScreen extends ConsumerWidget {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   color: isDark
-                      ? const Color(0xFF1E3A8A).withValues(alpha: 0.3)
-                      : const Color(0xFFEFF6FF),
+                      ? const Color(0xFF3A3A3A).withValues(alpha: 0.3)
+                      : const Color(0xFFFFF0EF),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -105,7 +105,7 @@ class TermDetailScreen extends ConsumerWidget {
                     fontWeight: FontWeight.w500,
                     color: isDark
                         ? const Color(0xFF93C5FD)
-                        : const Color(0xFF3B82F6),
+                        : const Color(0xFFE8453C),
                   ),
                 ),
               ),
@@ -136,7 +136,7 @@ class TermDetailScreen extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: isDark
                     ? HareruColors.darkCard
-                    : const Color(0xFFF8FAFC),
+                    : const Color(0xFFF5F0EB),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -146,7 +146,7 @@ class TermDetailScreen extends ConsumerWidget {
                   height: 1.6,
                   color: isDark
                       ? HareruColors.darkTextSecondary
-                      : const Color(0xFF475569),
+                      : const Color(0xFF5A5A5A),
                 ),
               ),
             ),
@@ -242,13 +242,13 @@ class TermDetailScreen extends ConsumerWidget {
           end: Alignment.bottomRight,
           colors: isDark
               ? [HareruColors.darkCard, HareruColors.darkBg]
-              : [const Color(0xFFEFF6FF), const Color(0xFFF0F9FF)],
+              : [const Color(0xFFFFF0EF), const Color(0xFFFFF0EF)],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isDark
-              ? const Color(0xFF1E3A8A)
-              : const Color(0xFFBFDBFE),
+              ? const Color(0xFF3A3A3A)
+              : const Color(0xFFE5E0DB),
         ),
       ),
       child: Column(
@@ -261,7 +261,7 @@ class TermDetailScreen extends ConsumerWidget {
               fontWeight: FontWeight.w600,
               color: isDark
                   ? HareruColors.darkTextPrimary
-                  : const Color(0xFF1E293B),
+                  : HareruColors.lightTextPrimary,
             ),
           ),
           const SizedBox(height: 4),
@@ -271,7 +271,7 @@ class TermDetailScreen extends ConsumerWidget {
               fontSize: 13,
               color: isDark
                   ? HareruColors.darkTextSecondary
-                  : const Color(0xFF64748B),
+                  : const Color(0xFF8A8A8A),
             ),
           ),
           const SizedBox(height: 14),
@@ -285,7 +285,7 @@ class TermDetailScreen extends ConsumerWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: const Color(0xFF3B82F6),
+                color: const Color(0xFFE8453C),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(

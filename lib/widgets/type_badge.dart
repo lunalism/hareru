@@ -19,8 +19,8 @@ class TypeBadge extends StatelessWidget {
       ),
       TransactionType.transfer => (
         l10n.transfer,
-        const Color(0xFF3B82F6),
-        const Color(0xFFEFF6FF),
+        const Color(0xFFF59E0B),
+        const Color(0xFFFFF7ED),
       ),
       TransactionType.savings => (
         l10n.savings,

@@ -137,8 +137,8 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: isDark
-                ? [const Color(0xFF0F172A), const Color(0xFF1E3A8A)]
-                : [const Color(0xFF3B82F6), const Color(0xFF2563EB)],
+                ? [const Color(0xFF1A1A1A), const Color(0xFF3A3A3A)]
+                : [const Color(0xFFE8453C), const Color(0xFFD63C34)],
           ),
           borderRadius: BorderRadius.circular(16),
         ),
@@ -178,7 +178,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF3B82F6),
+                  color: Color(0xFFE8453C),
                 ),
               ),
             ),
@@ -191,7 +191,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
   Widget _buildSearchBar(bool isDark, AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
+        color: isDark ? const Color(0xFF3A3A3A) : const Color(0xFFF5F0EB),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -257,10 +257,10 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: isSelected
-                  ? const Color(0xFF3B82F6)
+                  ? const Color(0xFFE8453C)
                   : (isDark
-                      ? const Color(0xFF334155)
-                      : const Color(0xFFF1F5F9)),
+                      ? const Color(0xFF3A3A3A)
+                      : const Color(0xFFF5F0EB)),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -272,7 +272,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                     ? Colors.white
                     : (isDark
                         ? HareruColors.darkTextSecondary
-                        : const Color(0xFF64748B)),
+                        : const Color(0xFF8A8A8A)),
               ),
             ),
           ),
@@ -367,7 +367,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                       fontWeight: FontWeight.w600,
                       color: isDark
                           ? HareruColors.darkTextPrimary
-                          : const Color(0xFF1E293B),
+                          : const Color(0xFF1A1A1A),
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -379,7 +379,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                       fontSize: 13,
                       color: isDark
                           ? HareruColors.darkTextSecondary
-                          : const Color(0xFF64748B),
+                          : const Color(0xFF8A8A8A),
                     ),
                   ),
                 ],
@@ -408,13 +408,13 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
           end: Alignment.bottomRight,
           colors: isDark
               ? [HareruColors.darkCard, HareruColors.darkBg]
-              : [const Color(0xFFEFF6FF), const Color(0xFFF0F9FF)],
+              : [const Color(0xFFFFF0EF), const Color(0xFFFFF0EF)],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isDark
-              ? const Color(0xFF1E3A8A)
-              : const Color(0xFFBFDBFE),
+              ? const Color(0xFF3A3A3A)
+              : const Color(0xFFE5E0DB),
         ),
       ),
       child: Column(
@@ -427,7 +427,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
               fontWeight: FontWeight.w600,
               color: isDark
                   ? HareruColors.darkTextPrimary
-                  : const Color(0xFF1E293B),
+                  : const Color(0xFF1A1A1A),
             ),
           ),
           const SizedBox(height: 4),
@@ -437,7 +437,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
               fontSize: 13,
               color: isDark
                   ? HareruColors.darkTextSecondary
-                  : const Color(0xFF64748B),
+                  : const Color(0xFF8A8A8A),
             ),
           ),
           const SizedBox(height: 14),
@@ -451,7 +451,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: const Color(0xFF3B82F6),
+                color: const Color(0xFFE8453C),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(

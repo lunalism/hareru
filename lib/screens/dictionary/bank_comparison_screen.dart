@@ -65,7 +65,7 @@ class BankComparisonScreen extends ConsumerWidget {
                       fontSize: 13,
                       color: isDark
                           ? HareruColors.darkTextTertiary
-                          : const Color(0xFF94A3B8),
+                          : const Color(0xFFBFBFBF),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -104,7 +104,7 @@ class BankComparisonScreen extends ConsumerWidget {
                           fontSize: 13,
                           color: isDark
                               ? HareruColors.darkTextTertiary
-                              : const Color(0xFF94A3B8),
+                              : const Color(0xFFBFBFBF),
                         ),
                       ),
                       Expanded(
@@ -114,7 +114,7 @@ class BankComparisonScreen extends ConsumerWidget {
                             fontSize: 13,
                             color: isDark
                                 ? HareruColors.darkTextTertiary
-                                : const Color(0xFF94A3B8),
+                                : const Color(0xFFBFBFBF),
                           ),
                         ),
                       ),
@@ -138,7 +138,7 @@ class BankComparisonScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E293B) : Colors.white,
+        color: isDark ? const Color(0xFF2A2A2A) : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: isDark
             ? null
@@ -161,7 +161,7 @@ class BankComparisonScreen extends ConsumerWidget {
               fontWeight: FontWeight.w700,
               color: isDark
                   ? HareruColors.darkTextPrimary
-                  : const Color(0xFF1E293B),
+                  : const Color(0xFF2A2A2A),
             ),
           ),
           const SizedBox(height: 16),
@@ -191,7 +191,7 @@ class BankComparisonScreen extends ConsumerWidget {
                     fontSize: 13,
                     color: isDark
                         ? HareruColors.darkTextSecondary
-                        : const Color(0xFF64748B),
+                        : const Color(0xFF8A8A8A),
                   ),
                 ),
               ),
@@ -210,7 +210,7 @@ class BankComparisonScreen extends ConsumerWidget {
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFF3B82F6),
+                    color: Color(0xFFE8453C),
                   ),
                 ),
               ),
@@ -237,7 +237,7 @@ class BankComparisonScreen extends ConsumerWidget {
               fontSize: 13,
               color: isDark
                   ? HareruColors.darkTextTertiary
-                  : const Color(0xFF94A3B8),
+                  : const Color(0xFFBFBFBF),
             ),
           ),
         ),
@@ -251,7 +251,7 @@ class BankComparisonScreen extends ConsumerWidget {
                   ? const Color(0xFF10B981)
                   : (isDark
                       ? HareruColors.darkTextPrimary
-                      : const Color(0xFF1E293B)),
+                      : const Color(0xFF2A2A2A)),
             ),
           ),
         ),
@@ -297,10 +297,10 @@ class BankComparisonScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0C1D3A) : const Color(0xFFEFF6FF),
+        color: isDark ? const Color(0xFF0C1D3A) : const Color(0xFFFFF0EF),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark ? const Color(0xFF1E3A8A) : const Color(0xFFBFDBFE),
+          color: isDark ? const Color(0xFF3A3A3A) : const Color(0xFFE5E0DB),
         ),
       ),
       child: Column(
@@ -311,7 +311,7 @@ class BankComparisonScreen extends ConsumerWidget {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: isDark ? const Color(0xFF93C5FD) : const Color(0xFF1E40AF),
+              color: isDark ? const Color(0xFFE8453C) : const Color(0xFFB33A32),
             ),
           ),
           const SizedBox(height: 8),
@@ -319,7 +319,7 @@ class BankComparisonScreen extends ConsumerWidget {
             l10n.koreaCompareBody,
             style: TextStyle(
               fontSize: 13,
-              color: isDark ? const Color(0xFF93C5FD) : const Color(0xFF1E3A5F),
+              color: isDark ? const Color(0xFFE8453C) : const Color(0xFF3A3A3A),
             ),
           ),
         ],
@@ -339,16 +339,16 @@ class BankComparisonScreen extends ConsumerWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: isDark
-              ? [const Color(0xFF0F172A), const Color(0xFF1E293B)]
+              ? [const Color(0xFF1A1A1A), const Color(0xFF2A2A2A)]
               : [
-                  const Color(0xFFEFF6FF),
-                  const Color(0xFFF0F9FF),
+                  const Color(0xFFFFF0EF),
+                  const Color(0xFFFFF0EF),
                   const Color(0xFFECFDF5),
                 ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark ? const Color(0xFF1E3A8A) : const Color(0xFFBFDBFE),
+          color: isDark ? const Color(0xFF3A3A3A) : const Color(0xFFE5E0DB),
         ),
       ),
       child: Column(
@@ -361,7 +361,7 @@ class BankComparisonScreen extends ConsumerWidget {
               fontWeight: FontWeight.w700,
               color: isDark
                   ? HareruColors.darkTextPrimary
-                  : const Color(0xFF1E293B),
+                  : const Color(0xFF2A2A2A),
             ),
           ),
           const SizedBox(height: 14),
@@ -390,7 +390,7 @@ class BankComparisonScreen extends ConsumerWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               decoration: BoxDecoration(
-                color: const Color(0xFF3B82F6),
+                color: const Color(0xFFE8453C),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -415,7 +415,7 @@ class BankComparisonScreen extends ConsumerWidget {
         fontSize: 13,
         color: isDark
             ? HareruColors.darkTextSecondary
-            : const Color(0xFF64748B),
+            : const Color(0xFF8A8A8A),
       ),
     );
   }

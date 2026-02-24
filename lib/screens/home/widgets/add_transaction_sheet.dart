@@ -54,14 +54,14 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
 
   static const _typeColors = {
     TransactionType.expense: Color(0xFFEF4444),
-    TransactionType.transfer: Color(0xFF3B82F6),
+    TransactionType.transfer: Color(0xFFF59E0B),
     TransactionType.savings: Color(0xFF10B981),
     TransactionType.income: Color(0xFFF59E0B),
   };
 
   static const _saveGradients = {
     TransactionType.expense: [Color(0xFFEF4444), Color(0xFFDC2626)],
-    TransactionType.transfer: [Color(0xFF3B82F6), Color(0xFF2563EB)],
+    TransactionType.transfer: [Color(0xFFF59E0B), Color(0xFFD97706)],
     TransactionType.savings: [Color(0xFF10B981), Color(0xFF059669)],
     TransactionType.income: [Color(0xFFF59E0B), Color(0xFFD97706)],
   };
@@ -323,7 +323,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
             width: 36,
             height: 4,
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF475569) : const Color(0xFFE2E8F0),
+              color: isDark ? const Color(0xFF5A5A5A) : const Color(0xFFE5E0DB),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -386,7 +386,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: isDark ? HareruColors.darkCard : const Color(0xFFF1F5F9),
+        color: isDark ? HareruColors.darkCard : const Color(0xFFF5F0EB),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -455,9 +455,9 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
     final displayAmount = isZero ? '0' : _formatAmount(_amount);
     final amountFontSize = displayAmount.length >= 8 ? 36.0 : 44.0;
     final amountColor = isZero
-        ? const Color(0xFF94A3B8)
-        : (isDark ? const Color(0xFFF8FAFC) : const Color(0xFF0F172A));
-    final yenColor = isZero ? const Color(0xFF94A3B8) : activeColor;
+        ? const Color(0xFFBFBFBF)
+        : (isDark ? const Color(0xFFF0ECE7) : const Color(0xFF1A1A1A));
+    final yenColor = isZero ? const Color(0xFFBFBFBF) : activeColor;
 
     return Column(
       children: [
@@ -528,8 +528,8 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
             child: Container(
               decoration: BoxDecoration(
                 color: isDark
-                    ? const Color(0xFF1E293B)
-                    : const Color(0xFFF1F5F9),
+                    ? const Color(0xFF2A2A2A)
+                    : const Color(0xFFF5F0EB),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: isDark
@@ -544,8 +544,8 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
                     Icons.add_rounded,
                     size: 24,
                     color: isDark
-                        ? const Color(0xFF64748B)
-                        : const Color(0xFF94A3B8),
+                        ? const Color(0xFF8A8A8A)
+                        : const Color(0xFFBFBFBF),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -553,8 +553,8 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
                     style: TextStyle(
                       fontSize: 10.5,
                       color: isDark
-                          ? const Color(0xFF64748B)
-                          : const Color(0xFF94A3B8),
+                          ? const Color(0xFF8A8A8A)
+                          : const Color(0xFFBFBFBF),
                     ),
                   ),
                 ],
@@ -785,7 +785,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
                   colors: gradientColors,
                 )
               : null,
-          color: _canSave ? null : const Color(0xFFE2E8F0),
+          color: _canSave ? null : const Color(0xFFE5E0DB),
           borderRadius: BorderRadius.circular(12),
         ),
         alignment: Alignment.center,
@@ -794,7 +794,7 @@ class _AddTransactionSheetState extends ConsumerState<AddTransactionSheet> {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w700,
-            color: _canSave ? Colors.white : const Color(0xFF94A3B8),
+            color: _canSave ? Colors.white : const Color(0xFFBFBFBF),
           ),
         ),
       ),

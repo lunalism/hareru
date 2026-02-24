@@ -100,7 +100,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final isSetupPage = _currentPage == 3;
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
+      backgroundColor: isDark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F0EB),
       body: SafeArea(
         child: Column(
           children: [
@@ -117,8 +117,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       style: TextStyle(
                         fontSize: 14,
                         color: isDark
-                            ? const Color(0xFF64748B)
-                            : const Color(0xFF94A3B8),
+                            ? const Color(0xFF8A8A8A)
+                            : const Color(0xFFBFBFBF),
                       ),
                     ),
                   ),
@@ -175,10 +175,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         color: isActive
-                            ? const Color(0xFF4A90D9)
+                            ? const Color(0xFFE8453C)
                             : (isDark
-                                ? const Color(0xFF334155)
-                                : const Color(0xFFE2E8F0)),
+                                ? const Color(0xFF3A3A3A)
+                                : const Color(0xFFE5E0DB)),
                       ),
                     );
                   }),
@@ -191,7 +191,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         l10n.setupLater,
                         style: const TextStyle(
                           fontSize: 13,
-                          color: Color(0xFF64748B),
+                          color: Color(0xFF8A8A8A),
                         ),
                       ),
                     ),
@@ -209,9 +209,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 child: isSetupPage
                     ? DecoratedBox(
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFF4F9CF7), Color(0xFF3B82F6)],
-                          ),
+                          color: const Color(0xFFE8453C),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: ElevatedButton(
@@ -246,7 +244,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     : ElevatedButton(
                         onPressed: _nextPage,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF4A90D9),
+                          backgroundColor: const Color(0xFFE8453C),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
@@ -282,7 +280,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w800,
-              color: isDark ? Colors.white : const Color(0xFF0F172A),
+              color: isDark ? Colors.white : const Color(0xFF1A1A1A),
               height: 1.3,
             ),
           ),
@@ -292,7 +290,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 14,
-              color: Color(0xFF64748B),
+              color: Color(0xFF8A8A8A),
               height: 1.7,
             ),
           ),
@@ -332,7 +330,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w800,
-              color: isDark ? Colors.white : const Color(0xFF0F172A),
+              color: isDark ? Colors.white : const Color(0xFF1A1A1A),
               height: 1.3,
             ),
           ),
@@ -342,7 +340,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 14,
-              color: Color(0xFF64748B),
+              color: Color(0xFF8A8A8A),
               height: 1.7,
             ),
           ),
@@ -354,7 +352,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+              color: isDark ? const Color(0xFF2A2A2A) : Colors.white,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
@@ -379,7 +377,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         fontWeight: FontWeight.w600,
                         color: isDark
                             ? Colors.white
-                            : const Color(0xFF0F172A),
+                            : const Color(0xFF1A1A1A),
                       ),
                     ),
                   ],
@@ -404,14 +402,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         height: 32,
                         decoration: BoxDecoration(
                           color: isDark
-                              ? const Color(0xFF334155)
-                              : const Color(0xFFF1F5F9),
+                              ? const Color(0xFF3A3A3A)
+                              : const Color(0xFFF5F0EB),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
                           Icons.chevron_left,
                           size: 20,
-                          color: Color(0xFF64748B),
+                          color: Color(0xFF8A8A8A),
                         ),
                       ),
                     ),
@@ -432,7 +430,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           style: const TextStyle(
                             fontSize: 36,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF3B82F6),
+                            color: Color(0xFFE8453C),
                             fontFeatures: [FontFeature.tabularFigures()],
                           ),
                         ),
@@ -455,14 +453,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         height: 32,
                         decoration: BoxDecoration(
                           color: isDark
-                              ? const Color(0xFF334155)
-                              : const Color(0xFFF1F5F9),
+                              ? const Color(0xFF3A3A3A)
+                              : const Color(0xFFF5F0EB),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
                           Icons.chevron_right,
                           size: 20,
-                          color: Color(0xFF64748B),
+                          color: Color(0xFF8A8A8A),
                         ),
                       ),
                     ),
@@ -473,7 +471,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   l10n.payDayEveryMonth('$_selectedPayDay'),
                   style: const TextStyle(
                     fontSize: 13,
-                    color: Color(0xFF94A3B8),
+                    color: Color(0xFFBFBFBF),
                   ),
                 ),
               ],
@@ -487,7 +485,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+              color: isDark ? const Color(0xFF2A2A2A) : Colors.white,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
@@ -512,7 +510,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         fontWeight: FontWeight.w600,
                         color: isDark
                             ? Colors.white
-                            : const Color(0xFF0F172A),
+                            : const Color(0xFF1A1A1A),
                       ),
                     ),
                   ],
@@ -532,10 +530,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       fontSize: 36,
                       fontWeight: FontWeight.w700,
                       color: _budgetFocused
-                          ? const Color(0xFF3B82F6)
+                          ? const Color(0xFFE8453C)
                           : (isDark
                               ? Colors.white
-                              : const Color(0xFF1E293B)),
+                              : const Color(0xFF2A2A2A)),
                       fontFeatures: const [
                         FontFeature.tabularFigures(),
                       ],
@@ -546,27 +544,27 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color: _budgetFocused
-                            ? const Color(0xFF3B82F6)
+                            ? const Color(0xFFE8453C)
                                 .withValues(alpha: 0.6)
-                            : const Color(0xFF94A3B8),
+                            : const Color(0xFFBFBFBF),
                       ),
                       hintText: '0',
                       hintStyle: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.w700,
                         color: isDark
-                            ? const Color(0xFF475569)
-                            : const Color(0xFFCBD5E1),
+                            ? const Color(0xFF5A5A5A)
+                            : const Color(0xFFBFBFBF),
                       ),
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0xFF3B82F6),
+                          color: Color(0xFFE8453C),
                           width: 2,
                         ),
                       ),
                       focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0xFF3B82F6),
+                          color: Color(0xFFE8453C),
                           width: 2,
                         ),
                       ),
@@ -648,13 +646,13 @@ Widget _buildCompareVisual(
         width: 140,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFFEFF6FF),
+          color: const Color(0xFFFFF0EF),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-              color: const Color(0xFF4A90D9).withValues(alpha: 0.3)),
+              color: const Color(0xFFE8453C).withValues(alpha: 0.3)),
           boxShadow: [
             BoxShadow(
-                color: const Color(0xFF4A90D9).withValues(alpha: 0.1),
+                color: const Color(0xFFE8453C).withValues(alpha: 0.1),
                 blurRadius: 16,
                 offset: const Offset(0, 4)),
           ],
@@ -666,12 +664,12 @@ Widget _buildCompareVisual(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(Icons.diamond_outlined,
-                    size: 14, color: Color(0xFF4A90D9)),
+                    size: 14, color: Color(0xFFE8453C)),
                 const SizedBox(width: 4),
                 const Text('Hareru',
                     style: TextStyle(
                         fontSize: 11,
-                        color: Color(0xFF2D6BB0),
+                        color: Color(0xFFB33A32),
                         fontWeight: FontWeight.w600)),
               ],
             ),
@@ -680,15 +678,15 @@ Widget _buildCompareVisual(
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF4A90D9))),
+                    color: Color(0xFFE8453C))),
             const SizedBox(height: 4),
             Text('${l10n.realExpense} \u2728',
                 style:
-                    const TextStyle(fontSize: 10, color: Color(0xFF2D6BB0))),
+                    const TextStyle(fontSize: 10, color: Color(0xFFB33A32))),
             const SizedBox(height: 12),
-            _row(l10n.food, '\u00a518,000', const Color(0xFF2D6BB0)),
+            _row(l10n.food, '\u00a518,000', const Color(0xFFB33A32)),
             const SizedBox(height: 4),
-            _row(l10n.transport, '\u00a55,000', const Color(0xFF2D6BB0)),
+            _row(l10n.transport, '\u00a55,000', const Color(0xFFB33A32)),
             const SizedBox(height: 4),
             _strikeRow(l10n.transfer, '\u00a518,000'),
             const SizedBox(height: 4),
@@ -720,12 +718,12 @@ Widget _strikeRow(String label, String amount) {
       Text(label,
           style: const TextStyle(
               fontSize: 10,
-              color: Color(0xFF94A3B8),
+              color: Color(0xFFBFBFBF),
               decoration: TextDecoration.lineThrough)),
       Text(amount,
           style: const TextStyle(
               fontSize: 10,
-              color: Color(0xFF94A3B8),
+              color: Color(0xFFBFBFBF),
               decoration: TextDecoration.lineThrough)),
     ],
   );
@@ -785,7 +783,7 @@ Widget _buildTransferVisual(
                     const SizedBox(height: 2),
                     Text(item.example,
                         style: const TextStyle(
-                            fontSize: 12, color: Color(0xFF64748B))),
+                            fontSize: 12, color: Color(0xFF8A8A8A))),
                   ],
                 ),
               ),
@@ -818,13 +816,13 @@ Widget _buildSpeedVisual(
               padding: EdgeInsets.symmetric(horizontal: 6),
               child: Text('\u2192',
                   style:
-                      TextStyle(fontSize: 16, color: Color(0xFFCBD5E1)))),
+                      TextStyle(fontSize: 16, color: Color(0xFFBFBFBF)))),
           _step('\u2461', l10n.category, '1s', false),
           const Padding(
               padding: EdgeInsets.symmetric(horizontal: 6),
               child: Text('\u2192',
                   style:
-                      TextStyle(fontSize: 16, color: Color(0xFFCBD5E1)))),
+                      TextStyle(fontSize: 16, color: Color(0xFFBFBFBF)))),
           _step('\u2713', l10n.done, '0.5s', true),
         ],
       ),
@@ -833,9 +831,9 @@ Widget _buildSpeedVisual(
         width: 260,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF8FAFC),
+          color: const Color(0xFFF5F0EB),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE2E8F0), width: 1.5),
+          border: Border.all(color: const Color(0xFFE5E0DB), width: 1.5),
         ),
         child: Column(
           children: [
@@ -843,7 +841,7 @@ Widget _buildSpeedVisual(
                 style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF0F172A))),
+                    color: Color(0xFF1A1A1A))),
             const SizedBox(height: 14),
             Wrap(
               spacing: 6,
@@ -867,11 +865,11 @@ Widget _step(String num, String label, String time, bool done) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
     decoration: BoxDecoration(
-      color: done ? const Color(0xFFECFDF5) : const Color(0xFFF8FAFC),
+      color: done ? const Color(0xFFECFDF5) : const Color(0xFFF5F0EB),
       borderRadius: BorderRadius.circular(12),
       border: Border.all(
           color:
-              done ? const Color(0xFF10B981) : const Color(0xFFE2E8F0),
+              done ? const Color(0xFF10B981) : const Color(0xFFE5E0DB),
           width: 1.5),
     ),
     child: Column(
@@ -882,17 +880,17 @@ Widget _step(String num, String label, String time, bool done) {
                 fontWeight: FontWeight.w700,
                 color: done
                     ? const Color(0xFF10B981)
-                    : const Color(0xFF4A90D9))),
+                    : const Color(0xFFE8453C))),
         const SizedBox(height: 2),
         Text(label,
             style: const TextStyle(
                 fontSize: 10,
-                color: Color(0xFF64748B),
+                color: Color(0xFF8A8A8A),
                 fontWeight: FontWeight.w500)),
         const SizedBox(height: 2),
         Text(time,
             style:
-                const TextStyle(fontSize: 9, color: Color(0xFF94A3B8))),
+                const TextStyle(fontSize: 9, color: Color(0xFFBFBFBF))),
       ],
     ),
   );
@@ -902,13 +900,13 @@ Widget _chip(String label, bool selected) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
     decoration: BoxDecoration(
-      color: selected ? const Color(0xFF4A90D9) : const Color(0xFFE2E8F0),
+      color: selected ? const Color(0xFFE8453C) : const Color(0xFFE5E0DB),
       borderRadius: BorderRadius.circular(20),
     ),
     child: Text(label,
         style: TextStyle(
             fontSize: 12,
-            color: selected ? Colors.white : const Color(0xFF475569),
+            color: selected ? Colors.white : const Color(0xFF5A5A5A),
             fontWeight: selected ? FontWeight.w600 : FontWeight.normal)),
   );
 }

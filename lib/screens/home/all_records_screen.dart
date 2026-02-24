@@ -160,7 +160,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(
               l10n.cancel,
-              style: const TextStyle(color: Color(0xFF64748B)),
+              style: const TextStyle(color: Color(0xFF8A8A8A)),
             ),
           ),
           TextButton(
@@ -247,7 +247,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
       child: Container(
         height: 40,
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
+          color: isDark ? const Color(0xFF3A3A3A) : const Color(0xFFF5F0EB),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -285,7 +285,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
         child: Container(
           margin: const EdgeInsets.all(3),
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF3B82F6) : Colors.transparent,
+            color: isSelected ? const Color(0xFFE8453C) : Colors.transparent,
             borderRadius: BorderRadius.circular(6),
           ),
           alignment: Alignment.center,
@@ -297,7 +297,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
                 size: 16,
                 color: isSelected
                     ? Colors.white
-                    : const Color(0xFF64748B),
+                    : const Color(0xFF8A8A8A),
               ),
               const SizedBox(width: 4),
               Text(
@@ -307,7 +307,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
                   fontWeight: FontWeight.w600,
                   color: isSelected
                       ? Colors.white
-                      : const Color(0xFF64748B),
+                      : const Color(0xFF8A8A8A),
                 ),
               ),
             ],
@@ -476,12 +476,12 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
         weekdayStyle: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: Color(0xFF94A3B8),
+          color: Color(0xFFBFBFBF),
         ),
         weekendStyle: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: Color(0xFF94A3B8),
+          color: Color(0xFFBFBFBF),
         ),
       ),
       calendarStyle: CalendarStyle(
@@ -490,17 +490,17 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
         cellPadding: EdgeInsets.zero,
         // Today
         todayDecoration: BoxDecoration(
-          color: const Color(0xFF3B82F6).withValues(alpha: 0.2),
+          color: const Color(0xFFE8453C).withValues(alpha: 0.2),
           shape: BoxShape.circle,
         ),
         todayTextStyle: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w700,
-          color: Color(0xFF3B82F6),
+          color: Color(0xFFE8453C),
         ),
         // Selected
         selectedDecoration: const BoxDecoration(
-          color: Color(0xFF3B82F6),
+          color: Color(0xFFE8453C),
           shape: BoxShape.circle,
         ),
         selectedTextStyle: const TextStyle(
@@ -511,12 +511,12 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
         // Default
         defaultTextStyle: TextStyle(
           fontSize: 14,
-          color: isDark ? const Color(0xFFF1F5F9) : const Color(0xFF1E293B),
+          color: isDark ? const Color(0xFFF5F0EB) : const Color(0xFF1A1A1A),
         ),
         // Weekend
         weekendTextStyle: TextStyle(
           fontSize: 14,
-          color: isDark ? const Color(0xFFF1F5F9) : const Color(0xFF1E293B),
+          color: isDark ? const Color(0xFFF5F0EB) : const Color(0xFF1A1A1A),
         ),
       ),
       calendarBuilders: CalendarBuilders(
@@ -535,8 +535,8 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
           final color = wd == 7
               ? const Color(0xFFEF4444)
               : wd == 6
-                  ? const Color(0xFF3B82F6)
-                  : const Color(0xFF94A3B8);
+                  ? const Color(0xFF8A8A8A)
+                  : const Color(0xFF8A8A8A);
           return Center(
             child: Text(
               label,
@@ -588,14 +588,14 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
     if (isSelected) {
       textColor = Colors.white;
     } else if (isToday) {
-      textColor = const Color(0xFF3B82F6);
+      textColor = const Color(0xFFE8453C);
     } else if (isSun) {
       textColor = const Color(0xFFEF4444);
     } else if (isSat) {
-      textColor = const Color(0xFF3B82F6);
+      textColor = const Color(0xFFE8453C);
     } else {
       textColor =
-          isDark ? const Color(0xFFF1F5F9) : const Color(0xFF1E293B);
+          isDark ? const Color(0xFFF5F0EB) : const Color(0xFF1A1A1A);
     }
 
     return SizedBox(
@@ -609,13 +609,13 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
             height: 28,
             decoration: isSelected
                 ? const BoxDecoration(
-                    color: Color(0xFF3B82F6),
+                    color: Color(0xFFE8453C),
                     shape: BoxShape.circle,
                   )
                 : isToday
                     ? BoxDecoration(
                         color:
-                            const Color(0xFF3B82F6).withValues(alpha: 0.2),
+                            const Color(0xFFE8453C).withValues(alpha: 0.2),
                         shape: BoxShape.circle,
                       )
                     : null,
@@ -665,7 +665,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
       return Center(
         child: Text(
           l10n.noRecordsForDay,
-          style: const TextStyle(fontSize: 14, color: Color(0xFF94A3B8)),
+          style: const TextStyle(fontSize: 14, color: Color(0xFFBFBFBF)),
         ),
       );
     }
@@ -842,7 +842,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
                           ? (isDark
                               ? HareruColors.darkTextPrimary
                               : HareruColors.lightTextPrimary)
-                          : const Color(0xFF64748B),
+                          : const Color(0xFF8A8A8A),
                   fontFeatures: const [FontFeature.tabularFigures()],
                 ),
               ),

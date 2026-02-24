@@ -78,7 +78,7 @@ class HomeScreen extends ConsumerWidget {
             fontWeight: FontWeight.w700,
             color: isDark
                 ? HareruColors.darkTextPrimary
-                : HareruColors.primaryStart,
+                : HareruColors.lightTextPrimary,
             letterSpacing: 0.5,
           ),
         ),
@@ -153,132 +153,89 @@ class HomeScreen extends ConsumerWidget {
     final remaining = budget - expenseTotal;
     final isOver = remaining < 0;
 
+    final cardColor = isDark ? HareruColors.darkCard : HareruColors.headerCardLight;
+    final cardTextPrimary = isDark ? HareruColors.darkTextPrimary : HareruColors.lightTextPrimary;
+    final cardTextSecondary = isDark ? HareruColors.darkTextSecondary : HareruColors.lightTextSecondary;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [HareruColors.primaryStart, HareruColors.primaryEnd],
-        ),
+        color: cardColor,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: HareruColors.primaryStart.withValues(alpha: 0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
       ),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Decorative diamonds
-          Positioned(
-            right: -20,
-            top: -20,
-            child: Transform.rotate(
-              angle: pi / 4,
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.06),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
+          Text(
+            l10n.monthlyRealExpense,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: cardTextSecondary,
             ),
           ),
-          Positioned(
-            right: 10,
-            bottom: -10,
-            child: Transform.rotate(
-              angle: pi / 4,
-              child: Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.04),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
+          const SizedBox(height: 4),
+          Text(
+            '¥${_formatAmount(expenseTotal)}',
+            style: TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.w700,
+              color: cardTextPrimary,
+              fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
-          // Content
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l10n.monthlyRealExpense,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white.withValues(alpha: 0.8),
+          if (isBudgetSet) ...[
+            const SizedBox(height: 12),
+            _buildProgressBar(progress, isDark),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  isOver
+                      ? l10n.overBudget('¥${_formatAmount(remaining.abs())}')
+                      : l10n.remainingBudget('¥${_formatAmount(remaining)}'),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: isOver
+                        ? const Color(0xFFEF4444)
+                        : cardTextSecondary,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '¥${_formatAmount(expenseTotal)}',
-                style: const TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                  fontFeatures: [FontFeature.tabularFigures()],
-                ),
-              ),
-              if (isBudgetSet) ...[
-                const SizedBox(height: 12),
-                _buildProgressBar(progress),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      isOver
-                          ? l10n.overBudget('¥${_formatAmount(remaining.abs())}')
-                          : l10n.remainingBudget('¥${_formatAmount(remaining)}'),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: isOver
-                            ? const Color(0xFFFECACA)
-                            : Colors.white.withValues(alpha: 0.85),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => _showBudgetDialog(context, ref),
-                      child: Text(
-                        '✏️ ${l10n.editBudget}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.6),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ] else
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: GestureDetector(
-                    onTap: () => _showBudgetDialog(context, ref),
-                    child: Text(
-                      '${l10n.setBudget} →',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.white.withValues(alpha: 0.7),
-                      ),
+                GestureDetector(
+                  onTap: () => _showBudgetDialog(context, ref),
+                  child: Text(
+                    '✏️ ${l10n.editBudget}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: cardTextSecondary,
                     ),
                   ),
                 ),
-            ],
-          ),
+              ],
+            ),
+          ] else
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: GestureDetector(
+                onTap: () => _showBudgetDialog(context, ref),
+                child: Text(
+                  '${l10n.setBudget} →',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: cardTextSecondary,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildProgressBar(double progress) {
+  Widget _buildProgressBar(double progress, bool isDark) {
     final clampedProgress = progress.clamp(0.0, 1.0);
     final percentage = (progress * 100).toStringAsFixed(1);
 
@@ -289,7 +246,9 @@ class HomeScreen extends ConsumerWidget {
             ? const Color(0xFFFCA5A5)
             : progress > 0.7
                 ? const Color(0xFFFCD34D)
-                : Colors.white.withValues(alpha: 0.9);
+                : HareruColors.primaryStart;
+
+    final trackColor = isDark ? HareruColors.darkDivider : HareruColors.lightDivider;
 
     return Row(
       children: [
@@ -297,7 +256,7 @@ class HomeScreen extends ConsumerWidget {
           child: Container(
             height: 6,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: trackColor,
               borderRadius: BorderRadius.circular(3),
             ),
             child: Align(
@@ -327,7 +286,7 @@ class HomeScreen extends ConsumerWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: Colors.white.withValues(alpha: 0.7),
+            color: isDark ? HareruColors.darkTextSecondary : HareruColors.lightTextSecondary,
             fontFeatures: const [FontFeature.tabularFigures()],
           ),
         ),
@@ -457,15 +416,15 @@ class HomeScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final notifier = ref.read(transactionProvider.notifier);
     final labelColor =
-        isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+        isDark ? HareruColors.darkTextSecondary : HareruColors.lightTextSecondary;
     final dividerColor =
-        isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9);
+        isDark ? HareruColors.darkDivider : HareruColors.lightDivider;
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E293B) : Colors.white,
+        color: isDark ? HareruColors.darkCard : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: dividerColor),
         boxShadow: [
@@ -488,7 +447,7 @@ class HomeScreen extends ConsumerWidget {
           _killerColumn(
             l10n.transfer,
             '¥${_formatAmount(notifier.transferTotal)}',
-            const Color(0xFF3B82F6),
+            const Color(0xFFF59E0B),
             labelColor,
           ),
           Container(width: 1, height: 32, color: dividerColor),
@@ -539,13 +498,17 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 4),
-          Text(
-            amount,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: typeColor,
-              fontFeatures: const [FontFeature.tabularFigures()],
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              amount,
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: typeColor,
+                fontFeatures: const [FontFeature.tabularFigures()],
+              ),
             ),
           ),
         ],
@@ -733,7 +696,9 @@ class HomeScreen extends ConsumerWidget {
                                         ? (isDark
                                             ? HareruColors.darkTextPrimary
                                             : HareruColors.lightTextPrimary)
-                                        : const Color(0xFF64748B),
+                                        : (isDark
+                                            ? HareruColors.darkTextSecondary
+                                            : HareruColors.lightTextSecondary),
                                 fontFeatures: const [
                                   FontFeature.tabularFigures()
                                 ],
@@ -771,7 +736,7 @@ class HomeScreen extends ConsumerWidget {
         color: isDark ? HareruColors.darkCard : HareruColors.lightCard,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: HareruColors.primaryStart.withValues(alpha: 0.2),
+          color: isDark ? HareruColors.darkDivider : HareruColors.lightDivider,
         ),
       ),
       child: Row(
@@ -780,14 +745,12 @@ class HomeScreen extends ConsumerWidget {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [HareruColors.primaryStart, HareruColors.primaryEnd],
-              ),
+              color: HareruColors.guideIconBg,
               borderRadius: BorderRadius.circular(12),
             ),
             alignment: Alignment.center,
             child:
-                const Icon(Icons.auto_awesome, size: 22, color: Colors.white),
+                const Icon(Icons.auto_awesome, size: 22, color: HareruColors.primaryStart),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -855,7 +818,7 @@ class HomeScreen extends ConsumerWidget {
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(
               l10n.cancel,
-              style: const TextStyle(color: Color(0xFF64748B)),
+              style: const TextStyle(color: Color(0xFF8A8A8A)),
             ),
           ),
           TextButton(
@@ -879,17 +842,13 @@ class HomeScreen extends ConsumerWidget {
   Widget _buildEmptyMainCard(BuildContext context, bool isDark) {
     final l10n = AppLocalizations.of(context)!;
 
+    final cardColor = isDark ? HareruColors.darkCard : HareruColors.headerCardLight;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: isDark
-              ? [HareruColors.darkCard, HareruColors.darkCard]
-              : [HareruColors.primaryStart, HareruColors.primaryEnd],
-        ),
+        color: cardColor,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -901,7 +860,7 @@ class HomeScreen extends ConsumerWidget {
               fontWeight: FontWeight.w500,
               color: isDark
                   ? HareruColors.darkTextTertiary
-                  : Colors.white.withValues(alpha: 0.8),
+                  : HareruColors.lightTextSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -912,7 +871,7 @@ class HomeScreen extends ConsumerWidget {
               fontWeight: FontWeight.w700,
               color: isDark
                   ? HareruColors.darkTextTertiary
-                  : Colors.white.withValues(alpha: 0.5),
+                  : HareruColors.lightTextTertiary,
               fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
@@ -923,7 +882,7 @@ class HomeScreen extends ConsumerWidget {
               fontSize: 14,
               color: isDark
                   ? HareruColors.darkTextTertiary
-                  : Colors.white.withValues(alpha: 0.7),
+                  : HareruColors.lightTextSecondary,
             ),
           ),
           const SizedBox(height: 4),
@@ -934,7 +893,7 @@ class HomeScreen extends ConsumerWidget {
               fontSize: 12,
               color: isDark
                   ? HareruColors.darkTextTertiary
-                  : Colors.white.withValues(alpha: 0.5),
+                  : HareruColors.lightTextTertiary,
               height: 1.5,
             ),
           ),
@@ -967,15 +926,15 @@ class HomeScreen extends ConsumerWidget {
 
     final guides = [
       _GuideItem(Icons.receipt_long_outlined, l10n.guideExpenseTitle,
-          l10n.guideExpenseDesc, const Color(0xFFEF4444), onTap: () {
+          l10n.guideExpenseDesc, const Color(0xFFE8453C), onTap: () {
         _openAddTransactionSheet(context, ref);
       }),
       _GuideItem(Icons.account_balance_wallet_outlined, l10n.guideBudgetTitle,
-          l10n.guideBudgetDesc, const Color(0xFF4A90D9), onTap: () {
+          l10n.guideBudgetDesc, const Color(0xFFE8453C), onTap: () {
         _showBudgetDialog(context, ref);
       }),
       _GuideItem(Icons.category_outlined, l10n.guideCategoryTitle,
-          l10n.guideCategoryDesc, const Color(0xFF10B981), onTap: () {
+          l10n.guideCategoryDesc, const Color(0xFFE8453C), onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -996,7 +955,7 @@ class HomeScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: isDark ? HareruColors.darkCard : HareruColors.lightCard,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               children: [
@@ -1004,7 +963,7 @@ class HomeScreen extends ConsumerWidget {
                   width: 42,
                   height: 42,
                   decoration: BoxDecoration(
-                    color: g.color.withValues(alpha: 0.1),
+                    color: HareruColors.guideIconBg,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   alignment: Alignment.center,

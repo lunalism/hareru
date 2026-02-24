@@ -179,7 +179,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     final color = switch (transaction.type) {
       TransactionType.expense => const Color(0xFFEF4444),
-      TransactionType.transfer => const Color(0xFF3B82F6),
+      TransactionType.transfer => const Color(0xFFF59E0B),
       TransactionType.savings => const Color(0xFF10B981),
       TransactionType.income => const Color(0xFFF59E0B),
     };
@@ -313,7 +313,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget _buildTab(
       int index, _TabItem tab, Color inactiveColor, bool isDark) {
     final isActive = index == _currentIndex;
-    final color = isActive ? HareruColors.primaryStart : inactiveColor;
+    final color = isActive
+        ? (isDark ? HareruColors.darkTextPrimary : HareruColors.lightTextPrimary)
+        : inactiveColor;
 
     return Expanded(
       child: GestureDetector(
@@ -353,15 +355,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           padding: const EdgeInsets.all(4),
           child: Container(
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [HareruColors.primaryStart, HareruColors.primaryEnd],
-              ),
+              color: HareruColors.primaryStart,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: HareruColors.primaryStart.withValues(alpha: 0.35),
+                  color: HareruColors.primaryStart.withValues(alpha: 0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),

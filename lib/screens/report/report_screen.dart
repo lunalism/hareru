@@ -13,7 +13,7 @@ import 'package:hareru/screens/home/widgets/add_transaction_sheet.dart';
 
 const _categoryColors = [
   Color(0xFFEF4444),
-  Color(0xFF3B82F6),
+  Color(0xFFF59E0B),
   Color(0xFF10B981),
   Color(0xFFF59E0B),
   Color(0xFF8B5CF6),
@@ -22,7 +22,7 @@ const _categoryColors = [
   Color(0xFFFF6B35),
   Color(0xFF6366F1),
   Color(0xFF84CC16),
-  Color(0xFF94A3B8),
+  Color(0xFFBFBFBF),
 ];
 
 class ReportScreen extends ConsumerStatefulWidget {
@@ -201,7 +201,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               Icons.chevron_left_rounded,
               color: isDark
                   ? HareruColors.darkTextTertiary
-                  : const Color(0xFF64748B),
+                  : HareruColors.lightTextSecondary,
             ),
           ),
           const SizedBox(width: 12),
@@ -213,7 +213,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               fontWeight: FontWeight.w700,
               color: isDark
                   ? HareruColors.darkTextPrimary
-                  : const Color(0xFF1E293B),
+                  : HareruColors.lightTextPrimary,
               fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
@@ -224,11 +224,11 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               Icons.chevron_right_rounded,
               color: _isCurrentMonth
                   ? (isDark
-                      ? const Color(0xFF1E293B)
-                      : const Color(0xFFE2E8F0))
+                      ? HareruColors.darkDivider
+                      : const Color(0xFFE5E0DB))
                   : (isDark
                       ? HareruColors.darkTextTertiary
-                      : const Color(0xFF64748B)),
+                      : HareruColors.lightTextSecondary),
             ),
           ),
         ],
@@ -252,7 +252,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               fontWeight: FontWeight.w600,
               color: isDark
                   ? HareruColors.darkTextPrimary
-                  : const Color(0xFF1E293B),
+                  : HareruColors.lightTextPrimary,
             ),
           ),
           const SizedBox(height: 8),
@@ -263,7 +263,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               fontSize: 14,
               color: isDark
                   ? HareruColors.darkTextTertiary
-                  : const Color(0xFF94A3B8),
+                  : HareruColors.lightTextTertiary,
               height: 1.5,
             ),
           ),
@@ -274,12 +274,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               padding: const EdgeInsets.symmetric(
                   horizontal: 24, vertical: 12),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    HareruColors.primaryStart,
-                    HareruColors.primaryEnd,
-                  ],
-                ),
+                color: HareruColors.primaryStart,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -389,7 +384,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
             height: 1,
             color: isDark
                 ? HareruColors.darkDivider
-                : const Color(0xFFF1F5F9),
+                : HareruColors.lightDivider,
           ),
           const SizedBox(height: 12),
           _summaryRow(
@@ -410,7 +405,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                   fontSize: 14,
                   color: isDark
                       ? HareruColors.darkTextSecondary
-                      : const Color(0xFF64748B),
+                      : HareruColors.lightTextSecondary,
                 ),
               ),
               Text(
@@ -420,7 +415,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF3B82F6),
+                  color: Color(0xFFE8453C),
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
               ),
@@ -442,7 +437,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
             fontSize: 14,
             color: isDark
                 ? HareruColors.darkTextSecondary
-                : const Color(0xFF64748B),
+                : HareruColors.lightTextSecondary,
           ),
         ),
         Text(
@@ -508,7 +503,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                         fontSize: 11,
                         color: isDark
                             ? HareruColors.darkTextTertiary
-                            : const Color(0xFF94A3B8),
+                            : HareruColors.lightTextTertiary,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -519,7 +514,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                         fontWeight: FontWeight.w700,
                         color: isDark
                             ? HareruColors.darkTextPrimary
-                            : const Color(0xFF1E293B),
+                            : HareruColors.lightTextPrimary,
                         fontFeatures: const [
                           FontFeature.tabularFigures(),
                         ],
@@ -571,7 +566,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                         fontSize: 14,
                         color: isDark
                             ? HareruColors.darkTextPrimary
-                            : const Color(0xFF1E293B),
+                            : HareruColors.lightTextPrimary,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -583,7 +578,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                       fontWeight: FontWeight.w600,
                       color: isDark
                           ? HareruColors.darkTextPrimary
-                          : const Color(0xFF1E293B),
+                          : HareruColors.lightTextPrimary,
                       fontFeatures: const [
                         FontFeature.tabularFigures(),
                       ],
@@ -597,7 +592,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                         fontSize: 13,
-                        color: Color(0xFF94A3B8),
+                        color: Color(0xFFBFBFBF),
                         fontFeatures: [
                           FontFeature.tabularFigures(),
                         ],
@@ -623,7 +618,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFF3B82F6),
+                    color: Color(0xFFE8453C),
                   ),
                 ),
               ),
@@ -650,7 +645,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                   fontSize: 14,
                   color: isDark
                       ? HareruColors.darkTextTertiary
-                      : const Color(0xFF94A3B8),
+                      : HareruColors.lightTextTertiary,
                 ),
               ),
             ),
@@ -669,7 +664,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
         ? const Color(0xFFEF4444)
         : progress > 0.7
             ? const Color(0xFFF59E0B)
-            : const Color(0xFF3B82F6);
+            : const Color(0xFFE8453C);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -683,7 +678,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                 fontSize: 13,
                 color: isDark
                     ? HareruColors.darkTextSecondary
-                    : const Color(0xFF64748B),
+                    : HareruColors.lightTextSecondary,
               ),
             ),
             Text(
@@ -702,8 +697,8 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
           height: 8,
           decoration: BoxDecoration(
             color: isDark
-                ? const Color(0xFF334155)
-                : const Color(0xFFF1F5F9),
+                ? HareruColors.darkDivider
+                : HareruColors.lightDivider,
             borderRadius: BorderRadius.circular(4),
           ),
           child: Align(
@@ -739,7 +734,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                 ? const Color(0xFFEF4444)
                 : (isDark
                     ? HareruColors.darkTextSecondary
-                    : const Color(0xFF64748B)),
+                    : HareruColors.lightTextSecondary),
           ),
         ),
       ],
@@ -757,7 +752,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
       double income) {
     final types = [
       (l10n.expense, expense, const Color(0xFFEF4444), false),
-      (l10n.transfer, transfer, const Color(0xFF3B82F6), true),
+      (l10n.transfer, transfer, const Color(0xFFF59E0B), true),
       (l10n.savings, savings, const Color(0xFF10B981), true),
       (l10n.income, income, const Color(0xFFF59E0B), false),
     ];
@@ -793,7 +788,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                           fontSize: 14,
                           color: isDark
                               ? HareruColors.darkTextPrimary
-                              : const Color(0xFF1E293B),
+                              : HareruColors.lightTextPrimary,
                         ),
                       ),
                     ),
@@ -819,7 +814,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                         l10n.notIncludedInReal,
                         style: const TextStyle(
                           fontSize: 11,
-                          color: Color(0xFF94A3B8),
+                          color: Color(0xFFBFBFBF),
                         ),
                       ),
                     ),
@@ -892,12 +887,12 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color:
-            isDark ? const Color(0xFF0F2744) : const Color(0xFFF0F9FF),
+            isDark ? HareruColors.darkCard : const Color(0xFFFFF0EF),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isDark
-              ? const Color(0xFF1E3A5F)
-              : const Color(0xFFBFDBFE),
+              ? HareruColors.darkDivider
+              : const Color(0xFFE5E0DB),
         ),
       ),
       child: Column(
@@ -915,7 +910,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                   fontWeight: FontWeight.w700,
                   color: isDark
                       ? HareruColors.darkTextPrimary
-                      : const Color(0xFF1E293B),
+                      : HareruColors.lightTextPrimary,
                 ),
               ),
             ],
@@ -929,7 +924,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                     fontSize: 14,
                     color: isDark
                         ? HareruColors.darkTextSecondary
-                        : const Color(0xFF1E293B),
+                        : HareruColors.lightTextPrimary,
                     height: 1.5,
                   ),
                 ),
