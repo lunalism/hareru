@@ -27,14 +27,16 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   TransactionType _selectedType = TransactionType.expense;
   String? _selectedCategory;
   String _memo = '';
-  String _transferDest = '';
+  String _fromAccount = '';
+  String _toAccount = '';
   int _selectedPayment = 0; // 0=credit, 1=debit, 2=cash (UI only)
   bool _isRecurring = false; // UI only
 
   final _memoController = TextEditingController();
   final _amountController = TextEditingController();
   final _amountFocusNode = FocusNode();
-  final _transferDestController = TextEditingController();
+  final _fromAccountController = TextEditingController();
+  final _toAccountController = TextEditingController();
 
   bool get _isTransfer => _selectedType == TransactionType.transfer;
 
@@ -53,9 +55,15 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       _selectedCategory = t.category;
       _memo = t.memo ?? '';
       _memoController.text = _memo;
-      if (t.type == TransactionType.transfer) {
-        _transferDest = t.category;
-        _transferDestController.text = t.category;
+      if (t.type == TransactionType.transfer && t.category.contains(' → ')) {
+        final parts = t.category.split(' → ');
+        _fromAccount = parts[0];
+        _toAccount = parts[1];
+        _fromAccountController.text = _fromAccount;
+        _toAccountController.text = _toAccount;
+      } else if (t.type == TransactionType.transfer) {
+        _toAccount = t.category;
+        _toAccountController.text = t.category;
       }
     }
   }
@@ -65,7 +73,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     _memoController.dispose();
     _amountController.dispose();
     _amountFocusNode.dispose();
-    _transferDestController.dispose();
+    _fromAccountController.dispose();
+    _toAccountController.dispose();
     super.dispose();
   }
 
@@ -113,14 +122,18 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   bool get _canSave {
     if (_parsedAmount <= 0) return false;
-    if (_isTransfer) return _transferDest.trim().isNotEmpty;
+    if (_isTransfer) {
+      return _fromAccount.trim().isNotEmpty && _toAccount.trim().isNotEmpty;
+    }
     return _selectedCategory != null;
   }
 
   void _save() {
     if (!_canSave) return;
     final existing = widget.editTransaction;
-    final category = _isTransfer ? _transferDest.trim() : _selectedCategory!;
+    final category = _isTransfer
+        ? '${_fromAccount.trim()} → ${_toAccount.trim()}'
+        : _selectedCategory!;
     final transaction = Transaction(
       id: existing?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
       type: _selectedType,
@@ -692,29 +705,36 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   Widget _buildTransferDestField(AppLocalizations l10n, bool isDark) {
+    final borderColor = isDark
+        ? HareruColors.darkDivider
+        : const Color(0xFFE5E0DB);
+    final fieldBg = isDark ? HareruColors.darkCard : Colors.white;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // From account
         Text(
-          l10n.transferDestination,
+          l10n.transferFrom,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: isDark
                 ? HareruColors.darkTextSecondary
-                : HareruColors.lightTextSecondary,
+                : const Color(0xFF8A8A8A),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
           decoration: BoxDecoration(
-            color: isDark ? HareruColors.darkCard : const Color(0xFFF5F0EB),
+            color: fieldBg,
             borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: borderColor),
           ),
           child: TextField(
-            controller: _transferDestController,
-            onChanged: (v) => setState(() => _transferDest = v),
+            controller: _fromAccountController,
+            onChanged: (v) => setState(() => _fromAccount = v),
             style: TextStyle(
               fontSize: 14,
               color: isDark
@@ -722,7 +742,62 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   : HareruColors.lightTextPrimary,
             ),
             decoration: InputDecoration(
-              hintText: l10n.transferDestPlaceholder,
+              hintText: l10n.transferFromPlaceholder,
+              hintStyle: TextStyle(
+                fontSize: 14,
+                color: isDark
+                    ? HareruColors.darkTextTertiary
+                    : HareruColors.lightTextTertiary,
+              ),
+              border: InputBorder.none,
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+          ),
+        ),
+
+        // Arrow
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: Center(
+            child: Icon(
+              Icons.arrow_downward_rounded,
+              size: 20,
+              color: Color(0xFF8A8A8A),
+            ),
+          ),
+        ),
+
+        // To account
+        Text(
+          l10n.transferTo,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: isDark
+                ? HareruColors.darkTextSecondary
+                : const Color(0xFF8A8A8A),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+          decoration: BoxDecoration(
+            color: fieldBg,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: borderColor),
+          ),
+          child: TextField(
+            controller: _toAccountController,
+            onChanged: (v) => setState(() => _toAccount = v),
+            style: TextStyle(
+              fontSize: 14,
+              color: isDark
+                  ? HareruColors.darkTextPrimary
+                  : HareruColors.lightTextPrimary,
+            ),
+            decoration: InputDecoration(
+              hintText: l10n.transferToPlaceholder,
               hintStyle: TextStyle(
                 fontSize: 14,
                 color: isDark

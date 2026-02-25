@@ -749,10 +749,16 @@ class AppLocalizationsKo extends AppLocalizations {
   String get editTransfer => '이체 수정';
 
   @override
-  String get transferDestination => '이체처';
+  String get transferFrom => '출금처';
 
   @override
-  String get transferDestPlaceholder => '예: 저축계좌, 증권계좌';
+  String get transferFromPlaceholder => '예: 미쓰비시UFJ은행, 메인통장';
+
+  @override
+  String get transferTo => '입금처';
+
+  @override
+  String get transferToPlaceholder => '예: 저축계좌, SBI증권';
 
   @override
   String get paymentMethod => '결제수단';

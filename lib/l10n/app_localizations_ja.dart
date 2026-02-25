@@ -748,10 +748,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get editTransfer => '振替を編集';
 
   @override
-  String get transferDestination => '振替先';
+  String get transferFrom => '出金元';
 
   @override
-  String get transferDestPlaceholder => '例: 貯金口座、証券口座';
+  String get transferFromPlaceholder => '例: 三菱UFJ銀行、メイン口座';
+
+  @override
+  String get transferTo => '入金先';
+
+  @override
+  String get transferToPlaceholder => '例: 貯金口座、SBI証券';
 
   @override
   String get paymentMethod => '決済方法';

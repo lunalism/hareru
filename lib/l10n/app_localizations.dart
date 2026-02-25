@@ -1516,17 +1516,29 @@ abstract class AppLocalizations {
   /// **'振替を編集'**
   String get editTransfer;
 
-  /// No description provided for @transferDestination.
+  /// No description provided for @transferFrom.
   ///
   /// In ja, this message translates to:
-  /// **'振替先'**
-  String get transferDestination;
+  /// **'出金元'**
+  String get transferFrom;
 
-  /// No description provided for @transferDestPlaceholder.
+  /// No description provided for @transferFromPlaceholder.
   ///
   /// In ja, this message translates to:
-  /// **'例: 貯金口座、証券口座'**
-  String get transferDestPlaceholder;
+  /// **'例: 三菱UFJ銀行、メイン口座'**
+  String get transferFromPlaceholder;
+
+  /// No description provided for @transferTo.
+  ///
+  /// In ja, this message translates to:
+  /// **'入金先'**
+  String get transferTo;
+
+  /// No description provided for @transferToPlaceholder.
+  ///
+  /// In ja, this message translates to:
+  /// **'例: 貯金口座、SBI証券'**
+  String get transferToPlaceholder;
 
   /// No description provided for @paymentMethod.
   ///
