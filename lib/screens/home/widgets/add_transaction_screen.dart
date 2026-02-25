@@ -28,8 +28,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   TransactionType _selectedType = TransactionType.expense;
   String? _selectedCategory;
   String _memo = '';
-  String? _fromAccount;
-  String? _toAccount;
+  String? _fromAccount; // account ID
+  String? _toAccount;   // account ID
+  String? _pendingTransferCategory; // for edit mode
   int _selectedPayment = 0; // 0=credit, 1=debit, 2=cash (UI only)
   bool _isRecurring = false; // UI only
 
@@ -54,12 +55,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       _selectedCategory = t.category;
       _memo = t.memo ?? '';
       _memoController.text = _memo;
-      if (t.type == TransactionType.transfer && t.category.contains(' → ')) {
-        final parts = t.category.split(' → ');
-        _fromAccount = parts[0];
-        _toAccount = parts[1];
-      } else if (t.type == TransactionType.transfer) {
-        _toAccount = t.category;
+      // Transfer editing: match saved names to account IDs after load
+      if (t.type == TransactionType.transfer) {
+        _pendingTransferCategory = t.category;
       }
     }
   }
@@ -120,21 +118,30 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return _selectedCategory != null;
   }
 
-  String _resolveAccountName(String key, AppLocalizations l10n) {
-    return switch (key) {
-      'mainAccount' => l10n.mainAccount,
-      'savingsAccount' => l10n.savingsAccount,
-      'investmentAccount' => l10n.investmentAccount,
-      _ => key,
+  String _accountTypeLabel(AccountType type, AppLocalizations l10n) {
+    return switch (type) {
+      AccountType.checking => l10n.accountTypeChecking,
+      AccountType.savings => l10n.accountTypeSavings,
+      AccountType.investment => l10n.accountTypeInvestment,
     };
+  }
+
+  String _accountDisplayLabel(UserAccount account, AppLocalizations l10n) {
+    return '${account.name} ${_accountTypeLabel(account.type, l10n)}';
   }
 
   void _save() {
     if (!_canSave) return;
     final existing = widget.editTransaction;
-    final category = _isTransfer
-        ? '${_fromAccount!} → ${_toAccount!}'
-        : _selectedCategory!;
+    String category;
+    if (_isTransfer) {
+      final accounts = ref.read(transferAccountProvider);
+      final from = accounts.firstWhere((a) => a.id == _fromAccount);
+      final to = accounts.firstWhere((a) => a.id == _toAccount);
+      category = '${from.name} → ${to.name}';
+    } else {
+      category = _selectedCategory!;
+    }
     final transaction = Transaction(
       id: existing?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
       type: _selectedType,
@@ -708,6 +715,18 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   Widget _buildTransferDestField(AppLocalizations l10n, bool isDark) {
     final accounts = ref.watch(transferAccountProvider);
 
+    // Resolve pending edit-mode transfer category to account IDs
+    if (_pendingTransferCategory != null &&
+        accounts.isNotEmpty &&
+        _pendingTransferCategory!.contains(' → ')) {
+      final parts = _pendingTransferCategory!.split(' → ');
+      for (final a in accounts) {
+        if (a.name == parts[0] && _fromAccount == null) _fromAccount = a.id;
+        if (a.name == parts[1] && _toAccount == null) _toAccount = a.id;
+      }
+      _pendingTransferCategory = null;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -725,9 +744,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         const SizedBox(height: 8),
         _buildAccountChips(
           accounts: accounts,
-          selected: _fromAccount,
-          disabledAccount: _toAccount,
-          onSelect: (key) => setState(() => _fromAccount = key),
+          selectedId: _fromAccount,
+          disabledId: _toAccount,
+          onSelect: (id) => setState(() => _fromAccount = id),
           l10n: l10n,
           isDark: isDark,
         ),
@@ -758,9 +777,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         const SizedBox(height: 8),
         _buildAccountChips(
           accounts: accounts,
-          selected: _toAccount,
-          disabledAccount: _fromAccount,
-          onSelect: (key) => setState(() => _toAccount = key),
+          selectedId: _toAccount,
+          disabledId: _fromAccount,
+          onSelect: (id) => setState(() => _toAccount = id),
           l10n: l10n,
           isDark: isDark,
         ),
@@ -769,24 +788,41 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   Widget _buildAccountChips({
-    required List<String> accounts,
-    required String? selected,
-    required String? disabledAccount,
+    required List<UserAccount> accounts,
+    required String? selectedId,
+    required String? disabledId,
     required void Function(String) onSelect,
     required AppLocalizations l10n,
     required bool isDark,
   }) {
+    if (accounts.isEmpty) {
+      return Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          Text(
+            l10n.addAccountPrompt,
+            style: const TextStyle(fontSize: 14, color: Color(0xFF8A8A8A)),
+          ),
+          const SizedBox(width: 4),
+          _buildAddChip(l10n, isDark),
+        ],
+      );
+    }
+
     return Wrap(
       spacing: 8,
       runSpacing: 8,
       children: [
-        ...accounts.map((key) {
-          final isSelected = selected == key;
-          final isDisabled = disabledAccount == key;
-          final label = _resolveAccountName(key, l10n);
+        ...accounts.map((account) {
+          final isSelected = selectedId == account.id;
+          final isDisabled = disabledId == account.id;
+          final label = _accountDisplayLabel(account, l10n);
 
           return GestureDetector(
-            onTap: isDisabled ? null : () => onSelect(key),
+            onTap: isDisabled ? null : () => onSelect(account.id),
+            onLongPress: () =>
+                _showDeleteAccountDialog(account, l10n, isDark),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 150),
               padding:
@@ -828,51 +864,226 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             ),
           );
         }),
-        // +Add chip
-        GestureDetector(
-          onTap: () => _showAddAccountDialog(l10n, isDark),
-          child: Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: isDark ? HareruColors.darkCard : Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: isDark
-                    ? HareruColors.darkDivider
-                    : HareruColors.lightDivider,
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.add_rounded,
-                  size: 14,
-                  color: isDark
-                      ? HareruColors.darkTextTertiary
-                      : HareruColors.lightTextTertiary,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  l10n.add,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: isDark
-                        ? HareruColors.darkTextTertiary
-                        : HareruColors.lightTextTertiary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        _buildAddChip(l10n, isDark),
       ],
     );
   }
 
+  Widget _buildAddChip(AppLocalizations l10n, bool isDark) {
+    return GestureDetector(
+      onTap: () => _showAddAccountDialog(l10n, isDark),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isDark ? HareruColors.darkCard : Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isDark
+                ? HareruColors.darkDivider
+                : HareruColors.lightDivider,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.add_rounded,
+              size: 14,
+              color: isDark
+                  ? HareruColors.darkTextTertiary
+                  : HareruColors.lightTextTertiary,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              l10n.add,
+              style: TextStyle(
+                fontSize: 13,
+                color: isDark
+                    ? HareruColors.darkTextTertiary
+                    : HareruColors.lightTextTertiary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _showAddAccountDialog(AppLocalizations l10n, bool isDark) {
-    final controller = TextEditingController();
+    final nameController = TextEditingController();
+    var selectedType = AccountType.checking;
+    final activeColor = const Color(0xFFE8453C);
+
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            final typeLabels = {
+              AccountType.checking: l10n.accountTypeChecking,
+              AccountType.savings: l10n.accountTypeSavings,
+              AccountType.investment: l10n.accountTypeInvestment,
+            };
+
+            return AlertDialog(
+              backgroundColor:
+                  isDark ? HareruColors.darkCard : HareruColors.lightCard,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              title: Text(
+                l10n.addAccountTitle,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: isDark
+                      ? HareruColors.darkTextPrimary
+                      : HareruColors.lightTextPrimary,
+                ),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Step 1: Type selection
+                  Text(
+                    l10n.addAccountStep1,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: isDark
+                          ? HareruColors.darkTextSecondary
+                          : HareruColors.lightTextSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: AccountType.values.map((type) {
+                      final isSelected = selectedType == type;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: GestureDetector(
+                          onTap: () =>
+                              setDialogState(() => selectedType = type),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 150),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 7),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? activeColor
+                                  : (isDark
+                                      ? HareruColors.darkBg
+                                      : Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                              border: isSelected
+                                  ? null
+                                  : Border.all(
+                                      color: isDark
+                                          ? HareruColors.darkDivider
+                                          : HareruColors.lightDivider,
+                                    ),
+                            ),
+                            child: Text(
+                              typeLabels[type]!,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
+                                color: isSelected
+                                    ? Colors.white
+                                    : (isDark
+                                        ? HareruColors.darkTextSecondary
+                                        : HareruColors.lightTextSecondary),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Step 2: Bank name
+                  Text(
+                    l10n.addAccountStep2,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: isDark
+                          ? HareruColors.darkTextSecondary
+                          : HareruColors.lightTextSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: nameController,
+                    autofocus: true,
+                    maxLength: 20,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: isDark
+                          ? HareruColors.darkTextPrimary
+                          : HareruColors.lightTextPrimary,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: l10n.addAccountHint,
+                      hintStyle: TextStyle(
+                        color: isDark
+                            ? HareruColors.darkTextTertiary
+                            : HareruColors.lightTextTertiary,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            BorderSide(color: activeColor, width: 2),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(dialogContext),
+                  child: Text(
+                    l10n.cancel,
+                    style: TextStyle(
+                      color: isDark
+                          ? HareruColors.darkTextSecondary
+                          : HareruColors.lightTextSecondary,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final name = nameController.text.trim();
+                    if (name.isNotEmpty) {
+                      ref
+                          .read(transferAccountProvider.notifier)
+                          .addAccount(name, selectedType);
+                      Navigator.pop(dialogContext);
+                    }
+                  },
+                  child: Text(
+                    l10n.add,
+                    style: TextStyle(
+                      color: activeColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showDeleteAccountDialog(
+      UserAccount account, AppLocalizations l10n, bool isDark) {
+    final label = _accountDisplayLabel(account, l10n);
 
     showDialog<void>(
       context: context,
@@ -883,40 +1094,13 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(
-            l10n.addAccountTitle,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: isDark
-                  ? HareruColors.darkTextPrimary
-                  : HareruColors.lightTextPrimary,
-            ),
-          ),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            maxLength: 20,
+            l10n.deleteAccountConfirm(label),
             style: TextStyle(
               fontSize: 16,
+              fontWeight: FontWeight.w600,
               color: isDark
                   ? HareruColors.darkTextPrimary
                   : HareruColors.lightTextPrimary,
-            ),
-            decoration: InputDecoration(
-              hintText: l10n.addAccountHint,
-              hintStyle: TextStyle(
-                color: isDark
-                    ? HareruColors.darkTextTertiary
-                    : HareruColors.lightTextTertiary,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide:
-                    const BorderSide(color: Color(0xFFE8453C), width: 2),
-              ),
             ),
           ),
           actions: [
@@ -933,16 +1117,20 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             ),
             TextButton(
               onPressed: () {
-                final name = controller.text.trim();
-                if (name.isNotEmpty) {
-                  ref
-                      .read(transferAccountProvider.notifier)
-                      .addAccount(name);
-                  Navigator.pop(dialogContext);
+                ref
+                    .read(transferAccountProvider.notifier)
+                    .removeAccount(account.id);
+                // Clear selection if deleted account was selected
+                if (_fromAccount == account.id) {
+                  setState(() => _fromAccount = null);
                 }
+                if (_toAccount == account.id) {
+                  setState(() => _toAccount = null);
+                }
+                Navigator.pop(dialogContext);
               },
               child: Text(
-                l10n.add,
+                l10n.deleteRecord,
                 style: const TextStyle(
                   color: Color(0xFFE8453C),
                   fontWeight: FontWeight.w600,

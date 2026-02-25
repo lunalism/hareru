@@ -333,11 +333,20 @@
   "editTransfer": "이체 수정",
   "transferFrom": "출금처",
   "transferTo": "입금처",
-  "mainAccount": "메인통장",
-  "savingsAccount": "저축계좌",
-  "investmentAccount": "증권계좌",
+  "accountTypeChecking": "일반",
+  "accountTypeSavings": "저축",
+  "accountTypeInvestment": "증권",
   "addAccountTitle": "계좌 추가",
-  "addAccountHint": "계좌명 입력",
+  "addAccountStep1": "계좌 종류",
+  "addAccountStep2": "은행·증권사명",
+  "addAccountHint": "예: 국민은행, 키움",
+  "deleteAccountConfirm": "「{name}」을(를) 삭제하시겠습니까?",
+  "@deleteAccountConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "addAccountPrompt": "계좌를 추가해주세요",
   "paymentMethod": "결제수단",
   "creditCard": "신용카드",
   "debitCard": "체크카드",

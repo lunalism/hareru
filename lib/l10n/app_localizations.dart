@@ -1528,23 +1528,23 @@ abstract class AppLocalizations {
   /// **'入金先'**
   String get transferTo;
 
-  /// No description provided for @mainAccount.
+  /// No description provided for @accountTypeChecking.
   ///
   /// In ja, this message translates to:
-  /// **'メイン口座'**
-  String get mainAccount;
+  /// **'普通'**
+  String get accountTypeChecking;
 
-  /// No description provided for @savingsAccount.
+  /// No description provided for @accountTypeSavings.
   ///
   /// In ja, this message translates to:
-  /// **'貯金口座'**
-  String get savingsAccount;
+  /// **'貯金'**
+  String get accountTypeSavings;
 
-  /// No description provided for @investmentAccount.
+  /// No description provided for @accountTypeInvestment.
   ///
   /// In ja, this message translates to:
-  /// **'証券口座'**
-  String get investmentAccount;
+  /// **'証券'**
+  String get accountTypeInvestment;
 
   /// No description provided for @addAccountTitle.
   ///
@@ -1552,11 +1552,35 @@ abstract class AppLocalizations {
   /// **'口座を追加'**
   String get addAccountTitle;
 
+  /// No description provided for @addAccountStep1.
+  ///
+  /// In ja, this message translates to:
+  /// **'口座の種類'**
+  String get addAccountStep1;
+
+  /// No description provided for @addAccountStep2.
+  ///
+  /// In ja, this message translates to:
+  /// **'銀行・証券会社名'**
+  String get addAccountStep2;
+
   /// No description provided for @addAccountHint.
   ///
   /// In ja, this message translates to:
-  /// **'口座名を入力'**
+  /// **'例: 三菱UFJ, 楽天'**
   String get addAccountHint;
+
+  /// No description provided for @deleteAccountConfirm.
+  ///
+  /// In ja, this message translates to:
+  /// **'「{name}」を削除しますか？'**
+  String deleteAccountConfirm(String name);
+
+  /// No description provided for @addAccountPrompt.
+  ///
+  /// In ja, this message translates to:
+  /// **'口座を追加してください'**
+  String get addAccountPrompt;
 
   /// No description provided for @paymentMethod.
   ///

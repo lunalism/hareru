@@ -755,19 +755,33 @@ class AppLocalizationsKo extends AppLocalizations {
   String get transferTo => '입금처';
 
   @override
-  String get mainAccount => '메인통장';
+  String get accountTypeChecking => '일반';
 
   @override
-  String get savingsAccount => '저축계좌';
+  String get accountTypeSavings => '저축';
 
   @override
-  String get investmentAccount => '증권계좌';
+  String get accountTypeInvestment => '증권';
 
   @override
   String get addAccountTitle => '계좌 추가';
 
   @override
-  String get addAccountHint => '계좌명 입력';
+  String get addAccountStep1 => '계좌 종류';
+
+  @override
+  String get addAccountStep2 => '은행·증권사명';
+
+  @override
+  String get addAccountHint => '예: 국민은행, 키움';
+
+  @override
+  String deleteAccountConfirm(String name) {
+    return '「$name」을(를) 삭제하시겠습니까?';
+  }
+
+  @override
+  String get addAccountPrompt => '계좌를 추가해주세요';
 
   @override
   String get paymentMethod => '결제수단';

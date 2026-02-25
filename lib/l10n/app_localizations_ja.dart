@@ -754,19 +754,33 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transferTo => '入金先';
 
   @override
-  String get mainAccount => 'メイン口座';
+  String get accountTypeChecking => '普通';
 
   @override
-  String get savingsAccount => '貯金口座';
+  String get accountTypeSavings => '貯金';
 
   @override
-  String get investmentAccount => '証券口座';
+  String get accountTypeInvestment => '証券';
 
   @override
   String get addAccountTitle => '口座を追加';
 
   @override
-  String get addAccountHint => '口座名を入力';
+  String get addAccountStep1 => '口座の種類';
+
+  @override
+  String get addAccountStep2 => '銀行・証券会社名';
+
+  @override
+  String get addAccountHint => '例: 三菱UFJ, 楽天';
+
+  @override
+  String deleteAccountConfirm(String name) {
+    return '「$name」を削除しますか？';
+  }
+
+  @override
+  String get addAccountPrompt => '口座を追加してください';
 
   @override
   String get paymentMethod => '決済方法';

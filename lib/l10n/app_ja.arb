@@ -333,11 +333,20 @@
   "editTransfer": "振替を編集",
   "transferFrom": "出金元",
   "transferTo": "入金先",
-  "mainAccount": "メイン口座",
-  "savingsAccount": "貯金口座",
-  "investmentAccount": "証券口座",
+  "accountTypeChecking": "普通",
+  "accountTypeSavings": "貯金",
+  "accountTypeInvestment": "証券",
   "addAccountTitle": "口座を追加",
-  "addAccountHint": "口座名を入力",
+  "addAccountStep1": "口座の種類",
+  "addAccountStep2": "銀行・証券会社名",
+  "addAccountHint": "例: 三菱UFJ, 楽天",
+  "deleteAccountConfirm": "「{name}」を削除しますか？",
+  "@deleteAccountConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "addAccountPrompt": "口座を追加してください",
   "paymentMethod": "決済方法",
   "creditCard": "クレジット",
   "debitCard": "デビット",
