@@ -35,29 +35,27 @@ struct RealExpenseWidgetView: View {
     var body: some View {
         VStack(spacing: 0) {
             // Main content
-            HStack(alignment: .top, spacing: 0) {
-                // Left half — Real expense (main)
+            HStack(alignment: .center, spacing: 0) {
+                // Left half — Real expense (hero)
                 VStack(alignment: .leading, spacing: 0) {
-                    Spacer()
-
-                    // Label — matches app home
+                    // Label
                     Text(NSLocalizedString("real_expense", comment: ""))
-                        .font(.system(size: 10))
+                        .font(.system(size: 11))
                         .foregroundColor(.warmTextSub)
 
-                    Spacer().frame(height: 4)
+                    Spacer().frame(height: 6)
 
-                    // Amount
+                    // Hero amount
                     Text(formatYen(data.realExpense, currency: data.currency))
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
                         .foregroundColor(textPrimary)
                         .minimumScaleFactor(0.5)
                         .lineLimit(1)
 
-                    Spacer().frame(height: 10)
-
                     // Progress bar
                     if data.hasBudget {
+                        Spacer().frame(height: 10)
+
                         GeometryReader { geo in
                             ZStack(alignment: .leading) {
                                 RoundedRectangle(cornerRadius: 2)
@@ -69,54 +67,45 @@ struct RealExpenseWidgetView: View {
                             }
                         }
                         .frame(height: 4)
-
-                        Spacer().frame(height: 6)
-
-                        // Budget remaining — matches app home
-                        Text(budgetRemainingText())
-                            .font(.system(size: 10))
-                            .foregroundColor(.warmTextSub)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.7)
                     }
-
-                    Spacer()
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 // Right half — Apparent expense comparison
                 VStack(alignment: .leading, spacing: 0) {
-                    Spacer()
-
                     if hasTransfer {
-                        VStack(alignment: .leading, spacing: 6) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(NSLocalizedString("apparent_expense", comment: ""))
-                                    .font(.system(size: 10))
-                                    .foregroundColor(.warmTextSub)
-                                Text(formatYen(data.apparentExpense, currency: data.currency))
-                                    .font(.system(size: 18, weight: .bold, design: .rounded))
-                                    .foregroundColor(.warmTextSub)
-                                    .minimumScaleFactor(0.5)
-                                    .lineLimit(1)
-                            }
+                        // Label
+                        Text(NSLocalizedString("apparent_expense", comment: ""))
+                            .font(.system(size: 11))
+                            .foregroundColor(.warmTextSub)
 
-                            Text("−" + formatYen(abs(diff), currency: data.currency) + " " + NSLocalizedString("transfer_excluded", comment: ""))
-                                .font(.system(size: 11, weight: .medium))
-                                .foregroundColor(.warmGreen)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.7)
-                        }
+                        Spacer().frame(height: 6)
+
+                        // Amount
+                        Text(formatYen(data.apparentExpense, currency: data.currency))
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                            .foregroundColor(.warmTextSub)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
+
+                        Spacer().frame(height: 8)
+
+                        // Diff
+                        Text("−" + formatYen(abs(diff), currency: data.currency) + " " + NSLocalizedString("transfer_excluded", comment: ""))
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundColor(.warmGreen)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
                     } else {
                         Text(NSLocalizedString("same_as_apparent", comment: ""))
                             .font(.system(size: 14))
                             .foregroundColor(.warmTextSub)
                     }
-
-                    Spacer()
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
+
+            Spacer()
 
             // Footer separator
             Rectangle()
@@ -146,16 +135,6 @@ struct RealExpenseWidgetView: View {
             }
         }
         .padding(16)
-    }
-
-    private func budgetRemainingText() -> String {
-        let prefix = NSLocalizedString("budget_remaining_prefix", comment: "")
-        let suffix = NSLocalizedString("budget_remaining_suffix", comment: "")
-        let amount = formatYen(data.budgetRemaining, currency: data.currency)
-        if prefix.isEmpty {
-            return "\(amount) \(suffix)"
-        }
-        return "\(prefix) \(amount) \(suffix)"
     }
 }
 

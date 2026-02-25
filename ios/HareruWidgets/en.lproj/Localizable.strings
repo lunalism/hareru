@@ -5,6 +5,7 @@
 "budget" = "Budget";
 "remaining" = "Remaining";
 "monthly_budget" = "Monthly Budget";
+"budget_remaining_label" = "Budget Left";
 "set_budget" = "Set your budget";
 "expense" = "Expense";
 "transfer_label" = "Transfer";

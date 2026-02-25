@@ -5,6 +5,7 @@
 "budget" = "予算";
 "remaining" = "残り";
 "monthly_budget" = "今月の予算";
+"budget_remaining_label" = "残りの予算";
 "set_budget" = "予算を設定しよう";
 "expense" = "支出";
 "transfer_label" = "振替";

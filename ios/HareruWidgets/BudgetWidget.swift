@@ -25,35 +25,24 @@ struct BudgetWidgetView: View {
         min(CGFloat(data.budgetPercentUsed), 1.0)
     }
 
-    private var textPrimary: Color {
-        isDark ? .warmTextLight : .warmTextPrimary
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Header
-            Text("Hareru")
-                .font(.system(size: 10, weight: .medium))
-                .foregroundColor(.warmTextSub)
-
             if data.hasBudget {
-                Spacer()
-
                 // Label
-                Text(NSLocalizedString("monthly_budget", comment: ""))
-                    .font(.system(size: 10))
+                Text(NSLocalizedString("budget_remaining_label", comment: ""))
+                    .font(.system(size: 12))
                     .foregroundColor(.warmTextSub)
 
-                Spacer().frame(height: 4)
+                Spacer()
 
-                // Amount
+                // Hero amount
                 Text(formatYen(data.budgetRemaining, currency: data.currency))
-                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                    .font(.system(size: 32, weight: .bold, design: .rounded))
                     .foregroundColor(remainingColor)
                     .minimumScaleFactor(0.5)
                     .lineLimit(1)
 
-                Spacer().frame(height: 10)
+                Spacer().frame(height: 12)
 
                 // Progress bar
                 GeometryReader { geo in
@@ -74,7 +63,7 @@ struct BudgetWidgetView: View {
                 Text(formatYen(data.budgetTotal, currency: data.currency)
                      + " " + NSLocalizedString("budget_of_label", comment: "")
                      + " · " + "\(percentUsed)%")
-                    .font(.system(size: 10))
+                    .font(.system(size: 11))
                     .foregroundColor(.warmTextSub)
             } else {
                 Spacer()

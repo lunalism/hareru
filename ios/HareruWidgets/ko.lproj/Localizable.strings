@@ -5,6 +5,7 @@
 "budget" = "예산";
 "remaining" = "남은 금액";
 "monthly_budget" = "이번 달 예산";
+"budget_remaining_label" = "남은 예산";
 "set_budget" = "예산을 설정해보세요";
 "expense" = "지출";
 "transfer_label" = "이체";
