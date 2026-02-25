@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/core/providers/category_provider.dart';
+import 'package:hareru/core/providers/transfer_account_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/category.dart' as cat_model;
 import 'package:hareru/models/transaction.dart';
@@ -27,16 +28,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   TransactionType _selectedType = TransactionType.expense;
   String? _selectedCategory;
   String _memo = '';
-  String _fromAccount = '';
-  String _toAccount = '';
+  String? _fromAccount;
+  String? _toAccount;
   int _selectedPayment = 0; // 0=credit, 1=debit, 2=cash (UI only)
   bool _isRecurring = false; // UI only
 
   final _memoController = TextEditingController();
   final _amountController = TextEditingController();
   final _amountFocusNode = FocusNode();
-  final _fromAccountController = TextEditingController();
-  final _toAccountController = TextEditingController();
 
   bool get _isTransfer => _selectedType == TransactionType.transfer;
 
@@ -59,11 +58,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         final parts = t.category.split(' → ');
         _fromAccount = parts[0];
         _toAccount = parts[1];
-        _fromAccountController.text = _fromAccount;
-        _toAccountController.text = _toAccount;
       } else if (t.type == TransactionType.transfer) {
         _toAccount = t.category;
-        _toAccountController.text = t.category;
       }
     }
   }
@@ -73,8 +69,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     _memoController.dispose();
     _amountController.dispose();
     _amountFocusNode.dispose();
-    _fromAccountController.dispose();
-    _toAccountController.dispose();
     super.dispose();
   }
 
@@ -122,17 +116,24 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   bool get _canSave {
     if (_parsedAmount <= 0) return false;
-    if (_isTransfer) {
-      return _fromAccount.trim().isNotEmpty && _toAccount.trim().isNotEmpty;
-    }
+    if (_isTransfer) return _fromAccount != null && _toAccount != null;
     return _selectedCategory != null;
+  }
+
+  String _resolveAccountName(String key, AppLocalizations l10n) {
+    return switch (key) {
+      'mainAccount' => l10n.mainAccount,
+      'savingsAccount' => l10n.savingsAccount,
+      'investmentAccount' => l10n.investmentAccount,
+      _ => key,
+    };
   }
 
   void _save() {
     if (!_canSave) return;
     final existing = widget.editTransaction;
     final category = _isTransfer
-        ? '${_fromAccount.trim()} → ${_toAccount.trim()}'
+        ? '${_fromAccount!} → ${_toAccount!}'
         : _selectedCategory!;
     final transaction = Transaction(
       id: existing?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
@@ -705,10 +706,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   Widget _buildTransferDestField(AppLocalizations l10n, bool isDark) {
-    final borderColor = isDark
-        ? HareruColors.darkDivider
-        : const Color(0xFFE5E0DB);
-    final fieldBg = isDark ? HareruColors.darkCard : Colors.white;
+    final accounts = ref.watch(transferAccountProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -725,35 +723,13 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
-          decoration: BoxDecoration(
-            color: fieldBg,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: borderColor),
-          ),
-          child: TextField(
-            controller: _fromAccountController,
-            onChanged: (v) => setState(() => _fromAccount = v),
-            style: TextStyle(
-              fontSize: 14,
-              color: isDark
-                  ? HareruColors.darkTextPrimary
-                  : HareruColors.lightTextPrimary,
-            ),
-            decoration: InputDecoration(
-              hintText: l10n.transferFromPlaceholder,
-              hintStyle: TextStyle(
-                fontSize: 14,
-                color: isDark
-                    ? HareruColors.darkTextTertiary
-                    : HareruColors.lightTextTertiary,
-              ),
-              border: InputBorder.none,
-              isDense: true,
-              contentPadding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-          ),
+        _buildAccountChips(
+          accounts: accounts,
+          selected: _fromAccount,
+          disabledAccount: _toAccount,
+          onSelect: (key) => setState(() => _fromAccount = key),
+          l10n: l10n,
+          isDark: isDark,
         ),
 
         // Arrow
@@ -762,7 +738,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           child: Center(
             child: Icon(
               Icons.arrow_downward_rounded,
-              size: 20,
+              size: 16,
               color: Color(0xFF8A8A8A),
             ),
           ),
@@ -780,37 +756,202 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
-          decoration: BoxDecoration(
-            color: fieldBg,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: borderColor),
+        _buildAccountChips(
+          accounts: accounts,
+          selected: _toAccount,
+          disabledAccount: _fromAccount,
+          onSelect: (key) => setState(() => _toAccount = key),
+          l10n: l10n,
+          isDark: isDark,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAccountChips({
+    required List<String> accounts,
+    required String? selected,
+    required String? disabledAccount,
+    required void Function(String) onSelect,
+    required AppLocalizations l10n,
+    required bool isDark,
+  }) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        ...accounts.map((key) {
+          final isSelected = selected == key;
+          final isDisabled = disabledAccount == key;
+          final label = _resolveAccountName(key, l10n);
+
+          return GestureDetector(
+            onTap: isDisabled ? null : () => onSelect(key),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: isDisabled
+                    ? (isDark
+                        ? HareruColors.darkCard
+                        : const Color(0xFFF5F0EB))
+                    : isSelected
+                        ? (isDark
+                            ? HareruColors.darkTextPrimary
+                            : HareruColors.lightTextPrimary)
+                        : (isDark ? HareruColors.darkCard : Colors.white),
+                borderRadius: BorderRadius.circular(20),
+                border: (isSelected || isDisabled)
+                    ? null
+                    : Border.all(
+                        color: isDark
+                            ? HareruColors.darkDivider
+                            : HareruColors.lightDivider,
+                      ),
+              ),
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight:
+                      isSelected ? FontWeight.w600 : FontWeight.w400,
+                  color: isDisabled
+                      ? const Color(0xFFBFBFBF)
+                      : isSelected
+                          ? (isDark ? HareruColors.darkBg : Colors.white)
+                          : (isDark
+                              ? HareruColors.darkTextSecondary
+                              : HareruColors.lightTextSecondary),
+                ),
+              ),
+            ),
+          );
+        }),
+        // +Add chip
+        GestureDetector(
+          onTap: () => _showAddAccountDialog(l10n, isDark),
+          child: Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: isDark ? HareruColors.darkCard : Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: isDark
+                    ? HareruColors.darkDivider
+                    : HareruColors.lightDivider,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.add_rounded,
+                  size: 14,
+                  color: isDark
+                      ? HareruColors.darkTextTertiary
+                      : HareruColors.lightTextTertiary,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  l10n.add,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: isDark
+                        ? HareruColors.darkTextTertiary
+                        : HareruColors.lightTextTertiary,
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: TextField(
-            controller: _toAccountController,
-            onChanged: (v) => setState(() => _toAccount = v),
+        ),
+      ],
+    );
+  }
+
+  void _showAddAccountDialog(AppLocalizations l10n, bool isDark) {
+    final controller = TextEditingController();
+
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor:
+              isDark ? HareruColors.darkCard : HareruColors.lightCard,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Text(
+            l10n.addAccountTitle,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: isDark
+                  ? HareruColors.darkTextPrimary
+                  : HareruColors.lightTextPrimary,
+            ),
+          ),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+            maxLength: 20,
+            style: TextStyle(
+              fontSize: 16,
               color: isDark
                   ? HareruColors.darkTextPrimary
                   : HareruColors.lightTextPrimary,
             ),
             decoration: InputDecoration(
-              hintText: l10n.transferToPlaceholder,
+              hintText: l10n.addAccountHint,
               hintStyle: TextStyle(
-                fontSize: 14,
                 color: isDark
                     ? HareruColors.darkTextTertiary
                     : HareruColors.lightTextTertiary,
               ),
-              border: InputBorder.none,
-              isDense: true,
-              contentPadding: const EdgeInsets.symmetric(vertical: 12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide:
+                    const BorderSide(color: Color(0xFFE8453C), width: 2),
+              ),
             ),
           ),
-        ),
-      ],
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(
+                l10n.cancel,
+                style: TextStyle(
+                  color: isDark
+                      ? HareruColors.darkTextSecondary
+                      : HareruColors.lightTextSecondary,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                final name = controller.text.trim();
+                if (name.isNotEmpty) {
+                  ref
+                      .read(transferAccountProvider.notifier)
+                      .addAccount(name);
+                  Navigator.pop(dialogContext);
+                }
+              },
+              child: Text(
+                l10n.add,
+                style: const TextStyle(
+                  color: Color(0xFFE8453C),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

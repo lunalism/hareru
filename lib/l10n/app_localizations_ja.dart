@@ -751,13 +751,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transferFrom => '出金元';
 
   @override
-  String get transferFromPlaceholder => '例: 三菱UFJ銀行、メイン口座';
-
-  @override
   String get transferTo => '入金先';
 
   @override
-  String get transferToPlaceholder => '例: 貯金口座、SBI証券';
+  String get mainAccount => 'メイン口座';
+
+  @override
+  String get savingsAccount => '貯金口座';
+
+  @override
+  String get investmentAccount => '証券口座';
+
+  @override
+  String get addAccountTitle => '口座を追加';
+
+  @override
+  String get addAccountHint => '口座名を入力';
 
   @override
   String get paymentMethod => '決済方法';

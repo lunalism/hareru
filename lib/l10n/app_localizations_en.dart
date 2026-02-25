@@ -760,13 +760,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transferFrom => 'From';
 
   @override
-  String get transferFromPlaceholder => 'e.g. Main bank, Checking account';
-
-  @override
   String get transferTo => 'To';
 
   @override
-  String get transferToPlaceholder => 'e.g. Savings account, Brokerage';
+  String get mainAccount => 'Main Account';
+
+  @override
+  String get savingsAccount => 'Savings';
+
+  @override
+  String get investmentAccount => 'Investment';
+
+  @override
+  String get addAccountTitle => 'Add Account';
+
+  @override
+  String get addAccountHint => 'Account name';
 
   @override
   String get paymentMethod => 'Payment';

@@ -1522,23 +1522,41 @@ abstract class AppLocalizations {
   /// **'出金元'**
   String get transferFrom;
 
-  /// No description provided for @transferFromPlaceholder.
-  ///
-  /// In ja, this message translates to:
-  /// **'例: 三菱UFJ銀行、メイン口座'**
-  String get transferFromPlaceholder;
-
   /// No description provided for @transferTo.
   ///
   /// In ja, this message translates to:
   /// **'入金先'**
   String get transferTo;
 
-  /// No description provided for @transferToPlaceholder.
+  /// No description provided for @mainAccount.
   ///
   /// In ja, this message translates to:
-  /// **'例: 貯金口座、SBI証券'**
-  String get transferToPlaceholder;
+  /// **'メイン口座'**
+  String get mainAccount;
+
+  /// No description provided for @savingsAccount.
+  ///
+  /// In ja, this message translates to:
+  /// **'貯金口座'**
+  String get savingsAccount;
+
+  /// No description provided for @investmentAccount.
+  ///
+  /// In ja, this message translates to:
+  /// **'証券口座'**
+  String get investmentAccount;
+
+  /// No description provided for @addAccountTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'口座を追加'**
+  String get addAccountTitle;
+
+  /// No description provided for @addAccountHint.
+  ///
+  /// In ja, this message translates to:
+  /// **'口座名を入力'**
+  String get addAccountHint;
 
   /// No description provided for @paymentMethod.
   ///

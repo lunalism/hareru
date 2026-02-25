@@ -752,13 +752,22 @@ class AppLocalizationsKo extends AppLocalizations {
   String get transferFrom => '출금처';
 
   @override
-  String get transferFromPlaceholder => '예: 미쓰비시UFJ은행, 메인통장';
-
-  @override
   String get transferTo => '입금처';
 
   @override
-  String get transferToPlaceholder => '예: 저축계좌, SBI증권';
+  String get mainAccount => '메인통장';
+
+  @override
+  String get savingsAccount => '저축계좌';
+
+  @override
+  String get investmentAccount => '증권계좌';
+
+  @override
+  String get addAccountTitle => '계좌 추가';
+
+  @override
+  String get addAccountHint => '계좌명 입력';
 
   @override
   String get paymentMethod => '결제수단';
