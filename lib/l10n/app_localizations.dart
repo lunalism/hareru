@@ -1492,6 +1492,12 @@ abstract class AppLocalizations {
   /// **'収入を追加'**
   String get addIncome;
 
+  /// No description provided for @addTransfer.
+  ///
+  /// In ja, this message translates to:
+  /// **'振替を記録'**
+  String get addTransfer;
+
   /// No description provided for @editExpense.
   ///
   /// In ja, this message translates to:
@@ -1503,6 +1509,24 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'収入を編集'**
   String get editIncome;
+
+  /// No description provided for @editTransfer.
+  ///
+  /// In ja, this message translates to:
+  /// **'振替を編集'**
+  String get editTransfer;
+
+  /// No description provided for @transferDestination.
+  ///
+  /// In ja, this message translates to:
+  /// **'振替先'**
+  String get transferDestination;
+
+  /// No description provided for @transferDestPlaceholder.
+  ///
+  /// In ja, this message translates to:
+  /// **'例: 貯金口座、証券口座'**
+  String get transferDestPlaceholder;
 
   /// No description provided for @paymentMethod.
   ///

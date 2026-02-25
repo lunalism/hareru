@@ -745,10 +745,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addIncome => 'Add Income';
 
   @override
+  String get addTransfer => 'Record Transfer';
+
+  @override
   String get editExpense => 'Edit Expense';
 
   @override
   String get editIncome => 'Edit Income';
+
+  @override
+  String get editTransfer => 'Edit Transfer';
+
+  @override
+  String get transferDestination => 'Transfer To';
+
+  @override
+  String get transferDestPlaceholder => 'e.g. Savings account, Brokerage';
 
   @override
   String get paymentMethod => 'Payment';

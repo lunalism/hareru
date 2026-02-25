@@ -327,8 +327,12 @@
 
   "addExpense": "支出を追加",
   "addIncome": "収入を追加",
+  "addTransfer": "振替を記録",
   "editExpense": "支出を編集",
   "editIncome": "収入を編集",
+  "editTransfer": "振替を編集",
+  "transferDestination": "振替先",
+  "transferDestPlaceholder": "例: 貯金口座、証券口座",
   "paymentMethod": "決済方法",
   "creditCard": "クレジット",
   "debitCard": "デビット",

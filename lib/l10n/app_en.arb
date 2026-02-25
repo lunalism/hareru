@@ -327,8 +327,12 @@
 
   "addExpense": "Add Expense",
   "addIncome": "Add Income",
+  "addTransfer": "Record Transfer",
   "editExpense": "Edit Expense",
   "editIncome": "Edit Income",
+  "editTransfer": "Edit Transfer",
+  "transferDestination": "Transfer To",
+  "transferDestPlaceholder": "e.g. Savings account, Brokerage",
   "paymentMethod": "Payment",
   "creditCard": "Credit",
   "debitCard": "Debit",

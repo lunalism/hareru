@@ -736,10 +736,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addIncome => '収入を追加';
 
   @override
+  String get addTransfer => '振替を記録';
+
+  @override
   String get editExpense => '支出を編集';
 
   @override
   String get editIncome => '収入を編集';
+
+  @override
+  String get editTransfer => '振替を編集';
+
+  @override
+  String get transferDestination => '振替先';
+
+  @override
+  String get transferDestPlaceholder => '例: 貯金口座、証券口座';
 
   @override
   String get paymentMethod => '決済方法';

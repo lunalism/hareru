@@ -737,10 +737,22 @@ class AppLocalizationsKo extends AppLocalizations {
   String get addIncome => '수입 추가';
 
   @override
+  String get addTransfer => '이체 기록';
+
+  @override
   String get editExpense => '지출 수정';
 
   @override
   String get editIncome => '수입 수정';
+
+  @override
+  String get editTransfer => '이체 수정';
+
+  @override
+  String get transferDestination => '이체처';
+
+  @override
+  String get transferDestPlaceholder => '예: 저축계좌, 증권계좌';
 
   @override
   String get paymentMethod => '결제수단';

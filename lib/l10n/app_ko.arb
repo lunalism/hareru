@@ -327,8 +327,12 @@
 
   "addExpense": "지출 추가",
   "addIncome": "수입 추가",
+  "addTransfer": "이체 기록",
   "editExpense": "지출 수정",
   "editIncome": "수입 수정",
+  "editTransfer": "이체 수정",
+  "transferDestination": "이체처",
+  "transferDestPlaceholder": "예: 저축계좌, 증권계좌",
   "paymentMethod": "결제수단",
   "creditCard": "신용카드",
   "debitCard": "체크카드",

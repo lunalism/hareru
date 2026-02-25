@@ -27,12 +27,16 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   TransactionType _selectedType = TransactionType.expense;
   String? _selectedCategory;
   String _memo = '';
+  String _transferDest = '';
   int _selectedPayment = 0; // 0=credit, 1=debit, 2=cash (UI only)
   bool _isRecurring = false; // UI only
 
   final _memoController = TextEditingController();
   final _amountController = TextEditingController();
   final _amountFocusNode = FocusNode();
+  final _transferDestController = TextEditingController();
+
+  bool get _isTransfer => _selectedType == TransactionType.transfer;
 
   bool get _isEditing => widget.editTransaction != null;
 
@@ -49,6 +53,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       _selectedCategory = t.category;
       _memo = t.memo ?? '';
       _memoController.text = _memo;
+      if (t.type == TransactionType.transfer) {
+        _transferDest = t.category;
+        _transferDestController.text = t.category;
+      }
     }
   }
 
@@ -57,6 +65,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     _memoController.dispose();
     _amountController.dispose();
     _amountFocusNode.dispose();
+    _transferDestController.dispose();
     super.dispose();
   }
 
@@ -102,16 +111,21 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return double.tryParse(clean) ?? 0;
   }
 
-  bool get _canSave => _parsedAmount > 0 && _selectedCategory != null;
+  bool get _canSave {
+    if (_parsedAmount <= 0) return false;
+    if (_isTransfer) return _transferDest.trim().isNotEmpty;
+    return _selectedCategory != null;
+  }
 
   void _save() {
     if (!_canSave) return;
     final existing = widget.editTransaction;
+    final category = _isTransfer ? _transferDest.trim() : _selectedCategory!;
     final transaction = Transaction(
       id: existing?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
       type: _selectedType,
       amount: _parsedAmount,
-      category: _selectedCategory!,
+      category: category,
       memo: _memo.isEmpty ? null : _memo,
       createdAt: existing?.createdAt ?? DateTime.now(),
     );
@@ -262,14 +276,17 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         isDark ? HareruColors.darkTextPrimary : HareruColors.lightTextPrimary;
 
     ref.watch(categoryProvider);
-    final categories = ref
-        .read(categoryProvider.notifier)
-        .getCategoriesByType(_typeToString(_selectedType));
+    final categories = _isTransfer
+        ? <cat_model.Category>[]
+        : ref
+            .read(categoryProvider.notifier)
+            .getCategoriesByType(_typeToString(_selectedType));
 
-    final isExpense = _selectedType == TransactionType.expense;
-    final headerTitle = _isEditing
-        ? (isExpense ? l10n.editExpense : l10n.editIncome)
-        : (isExpense ? l10n.addExpense : l10n.addIncome);
+    final headerTitle = switch (_selectedType) {
+      TransactionType.transfer => _isEditing ? l10n.editTransfer : l10n.addTransfer,
+      TransactionType.income => _isEditing ? l10n.editIncome : l10n.addIncome,
+      _ => _isEditing ? l10n.editExpense : l10n.addExpense,
+    };
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -325,35 +342,41 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                       _buildAmountInput(isDark, l10n),
                       const SizedBox(height: 24),
 
-                      // Category section
-                      Text(
-                        l10n.category,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? HareruColors.darkTextSecondary
-                              : HareruColors.lightTextSecondary,
+                      if (_isTransfer) ...[
+                        // Transfer destination field
+                        _buildTransferDestField(l10n, isDark),
+                        const SizedBox(height: 24),
+                      ] else ...[
+                        // Category section
+                        Text(
+                          l10n.category,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: isDark
+                                ? HareruColors.darkTextSecondary
+                                : HareruColors.lightTextSecondary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      _buildCategoryGrid(categories, l10n, isDark),
-                      const SizedBox(height: 24),
+                        const SizedBox(height: 10),
+                        _buildCategoryGrid(categories, l10n, isDark),
+                        const SizedBox(height: 24),
 
-                      // Payment method chips
-                      Text(
-                        l10n.paymentMethod,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? HareruColors.darkTextSecondary
-                              : HareruColors.lightTextSecondary,
+                        // Payment method chips
+                        Text(
+                          l10n.paymentMethod,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: isDark
+                                ? HareruColors.darkTextSecondary
+                                : HareruColors.lightTextSecondary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      _buildPaymentChips(l10n, isDark),
-                      const SizedBox(height: 24),
+                        const SizedBox(height: 10),
+                        _buildPaymentChips(l10n, isDark),
+                        const SizedBox(height: 24),
+                      ],
 
                       // Memo field
                       _buildMemoField(l10n, isDark),
@@ -383,6 +406,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     final types = [
       (TransactionType.expense, l10n.expense),
       (TransactionType.income, l10n.income),
+      (TransactionType.transfer, l10n.transfer),
     ];
 
     return Container(
@@ -409,7 +433,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   color: isSelected
                       ? (isDark ? HareruColors.darkBg : Colors.white)
                       : Colors.transparent,
-                  borderRadius: BorderRadius.circular(9),
+                  borderRadius: BorderRadius.circular(12),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
@@ -433,7 +457,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                             : HareruColors.lightTextPrimary)
                         : (isDark
                             ? HareruColors.darkTextTertiary
-                            : HareruColors.lightTextTertiary),
+                            : const Color(0xFF8A8A8A)),
                   ),
                 ),
               ),
@@ -664,6 +688,54 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           ),
         );
       }),
+    );
+  }
+
+  Widget _buildTransferDestField(AppLocalizations l10n, bool isDark) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.transferDestination,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: isDark
+                ? HareruColors.darkTextSecondary
+                : HareruColors.lightTextSecondary,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+          decoration: BoxDecoration(
+            color: isDark ? HareruColors.darkCard : const Color(0xFFF5F0EB),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: TextField(
+            controller: _transferDestController,
+            onChanged: (v) => setState(() => _transferDest = v),
+            style: TextStyle(
+              fontSize: 14,
+              color: isDark
+                  ? HareruColors.darkTextPrimary
+                  : HareruColors.lightTextPrimary,
+            ),
+            decoration: InputDecoration(
+              hintText: l10n.transferDestPlaceholder,
+              hintStyle: TextStyle(
+                fontSize: 14,
+                color: isDark
+                    ? HareruColors.darkTextTertiary
+                    : HareruColors.lightTextTertiary,
+              ),
+              border: InputBorder.none,
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
