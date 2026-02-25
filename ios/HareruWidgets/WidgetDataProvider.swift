@@ -99,3 +99,17 @@ func formatMonth(_ monthStr: String) -> String {
     default:   return "\(year)年\(month)月"
     }
 }
+
+func formatMonthShort(_ monthStr: String) -> String {
+    guard monthStr.count >= 7 else { return "" }
+    let parts = monthStr.split(separator: "-")
+    guard parts.count == 2,
+          let month = Int(parts[1]) else { return monthStr }
+
+    let locale = Locale.current.language.languageCode?.identifier ?? "ja"
+    switch locale {
+    case "ko": return "\(month)월"
+    case "en": return DateFormatter().shortMonthSymbols[month - 1]
+    default:   return "\(month)月"
+    }
+}

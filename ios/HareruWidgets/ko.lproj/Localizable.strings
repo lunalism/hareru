@@ -1,7 +1,9 @@
 /* Widget strings - Korean */
 "real_expense" = "이번 달 진짜 지출";
+"real_expense_short" = "진짜 지출";
 "apparent_short" = "겉보기";
 "apparent_expense" = "겉보기 지출";
+"apparent_expense_short" = "겉보기 지출";
 "budget" = "예산";
 "remaining" = "남은 금액";
 "monthly_budget" = "이번 달 예산";
@@ -17,9 +19,9 @@
 "budget_of_label" = "중";
 "budget_remaining_prefix" = "앞으로";
 "budget_remaining_suffix" = "쓸 수 있어요";
-"widget_real_expense_title" = "진짜 지출";
-"widget_real_expense_desc" = "진짜 지출과 겉보기 지출을 비교";
-"widget_budget_title" = "예산";
-"widget_budget_desc" = "이번 달 예산 잔여를 표시";
+"widget_real_expense_title" = "진짜 vs 겉보기";
+"widget_real_expense_desc" = "이체를 빼면 진짜 얼마 썼는지 한눈에";
+"widget_budget_title" = "진짜 지출";
+"widget_budget_desc" = "이번 달 진짜 지출을 한눈에";
 "widget_dashboard_title" = "대시보드";
 "widget_dashboard_desc" = "지출/수입/예산을 한눈에 확인";

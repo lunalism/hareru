@@ -1,7 +1,7 @@
 import SwiftUI
 import WidgetKit
 
-// MARK: - Small: Budget Widget
+// MARK: - Small: 진짜 지출 (Real Expense Hero)
 
 struct BudgetWidgetView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -10,14 +10,14 @@ struct BudgetWidgetView: View {
     private var data: HareruWidgetData { entry.data }
     private var isDark: Bool { colorScheme == .dark }
 
-    private var percentUsed: Int {
-        Int(data.budgetPercentUsed * 100)
+    private var textPrimary: Color {
+        isDark ? .warmTextLight : .warmTextPrimary
     }
 
-    private var remainingColor: Color {
+    private var progressColor: Color {
         let pct = data.budgetPercentUsed
-        if pct > 0.85 { return .budgetRed }
-        if pct > 0.60 { return .budgetYellow }
+        if pct > 0.80 { return .budgetRed }
+        if pct > 0.50 { return .budgetYellow }
         return .budgetGreen
     }
 
@@ -26,56 +26,65 @@ struct BudgetWidgetView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(spacing: 0) {
+            // Top label
+            Text(NSLocalizedString("real_expense", comment: ""))
+                .font(.system(size: 10))
+                .foregroundColor(.warmTextSub)
+
+            Spacer()
+
+            // Hero amount
+            Text(formatYen(data.realExpense, currency: data.currency))
+                .font(.system(size: 34, weight: .bold, design: .rounded))
+                .foregroundColor(textPrimary)
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
+
+            Spacer().frame(height: 12)
+
             if data.hasBudget {
-                // Label
-                Text(NSLocalizedString("budget_remaining_label", comment: ""))
-                    .font(.system(size: 12))
-                    .foregroundColor(.warmTextSub)
-
-                Spacer()
-
-                // Hero amount
-                Text(formatYen(data.budgetRemaining, currency: data.currency))
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .foregroundColor(remainingColor)
-                    .minimumScaleFactor(0.5)
-                    .lineLimit(1)
-
-                Spacer().frame(height: 12)
-
                 // Progress bar
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 2)
+                        RoundedRectangle(cornerRadius: 1.5)
                             .fill(isDark ? Color.warmDividerDark : Color.warmDivider)
-                            .frame(height: 4)
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(remainingColor)
-                            .frame(width: geo.size.width * progressRatio, height: 4)
+                            .frame(height: 3)
+                        RoundedRectangle(cornerRadius: 1.5)
+                            .fill(progressColor)
+                            .frame(width: geo.size.width * progressRatio, height: 3)
                     }
                 }
-                .frame(height: 4)
+                .frame(height: 3)
 
                 Spacer().frame(height: 8)
 
-                // Footer
-                Text(formatYen(data.budgetTotal, currency: data.currency)
-                     + " " + NSLocalizedString("budget_of_label", comment: "")
-                     + " · " + "\(percentUsed)%")
+                // Remaining
+                Text(budgetRemainingText())
                     .font(.system(size: 11))
                     .foregroundColor(.warmTextSub)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
             } else {
-                Spacer()
-                Text(NSLocalizedString("set_budget", comment: ""))
-                    .font(.system(size: 14, weight: .medium))
+                // No budget — show month
+                Text(formatMonth(data.month))
+                    .font(.system(size: 11))
                     .foregroundColor(.warmTextSub)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                Spacer()
             }
         }
+        .frame(maxWidth: .infinity)
         .padding(16)
-        .widgetURL(URL(string: "hareru://budget")!)
+        .widgetURL(URL(string: "hareru://home")!)
+    }
+
+    private func budgetRemainingText() -> String {
+        let prefix = NSLocalizedString("budget_remaining_prefix", comment: "")
+        let suffix = NSLocalizedString("budget_remaining_suffix", comment: "")
+        let amount = formatYen(data.budgetRemaining, currency: data.currency)
+        if prefix.isEmpty {
+            return "\(amount) \(suffix)"
+        }
+        return "\(prefix) \(amount) \(suffix)"
     }
 }
 

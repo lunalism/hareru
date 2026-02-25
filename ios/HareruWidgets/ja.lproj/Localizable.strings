@@ -1,7 +1,9 @@
 /* Widget strings - Japanese */
 "real_expense" = "今月の本当の支出";
+"real_expense_short" = "本当の支出";
 "apparent_short" = "見かけ";
 "apparent_expense" = "見かけの支出";
+"apparent_expense_short" = "見かけの支出";
 "budget" = "予算";
 "remaining" = "残り";
 "monthly_budget" = "今月の予算";
@@ -17,9 +19,9 @@
 "budget_of_label" = "中";
 "budget_remaining_prefix" = "あと";
 "budget_remaining_suffix" = "使えます";
-"widget_real_expense_title" = "本当の支出";
-"widget_real_expense_desc" = "本当の支出と見かけの支出を比較";
-"widget_budget_title" = "予算";
-"widget_budget_desc" = "今月の予算の残りを表示";
+"widget_real_expense_title" = "本当 vs 見かけ";
+"widget_real_expense_desc" = "振替を除いた本当の支出を比較";
+"widget_budget_title" = "本当の支出";
+"widget_budget_desc" = "今月の本当の支出をひと目で";
 "widget_dashboard_title" = "ダッシュボード";
 "widget_dashboard_desc" = "支出・収入・予算をまとめて表示";

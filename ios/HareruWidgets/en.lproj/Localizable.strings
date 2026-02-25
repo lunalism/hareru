@@ -1,7 +1,9 @@
 /* Widget strings - English */
 "real_expense" = "Real spending this month";
+"real_expense_short" = "Real Expense";
 "apparent_short" = "Apparent";
 "apparent_expense" = "Apparent Expense";
+"apparent_expense_short" = "Apparent Expense";
 "budget" = "Budget";
 "remaining" = "Remaining";
 "monthly_budget" = "Monthly Budget";
@@ -17,9 +19,9 @@
 "budget_of_label" = "of";
 "budget_remaining_prefix" = "";
 "budget_remaining_suffix" = "remaining";
-"widget_real_expense_title" = "Real Expense";
-"widget_real_expense_desc" = "Compare real vs apparent expense";
-"widget_budget_title" = "Budget";
-"widget_budget_desc" = "Shows remaining budget this month";
+"widget_real_expense_title" = "Real vs Apparent";
+"widget_real_expense_desc" = "See how much you really spent, minus transfers";
+"widget_budget_title" = "Real Expense";
+"widget_budget_desc" = "Your real spending this month at a glance";
 "widget_dashboard_title" = "Dashboard";
 "widget_dashboard_desc" = "Expense, income, and budget at a glance";
