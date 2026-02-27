@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -270,10 +271,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
 
     final tabs = [
-      _TabItem(Icons.home_rounded, l10n.homeTab),
-      _TabItem(Icons.bar_chart_rounded, l10n.reportTab),
-      _TabItem(Icons.book_outlined, l10n.dictionaryTab),
-      _TabItem(Icons.settings_outlined, l10n.settingsTab),
+      _TabItem(CupertinoIcons.house, CupertinoIcons.house_fill, l10n.homeTab),
+      _TabItem(CupertinoIcons.chart_bar, CupertinoIcons.chart_bar_fill, l10n.reportTab),
+      _TabItem(CupertinoIcons.book, CupertinoIcons.book_fill, l10n.dictionaryTab),
+      _TabItem(CupertinoIcons.gear_alt, CupertinoIcons.gear_alt_fill, l10n.settingsTab),
     ];
 
     return Container(
@@ -309,9 +310,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget _buildTab(
       int index, _TabItem tab, Color inactiveColor, bool isDark) {
     final isActive = index == _currentIndex;
-    final color = isActive
-        ? (isDark ? HareruColors.darkTextPrimary : HareruColors.lightTextPrimary)
-        : inactiveColor;
+    const activeColor = Color(0xFFE8453C);
+    const deactiveColor = Color(0xFF8A8A8A);
+    final color = isActive ? activeColor : deactiveColor;
 
     return Expanded(
       child: GestureDetector(
@@ -320,7 +321,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(tab.icon, size: 24, color: color),
+            Icon(isActive ? tab.activeIcon : tab.icon, size: 24, color: color),
             const SizedBox(height: 4),
             Text(
               tab.label,
@@ -372,8 +373,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
 class _TabItem {
   final IconData icon;
+  final IconData activeIcon;
   final String label;
-  const _TabItem(this.icon, this.label);
+  const _TabItem(this.icon, this.activeIcon, this.label);
 }
 
 class _ToastWidget extends StatefulWidget {
