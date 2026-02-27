@@ -676,6 +676,7 @@ class HomeScreen extends ConsumerWidget {
                       );
                     },
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(

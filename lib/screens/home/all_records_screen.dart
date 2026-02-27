@@ -795,6 +795,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
         );
       },
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
