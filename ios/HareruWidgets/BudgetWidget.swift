@@ -64,10 +64,10 @@ struct BudgetWidgetView: View {
                     .font(.system(size: 11))
                     .foregroundColor(.warmTextSub)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+                    .minimumScaleFactor(0.8)
             } else {
-                // No budget — show month
-                Text(formatMonth(data.month))
+                // No budget
+                Text(NSLocalizedString("no_budget", comment: ""))
                     .font(.system(size: 11))
                     .foregroundColor(.warmTextSub)
             }
@@ -81,10 +81,11 @@ struct BudgetWidgetView: View {
         let prefix = NSLocalizedString("budget_remaining_prefix", comment: "")
         let suffix = NSLocalizedString("budget_remaining_suffix", comment: "")
         let amount = formatYen(data.budgetRemaining, currency: data.currency)
-        if prefix.isEmpty {
-            return "\(amount) \(suffix)"
-        }
-        return "\(prefix) \(amount) \(suffix)"
+        var parts: [String] = []
+        if !prefix.isEmpty { parts.append(prefix) }
+        parts.append(amount)
+        if !suffix.isEmpty { parts.append(suffix) }
+        return parts.joined(separator: " ")
     }
 }
 

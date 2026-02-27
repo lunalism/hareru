@@ -18,7 +18,7 @@
 "no_budget" = "No budget set";
 "budget_of_label" = "of";
 "budget_remaining_prefix" = "";
-"budget_remaining_suffix" = "remaining";
+"budget_remaining_suffix" = "left";
 "widget_real_expense_title" = "Real vs Apparent";
 "widget_real_expense_desc" = "See how much you really spent, minus transfers";
 "widget_budget_title" = "Real Expense";

@@ -17,8 +17,8 @@
 "same_as_apparent" = "겉보기와 동일";
 "no_budget" = "예산 미설정";
 "budget_of_label" = "중";
-"budget_remaining_prefix" = "앞으로";
-"budget_remaining_suffix" = "쓸 수 있어요";
+"budget_remaining_prefix" = "남은";
+"budget_remaining_suffix" = "";
 "widget_real_expense_title" = "진짜 vs 겉보기";
 "widget_real_expense_desc" = "이체를 빼면 진짜 얼마 썼는지 한눈에";
 "widget_budget_title" = "진짜 지출";

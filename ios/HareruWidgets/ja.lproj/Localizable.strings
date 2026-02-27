@@ -18,7 +18,7 @@
 "no_budget" = "予算未設定";
 "budget_of_label" = "中";
 "budget_remaining_prefix" = "あと";
-"budget_remaining_suffix" = "使えます";
+"budget_remaining_suffix" = "";
 "widget_real_expense_title" = "本当 vs 見かけ";
 "widget_real_expense_desc" = "振替を除いた本当の支出を比較";
 "widget_budget_title" = "本当の支出";
