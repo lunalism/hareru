@@ -58,9 +58,7 @@ class TransferAccountNotifier extends StateNotifier<List<UserAccount>> {
     final box = await Hive.openBox<dynamic>(_boxName);
     // Try new key first, fall back to legacy
     var saved = box.get(_key) as String?;
-    if (saved == null) {
-      saved = box.get(_legacyKey) as String?;
-    }
+    saved ??= box.get(_legacyKey) as String?;
     if (saved != null) {
       final list = (jsonDecode(saved) as List<dynamic>)
           .map((e) => UserAccount.fromJson(e as Map<String, dynamic>))

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/l10n/app_localizations.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 const _faqUrls = {
@@ -110,10 +110,12 @@ class _FaqScreenState extends State<FaqScreen> {
       await _controller.loadHtmlString(cached);
       if (mounted) setState(() => _isLoading = false);
     } else {
-      if (mounted) setState(() {
-        _isLoading = false;
-        _hasError = true;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _hasError = true;
+        });
+      }
     }
   }
 

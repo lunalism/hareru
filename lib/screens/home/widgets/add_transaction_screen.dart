@@ -515,7 +515,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           child: Switch.adaptive(
             value: _isRecurring,
             onChanged: (v) => setState(() => _isRecurring = v),
-            activeColor: const Color(0xFFE8453C),
+            activeTrackColor: const Color(0xFFE8453C),
           ),
         ),
       ],
