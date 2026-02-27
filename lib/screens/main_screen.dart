@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
@@ -55,7 +56,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final currentBudget = ref.read(budgetProvider);
     final controller = TextEditingController(
-      text: currentBudget > 0 ? _formatWithCommas(currentBudget.toString()) : '',
+      text: currentBudget > 0 ? addCommas(currentBudget.toString()) : '',
     );
 
     showDialog<void>(
@@ -156,16 +157,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     );
   }
 
-  String _formatWithCommas(String digits) {
-    final buf = StringBuffer();
-    var count = 0;
-    for (var i = digits.length - 1; i >= 0; i--) {
-      buf.write(digits[i]);
-      count++;
-      if (count % 3 == 0 && i > 0) buf.write(',');
-    }
-    return buf.toString().split('').reversed.join();
-  }
 
   final _screens = const [
     HomeScreen(),
@@ -197,7 +188,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       builder: (context) => _ToastWidget(
         color: color,
         message: l10n.recordSaved,
-        detail: '$typeLabel ¥${_formatNumber(transaction.amount)}',
+        detail: '$typeLabel ¥${formatAmount(transaction.amount)}',
         isDark: isDark,
         onDismiss: () {
           _toastEntry?.remove();
@@ -208,26 +199,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     Overlay.of(context).insert(_toastEntry!);
   }
 
-  String _formatNumber(double value) {
-    if (value == value.truncateToDouble()) {
-      return _addCommas(value.truncate().toString());
-    }
-    return _addCommas(value.toStringAsFixed(2));
-  }
-
-  String _addCommas(String s) {
-    final parts = s.split('.');
-    final intPart = parts[0];
-    final result = StringBuffer();
-    var count = 0;
-    for (var i = intPart.length - 1; i >= 0; i--) {
-      result.write(intPart[i]);
-      count++;
-      if (count % 3 == 0 && i > 0) result.write(',');
-    }
-    final formatted = result.toString().split('').reversed.join();
-    return parts.length > 1 ? '$formatted.${parts[1]}' : formatted;
-  }
 
   void _openAddSheet() {
     Navigator.push<void>(

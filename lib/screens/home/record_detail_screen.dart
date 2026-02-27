@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/widgets/delete_confirmation_dialog.dart';
+import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
@@ -27,37 +29,6 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
     _transaction = widget.transaction;
   }
 
-  String _categoryLabel(String category, AppLocalizations l10n) {
-    // Income with deposit or transfer: "catKey → account"
-    if (category.contains(' → ')) {
-      final parts = category.split(' → ');
-      final baseCat = ref.read(categoryProvider.notifier).getCategoryById(parts[0]);
-      final baseLabel = baseCat == null
-          ? resolveL10nKey(parts[0], l10n)
-          : baseCat.isDefault
-              ? resolveL10nKey(baseCat.name, l10n)
-              : baseCat.name;
-      return '$baseLabel → ${parts[1]}';
-    }
-    final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
-    if (cat == null) return resolveL10nKey(category, l10n);
-    if (!cat.isDefault) return cat.name;
-    return resolveL10nKey(cat.name, l10n);
-  }
-
-  String _emojiForCategory(String category, TransactionType type) {
-    // Transfer: extract first emoji from "🏦 Name → 💰 Name" format
-    if (type == TransactionType.transfer && category.contains(' → ')) {
-      final first = category.characters.first;
-      if (first.codeUnits.first > 0xFF) return first;
-    }
-    // Income with deposit: resolve base category
-    final baseCategory = category.contains(' → ')
-        ? category.split(' → ').first
-        : category;
-    final cat = ref.read(categoryProvider.notifier).getCategoryById(baseCategory);
-    return cat?.emoji ?? '\u{1F4DD}';
-  }
 
   String _typeLabel(TransactionType type, AppLocalizations l10n) {
     return switch (type) {
@@ -77,26 +48,6 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
     };
   }
 
-  String _formatAmount(double value) {
-    final intVal = value.truncateToDouble() == value ? value.toInt() : value;
-    final s = intVal.toString();
-    if (s.contains('.')) {
-      final parts = s.split('.');
-      return '${_addCommas(parts[0])}.${parts[1]}';
-    }
-    return _addCommas(s);
-  }
-
-  String _addCommas(String s) {
-    final result = StringBuffer();
-    var count = 0;
-    for (var i = s.length - 1; i >= 0; i--) {
-      result.write(s[i]);
-      count++;
-      if (count % 3 == 0 && i > 0) result.write(',');
-    }
-    return result.toString().split('').reversed.join();
-  }
 
   String _formatDateTime(DateTime date, AppLocalizations l10n, String lang) {
     final month = date.month;
@@ -120,65 +71,22 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
     return months[month - 1];
   }
 
-  void _showDeleteDialog() {
+  Future<void> _showDeleteDialog() async {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    showDialog<void>(
+    final confirmed = await showDeleteConfirmation(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor:
-            isDark ? HareruColors.darkCard : HareruColors.lightCard,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          l10n.deleteConfirm,
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            color: isDark
-                ? HareruColors.darkTextPrimary
-                : HareruColors.lightTextPrimary,
-          ),
-        ),
-        content: Text(
-          l10n.deleteConfirmSub,
-          style: TextStyle(
-            fontSize: 14,
-            color: isDark
-                ? HareruColors.darkTextSecondary
-                : HareruColors.lightTextSecondary,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(
-              l10n.cancel,
-              style: const TextStyle(color: Color(0xFF8A8A8A)),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              ref
-                  .read(transactionProvider.notifier)
-                  .delete(_transaction.id);
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l10n.recordDeleted)),
-              );
-            },
-            child: Text(
-              l10n.deleteRecord,
-              style: const TextStyle(
-                color: Color(0xFFEF4444),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
+      l10n: l10n,
+      isDark: isDark,
     );
+    if (confirmed && mounted) {
+      ref.read(transactionProvider.notifier).delete(_transaction.id);
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.recordDeleted)),
+      );
+    }
   }
 
   void _openEditSheet() {
@@ -209,14 +117,15 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
     final l10n = AppLocalizations.of(context)!;
     final lang = Localizations.localeOf(context).languageCode;
     final t = _transaction;
-    final emoji = _emojiForCategory(t.category, t.type);
-    final catLabel = _categoryLabel(t.category, l10n);
+    final catNotifier = ref.read(categoryProvider.notifier);
+    final emoji = emojiForCategory(t.category, t.type, catNotifier);
+    final catLabel = categoryLabel(t.category, l10n, catNotifier);
     final typeColor = _typeColor(t.type);
     final isExpense = t.type == TransactionType.expense;
     final isIncome = t.type == TransactionType.income;
 
     final amountPrefix = isExpense ? '-' : isIncome ? '+' : '';
-    final amountText = '$amountPrefix\u00a5${_formatAmount(t.amount)}';
+    final amountText = '$amountPrefix\u00a5${formatAmount(t.amount)}';
 
     return Scaffold(
       backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,

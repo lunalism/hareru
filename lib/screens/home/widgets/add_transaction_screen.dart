@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
+import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transfer_account_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
@@ -53,7 +54,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       final amountStr = t.amount.truncateToDouble() == t.amount
           ? t.amount.toInt().toString()
           : t.amount.toString();
-      _amountController.text = _formatWithCommas(amountStr);
+      _amountController.text = formatWithCommas(amountStr);
       _selectedCategory = t.category;
       _memo = t.memo ?? '';
       _memoController.text = _memo;
@@ -90,28 +91,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return resolveL10nKey(cat.name, l10n);
   }
 
-  String _formatWithCommas(String raw) {
-    // Remove existing commas
-    final clean = raw.replaceAll(',', '');
-    if (clean.isEmpty) return '';
-    if (clean.contains('.')) {
-      final parts = clean.split('.');
-      return '${_addCommas(parts[0])}.${parts[1]}';
-    }
-    return _addCommas(clean);
-  }
-
-  String _addCommas(String s) {
-    if (s.isEmpty) return '';
-    final result = StringBuffer();
-    var count = 0;
-    for (var i = s.length - 1; i >= 0; i--) {
-      result.write(s[i]);
-      count++;
-      if (count % 3 == 0 && i > 0) result.write(',');
-    }
-    return result.toString().split('').reversed.join();
-  }
 
   double get _parsedAmount {
     final clean = _amountController.text.replaceAll(',', '');

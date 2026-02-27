@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/category_provider.dart';
@@ -93,26 +94,6 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
     return map;
   }
 
-  String _formatAmount(double value) {
-    if (value == value.truncateToDouble()) {
-      return _addCommas(value.truncate().toString());
-    }
-    return _addCommas(value.toStringAsFixed(2));
-  }
-
-  String _addCommas(String s) {
-    final parts = s.split('.');
-    final intPart = parts[0];
-    final result = StringBuffer();
-    var count = 0;
-    for (var i = intPart.length - 1; i >= 0; i--) {
-      result.write(intPart[i]);
-      count++;
-      if (count % 3 == 0 && i > 0) result.write(',');
-    }
-    final formatted = result.toString().split('').reversed.join();
-    return parts.length > 1 ? '$formatted.${parts[1]}' : formatted;
-  }
 
   String _categoryDisplayName(
       String categoryId, AppLocalizations l10n) {
@@ -370,10 +351,10 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
       decoration: _cardDecoration(isDark),
       child: Column(
         children: [
-          _summaryRow(l10n.income, '¥${_formatAmount(income)}',
+          _summaryRow(l10n.income, '¥${formatAmount(income)}',
               const Color(0xFFF59E0B), isDark),
           const SizedBox(height: 12),
-          _summaryRow(l10n.realExpense, '¥${_formatAmount(expense)}',
+          _summaryRow(l10n.realExpense, '¥${formatAmount(expense)}',
               const Color(0xFFEF4444), isDark),
           const SizedBox(height: 12),
           Divider(
@@ -385,7 +366,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
           const SizedBox(height: 12),
           _summaryRow(
             l10n.remaining,
-            '${remaining < 0 ? '-' : ''}¥${_formatAmount(remaining.abs())}',
+            '${remaining < 0 ? '-' : ''}¥${formatAmount(remaining.abs())}',
             remaining >= 0
                 ? const Color(0xFF10B981)
                 : const Color(0xFFEF4444),
@@ -504,7 +485,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '¥${_formatAmount(expenseTotal)}',
+                      '¥${formatAmount(expenseTotal)}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -568,7 +549,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                     ),
                   ),
                   Text(
-                    '¥${_formatAmount(e.value)}',
+                    '¥${formatAmount(e.value)}',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -669,7 +650,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${l10n.monthlyBudget}  ¥${_formatAmount(budget.toDouble())}',
+              '${l10n.monthlyBudget}  ¥${formatAmount(budget.toDouble())}',
               style: TextStyle(
                 fontSize: 13,
                 color: isDark
@@ -721,9 +702,9 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
         Text(
           isOver
               ? l10n.overBudget(
-                  '¥${_formatAmount(remaining.abs())}')
+                  '¥${formatAmount(remaining.abs())}')
               : l10n.remainingBudget(
-                  '¥${_formatAmount(remaining)}'),
+                  '¥${formatAmount(remaining)}'),
           style: TextStyle(
             fontSize: 13,
             color: isOver
@@ -789,7 +770,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                       ),
                     ),
                     Text(
-                      '¥${_formatAmount(amount)}',
+                      '¥${formatAmount(amount)}',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -843,10 +824,10 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
         final diff = prevExpense - expense;
         if (diff > 0) {
           insights.add(l10n
-              .savedComparedLastMonth('¥${_formatAmount(diff)}'));
+              .savedComparedLastMonth('¥${formatAmount(diff)}'));
         } else if (diff < 0) {
           insights.add(l10n.spentMoreThanLastMonth(
-              '¥${_formatAmount(diff.abs())}'));
+              '¥${formatAmount(diff.abs())}'));
         }
       }
 
@@ -869,7 +850,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
           insights.add(l10n.withinBudget);
         } else {
           insights.add(l10n.overBudgetReport(
-              '¥${_formatAmount(remaining.abs())}'));
+              '¥${formatAmount(remaining.abs())}'));
         }
       }
 

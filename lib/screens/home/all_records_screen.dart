@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
 import 'package:hareru/screens/home/record_detail_screen.dart';
-import 'package:hareru/widgets/type_badge.dart';
+import 'package:hareru/widgets/delete_confirmation_dialog.dart';
+import 'package:hareru/widgets/transaction_record_item.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AllRecordsScreen extends ConsumerStatefulWidget {
@@ -108,76 +110,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
     return months[month - 1];
   }
 
-  String _formatAmount(double value) {
-    final intVal = value.truncateToDouble() == value ? value.toInt() : value;
-    final s = intVal.toString();
-    if (s.contains('.')) {
-      final parts = s.split('.');
-      return '${_addCommas(parts[0])}.${parts[1]}';
-    }
-    return _addCommas(s);
-  }
 
-  String _addCommas(String s) {
-    final result = StringBuffer();
-    var count = 0;
-    for (var i = s.length - 1; i >= 0; i--) {
-      result.write(s[i]);
-      count++;
-      if (count % 3 == 0 && i > 0) result.write(',');
-    }
-    return result.toString().split('').reversed.join();
-  }
-
-  Future<bool> _confirmDelete(AppLocalizations l10n, bool isDark) async {
-    final result = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor:
-            isDark ? HareruColors.darkCard : HareruColors.lightCard,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          l10n.deleteConfirm,
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            color: isDark
-                ? HareruColors.darkTextPrimary
-                : HareruColors.lightTextPrimary,
-          ),
-        ),
-        content: Text(
-          l10n.deleteConfirmSub,
-          style: TextStyle(
-            fontSize: 14,
-            color: isDark
-                ? HareruColors.darkTextSecondary
-                : HareruColors.lightTextSecondary,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(
-              l10n.cancel,
-              style: const TextStyle(color: Color(0xFF8A8A8A)),
-            ),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(
-              l10n.deleteRecord,
-              style: const TextStyle(
-                color: Color(0xFFEF4444),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-    return result ?? false;
-  }
 
   // ── Build ──
 
@@ -722,7 +655,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
             child: Padding(
               padding: const EdgeInsets.only(right: 4),
               child: Text(
-                '${l10n.dailyTotal}: -\u00a5${_formatAmount(expenseTotal)}',
+                '${l10n.dailyTotal}: -\u00a5${formatAmount(expenseTotal)}',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -741,38 +674,9 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
 
   Widget _buildRecordItem(
       Transaction t, bool isDark, AppLocalizations l10n) {
-    final isExpense = t.type == TransactionType.expense;
-    final isIncome = t.type == TransactionType.income;
-    // Resolve base category (handle "catKey → account" format)
-    final baseCategory = t.category.contains(' → ')
-        ? t.category.split(' → ').first
-        : t.category;
-    final cat =
-        ref.read(categoryProvider.notifier).getCategoryById(baseCategory);
-    String emoji;
-    if (t.type == TransactionType.transfer && t.category.contains(' → ')) {
-      final first = t.category.characters.first;
-      emoji = first.codeUnits.first > 0xFF ? first : '\u{1F4DD}';
-    } else {
-      emoji = cat?.emoji ?? '\u{1F4DD}';
-    }
-    String catLabel;
-    if (t.category.contains(' → ')) {
-      final parts = t.category.split(' → ');
-      final base = cat == null
-          ? resolveL10nKey(parts[0], l10n)
-          : cat.isDefault
-              ? resolveL10nKey(cat.name, l10n)
-              : cat.name;
-      catLabel = '$base → ${parts[1]}';
-    } else {
-      catLabel = cat == null
-          ? resolveL10nKey(t.category, l10n)
-          : cat.isDefault
-              ? resolveL10nKey(cat.name, l10n)
-              : cat.name;
-    }
-    final title = t.memo ?? catLabel;
+    final catNotifier = ref.read(categoryProvider.notifier);
+    final emoji = emojiForCategory(t.category, t.type, catNotifier);
+    final title = t.memo ?? categoryLabel(t.category, l10n, catNotifier);
     final hour = t.createdAt.hour.toString().padLeft(2, '0');
     final minute = t.createdAt.minute.toString().padLeft(2, '0');
     final time = '$hour:$minute';
@@ -787,88 +691,24 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
         child: const Icon(Icons.delete_outline_rounded,
             color: Colors.white, size: 24),
       ),
-      confirmDismiss: (_) => _confirmDelete(l10n, isDark),
+      confirmDismiss: (_) => showDeleteConfirmation(
+              context: context, l10n: l10n, isDark: isDark),
       onDismissed: (_) {
         ref.read(transactionProvider.notifier).delete(t.id);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(l10n.recordDeleted)),
         );
       },
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
+      child: TransactionRecordItem(
+        emoji: emoji,
+        title: title,
+        subtitle: time,
+        transaction: t,
+        isDark: isDark,
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
             builder: (_) => RecordDetailScreen(transaction: t),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Row(
-            children: [
-              Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  color: isDark ? HareruColors.darkBg : HareruColors.lightBg,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                alignment: Alignment.center,
-                child: Text(emoji, style: const TextStyle(fontSize: 20)),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            title,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: isDark
-                                  ? HareruColors.darkTextPrimary
-                                  : HareruColors.lightTextPrimary,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        TypeBadge(type: t.type),
-                      ],
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      time,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: isDark
-                            ? HareruColors.darkTextTertiary
-                            : HareruColors.lightTextTertiary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                '${isExpense ? '-' : isIncome ? '+' : ''}\u00a5${_formatAmount(t.amount)}',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: isIncome
-                      ? const Color(0xFFF59E0B)
-                      : isExpense
-                          ? (isDark
-                              ? HareruColors.darkTextPrimary
-                              : HareruColors.lightTextPrimary)
-                          : const Color(0xFF8A8A8A),
-                  fontFeatures: const [FontFeature.tabularFigures()],
-                ),
-              ),
-            ],
           ),
         ),
       ),

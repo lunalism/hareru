@@ -1,10 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/category_provider.dart';
@@ -15,7 +14,8 @@ import 'package:hareru/screens/home/all_records_screen.dart';
 import 'package:hareru/screens/home/record_detail_screen.dart';
 import 'package:hareru/screens/home/widgets/add_transaction_screen.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
-import 'package:hareru/widgets/type_badge.dart';
+import 'package:hareru/widgets/delete_confirmation_dialog.dart';
+import 'package:hareru/widgets/transaction_record_item.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -122,26 +122,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  String _formatAmount(double value) {
-    if (value == value.truncateToDouble()) {
-      return _addCommas(value.truncate().toString());
-    }
-    return _addCommas(value.toStringAsFixed(2));
-  }
-
-  String _addCommas(String s) {
-    final parts = s.split('.');
-    final intPart = parts[0];
-    final result = StringBuffer();
-    var count = 0;
-    for (var i = intPart.length - 1; i >= 0; i--) {
-      result.write(intPart[i]);
-      count++;
-      if (count % 3 == 0 && i > 0) result.write(',');
-    }
-    final formatted = result.toString().split('').reversed.join();
-    return parts.length > 1 ? '$formatted.${parts[1]}' : formatted;
-  }
 
   Widget _buildMainAmountCard(
       BuildContext context, bool isDark, WidgetRef ref) {
@@ -177,7 +157,7 @@ class HomeScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '¥${_formatAmount(expenseTotal)}',
+            '¥${formatAmount(expenseTotal)}',
             style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w700,
@@ -194,8 +174,8 @@ class HomeScreen extends ConsumerWidget {
               children: [
                 Text(
                   isOver
-                      ? l10n.overBudget('¥${_formatAmount(remaining.abs())}')
-                      : l10n.remainingBudget('¥${_formatAmount(remaining)}'),
+                      ? l10n.overBudget('¥${formatAmount(remaining.abs())}')
+                      : l10n.remainingBudget('¥${formatAmount(remaining)}'),
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -294,23 +274,13 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  String _formatBudgetCommas(String digits) {
-    final buf = StringBuffer();
-    var count = 0;
-    for (var i = digits.length - 1; i >= 0; i--) {
-      buf.write(digits[i]);
-      count++;
-      if (count % 3 == 0 && i > 0) buf.write(',');
-    }
-    return buf.toString().split('').reversed.join();
-  }
 
   void _showBudgetDialog(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final currentBudget = ref.read(budgetProvider);
     final controller = TextEditingController(
-      text: currentBudget > 0 ? _formatBudgetCommas(currentBudget.toString()) : '',
+      text: currentBudget > 0 ? addCommas(currentBudget.toString()) : '',
     );
 
     showDialog<void>(
@@ -442,21 +412,21 @@ class HomeScreen extends ConsumerWidget {
             children: [
               _killerColumn(
                 l10n.expense,
-                '¥${_formatAmount(notifier.expenseTotal)}',
+                '¥${formatAmount(notifier.expenseTotal)}',
                 const Color(0xFFEF4444),
                 labelColor,
               ),
               Container(width: 1, height: 32, color: dividerColor),
               _killerColumn(
                 l10n.transfer,
-                '¥${_formatAmount(notifier.transferTotal)}',
+                '¥${formatAmount(notifier.transferTotal)}',
                 const Color(0xFF5B7FCC),
                 labelColor,
               ),
               Container(width: 1, height: 32, color: dividerColor),
               _killerColumn(
                 l10n.savings,
-                '¥${_formatAmount(notifier.savingsTotal)}',
+                '¥${formatAmount(notifier.savingsTotal)}',
                 const Color(0xFF10B981),
                 labelColor,
               ),
@@ -487,7 +457,7 @@ class HomeScreen extends ConsumerWidget {
               ),
               const Spacer(),
               Text(
-                '¥${_formatAmount(notifier.incomeTotal)}',
+                '¥${formatAmount(notifier.incomeTotal)}',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -549,37 +519,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  String _emojiForCategory(String category, WidgetRef ref, TransactionType type) {
-    // Transfer: extract first emoji from "🏦 Name → 💰 Name" format
-    if (type == TransactionType.transfer && category.contains(' → ')) {
-      final first = category.characters.first;
-      if (first.codeUnits.first > 0xFF) return first;
-    }
-    // Income with deposit: "catKey → 🏦 nickname" — resolve base category
-    final baseCategory = category.contains(' → ')
-        ? category.split(' → ').first
-        : category;
-    final cat = ref.read(categoryProvider.notifier).getCategoryById(baseCategory);
-    return cat?.emoji ?? '\u{1F4DD}';
-  }
-
-  String _categoryLabel(String category, AppLocalizations l10n, WidgetRef ref) {
-    // Income with deposit: "catKey → 🏦 nickname" — show "급여 → 🏦 하나"
-    if (category.contains(' → ')) {
-      final parts = category.split(' → ');
-      final baseCat = ref.read(categoryProvider.notifier).getCategoryById(parts[0]);
-      final baseLabel = baseCat == null
-          ? resolveL10nKey(parts[0], l10n)
-          : baseCat.isDefault
-              ? resolveL10nKey(baseCat.name, l10n)
-              : baseCat.name;
-      return '$baseLabel → ${parts[1]}';
-    }
-    final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
-    if (cat == null) return resolveL10nKey(category, l10n);
-    if (!cat.isDefault) return cat.name;
-    return resolveL10nKey(cat.name, l10n);
-  }
 
   String _formatDate(DateTime date, AppLocalizations l10n) {
     final now = DateTime.now();
@@ -647,10 +586,9 @@ class HomeScreen extends ConsumerWidget {
             children: recent.asMap().entries.map((entry) {
               final i = entry.key;
               final t = entry.value;
-              final isExpense = t.type == TransactionType.expense;
-              final isIncome = t.type == TransactionType.income;
-              final emoji = _emojiForCategory(t.category, ref, t.type);
-              final title = t.memo ?? _categoryLabel(t.category, l10n, ref);
+              final catNotifier = ref.read(categoryProvider.notifier);
+              final emoji = emojiForCategory(t.category, t.type, catNotifier);
+              final title = t.memo ?? categoryLabel(t.category, l10n, catNotifier);
               final date = _formatDate(t.createdAt, l10n);
 
               return Column(
@@ -666,7 +604,8 @@ class HomeScreen extends ConsumerWidget {
                           color: Colors.white, size: 24),
                     ),
                     confirmDismiss: (_) =>
-                        _confirmDelete(context, l10n, isDark),
+                        showDeleteConfirmation(
+                            context: context, l10n: l10n, isDark: isDark),
                     onDismissed: (_) {
                       ref
                           .read(transactionProvider.notifier)
@@ -675,90 +614,17 @@ class HomeScreen extends ConsumerWidget {
                         SnackBar(content: Text(l10n.recordDeleted)),
                       );
                     },
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
+                    child: TransactionRecordItem(
+                      emoji: emoji,
+                      title: title,
+                      subtitle: date,
+                      transaction: t,
+                      isDark: isDark,
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
                               RecordDetailScreen(transaction: t),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 42,
-                              height: 42,
-                              decoration: BoxDecoration(
-                                color: isDark
-                                    ? HareruColors.darkBg
-                                    : HareruColors.lightBg,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(emoji,
-                                  style: const TextStyle(fontSize: 20)),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          title,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: isDark
-                                                ? HareruColors.darkTextPrimary
-                                                : HareruColors.lightTextPrimary,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      TypeBadge(type: t.type),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    date,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: isDark
-                                          ? HareruColors.darkTextTertiary
-                                          : HareruColors.lightTextTertiary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              '${isExpense ? '-' : isIncome ? '+' : ''}¥${_formatAmount(t.amount)}',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: isIncome
-                                    ? const Color(0xFFF59E0B)
-                                    : isExpense
-                                        ? (isDark
-                                            ? HareruColors.darkTextPrimary
-                                            : HareruColors.lightTextPrimary)
-                                        : (isDark
-                                            ? HareruColors.darkTextSecondary
-                                            : HareruColors.lightTextSecondary),
-                                fontFeatures: const [
-                                  FontFeature.tabularFigures()
-                                ],
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ),
@@ -840,56 +706,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Future<bool> _confirmDelete(
-      BuildContext context, AppLocalizations l10n, bool isDark) async {
-    final result = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor:
-            isDark ? HareruColors.darkCard : HareruColors.lightCard,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          l10n.deleteConfirm,
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            color: isDark
-                ? HareruColors.darkTextPrimary
-                : HareruColors.lightTextPrimary,
-          ),
-        ),
-        content: Text(
-          l10n.deleteConfirmSub,
-          style: TextStyle(
-            fontSize: 14,
-            color: isDark
-                ? HareruColors.darkTextSecondary
-                : HareruColors.lightTextSecondary,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(
-              l10n.cancel,
-              style: const TextStyle(color: Color(0xFF8A8A8A)),
-            ),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(
-              l10n.deleteRecord,
-              style: const TextStyle(
-                color: Color(0xFFEF4444),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-    return result ?? false;
-  }
 
   // ============ Empty State ============
 
