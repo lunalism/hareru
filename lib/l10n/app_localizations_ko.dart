@@ -772,6 +772,9 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String get incomeDepositTo => '입금처';
+
+  @override
   String get addAccountPrompt => '계좌를 추가해주세요';
 
   @override

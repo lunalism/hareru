@@ -28,6 +28,17 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
   }
 
   String _categoryLabel(String category, AppLocalizations l10n) {
+    // Income with deposit or transfer: "catKey → account"
+    if (category.contains(' → ')) {
+      final parts = category.split(' → ');
+      final baseCat = ref.read(categoryProvider.notifier).getCategoryById(parts[0]);
+      final baseLabel = baseCat == null
+          ? resolveL10nKey(parts[0], l10n)
+          : baseCat.isDefault
+              ? resolveL10nKey(baseCat.name, l10n)
+              : baseCat.name;
+      return '$baseLabel → ${parts[1]}';
+    }
     final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
     if (cat == null) return resolveL10nKey(category, l10n);
     if (!cat.isDefault) return cat.name;
@@ -40,7 +51,11 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
       final first = category.characters.first;
       if (first.codeUnits.first > 0xFF) return first;
     }
-    final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
+    // Income with deposit: resolve base category
+    final baseCategory = category.contains(' → ')
+        ? category.split(' → ').first
+        : category;
+    final cat = ref.read(categoryProvider.notifier).getCategoryById(baseCategory);
     return cat?.emoji ?? '\u{1F4DD}';
   }
 

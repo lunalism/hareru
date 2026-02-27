@@ -1558,6 +1558,12 @@ abstract class AppLocalizations {
   /// **'「{name}」を削除しますか？'**
   String deleteAccountConfirm(String name);
 
+  /// No description provided for @incomeDepositTo.
+  ///
+  /// In ja, this message translates to:
+  /// **'入金先'**
+  String get incomeDepositTo;
+
   /// No description provided for @addAccountPrompt.
   ///
   /// In ja, this message translates to:

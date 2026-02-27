@@ -30,6 +30,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   String _memo = '';
   String? _fromAccount; // account ID
   String? _toAccount;   // account ID
+  String? _depositAccount; // account ID for income deposit
   String? _pendingTransferCategory; // for edit mode
   int _selectedPayment = 0; // 0=credit, 1=debit, 2=cash (UI only)
   bool _isRecurring = false; // UI only
@@ -39,6 +40,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   final _amountFocusNode = FocusNode();
 
   bool get _isTransfer => _selectedType == TransactionType.transfer;
+  bool get _isIncome => _selectedType == TransactionType.income;
 
   bool get _isEditing => widget.editTransaction != null;
 
@@ -57,6 +59,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       _memoController.text = _memo;
       // Transfer editing: match saved names to account IDs after load
       if (t.type == TransactionType.transfer) {
+        _pendingTransferCategory = t.category;
+      }
+      // Income editing: restore deposit account from "category → account" format
+      if (t.type == TransactionType.income && t.category.contains(' → ')) {
         _pendingTransferCategory = t.category;
       }
     }
@@ -131,6 +137,11 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       final from = accounts.firstWhere((a) => a.id == _fromAccount);
       final to = accounts.firstWhere((a) => a.id == _toAccount);
       category = '${from.emoji} ${from.nickname} → ${to.emoji} ${to.nickname}';
+    } else if (_isIncome && _depositAccount != null) {
+      final accounts = ref.read(transferAccountProvider);
+      final deposit = accounts.firstWhere((a) => a.id == _depositAccount);
+      category =
+          '$_selectedCategory → ${deposit.emoji} ${deposit.nickname}';
     } else {
       category = _selectedCategory!;
     }
@@ -375,20 +386,26 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                         _buildCategoryGrid(categories, l10n, isDark),
                         const SizedBox(height: 24),
 
-                        // Payment method chips
-                        Text(
-                          l10n.paymentMethod,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: isDark
-                                ? HareruColors.darkTextSecondary
-                                : HareruColors.lightTextSecondary,
+                        if (_isIncome) ...[
+                          // Deposit account chips (income only)
+                          _buildDepositAccountField(l10n, isDark),
+                          const SizedBox(height: 24),
+                        ] else ...[
+                          // Payment method chips (expense only)
+                          Text(
+                            l10n.paymentMethod,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? HareruColors.darkTextSecondary
+                                  : HareruColors.lightTextSecondary,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        _buildPaymentChips(l10n, isDark),
-                        const SizedBox(height: 24),
+                          const SizedBox(height: 10),
+                          _buildPaymentChips(l10n, isDark),
+                          const SizedBox(height: 24),
+                        ],
                       ],
 
                       // Memo field
@@ -701,6 +718,55 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           ),
         );
       }),
+    );
+  }
+
+  Widget _buildDepositAccountField(AppLocalizations l10n, bool isDark) {
+    final accounts = ref.watch(transferAccountProvider);
+
+    // Resolve pending edit-mode income deposit from "category → account" format
+    if (_pendingTransferCategory != null &&
+        accounts.isNotEmpty &&
+        _pendingTransferCategory!.contains(' → ') &&
+        _selectedType == TransactionType.income) {
+      final parts = _pendingTransferCategory!.split(' → ');
+      // parts[0] = category key, parts[1] = "emoji nickname"
+      _selectedCategory = parts[0];
+      for (final a in accounts) {
+        final label = _accountDisplayLabel(a);
+        if (label == parts[1] && _depositAccount == null) {
+          _depositAccount = a.id;
+        }
+      }
+      _pendingTransferCategory = null;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.incomeDepositTo,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: isDark
+                ? HareruColors.darkTextSecondary
+                : HareruColors.lightTextSecondary,
+          ),
+        ),
+        const SizedBox(height: 8),
+        _buildAccountChips(
+          accounts: accounts,
+          selectedId: _depositAccount,
+          disabledId: null,
+          onSelect: (id) => setState(() {
+            // Toggle: tap again to deselect
+            _depositAccount = _depositAccount == id ? null : id;
+          }),
+          l10n: l10n,
+          isDark: isDark,
+        ),
+      ],
     );
   }
 

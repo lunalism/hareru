@@ -743,8 +743,12 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
       Transaction t, bool isDark, AppLocalizations l10n) {
     final isExpense = t.type == TransactionType.expense;
     final isIncome = t.type == TransactionType.income;
+    // Resolve base category (handle "catKey → account" format)
+    final baseCategory = t.category.contains(' → ')
+        ? t.category.split(' → ').first
+        : t.category;
     final cat =
-        ref.read(categoryProvider.notifier).getCategoryById(t.category);
+        ref.read(categoryProvider.notifier).getCategoryById(baseCategory);
     String emoji;
     if (t.type == TransactionType.transfer && t.category.contains(' → ')) {
       final first = t.category.characters.first;
@@ -752,11 +756,22 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
     } else {
       emoji = cat?.emoji ?? '\u{1F4DD}';
     }
-    final catLabel = cat == null
-        ? resolveL10nKey(t.category, l10n)
-        : cat.isDefault
-            ? resolveL10nKey(cat.name, l10n)
-            : cat.name;
+    String catLabel;
+    if (t.category.contains(' → ')) {
+      final parts = t.category.split(' → ');
+      final base = cat == null
+          ? resolveL10nKey(parts[0], l10n)
+          : cat.isDefault
+              ? resolveL10nKey(cat.name, l10n)
+              : cat.name;
+      catLabel = '$base → ${parts[1]}';
+    } else {
+      catLabel = cat == null
+          ? resolveL10nKey(t.category, l10n)
+          : cat.isDefault
+              ? resolveL10nKey(cat.name, l10n)
+              : cat.name;
+    }
     final title = t.memo ?? catLabel;
     final hour = t.createdAt.hour.toString().padLeft(2, '0');
     final minute = t.createdAt.minute.toString().padLeft(2, '0');

@@ -780,6 +780,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get incomeDepositTo => 'Deposit To';
+
+  @override
   String get addAccountPrompt => 'Add an account';
 
   @override

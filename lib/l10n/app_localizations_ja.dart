@@ -771,6 +771,9 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get incomeDepositTo => '入金先';
+
+  @override
   String get addAccountPrompt => '口座を追加してください';
 
   @override

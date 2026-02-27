@@ -343,6 +343,7 @@
       "name": {"type": "String"}
     }
   },
+  "incomeDepositTo": "Deposit To",
   "addAccountPrompt": "Add an account",
   "paymentMethod": "Payment",
   "creditCard": "Credit",

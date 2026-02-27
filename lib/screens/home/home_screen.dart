@@ -555,11 +555,26 @@ class HomeScreen extends ConsumerWidget {
       final first = category.characters.first;
       if (first.codeUnits.first > 0xFF) return first;
     }
-    final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
+    // Income with deposit: "catKey → 🏦 nickname" — resolve base category
+    final baseCategory = category.contains(' → ')
+        ? category.split(' → ').first
+        : category;
+    final cat = ref.read(categoryProvider.notifier).getCategoryById(baseCategory);
     return cat?.emoji ?? '\u{1F4DD}';
   }
 
   String _categoryLabel(String category, AppLocalizations l10n, WidgetRef ref) {
+    // Income with deposit: "catKey → 🏦 nickname" — show "급여 → 🏦 하나"
+    if (category.contains(' → ')) {
+      final parts = category.split(' → ');
+      final baseCat = ref.read(categoryProvider.notifier).getCategoryById(parts[0]);
+      final baseLabel = baseCat == null
+          ? resolveL10nKey(parts[0], l10n)
+          : baseCat.isDefault
+              ? resolveL10nKey(baseCat.name, l10n)
+              : baseCat.name;
+      return '$baseLabel → ${parts[1]}';
+    }
     final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
     if (cat == null) return resolveL10nKey(category, l10n);
     if (!cat.isDefault) return cat.name;

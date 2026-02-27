@@ -343,6 +343,7 @@
       "name": {"type": "String"}
     }
   },
+  "incomeDepositTo": "입금처",
   "addAccountPrompt": "계좌를 추가해주세요",
   "paymentMethod": "결제수단",
   "creditCard": "신용카드",

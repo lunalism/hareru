@@ -343,6 +343,7 @@
       "name": {"type": "String"}
     }
   },
+  "incomeDepositTo": "入金先",
   "addAccountPrompt": "口座を追加してください",
   "paymentMethod": "決済方法",
   "creditCard": "クレジット",
