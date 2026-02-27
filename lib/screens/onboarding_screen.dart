@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hareru/core/providers/pay_day_provider.dart';
@@ -100,7 +101,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final isSetupPage = _currentPage == 3;
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F0EB),
+      backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
       body: SafeArea(
         child: Column(
           children: [
@@ -117,8 +118,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       style: TextStyle(
                         fontSize: 14,
                         color: isDark
-                            ? const Color(0xFF8A8A8A)
-                            : const Color(0xFFBFBFBF),
+                            ? HareruColors.lightTextSecondary
+                            : HareruColors.lightTextTertiary,
                       ),
                     ),
                   ),
@@ -175,10 +176,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         color: isActive
-                            ? const Color(0xFFE8453C)
+                            ? HareruColors.primaryStart
                             : (isDark
-                                ? const Color(0xFF3A3A3A)
-                                : const Color(0xFFE5E0DB)),
+                                ? HareruColors.darkDivider
+                                : HareruColors.lightDivider),
                       ),
                     );
                   }),
@@ -189,9 +190,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       onTap: _completeOnboarding,
                       child: Text(
                         l10n.setupLater,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
-                          color: Color(0xFF8A8A8A),
+                          color: HareruColors.lightTextSecondary,
                         ),
                       ),
                     ),
@@ -209,7 +210,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 child: isSetupPage
                     ? DecoratedBox(
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE8453C),
+                          color: HareruColors.primaryStart,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: ElevatedButton(
@@ -244,7 +245,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     : ElevatedButton(
                         onPressed: _nextPage,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE8453C),
+                          backgroundColor: HareruColors.primaryStart,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
@@ -280,7 +281,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w800,
-              color: isDark ? Colors.white : const Color(0xFF1A1A1A),
+              color: isDark ? Colors.white : HareruColors.lightTextPrimary,
               height: 1.3,
             ),
           ),
@@ -288,9 +289,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF8A8A8A),
+              color: HareruColors.lightTextSecondary,
               height: 1.7,
             ),
           ),
@@ -330,7 +331,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w800,
-              color: isDark ? Colors.white : const Color(0xFF1A1A1A),
+              color: isDark ? Colors.white : HareruColors.lightTextPrimary,
               height: 1.3,
             ),
           ),
@@ -338,9 +339,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           Text(
             l10n.setupDescription,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF8A8A8A),
+              color: HareruColors.lightTextSecondary,
               height: 1.7,
             ),
           ),
@@ -352,7 +353,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF2A2A2A) : Colors.white,
+              color: isDark ? HareruColors.darkCard : Colors.white,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
@@ -377,7 +378,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         fontWeight: FontWeight.w600,
                         color: isDark
                             ? Colors.white
-                            : const Color(0xFF1A1A1A),
+                            : HareruColors.lightTextPrimary,
                       ),
                     ),
                   ],
@@ -402,14 +403,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         height: 32,
                         decoration: BoxDecoration(
                           color: isDark
-                              ? const Color(0xFF3A3A3A)
-                              : const Color(0xFFF5F0EB),
+                              ? HareruColors.darkDivider
+                              : HareruColors.lightBg,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.chevron_left,
                           size: 20,
-                          color: Color(0xFF8A8A8A),
+                          color: HareruColors.lightTextSecondary,
                         ),
                       ),
                     ),
@@ -427,11 +428,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           '$_selectedPayDay',
                           key: ValueKey<int>(_selectedPayDay),
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 36,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFFE8453C),
-                            fontFeatures: [FontFeature.tabularFigures()],
+                            color: HareruColors.primaryStart,
+                            fontFeatures: const [FontFeature.tabularFigures()],
                           ),
                         ),
                       ),
@@ -453,14 +454,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         height: 32,
                         decoration: BoxDecoration(
                           color: isDark
-                              ? const Color(0xFF3A3A3A)
-                              : const Color(0xFFF5F0EB),
+                              ? HareruColors.darkDivider
+                              : HareruColors.lightBg,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.chevron_right,
                           size: 20,
-                          color: Color(0xFF8A8A8A),
+                          color: HareruColors.lightTextSecondary,
                         ),
                       ),
                     ),
@@ -469,9 +470,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 const SizedBox(height: 4),
                 Text(
                   l10n.payDayEveryMonth('$_selectedPayDay'),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: Color(0xFFBFBFBF),
+                    color: HareruColors.lightTextTertiary,
                   ),
                 ),
               ],
@@ -485,7 +486,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF2A2A2A) : Colors.white,
+              color: isDark ? HareruColors.darkCard : Colors.white,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
@@ -510,7 +511,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         fontWeight: FontWeight.w600,
                         color: isDark
                             ? Colors.white
-                            : const Color(0xFF1A1A1A),
+                            : HareruColors.lightTextPrimary,
                       ),
                     ),
                   ],
@@ -530,10 +531,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       fontSize: 36,
                       fontWeight: FontWeight.w700,
                       color: _budgetFocused
-                          ? const Color(0xFFE8453C)
+                          ? HareruColors.primaryStart
                           : (isDark
                               ? Colors.white
-                              : const Color(0xFF2A2A2A)),
+                              : HareruColors.darkCard),
                       fontFeatures: const [
                         FontFeature.tabularFigures(),
                       ],
@@ -546,25 +547,25 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         color: _budgetFocused
                             ? const Color(0xFFE8453C)
                                 .withValues(alpha: 0.6)
-                            : const Color(0xFFBFBFBF),
+                            : HareruColors.lightTextTertiary,
                       ),
                       hintText: '0',
                       hintStyle: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.w700,
                         color: isDark
-                            ? const Color(0xFF5A5A5A)
-                            : const Color(0xFFBFBFBF),
+                            ? HareruColors.darkTextTertiary
+                            : HareruColors.lightTextTertiary,
                       ),
-                      enabledBorder: const UnderlineInputBorder(
+                      enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0xFFE8453C),
+                          color: HareruColors.primaryStart,
                           width: 2,
                         ),
                       ),
-                      focusedBorder: const UnderlineInputBorder(
+                      focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0xFFE8453C),
+                          color: HareruColors.primaryStart,
                           width: 2,
                         ),
                       ),
@@ -646,7 +647,7 @@ Widget _buildCompareVisual(
         width: 140,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFF0EF),
+          color: HareruColors.guideIconBg,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
               color: const Color(0xFFE8453C).withValues(alpha: 0.3)),
@@ -663,8 +664,8 @@ Widget _buildCompareVisual(
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.diamond_outlined,
-                    size: 14, color: Color(0xFFE8453C)),
+                Icon(Icons.diamond_outlined,
+                    size: 14, color: HareruColors.primaryStart),
                 const SizedBox(width: 4),
                 const Text('Hareru',
                     style: TextStyle(
@@ -674,11 +675,11 @@ Widget _buildCompareVisual(
               ],
             ),
             const SizedBox(height: 8),
-            const Text('\u00a523,000',
+            Text('\u00a523,000',
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFFE8453C))),
+                    color: HareruColors.primaryStart)),
             const SizedBox(height: 4),
             Text('${l10n.realExpense} \u2728',
                 style:
@@ -716,14 +717,14 @@ Widget _strikeRow(String label, String amount) {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Text(label,
-          style: const TextStyle(
+          style: TextStyle(
               fontSize: 10,
-              color: Color(0xFFBFBFBF),
+              color: HareruColors.lightTextTertiary,
               decoration: TextDecoration.lineThrough)),
       Text(amount,
-          style: const TextStyle(
+          style: TextStyle(
               fontSize: 10,
-              color: Color(0xFFBFBFBF),
+              color: HareruColors.lightTextTertiary,
               decoration: TextDecoration.lineThrough)),
     ],
   );
@@ -739,22 +740,22 @@ Widget _buildTransferVisual(
       label: l10n.expense,
       icon: '\u{1F6D2}',
       example: l10n.expenseExample,
-      color: const Color(0xFFEF4444),
+      color: HareruColors.expense,
       bg: const Color(0xFFFEF2F2)
     ),
     (
       label: l10n.transfer,
       icon: '\u{1F504}',
       example: l10n.transferExample,
-      color: const Color(0xFFF59E0B),
+      color: HareruColors.income,
       bg: const Color(0xFFFFFBEB)
     ),
     (
       label: l10n.savings,
       icon: '\u{1F3E6}',
       example: l10n.savingsExample,
-      color: const Color(0xFF10B981),
-      bg: const Color(0xFFECFDF5)
+      color: HareruColors.savings,
+      bg: HareruColors.savingsBgLight
     ),
   ];
 
@@ -782,8 +783,8 @@ Widget _buildTransferVisual(
                             color: item.color)),
                     const SizedBox(height: 2),
                     Text(item.example,
-                        style: const TextStyle(
-                            fontSize: 12, color: Color(0xFF8A8A8A))),
+                        style: TextStyle(
+                            fontSize: 12, color: HareruColors.lightTextSecondary)),
                   ],
                 ),
               ),
@@ -812,17 +813,17 @@ Widget _buildSpeedVisual(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _step('\u2460', l10n.amountInput, '1.5s', false),
-          const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Text('\u2192',
                   style:
-                      TextStyle(fontSize: 16, color: Color(0xFFBFBFBF)))),
+                      TextStyle(fontSize: 16, color: HareruColors.lightTextTertiary))),
           _step('\u2461', l10n.category, '1s', false),
-          const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Text('\u2192',
                   style:
-                      TextStyle(fontSize: 16, color: Color(0xFFBFBFBF)))),
+                      TextStyle(fontSize: 16, color: HareruColors.lightTextTertiary))),
           _step('\u2713', l10n.done, '0.5s', true),
         ],
       ),
@@ -831,17 +832,17 @@ Widget _buildSpeedVisual(
         width: 260,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF5F0EB),
+          color: HareruColors.lightBg,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE5E0DB), width: 1.5),
+          border: Border.all(color: HareruColors.lightDivider, width: 1.5),
         ),
         child: Column(
           children: [
-            const Text('\u00a51,280',
+            Text('\u00a51,280',
                 style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF1A1A1A))),
+                    color: HareruColors.lightTextPrimary)),
             const SizedBox(height: 14),
             Wrap(
               spacing: 6,
@@ -865,11 +866,11 @@ Widget _step(String num, String label, String time, bool done) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
     decoration: BoxDecoration(
-      color: done ? const Color(0xFFECFDF5) : const Color(0xFFF5F0EB),
+      color: done ? HareruColors.savingsBgLight : HareruColors.lightBg,
       borderRadius: BorderRadius.circular(12),
       border: Border.all(
           color:
-              done ? const Color(0xFF10B981) : const Color(0xFFE5E0DB),
+              done ? HareruColors.savings : HareruColors.lightDivider,
           width: 1.5),
     ),
     child: Column(
@@ -879,18 +880,18 @@ Widget _step(String num, String label, String time, bool done) {
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: done
-                    ? const Color(0xFF10B981)
-                    : const Color(0xFFE8453C))),
+                    ? HareruColors.savings
+                    : HareruColors.primaryStart)),
         const SizedBox(height: 2),
         Text(label,
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 10,
-                color: Color(0xFF8A8A8A),
+                color: HareruColors.lightTextSecondary,
                 fontWeight: FontWeight.w500)),
         const SizedBox(height: 2),
         Text(time,
             style:
-                const TextStyle(fontSize: 9, color: Color(0xFFBFBFBF))),
+                TextStyle(fontSize: 9, color: HareruColors.lightTextTertiary)),
       ],
     ),
   );
@@ -900,13 +901,13 @@ Widget _chip(String label, bool selected) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
     decoration: BoxDecoration(
-      color: selected ? const Color(0xFFE8453C) : const Color(0xFFE5E0DB),
+      color: selected ? HareruColors.primaryStart : HareruColors.lightDivider,
       borderRadius: BorderRadius.circular(20),
     ),
     child: Text(label,
         style: TextStyle(
             fontSize: 12,
-            color: selected ? Colors.white : const Color(0xFF5A5A5A),
+            color: selected ? Colors.white : HareruColors.darkTextTertiary,
             fontWeight: selected ? FontWeight.w600 : FontWeight.normal)),
   );
 }

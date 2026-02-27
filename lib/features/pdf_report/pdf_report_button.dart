@@ -40,12 +40,12 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
       width: double.infinity,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFFFF0EF),
+        color: isDark ? HareruColors.darkCard : HareruColors.guideIconBg,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isDark
-              ? const Color(0xFF3A3A3A)
-              : const Color(0xFFE5E0DB),
+              ? HareruColors.darkDivider
+              : HareruColors.lightDivider,
         ),
       ),
       child: Column(
@@ -69,7 +69,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
               fontSize: 13,
               color: isDark
                   ? HareruColors.darkTextSecondary
-                  : const Color(0xFF8A8A8A),
+                  : HareruColors.lightTextSecondary,
             ),
           ),
           const SizedBox(height: 14),
@@ -83,7 +83,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: const Color(0xFFE8453C),
+                color: HareruColors.primaryStart,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -108,7 +108,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
-          color: const Color(0xFFE8453C),
+          color: HareruColors.primaryStart,
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(

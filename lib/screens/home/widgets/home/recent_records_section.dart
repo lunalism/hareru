@@ -100,7 +100,7 @@ class RecentRecordsSection extends ConsumerWidget {
                     background: Container(
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.only(right: 20),
-                      color: const Color(0xFFEF4444),
+                      color: HareruColors.expense,
                       child: const Icon(Icons.delete_outline_rounded,
                           color: Colors.white, size: 24),
                     ),

@@ -226,7 +226,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     label: l10n.resetData,
                     showChevron: true,
                     isDark: isDark,
-                    labelColor: const Color(0xFFEF4444),
+                    labelColor: HareruColors.expense,
                     onTap: () => resetData(context, ref),
                   ),
                 ],

@@ -33,7 +33,7 @@ class AccountChipSection extends ConsumerWidget {
         children: [
           Text(
             l10n.addAccountPrompt,
-            style: const TextStyle(fontSize: 14, color: Color(0xFF8A8A8A)),
+            style: TextStyle(fontSize: 14, color: HareruColors.lightTextSecondary),
           ),
           const SizedBox(width: 4),
           _AddChip(isDark: isDark),
@@ -64,9 +64,9 @@ class AccountChipSection extends ConsumerWidget {
                 color: isDisabled
                     ? (isDark
                         ? HareruColors.darkCard
-                        : const Color(0xFFF5F0EB))
+                        : HareruColors.lightBg)
                     : isSelected
-                        ? const Color(0xFF1A1A1A)
+                        ? HareruColors.lightTextPrimary
                         : (isDark ? HareruColors.darkCard : Colors.white),
                 borderRadius: BorderRadius.circular(20),
                 border: (isSelected || isDisabled)
@@ -74,7 +74,7 @@ class AccountChipSection extends ConsumerWidget {
                     : Border.all(
                         color: isDark
                             ? HareruColors.darkDivider
-                            : const Color(0xFFE5E0DB),
+                            : HareruColors.lightDivider,
                       ),
               ),
               child: Row(
@@ -88,7 +88,7 @@ class AccountChipSection extends ConsumerWidget {
                           ? Colors.white.withValues(alpha: 0.2)
                           : (isDark
                               ? HareruColors.darkBg
-                              : const Color(0xFFF5F0EB)),
+                              : HareruColors.lightBg),
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
@@ -105,12 +105,12 @@ class AccountChipSection extends ConsumerWidget {
                       fontWeight:
                           isSelected ? FontWeight.w600 : FontWeight.w400,
                       color: isDisabled
-                          ? const Color(0xFFBFBFBF)
+                          ? HareruColors.lightTextTertiary
                           : isSelected
                               ? Colors.white
                               : (isDark
                                   ? HareruColors.darkTextSecondary
-                                  : const Color(0xFF1A1A1A)),
+                                  : HareruColors.lightTextPrimary),
                     ),
                   ),
                 ],
@@ -181,7 +181,7 @@ void showAddAccountDialog(
 ) {
   final nameController = TextEditingController();
   var selectedEmoji = '🏦';
-  const activeColor = Color(0xFFE8453C);
+  const activeColor = HareruColors.primaryStart;
   const emojiOptions = ['🏦', '💰', '📈', '💳', '🐷', '💵'];
 
   showDialog<void>(
@@ -235,7 +235,7 @@ void showAddAccountDialog(
                               ? activeColor
                               : (isDark
                                   ? HareruColors.darkBg
-                                  : const Color(0xFFF5F0EB)),
+                                  : HareruColors.lightBg),
                           shape: BoxShape.circle,
                         ),
                         alignment: Alignment.center,
@@ -375,8 +375,8 @@ void _showDeleteAccountDialog(
             },
             child: Text(
               l10n.deleteRecord,
-              style: const TextStyle(
-                color: Color(0xFFE8453C),
+              style: TextStyle(
+                color: HareruColors.primaryStart,
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -67,7 +67,7 @@ class BudgetSummaryCard extends ConsumerWidget {
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: isOver
-                        ? const Color(0xFFEF4444)
+                        ? HareruColors.expense
                         : c.textSecondary,
                   ),
                 ),
@@ -116,11 +116,11 @@ class _ProgressBar extends StatelessWidget {
     final percentage = (progress * 100).toStringAsFixed(1);
 
     final barColor = progress > 1.0
-        ? const Color(0xFFEF4444)
+        ? HareruColors.expense
         : progress > 0.9
-            ? const Color(0xFFFCA5A5)
+            ? HareruColors.budgetWarning
             : progress > 0.7
-                ? const Color(0xFFFCD34D)
+                ? HareruColors.budgetCaution
                 : HareruColors.primaryStart;
 
     return Row(

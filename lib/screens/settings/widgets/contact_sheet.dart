@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -14,7 +15,7 @@ void showContactSheet(BuildContext context) {
   showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: isDark ? const Color(0xFF2A2A2A) : Colors.white,
+    backgroundColor: isDark ? HareruColors.darkCard : Colors.white,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
@@ -71,12 +72,12 @@ class _ContactSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textPrimary =
-        isDark ? const Color(0xFFF0ECE7) : const Color(0xFF1A1A1A);
-    final textSecondary = const Color(0xFF8A8A8A);
+        isDark ? HareruColors.darkTextPrimary : HareruColors.lightTextPrimary;
+    final textSecondary = HareruColors.lightTextSecondary;
     final cardBg =
-        isDark ? const Color(0xFF3A3A3A) : const Color(0xFFF5F0EB);
+        isDark ? HareruColors.darkDivider : HareruColors.lightBg;
     final outlineBorder =
-        isDark ? const Color(0xFF4A4A4A) : const Color(0xFFE5E0DB);
+        isDark ? const Color(0xFF4A4A4A) : HareruColors.lightDivider;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -88,7 +89,7 @@ class _ContactSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: const Color(0xFFE5E0DB),
+              color: HareruColors.lightDivider,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -139,7 +140,7 @@ class _ContactSheet extends StatelessWidget {
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       backgroundColor:
-                          isDark ? const Color(0xFF2A2A2A) : Colors.white,
+                          isDark ? HareruColors.darkCard : Colors.white,
                       side: BorderSide(color: outlineBorder),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -172,7 +173,7 @@ class _ContactSheet extends StatelessWidget {
                   height: 50,
                   child: FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFFE8453C),
+                      backgroundColor: HareruColors.primaryStart,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

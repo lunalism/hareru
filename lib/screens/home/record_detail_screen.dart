@@ -42,10 +42,10 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
 
   Color _typeColor(TransactionType type) {
     return switch (type) {
-      TransactionType.expense => const Color(0xFFEF4444),
-      TransactionType.transfer => const Color(0xFF5B7FCC),
-      TransactionType.savings => const Color(0xFF10B981),
-      TransactionType.income => const Color(0xFFF59E0B),
+      TransactionType.expense => HareruColors.expense,
+      TransactionType.transfer => HareruColors.transferBlue,
+      TransactionType.savings => HareruColors.savings,
+      TransactionType.income => HareruColors.income,
     };
   }
 
@@ -159,10 +159,10 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                       ),
                       IconButton(
                         onPressed: _showDeleteDialog,
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.delete_outline_rounded,
                           size: 22,
-                          color: Color(0xFFEF4444),
+                          color: HareruColors.expense,
                         ),
                       ),
                     ],
@@ -294,7 +294,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                                     ? FontStyle.italic
                                     : FontStyle.normal,
                                 color: t.memo == null
-                                    ? const Color(0xFFBFBFBF)
+                                    ? HareruColors.lightTextTertiary
                                     : (isDark
                                         ? HareruColors.darkTextPrimary
                                         : HareruColors.darkCard),
@@ -314,7 +314,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                         width: double.infinity,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE8453C),
+                          color: HareruColors.primaryStart,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         alignment: Alignment.center,
@@ -338,15 +338,15 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                         height: 48,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFFEF4444)),
+                          border: Border.all(color: HareruColors.expense),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           l10n.deleteRecord,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFFEF4444),
+                            color: HareruColors.expense,
                           ),
                         ),
                       ),
@@ -371,9 +371,9 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
             width: 100,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
-                color: Color(0xFFBFBFBF),
+                color: HareruColors.lightTextTertiary,
               ),
             ),
           ),

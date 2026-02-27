@@ -196,7 +196,7 @@ class _FaqScreenState extends State<FaqScreen> {
             if (_isLoading)
               const Center(
                 child: CircularProgressIndicator(
-                  color: Color(0xFFE8453C),
+                  color: HareruColors.primaryStart,
                 ),
               ),
           ],

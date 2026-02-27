@@ -55,9 +55,17 @@ class HareruColors {
   static const Color savings = Color(0xFF10B981);
   static const Color transferBlue = Color(0xFF5B7FCC);
 
+  // Transaction type light backgrounds
+  static const Color expenseBgLight = Color(0xFFFEF2F2);
+  static const Color transferBgLight = Color(0xFFEEF2FA);
+  static const Color savingsBgLight = Color(0xFFECFDF5);
+  static const Color incomeBgLight = Color(0xFFFEF3C7);
+
   // Budget progress
   static const Color budgetTrackLight = Color(0xFFE5E0DB);
   static const Color budgetTrackDark = Color(0xFF3A3A3A);
+  static const Color budgetWarning = Color(0xFFFCA5A5);
+  static const Color budgetCaution = Color(0xFFFCD34D);
 
   // Inactive nav
   static const Color navInactiveLight = Color(0xFF8A8A8A);
@@ -66,4 +74,7 @@ class HareruColors {
   // Warm minimal extras
   static const Color headerCardLight = Color(0xFFEDE8E3);
   static const Color guideIconBg = Color(0xFFFFF0EF);
+
+  // Danger / destructive
+  static const Color danger = Color(0xFFEF4444);
 }

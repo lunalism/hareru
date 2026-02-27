@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hareru/core/constants/colors.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -47,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen>
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F0EB),
+      backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
       body: Center(
         child: FadeTransition(
           opacity: _fadeIn,
@@ -67,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
-                  color: isDark ? Colors.white : const Color(0xFF1A1A1A),
+                  color: isDark ? Colors.white : HareruColors.lightTextPrimary,
                   letterSpacing: 1.5,
                 ),
               ),

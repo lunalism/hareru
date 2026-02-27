@@ -13,17 +13,17 @@ import 'package:hareru/features/pdf_report/pdf_report_button.dart';
 import 'package:hareru/screens/home/widgets/add_transaction_screen.dart';
 
 const _categoryColors = [
-  Color(0xFFEF4444),
-  Color(0xFFF59E0B),
-  Color(0xFF10B981),
-  Color(0xFFF59E0B),
+  HareruColors.expense,
+  HareruColors.income,
+  HareruColors.savings,
+  HareruColors.income,
   Color(0xFF8B5CF6),
   Color(0xFFEC4899),
   Color(0xFF06B6D4),
   Color(0xFFFF6B35),
   Color(0xFF6366F1),
   Color(0xFF84CC16),
-  Color(0xFFBFBFBF),
+  HareruColors.lightTextTertiary,
 ];
 
 class ReportScreen extends ConsumerStatefulWidget {
@@ -202,7 +202,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               color: _isCurrentMonth
                   ? (isDark
                       ? HareruColors.darkDivider
-                      : const Color(0xFFE5E0DB))
+                      : HareruColors.lightDivider)
                   : (isDark
                       ? HareruColors.darkTextTertiary
                       : HareruColors.lightTextSecondary),
@@ -352,10 +352,10 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
       child: Column(
         children: [
           _summaryRow(l10n.income, '¥${formatAmount(income)}',
-              const Color(0xFFF59E0B), isDark),
+              HareruColors.income, isDark),
           const SizedBox(height: 12),
           _summaryRow(l10n.realExpense, '¥${formatAmount(expense)}',
-              const Color(0xFFEF4444), isDark),
+              HareruColors.expense, isDark),
           const SizedBox(height: 12),
           Divider(
             height: 1,
@@ -368,8 +368,8 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
             l10n.remaining,
             '${remaining < 0 ? '-' : ''}¥${formatAmount(remaining.abs())}',
             remaining >= 0
-                ? const Color(0xFF10B981)
-                : const Color(0xFFEF4444),
+                ? HareruColors.savings
+                : HareruColors.expense,
             isDark,
           ),
           const SizedBox(height: 12),
@@ -392,7 +392,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFFE8453C),
+                  color: HareruColors.primaryStart,
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
               ),
@@ -569,7 +569,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                         fontSize: 13,
-                        color: Color(0xFFBFBFBF),
+                        color: HareruColors.lightTextTertiary,
                         fontFeatures: [
                           FontFeature.tabularFigures(),
                         ],
@@ -595,7 +595,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFFE8453C),
+                    color: HareruColors.primaryStart,
                   ),
                 ),
               ),
@@ -638,10 +638,10 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
     final isOver = remaining < 0;
 
     final barColor = progress > 0.9
-        ? const Color(0xFFEF4444)
+        ? HareruColors.expense
         : progress > 0.7
-            ? const Color(0xFFF59E0B)
-            : const Color(0xFFE8453C);
+            ? HareruColors.income
+            : HareruColors.primaryStart;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -708,7 +708,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
           style: TextStyle(
             fontSize: 13,
             color: isOver
-                ? const Color(0xFFEF4444)
+                ? HareruColors.expense
                 : (isDark
                     ? HareruColors.darkTextSecondary
                     : HareruColors.lightTextSecondary),
@@ -728,10 +728,10 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
       double savings,
       double income) {
     final types = [
-      (l10n.expense, expense, const Color(0xFFEF4444), false),
-      (l10n.transfer, transfer, const Color(0xFF5B7FCC), true),
-      (l10n.savings, savings, const Color(0xFF10B981), true),
-      (l10n.income, income, const Color(0xFFF59E0B), false),
+      (l10n.expense, expense, HareruColors.expense, false),
+      (l10n.transfer, transfer, HareruColors.transferBlue, true),
+      (l10n.savings, savings, HareruColors.savings, true),
+      (l10n.income, income, HareruColors.income, false),
     ];
 
     return Container(
@@ -791,7 +791,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                         l10n.notIncludedInReal,
                         style: const TextStyle(
                           fontSize: 11,
-                          color: Color(0xFFBFBFBF),
+                          color: HareruColors.lightTextTertiary,
                         ),
                       ),
                     ),
@@ -864,12 +864,12 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color:
-            isDark ? HareruColors.darkCard : const Color(0xFFFFF0EF),
+            isDark ? HareruColors.darkCard : HareruColors.guideIconBg,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isDark
               ? HareruColors.darkDivider
-              : const Color(0xFFE5E0DB),
+              : HareruColors.lightDivider,
         ),
       ),
       child: Column(

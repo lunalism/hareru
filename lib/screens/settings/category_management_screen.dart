@@ -20,10 +20,10 @@ class _CategoryManagementScreenState
   String _selectedType = 'expense';
 
   static const _typeColors = {
-    'expense': Color(0xFFEF4444),
-    'transfer': Color(0xFF5B7FCC),
-    'savings': Color(0xFF10B981),
-    'income': Color(0xFFF59E0B),
+    'expense': HareruColors.expense,
+    'transfer': HareruColors.transferBlue,
+    'savings': HareruColors.savings,
+    'income': HareruColors.income,
   };
 
   String _typeLabel(String type, AppLocalizations l10n) {
@@ -349,7 +349,7 @@ class _CategoryManagementScreenState
                 child: Text(
                   l10n.deleteCategory,
                   style: const TextStyle(
-                    color: Color(0xFFEF4444),
+                    color: HareruColors.expense,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -447,7 +447,7 @@ class _CategoryManagementScreenState
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.only(right: 20),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEF4444),
+                      color: HareruColors.expense,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(Icons.delete_outline_rounded,
@@ -562,7 +562,7 @@ class _CategoryManagementScreenState
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: isDark ? HareruColors.darkCard : const Color(0xFFF5F0EB),
+        color: isDark ? HareruColors.darkCard : HareruColors.lightBg,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

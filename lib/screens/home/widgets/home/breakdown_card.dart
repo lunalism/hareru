@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
@@ -38,21 +39,21 @@ class BreakdownCard extends ConsumerWidget {
               _TypeColumn(
                 label: l10n.expense,
                 amount: '¥${formatAmount(notifier.expenseTotal)}',
-                typeColor: const Color(0xFFEF4444),
+                typeColor: HareruColors.expense,
                 labelColor: c.textSecondary,
               ),
               Container(width: 1, height: 32, color: c.divider),
               _TypeColumn(
                 label: l10n.transfer,
                 amount: '¥${formatAmount(notifier.transferTotal)}',
-                typeColor: const Color(0xFF5B7FCC),
+                typeColor: HareruColors.transferBlue,
                 labelColor: c.textSecondary,
               ),
               Container(width: 1, height: 32, color: c.divider),
               _TypeColumn(
                 label: l10n.savings,
                 amount: '¥${formatAmount(notifier.savingsTotal)}',
-                typeColor: const Color(0xFF10B981),
+                typeColor: HareruColors.savings,
                 labelColor: c.textSecondary,
               ),
             ],
@@ -66,7 +67,7 @@ class BreakdownCard extends ConsumerWidget {
                 width: 6,
                 height: 6,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFF59E0B),
+                  color: HareruColors.income,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -85,7 +86,7 @@ class BreakdownCard extends ConsumerWidget {
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFFF59E0B),
+                  color: HareruColors.income,
                   fontFeatures: [FontFeature.tabularFigures()],
                 ),
               ),

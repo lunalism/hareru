@@ -50,9 +50,9 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
   }
 
   Color _amountColor(double amount) {
-    if (amount <= 3000) return const Color(0xFF10B981);
-    if (amount <= 10000) return const Color(0xFFF59E0B);
-    return const Color(0xFFEF4444);
+    if (amount <= 3000) return HareruColors.savings;
+    if (amount <= 10000) return HareruColors.income;
+    return HareruColors.expense;
   }
 
   String _compactAmount(double amount) {
@@ -178,7 +178,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
       child: Container(
         height: 40,
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF3A3A3A) : const Color(0xFFF5F0EB),
+          color: isDark ? HareruColors.darkDivider : HareruColors.lightBg,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -216,7 +216,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
         child: Container(
           margin: const EdgeInsets.all(3),
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFFE8453C) : Colors.transparent,
+            color: isSelected ? HareruColors.primaryStart : Colors.transparent,
             borderRadius: BorderRadius.circular(6),
           ),
           alignment: Alignment.center,
@@ -228,7 +228,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
                 size: 16,
                 color: isSelected
                     ? Colors.white
-                    : const Color(0xFF8A8A8A),
+                    : HareruColors.lightTextSecondary,
               ),
               const SizedBox(width: 4),
               Text(
@@ -238,7 +238,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
                   fontWeight: FontWeight.w600,
                   color: isSelected
                       ? Colors.white
-                      : const Color(0xFF8A8A8A),
+                      : HareruColors.lightTextSecondary,
                 ),
               ),
             ],
@@ -404,15 +404,15 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
             _ => const ['月', '火', '水', '木', '金', '土', '日'][wd - 1],
           };
         },
-        weekdayStyle: const TextStyle(
+        weekdayStyle: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: Color(0xFFBFBFBF),
+          color: HareruColors.lightTextTertiary,
         ),
-        weekendStyle: const TextStyle(
+        weekendStyle: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: Color(0xFFBFBFBF),
+          color: HareruColors.lightTextTertiary,
         ),
       ),
       calendarStyle: CalendarStyle(
@@ -424,14 +424,14 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
           color: const Color(0xFFE8453C).withValues(alpha: 0.2),
           shape: BoxShape.circle,
         ),
-        todayTextStyle: const TextStyle(
+        todayTextStyle: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w700,
-          color: Color(0xFFE8453C),
+          color: HareruColors.primaryStart,
         ),
         // Selected
-        selectedDecoration: const BoxDecoration(
-          color: Color(0xFFE8453C),
+        selectedDecoration: BoxDecoration(
+          color: HareruColors.primaryStart,
           shape: BoxShape.circle,
         ),
         selectedTextStyle: const TextStyle(
@@ -442,12 +442,12 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
         // Default
         defaultTextStyle: TextStyle(
           fontSize: 14,
-          color: isDark ? const Color(0xFFF5F0EB) : const Color(0xFF1A1A1A),
+          color: isDark ? HareruColors.lightBg : HareruColors.lightTextPrimary,
         ),
         // Weekend
         weekendTextStyle: TextStyle(
           fontSize: 14,
-          color: isDark ? const Color(0xFFF5F0EB) : const Color(0xFF1A1A1A),
+          color: isDark ? HareruColors.lightBg : HareruColors.lightTextPrimary,
         ),
       ),
       calendarBuilders: CalendarBuilders(
@@ -464,10 +464,10 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
             _ => const ['月', '火', '水', '木', '金', '土', '日'][wd - 1],
           };
           final color = wd == 7
-              ? const Color(0xFFEF4444)
+              ? HareruColors.expense
               : wd == 6
-                  ? const Color(0xFF8A8A8A)
-                  : const Color(0xFF8A8A8A);
+                  ? HareruColors.lightTextSecondary
+                  : HareruColors.lightTextSecondary;
           return Center(
             child: Text(
               label,
@@ -519,14 +519,14 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
     if (isSelected) {
       textColor = Colors.white;
     } else if (isToday) {
-      textColor = const Color(0xFFE8453C);
+      textColor = HareruColors.primaryStart;
     } else if (isSun) {
-      textColor = const Color(0xFFEF4444);
+      textColor = HareruColors.expense;
     } else if (isSat) {
-      textColor = const Color(0xFFE8453C);
+      textColor = HareruColors.primaryStart;
     } else {
       textColor =
-          isDark ? const Color(0xFFF5F0EB) : const Color(0xFF1A1A1A);
+          isDark ? HareruColors.lightBg : HareruColors.lightTextPrimary;
     }
 
     return SizedBox(
@@ -539,8 +539,8 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
             width: 28,
             height: 28,
             decoration: isSelected
-                ? const BoxDecoration(
-                    color: Color(0xFFE8453C),
+                ? BoxDecoration(
+                    color: HareruColors.primaryStart,
                     shape: BoxShape.circle,
                   )
                 : isToday
@@ -596,7 +596,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
       return Center(
         child: Text(
           l10n.noRecordsForDay,
-          style: const TextStyle(fontSize: 14, color: Color(0xFFBFBFBF)),
+          style: TextStyle(fontSize: 14, color: HareruColors.lightTextTertiary),
         ),
       );
     }
@@ -654,10 +654,10 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
               padding: const EdgeInsets.only(right: 4),
               child: Text(
                 '${l10n.dailyTotal}: -\u00a5${formatAmount(expenseTotal)}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFFEF4444),
+                  color: HareruColors.expense,
                 ),
               ),
             ),
@@ -685,7 +685,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
       background: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
-        color: const Color(0xFFEF4444),
+        color: HareruColors.expense,
         child: const Icon(Icons.delete_outline_rounded,
             color: Colors.white, size: 24),
       ),

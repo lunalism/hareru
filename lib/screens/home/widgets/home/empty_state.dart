@@ -101,15 +101,15 @@ class GuideCards extends ConsumerWidget {
 
     final guides = [
       _GuideItem(Icons.receipt_long_outlined, l10n.guideExpenseTitle,
-          l10n.guideExpenseDesc, const Color(0xFFE8453C), onTap: () {
+          l10n.guideExpenseDesc, HareruColors.primaryStart, onTap: () {
         _openAddTransactionScreen(context, ref);
       }),
       _GuideItem(Icons.account_balance_wallet_outlined, l10n.guideBudgetTitle,
-          l10n.guideBudgetDesc, const Color(0xFFE8453C), onTap: () {
+          l10n.guideBudgetDesc, HareruColors.primaryStart, onTap: () {
         showHomeBudgetDialog(context, ref);
       }),
       _GuideItem(Icons.category_outlined, l10n.guideCategoryTitle,
-          l10n.guideCategoryDesc, const Color(0xFFE8453C), onTap: () {
+          l10n.guideCategoryDesc, HareruColors.primaryStart, onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(

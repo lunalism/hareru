@@ -51,7 +51,7 @@ class CategoryGrid extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isDark
                     ? HareruColors.darkCard
-                    : const Color(0xFFF5F0EB),
+                    : HareruColors.lightBg,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: isDark
@@ -96,10 +96,10 @@ class CategoryGrid extends StatelessWidget {
             duration: const Duration(milliseconds: 150),
             decoration: BoxDecoration(
               color: isSelected
-                  ? const Color(0xFFE8453C)
+                  ? HareruColors.primaryStart
                   : (isDark
                       ? HareruColors.darkCard
-                      : const Color(0xFFF5F0EB)),
+                      : HareruColors.lightBg),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Column(
@@ -138,7 +138,7 @@ void showQuickAddCategoryDialog({
   required void Function(String) onCategoryAdded,
 }) {
   final l10n = AppLocalizations.of(context)!;
-  const activeColor = Color(0xFFE8453C);
+  const activeColor = HareruColors.primaryStart;
   final emojiController = TextEditingController();
   final nameController = TextEditingController();
 

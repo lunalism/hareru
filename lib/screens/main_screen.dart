@@ -160,10 +160,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final isDark = context.isDark;
 
     final color = switch (transaction.type) {
-      TransactionType.expense => const Color(0xFFEF4444),
-      TransactionType.transfer => const Color(0xFF5B7FCC),
-      TransactionType.savings => const Color(0xFF10B981),
-      TransactionType.income => const Color(0xFFF59E0B),
+      TransactionType.expense => HareruColors.expense,
+      TransactionType.transfer => HareruColors.transferBlue,
+      TransactionType.savings => HareruColors.savings,
+      TransactionType.income => HareruColors.income,
     };
 
     final typeLabel = switch (transaction.type) {
@@ -272,8 +272,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget _buildTab(
       int index, _TabItem tab, Color inactiveColor, bool isDark) {
     final isActive = index == _currentIndex;
-    const activeColor = Color(0xFFE8453C);
-    const deactiveColor = Color(0xFF8A8A8A);
+    const activeColor = HareruColors.primaryStart;
+    const deactiveColor = HareruColors.lightTextSecondary;
     final color = isActive ? activeColor : deactiveColor;
 
     return Expanded(

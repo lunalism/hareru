@@ -37,7 +37,7 @@ Future<bool> showDeleteConfirmation({
           onPressed: () => Navigator.pop(ctx, false),
           child: Text(
             l10n.cancel,
-            style: const TextStyle(color: Color(0xFF8A8A8A)),
+            style: const TextStyle(color: HareruColors.lightTextSecondary),
           ),
         ),
         TextButton(
@@ -45,7 +45,7 @@ Future<bool> showDeleteConfirmation({
           child: Text(
             l10n.deleteRecord,
             style: const TextStyle(
-              color: Color(0xFFEF4444),
+              color: HareruColors.expense,
               fontWeight: FontWeight.w600,
             ),
           ),

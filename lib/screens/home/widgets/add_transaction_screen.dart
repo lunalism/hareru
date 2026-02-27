@@ -318,7 +318,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: isDark ? HareruColors.darkCard : const Color(0xFFEDE8E3),
+        color: isDark ? HareruColors.darkCard : HareruColors.headerCardLight,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -363,7 +363,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                             : HareruColors.lightTextPrimary)
                         : (isDark
                             ? HareruColors.darkTextTertiary
-                            : const Color(0xFF8A8A8A)),
+                            : HareruColors.lightTextSecondary),
                   ),
                 ),
               ),
@@ -388,8 +388,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                   color: _parsedAmount > 0
-                      ? const Color(0xFFE8453C)
-                      : const Color(0xFFBFBFBF),
+                      ? HareruColors.primaryStart
+                      : HareruColors.lightTextTertiary,
                 ),
               ),
               const SizedBox(width: 4),
@@ -414,7 +414,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                     hintStyle: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.w700,
-                      color: const Color(0xFFBFBFBF),
+                      color: HareruColors.lightTextTertiary,
                     ),
                     isDense: true,
                     contentPadding: EdgeInsets.zero,
@@ -434,9 +434,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           if (_parsedAmount == 0)
             Text(
               l10n.amountHint,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
-                color: Color(0xFFBFBFBF),
+                color: HareruColors.lightTextTertiary,
               ),
             ),
         ],
@@ -448,7 +448,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
       decoration: BoxDecoration(
-        color: isDark ? HareruColors.darkCard : const Color(0xFFF5F0EB),
+        color: isDark ? HareruColors.darkCard : HareruColors.lightBg,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -514,7 +514,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           child: Switch.adaptive(
             value: _isRecurring,
             onChanged: (v) => setState(() => _isRecurring = v),
-            activeTrackColor: const Color(0xFFE8453C),
+            activeTrackColor: HareruColors.primaryStart,
           ),
         ),
       ],
@@ -530,8 +530,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         height: 52,
         decoration: BoxDecoration(
           color: _canSave
-              ? const Color(0xFFE8453C)
-              : (isDark ? const Color(0xFF3A3A3A) : const Color(0xFFE5E0DB)),
+              ? HareruColors.primaryStart
+              : (isDark ? HareruColors.darkDivider : HareruColors.lightDivider),
           borderRadius: BorderRadius.circular(16),
         ),
         alignment: Alignment.center,
@@ -543,8 +543,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             color: _canSave
                 ? Colors.white
                 : (isDark
-                    ? const Color(0xFF5A5A5A)
-                    : const Color(0xFFBFBFBF)),
+                    ? HareruColors.darkTextTertiary
+                    : HareruColors.lightTextTertiary),
           ),
         ),
       ),

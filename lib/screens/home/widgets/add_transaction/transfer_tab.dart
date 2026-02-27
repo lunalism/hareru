@@ -39,7 +39,7 @@ class TransferTab extends ConsumerWidget {
             fontWeight: FontWeight.w600,
             color: isDark
                 ? HareruColors.darkTextSecondary
-                : const Color(0xFF8A8A8A),
+                : HareruColors.lightTextSecondary,
           ),
         ),
         const SizedBox(height: 8),
@@ -53,13 +53,13 @@ class TransferTab extends ConsumerWidget {
         ),
 
         // Arrow
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Center(
             child: Icon(
               Icons.arrow_downward_rounded,
               size: 16,
-              color: Color(0xFF8A8A8A),
+              color: HareruColors.lightTextSecondary,
             ),
           ),
         ),
@@ -72,7 +72,7 @@ class TransferTab extends ConsumerWidget {
             fontWeight: FontWeight.w600,
             color: isDark
                 ? HareruColors.darkTextSecondary
-                : const Color(0xFF8A8A8A),
+                : HareruColors.lightTextSecondary,
           ),
         ),
         const SizedBox(height: 8),

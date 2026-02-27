@@ -227,7 +227,7 @@ Future<void> resetData(BuildContext context, WidgetRef ref) async {
           onPressed: () => Navigator.pop(ctx, true),
           child: Text(l10n.reset,
               style: const TextStyle(
-                  color: Color(0xFFEF4444), fontWeight: FontWeight.w600)),
+                  color: HareruColors.expense, fontWeight: FontWeight.w600)),
         ),
       ],
     ),
@@ -276,7 +276,7 @@ Future<void> resetData(BuildContext context, WidgetRef ref) async {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: const BorderSide(
-                    color: Color(0xFFEF4444), width: 2),
+                    color: HareruColors.expense, width: 2),
               ),
             ),
             onChanged: (_) => setDialogState(() {}),
@@ -298,7 +298,7 @@ Future<void> resetData(BuildContext context, WidgetRef ref) async {
                 l10n.reset,
                 style: TextStyle(
                   color: controller.text == l10n.resetKeyword
-                      ? const Color(0xFFEF4444)
+                      ? HareruColors.expense
                       : (isDark
                           ? HareruColors.darkTextTertiary
                           : HareruColors.lightTextTertiary),
