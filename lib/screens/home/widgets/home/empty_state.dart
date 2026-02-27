@@ -6,6 +6,7 @@ import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/screens/home/widgets/add_transaction_screen.dart';
 import 'package:hareru/screens/home/widgets/home/budget_dialog.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
+import 'package:hareru/widgets/emoji_badge.dart';
 
 class EmptyMainCard extends StatelessWidget {
   const EmptyMainCard({super.key, required this.isDark});
@@ -135,16 +136,7 @@ class GuideCards extends ConsumerWidget {
               ),
               child: Row(
                 children: [
-                  Container(
-                    width: 42,
-                    height: 42,
-                    decoration: BoxDecoration(
-                      color: HareruColors.guideIconBg,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(g.icon, size: 22, color: g.color),
-                  ),
+                  IconBadge(icon: g.icon, iconColor: g.color),
                   const SizedBox(width: 14),
                   Expanded(
                     child: Column(

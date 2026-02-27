@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/widgets/emoji_badge.dart';
 
 class AiInsightCard extends StatelessWidget {
   const AiInsightCard({super.key, required this.isDark});
@@ -23,17 +24,7 @@ class AiInsightCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              color: HareruColors.guideIconBg,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            alignment: Alignment.center,
-            child:
-                const Icon(Icons.auto_awesome, size: 22, color: HareruColors.primaryStart),
-          ),
+          const IconBadge(icon: Icons.auto_awesome),
           const SizedBox(width: 14),
           Expanded(
             child: Column(

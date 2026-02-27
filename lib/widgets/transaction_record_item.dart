@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/models/transaction.dart';
+import 'package:hareru/widgets/emoji_badge.dart';
 import 'package:hareru/widgets/type_badge.dart';
 
 class TransactionRecordItem extends StatelessWidget {
@@ -34,16 +35,7 @@ class TransactionRecordItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
-            Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                color: isDark ? HareruColors.darkBg : HareruColors.lightBg,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              alignment: Alignment.center,
-              child: Text(emoji, style: const TextStyle(fontSize: 20)),
-            ),
+            EmojiBadge(emoji: emoji, isDark: isDark, fontSize: 20),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
