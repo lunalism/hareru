@@ -1,29 +1,18 @@
-import 'dart:convert';
-
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
-import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/dark_mode_provider.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
 import 'package:hareru/core/providers/pay_day_provider.dart';
 import 'package:hareru/core/providers/reminder_provider.dart';
-import 'package:hareru/core/providers/transaction_provider.dart';
-import 'package:hareru/core/services/notification_service.dart';
 import 'package:hareru/l10n/app_localizations.dart';
-import 'package:hareru/models/category.dart' as cat;
-import 'package:hareru/models/transaction.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
 import 'package:hareru/screens/settings/faq_screen.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+import 'package:hareru/screens/settings/widgets/contact_sheet.dart';
+import 'package:hareru/screens/settings/widgets/data_management.dart';
+import 'package:hareru/screens/settings/widgets/settings_dialogs.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -73,654 +62,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return l10n.payDayLabel('$payDay');
   }
 
-  // ── Dialogs ──
-
-  void _showPayDayDialog(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    var selected = ref.read(payDayProvider);
-    if (selected == 0) selected = 25;
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return StatefulBuilder(
-          builder: (context, setDialogState) {
-            return AlertDialog(
-              backgroundColor:
-                  isDark ? HareruColors.darkCard : HareruColors.lightCard,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              title: Text(
-                l10n.setPayDay,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: isDark
-                      ? HareruColors.darkTextPrimary
-                      : HareruColors.lightTextPrimary,
-                ),
-              ),
-              content: DropdownButtonHideUnderline(
-                child: DropdownButton<int>(
-                  value: selected,
-                  isExpanded: true,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: HareruColors.primaryStart,
-                  ),
-                  dropdownColor:
-                      isDark ? HareruColors.darkCard : HareruColors.lightCard,
-                  items: [
-                    ...List.generate(
-                      31,
-                      (i) => DropdownMenuItem(
-                        value: i + 1,
-                        child: Text('${i + 1}'),
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: 32,
-                      child: Text(l10n.payDayEndOfMonth),
-                    ),
-                  ],
-                  onChanged: (value) {
-                    if (value != null) {
-                      setDialogState(() => selected = value);
-                    }
-                  },
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(dialogContext),
-                  child: Text(
-                    l10n.cancel,
-                    style: TextStyle(
-                      color: isDark
-                          ? HareruColors.darkTextSecondary
-                          : HareruColors.lightTextSecondary,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    ref.read(payDayProvider.notifier).setPayDay(selected);
-                    Navigator.pop(dialogContext);
-                  },
-                  child: Text(
-                    l10n.save,
-                    style: const TextStyle(
-                      color: HareruColors.primaryStart,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  void _showBudgetDialog(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final currentBudget = ref.read(budgetProvider);
-    final controller = TextEditingController(
-      text: currentBudget > 0 ? currentBudget.toString() : '',
-    );
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          backgroundColor:
-              isDark ? HareruColors.darkCard : HareruColors.lightCard,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Text(
-            l10n.setBudgetTitle,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: isDark
-                  ? HareruColors.darkTextPrimary
-                  : HareruColors.lightTextPrimary,
-            ),
-          ),
-          content: TextField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            autofocus: true,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: isDark
-                  ? HareruColors.darkTextPrimary
-                  : HareruColors.lightTextPrimary,
-            ),
-            decoration: InputDecoration(
-              prefixText: '¥ ',
-              prefixStyle: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                color: HareruColors.primaryStart,
-              ),
-              hintText: '150000',
-              hintStyle: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w400,
-                color: isDark
-                    ? HareruColors.darkTextTertiary
-                    : HareruColors.lightTextTertiary,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: isDark
-                      ? HareruColors.darkDivider
-                      : HareruColors.lightDivider,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: HareruColors.primaryStart,
-                  width: 2,
-                ),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text(
-                l10n.cancel,
-                style: TextStyle(
-                  color: isDark
-                      ? HareruColors.darkTextSecondary
-                      : HareruColors.lightTextSecondary,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                final value = int.tryParse(controller.text) ?? 0;
-                ref.read(budgetProvider.notifier).setBudget(value);
-                Navigator.pop(dialogContext);
-              },
-              child: Text(
-                l10n.save,
-                style: const TextStyle(
-                  color: HareruColors.primaryStart,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showTimePicker(BuildContext context) {
-    final reminder = ref.read(reminderProvider);
-    final parts = reminder.time.split(':');
-    var hour = int.tryParse(parts[0]) ?? 21;
-    var minute = int.tryParse(parts.length > 1 ? parts[1] : '0') ?? 0;
-
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (_) => Container(
-        height: 260,
-        color: Theme.of(context).brightness == Brightness.dark
-            ? HareruColors.darkCard
-            : HareruColors.lightCard,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 44,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CupertinoButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      AppLocalizations.of(context)!.save,
-                      style: const TextStyle(
-                        color: HareruColors.primaryStart,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    onPressed: () {
-                      final timeStr =
-                          '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
-                      ref.read(reminderProvider.notifier).setTime(timeStr);
-                      _scheduleReminder();
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.time,
-                use24hFormat: true,
-                initialDateTime: DateTime(2026, 1, 1, hour, minute),
-                onDateTimeChanged: (dt) {
-                  hour = dt.hour;
-                  minute = dt.minute;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _scheduleReminder() async {
-    final reminder = ref.read(reminderProvider);
-    if (!reminder.enabled) return;
-
-    final l10n = AppLocalizations.of(context)!;
-    final parts = reminder.time.split(':');
-    final hour = int.tryParse(parts[0]) ?? 21;
-    final minute = int.tryParse(parts.length > 1 ? parts[1] : '0') ?? 0;
-
-    await NotificationService.scheduleDailyReminder(
-      hour: hour,
-      minute: minute,
-      title: l10n.reminderTitle,
-      body: l10n.reminderBody,
-    );
-  }
-
-  Future<void> _toggleReminder(bool enabled) async {
-    if (enabled) {
-      final granted = await NotificationService.requestPermission();
-      if (!granted) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  AppLocalizations.of(context)!.enableNotificationInSettings),
-            ),
-          );
-        }
-        return;
-      }
-    }
-
-    await ref.read(reminderProvider.notifier).setEnabled(enabled);
-
-    if (enabled) {
-      await _scheduleReminder();
-    } else {
-      await NotificationService.cancelAll();
-    }
-  }
-
-  // ── Backup / Restore / Reset ──
-
-  Future<void> _backupData() async {
-    final settingsBox = await Hive.openBox<dynamic>('settings');
-    final transactionsBox = await Hive.openBox<Transaction>('transactions');
-    final categoriesBox = await Hive.openBox<cat.Category>('categories');
-
-    final settings = <String, dynamic>{};
-    for (final key in settingsBox.keys) {
-      settings[key.toString()] = settingsBox.get(key);
-    }
-
-    final transactions = transactionsBox.values.map((t) => {
-          'id': t.id,
-          'type': t.type.index,
-          'amount': t.amount,
-          'category': t.category,
-          'memo': t.memo,
-          'createdAt': t.createdAt.toIso8601String(),
-        }).toList();
-
-    final categories = categoriesBox.values.map((c) => {
-          'id': c.id,
-          'name': c.name,
-          'emoji': c.emoji,
-          'type': c.type,
-          'sortOrder': c.sortOrder,
-          'isDefault': c.isDefault,
-          'createdAt': c.createdAt.toIso8601String(),
-        }).toList();
-
-    final backup = {
-      'version': '1.0.0',
-      'exportDate': DateTime.now().toIso8601String(),
-      'settings': settings,
-      'categories': categories,
-      'transactions': transactions,
-    };
-
-    final jsonStr = const JsonEncoder.withIndent('  ').convert(backup);
-    final now = DateTime.now();
-    final fileName =
-        'hareru_backup_${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}.json';
-
-    await Share.share(jsonStr, subject: fileName);
-  }
-
-  Future<void> _restoreData() async {
-    final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor:
-            isDark ? HareruColors.darkCard : HareruColors.lightCard,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          l10n.restoreData,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: isDark
-                ? HareruColors.darkTextPrimary
-                : HareruColors.lightTextPrimary,
-          ),
-        ),
-        content: Text(
-          l10n.restoreConfirm,
-          style: TextStyle(
-            color: isDark
-                ? HareruColors.darkTextSecondary
-                : HareruColors.lightTextSecondary,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l10n.cancel,
-                style: TextStyle(
-                    color: isDark
-                        ? HareruColors.darkTextSecondary
-                        : HareruColors.lightTextSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(l10n.restoreData,
-                style: const TextStyle(
-                    color: HareruColors.primaryStart,
-                    fontWeight: FontWeight.w600)),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed != true || !mounted) return;
-
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['json'],
-    );
-
-    if (result == null || result.files.isEmpty) return;
-
-    try {
-      final file = result.files.first;
-      final bytes = file.bytes;
-      if (bytes == null) return;
-
-      final jsonStr = utf8.decode(bytes);
-      final data = json.decode(jsonStr) as Map<String, dynamic>;
-
-      // Restore settings
-      if (data['settings'] is Map) {
-        final settingsBox = await Hive.openBox<dynamic>('settings');
-        final settingsData = data['settings'] as Map<String, dynamic>;
-        for (final entry in settingsData.entries) {
-          await settingsBox.put(entry.key, entry.value);
-        }
-      }
-
-      // Restore categories
-      if (data['categories'] is List) {
-        final categoriesBox = await Hive.openBox<cat.Category>('categories');
-        await categoriesBox.clear();
-        for (final item in data['categories'] as List) {
-          final m = item as Map<String, dynamic>;
-          final c = cat.Category(
-            id: m['id'] as String,
-            name: m['name'] as String,
-            emoji: m['emoji'] as String,
-            type: m['type'] as String,
-            sortOrder: m['sortOrder'] as int,
-            isDefault: m['isDefault'] as bool,
-            createdAt: DateTime.parse(m['createdAt'] as String),
-          );
-          await categoriesBox.put(c.id, c);
-        }
-      }
-
-      // Restore transactions
-      if (data['transactions'] is List) {
-        final transactionsBox =
-            await Hive.openBox<Transaction>('transactions');
-        await transactionsBox.clear();
-        for (final item in data['transactions'] as List) {
-          final m = item as Map<String, dynamic>;
-          final t = Transaction(
-            id: m['id'] as String,
-            type: TransactionType.values[m['type'] as int],
-            amount: (m['amount'] as num).toDouble(),
-            category: m['category'] as String,
-            memo: m['memo'] as String?,
-            createdAt: DateTime.parse(m['createdAt'] as String),
-          );
-          await transactionsBox.put(t.id, t);
-        }
-      }
-
-      // Refresh providers
-      ref.invalidate(budgetProvider);
-      ref.invalidate(payDayProvider);
-      ref.invalidate(categoryProvider);
-      ref.invalidate(transactionProvider);
-      ref.invalidate(darkModeProvider);
-      ref.invalidate(reminderProvider);
-      ref.invalidate(localeProvider);
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.restoreData)),
-        );
-      }
-    } catch (_) {
-      // Invalid file
-    }
-  }
-
-  Future<void> _resetData() async {
-    final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    // 1st confirmation
-    final firstConfirm = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor:
-            isDark ? HareruColors.darkCard : HareruColors.lightCard,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          l10n.resetData,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: isDark
-                ? HareruColors.darkTextPrimary
-                : HareruColors.lightTextPrimary,
-          ),
-        ),
-        content: Text(
-          l10n.resetConfirm,
-          style: TextStyle(
-            color: isDark
-                ? HareruColors.darkTextSecondary
-                : HareruColors.lightTextSecondary,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l10n.cancel,
-                style: TextStyle(
-                    color: isDark
-                        ? HareruColors.darkTextSecondary
-                        : HareruColors.lightTextSecondary)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(l10n.reset,
-                style: const TextStyle(
-                    color: Color(0xFFEF4444), fontWeight: FontWeight.w600)),
-          ),
-        ],
-      ),
-    );
-
-    if (firstConfirm != true || !mounted) return;
-
-    // 2nd confirmation with keyword input
-    final controller = TextEditingController();
-    final secondConfirm = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => StatefulBuilder(
-        builder: (context, setDialogState) {
-          return AlertDialog(
-            backgroundColor:
-                isDark ? HareruColors.darkCard : HareruColors.lightCard,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16)),
-            title: Text(
-              l10n.resetDoubleConfirm,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: isDark
-                    ? HareruColors.darkTextPrimary
-                    : HareruColors.lightTextPrimary,
-              ),
-            ),
-            content: TextField(
-              controller: controller,
-              autofocus: true,
-              style: TextStyle(
-                color: isDark
-                    ? HareruColors.darkTextPrimary
-                    : HareruColors.lightTextPrimary,
-              ),
-              decoration: InputDecoration(
-                hintText: l10n.resetKeyword,
-                hintStyle: TextStyle(
-                  color: isDark
-                      ? HareruColors.darkTextTertiary
-                      : HareruColors.lightTextTertiary,
-                ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                      color: Color(0xFFEF4444), width: 2),
-                ),
-              ),
-              onChanged: (_) => setDialogState(() {}),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: Text(l10n.cancel,
-                    style: TextStyle(
-                        color: isDark
-                            ? HareruColors.darkTextSecondary
-                            : HareruColors.lightTextSecondary)),
-              ),
-              TextButton(
-                onPressed: controller.text == l10n.resetKeyword
-                    ? () => Navigator.pop(ctx, true)
-                    : null,
-                child: Text(
-                  l10n.reset,
-                  style: TextStyle(
-                    color: controller.text == l10n.resetKeyword
-                        ? const Color(0xFFEF4444)
-                        : (isDark
-                            ? HareruColors.darkTextTertiary
-                            : HareruColors.lightTextTertiary),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-
-    if (secondConfirm != true || !mounted) return;
-
-    // Execute reset
-    final settingsBox = await Hive.openBox<dynamic>('settings');
-    final transactionsBox = await Hive.openBox<Transaction>('transactions');
-    final categoriesBox = await Hive.openBox<cat.Category>('categories');
-
-    await settingsBox.clear();
-    await transactionsBox.clear();
-    await categoriesBox.clear();
-    await NotificationService.cancelAll();
-
-    // Reset onboarding flag
-    await settingsBox.put('onboarding_completed', false);
-
-    // Refresh and go to onboarding
-    ref.invalidate(budgetProvider);
-    ref.invalidate(payDayProvider);
-    ref.invalidate(categoryProvider);
-    ref.invalidate(transactionProvider);
-    ref.invalidate(darkModeProvider);
-    ref.invalidate(reminderProvider);
-    ref.invalidate(localeProvider);
-
-    if (mounted) {
-      context.go('/onboarding');
-    }
-  }
-
-  void _showContactSheet() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final l10n = AppLocalizations.of(context)!;
-
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: isDark ? const Color(0xFF2A2A2A) : Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (_) => _ContactSheet(isDark: isDark, l10n: l10n),
-    );
-  }
-
-  // ── Build ──
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -752,7 +93,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
-              // ── Budget section ──
+              // Budget section
               _sectionHeader(l10n.budgetSettings, isDark),
               const SizedBox(height: 12),
               _card(
@@ -767,7 +108,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                     showChevron: true,
                     isDark: isDark,
-                    onTap: () => _showPayDayDialog(context),
+                    onTap: () => showPayDayDialog(context, ref),
                   ),
                   _divider(isDark),
                   _row(
@@ -781,13 +122,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                     showChevron: true,
                     isDark: isDark,
-                    onTap: () => _showBudgetDialog(context),
+                    onTap: () => showBudgetDialog(context, ref),
                   ),
                 ],
               ),
               const SizedBox(height: 28),
 
-              // ── Category management ──
+              // Category management
               _card(
                 isDark,
                 children: [
@@ -807,7 +148,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
-              // ── Appearance section ──
+              // Appearance section
               _sectionHeader(l10n.appearance, isDark),
               const SizedBox(height: 12),
               _card(
@@ -828,7 +169,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
-              // ── Notification section ──
+              // Notification section
               _sectionHeader(l10n.notification, isDark),
               const SizedBox(height: 12),
               _card(
@@ -840,7 +181,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     trailing: Switch.adaptive(
                       value: reminder.enabled,
                       activeTrackColor: HareruColors.primaryStart,
-                      onChanged: _toggleReminder,
+                      onChanged: (v) => toggleReminder(context, ref, v),
                     ),
                     isDark: isDark,
                   ),
@@ -851,14 +192,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       label: reminder.time,
                       showChevron: true,
                       isDark: isDark,
-                      onTap: () => _showTimePicker(context),
+                      onTap: () => showReminderTimePicker(context, ref),
                     ),
                   ],
                 ],
               ),
               const SizedBox(height: 28),
 
-              // ── Data section ──
+              // Data section
               _sectionHeader(l10n.data, isDark),
               const SizedBox(height: 12),
               _card(
@@ -869,7 +210,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     label: l10n.backupData,
                     showChevron: true,
                     isDark: isDark,
-                    onTap: _backupData,
+                    onTap: backupData,
                   ),
                   _divider(isDark),
                   _row(
@@ -877,7 +218,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     label: l10n.restoreData,
                     showChevron: true,
                     isDark: isDark,
-                    onTap: _restoreData,
+                    onTap: () => restoreData(context, ref),
                   ),
                   _divider(isDark),
                   _row(
@@ -886,13 +227,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     showChevron: true,
                     isDark: isDark,
                     labelColor: const Color(0xFFEF4444),
-                    onTap: _resetData,
+                    onTap: () => resetData(context, ref),
                   ),
                 ],
               ),
               const SizedBox(height: 28),
 
-              // ── Support section ──
+              // Support section
               _sectionHeader(l10n.support, isDark),
               const SizedBox(height: 12),
               _card(
@@ -916,13 +257,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     label: l10n.contactUs,
                     showChevron: true,
                     isDark: isDark,
-                    onTap: _showContactSheet,
+                    onTap: () => showContactSheet(context),
                   ),
                 ],
               ),
               const SizedBox(height: 28),
 
-              // ── Language section ──
+              // Language section
               _sectionHeader(l10n.languageTitle, isDark),
               const SizedBox(height: 12),
               _card(
@@ -956,7 +297,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
-              // ── About section ──
+              // About section
               _sectionHeader(l10n.aboutApp, isDark),
               const SizedBox(height: 12),
               _card(
@@ -1020,7 +361,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  // ── Reusable widgets ──
+  // Reusable widgets
 
   Widget _sectionHeader(String text, bool isDark) {
     return Padding(
@@ -1120,204 +461,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       color: isDark
           ? HareruColors.darkTextSecondary
           : HareruColors.lightTextSecondary,
-    );
-  }
-}
-
-// ── Contact Bottom Sheet ──
-
-const _contactEmail = 'hareru.info11@gmail.com';
-
-class _ContactSheet extends StatelessWidget {
-  const _ContactSheet({required this.isDark, required this.l10n});
-
-  final bool isDark;
-  final AppLocalizations l10n;
-
-  Future<void> _copyEmail(BuildContext context) async {
-    await Clipboard.setData(const ClipboardData(text: _contactEmail));
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.contactCopied)),
-      );
-    }
-  }
-
-  Future<void> _openMail(BuildContext context) async {
-    final locale = Localizations.localeOf(context).languageCode;
-    final info = await PackageInfo.fromPlatform();
-    final deviceInfo = DeviceInfoPlugin();
-    final iosInfo = await deviceInfo.iosInfo;
-
-    final body = l10n.contactBody(
-      info.version,
-      iosInfo.systemVersion,
-      iosInfo.utsname.machine,
-      locale,
-    );
-
-    final uri = Uri(
-      scheme: 'mailto',
-      path: _contactEmail,
-      queryParameters: {
-        'subject': l10n.contactSubject,
-        'body': body,
-      },
-    );
-
-    if (!await launchUrl(uri)) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.contactFallback)),
-        );
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final textPrimary =
-        isDark ? const Color(0xFFF0ECE7) : const Color(0xFF1A1A1A);
-    final textSecondary = const Color(0xFF8A8A8A);
-    final cardBg =
-        isDark ? const Color(0xFF3A3A3A) : const Color(0xFFF5F0EB);
-    final outlineBorder =
-        isDark ? const Color(0xFF4A4A4A) : const Color(0xFFE5E0DB);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 12),
-          // Drag handle
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE5E0DB),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 24),
-          // Emoji
-          const Text('\u{2709}\u{FE0F}', style: TextStyle(fontSize: 48)),
-          const SizedBox(height: 16),
-          // Title
-          Text(
-            l10n.contactUs,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: textPrimary,
-            ),
-          ),
-          const SizedBox(height: 8),
-          // Description
-          Text(
-            l10n.contactDesc,
-            style: TextStyle(fontSize: 14, color: textSecondary),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 20),
-          // Email card
-          GestureDetector(
-            onTap: () => _copyEmail(context),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: cardBg,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                _contactEmail,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: textPrimary,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Buttons
-          Row(
-            children: [
-              // Copy button
-              Expanded(
-                child: SizedBox(
-                  height: 50,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor:
-                          isDark ? const Color(0xFF2A2A2A) : Colors.white,
-                      side: BorderSide(color: outlineBorder),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () => _copyEmail(context),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          '\u{1F4CB}',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          l10n.contactCopy,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: textPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              // Open Mail button
-              Expanded(
-                child: SizedBox(
-                  height: 50,
-                  child: FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFFE8453C),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () => _openMail(context),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          '\u{2709}\u{FE0F}',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          l10n.contactOpenMail,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
-        ],
-      ),
     );
   }
 }
