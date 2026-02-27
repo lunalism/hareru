@@ -929,7 +929,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     final nameController = TextEditingController();
     var selectedEmoji = '🏦';
     final activeColor = const Color(0xFFE8453C);
-    const emojiOptions = ['🏦', '💰', '📈', '💳', '🐖', '💵'];
+    const emojiOptions = ['🏦', '💰', '📈', '💳', '🐷', '💵'];
 
     showDialog<void>(
       context: context,
@@ -966,31 +966,30 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Row(
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
                     children: emojiOptions.map((emoji) {
                       final isSelected = selectedEmoji == emoji;
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: GestureDetector(
-                          onTap: () =>
-                              setDialogState(() => selectedEmoji = emoji),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 150),
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? activeColor
-                                  : (isDark
-                                      ? HareruColors.darkBg
-                                      : const Color(0xFFF5F0EB)),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              emoji,
-                              style: const TextStyle(fontSize: 20),
-                            ),
+                      return GestureDetector(
+                        onTap: () =>
+                            setDialogState(() => selectedEmoji = emoji),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 150),
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? activeColor
+                                : (isDark
+                                    ? HareruColors.darkBg
+                                    : const Color(0xFFF5F0EB)),
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            emoji,
+                            style: const TextStyle(fontSize: 22),
                           ),
                         ),
                       );
