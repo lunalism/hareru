@@ -802,4 +802,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get amountHint => 'Enter amount';
+
+  @override
+  String get support => 'Support';
+
+  @override
+  String get faq => 'FAQ';
+
+  @override
+  String get contactUs => 'Contact Us';
+
+  @override
+  String get contactSubject => '[Hareru] Support Request';
+
+  @override
+  String contactBody(
+    String version,
+    String osVersion,
+    String device,
+    String locale,
+  ) {
+    return '[Your message]\n\n\n---\nApp version: $version\niOS: $osVersion\nDevice: $device\nLanguage: $locale';
+  }
+
+  @override
+  String get contactFallback => 'Please contact support@hareru.app';
+
+  @override
+  String get noInternet => 'Please connect to the internet';
 }

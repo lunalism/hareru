@@ -350,5 +350,20 @@
   "debitCard": "デビット",
   "cash": "現金",
   "monthlyRecurring": "毎月繰り返し",
-  "amountHint": "金額を入力"
+  "amountHint": "金額を入力",
+  "support": "サポート",
+  "faq": "よくある質問",
+  "contactUs": "お問い合わせ",
+  "contactSubject": "[Hareru] お問い合わせ",
+  "contactBody": "【お問い合わせ内容】\n\n\n---\nアプリバージョン: {version}\niOS: {osVersion}\n端末: {device}\n言語: {locale}",
+  "@contactBody": {
+    "placeholders": {
+      "version": {"type": "String"},
+      "osVersion": {"type": "String"},
+      "device": {"type": "String"},
+      "locale": {"type": "String"}
+    }
+  },
+  "contactFallback": "support@hareru.app までご連絡ください",
+  "noInternet": "インターネットに接続してください"
 }

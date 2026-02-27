@@ -794,4 +794,32 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get amountHint => '금액을 입력하세요';
+
+  @override
+  String get support => '지원';
+
+  @override
+  String get faq => '자주 묻는 질문';
+
+  @override
+  String get contactUs => '문의하기';
+
+  @override
+  String get contactSubject => '[Hareru] 문의';
+
+  @override
+  String contactBody(
+    String version,
+    String osVersion,
+    String device,
+    String locale,
+  ) {
+    return '【문의 내용】\n\n\n---\n앱 버전: $version\niOS: $osVersion\n단말기: $device\n언어: $locale';
+  }
+
+  @override
+  String get contactFallback => 'support@hareru.app으로 문의해주세요';
+
+  @override
+  String get noInternet => '인터넷에 연결해주세요';
 }

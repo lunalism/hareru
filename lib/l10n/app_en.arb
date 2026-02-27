@@ -350,5 +350,20 @@
   "debitCard": "Debit",
   "cash": "Cash",
   "monthlyRecurring": "Monthly recurring",
-  "amountHint": "Enter amount"
+  "amountHint": "Enter amount",
+  "support": "Support",
+  "faq": "FAQ",
+  "contactUs": "Contact Us",
+  "contactSubject": "[Hareru] Support Request",
+  "contactBody": "[Your message]\n\n\n---\nApp version: {version}\niOS: {osVersion}\nDevice: {device}\nLanguage: {locale}",
+  "@contactBody": {
+    "placeholders": {
+      "version": {"type": "String"},
+      "osVersion": {"type": "String"},
+      "device": {"type": "String"},
+      "locale": {"type": "String"}
+    }
+  },
+  "contactFallback": "Please contact support@hareru.app",
+  "noInternet": "Please connect to the internet"
 }

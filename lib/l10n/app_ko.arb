@@ -350,5 +350,20 @@
   "debitCard": "체크카드",
   "cash": "현금",
   "monthlyRecurring": "매월 반복",
-  "amountHint": "금액을 입력하세요"
+  "amountHint": "금액을 입력하세요",
+  "support": "지원",
+  "faq": "자주 묻는 질문",
+  "contactUs": "문의하기",
+  "contactSubject": "[Hareru] 문의",
+  "contactBody": "【문의 내용】\n\n\n---\n앱 버전: {version}\niOS: {osVersion}\n단말기: {device}\n언어: {locale}",
+  "@contactBody": {
+    "placeholders": {
+      "version": {"type": "String"},
+      "osVersion": {"type": "String"},
+      "device": {"type": "String"},
+      "locale": {"type": "String"}
+    }
+  },
+  "contactFallback": "support@hareru.app으로 문의해주세요",
+  "noInternet": "인터넷에 연결해주세요"
 }

@@ -1605,6 +1605,53 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'金額を入力'**
   String get amountHint;
+
+  /// No description provided for @support.
+  ///
+  /// In ja, this message translates to:
+  /// **'サポート'**
+  String get support;
+
+  /// No description provided for @faq.
+  ///
+  /// In ja, this message translates to:
+  /// **'よくある質問'**
+  String get faq;
+
+  /// No description provided for @contactUs.
+  ///
+  /// In ja, this message translates to:
+  /// **'お問い合わせ'**
+  String get contactUs;
+
+  /// No description provided for @contactSubject.
+  ///
+  /// In ja, this message translates to:
+  /// **'[Hareru] お問い合わせ'**
+  String get contactSubject;
+
+  /// No description provided for @contactBody.
+  ///
+  /// In ja, this message translates to:
+  /// **'【お問い合わせ内容】\n\n\n---\nアプリバージョン: {version}\niOS: {osVersion}\n端末: {device}\n言語: {locale}'**
+  String contactBody(
+    String version,
+    String osVersion,
+    String device,
+    String locale,
+  );
+
+  /// No description provided for @contactFallback.
+  ///
+  /// In ja, this message translates to:
+  /// **'support@hareru.app までご連絡ください'**
+  String get contactFallback;
+
+  /// No description provided for @noInternet.
+  ///
+  /// In ja, this message translates to:
+  /// **'インターネットに接続してください'**
+  String get noInternet;
 }
 
 class _AppLocalizationsDelegate

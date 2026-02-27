@@ -793,4 +793,32 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get amountHint => '金額を入力';
+
+  @override
+  String get support => 'サポート';
+
+  @override
+  String get faq => 'よくある質問';
+
+  @override
+  String get contactUs => 'お問い合わせ';
+
+  @override
+  String get contactSubject => '[Hareru] お問い合わせ';
+
+  @override
+  String contactBody(
+    String version,
+    String osVersion,
+    String device,
+    String locale,
+  ) {
+    return '【お問い合わせ内容】\n\n\n---\nアプリバージョン: $version\niOS: $osVersion\n端末: $device\n言語: $locale';
+  }
+
+  @override
+  String get contactFallback => 'support@hareru.app までご連絡ください';
+
+  @override
+  String get noInternet => 'インターネットに接続してください';
 }

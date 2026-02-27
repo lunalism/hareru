@@ -19,7 +19,9 @@ import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/category.dart' as cat;
 import 'package:hareru/models/transaction.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
+import 'package:hareru/screens/settings/faq_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -702,6 +704,39 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
+  Future<void> _openContactMail() async {
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
+
+    final info = await PackageInfo.fromPlatform();
+    final deviceInfo = DeviceInfoPlugin();
+    final iosInfo = await deviceInfo.iosInfo;
+
+    final body = l10n.contactBody(
+      info.version,
+      iosInfo.systemVersion,
+      iosInfo.utsname.machine,
+      locale,
+    );
+
+    final uri = Uri(
+      scheme: 'mailto',
+      path: 'support@hareru.app',
+      queryParameters: {
+        'subject': l10n.contactSubject,
+        'body': body,
+      },
+    );
+
+    if (!await launchUrl(uri)) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.contactFallback)),
+        );
+      }
+    }
+  }
+
   // ── Build ──
 
   @override
@@ -870,6 +905,36 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     isDark: isDark,
                     labelColor: const Color(0xFFEF4444),
                     onTap: _resetData,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 28),
+
+              // ── Support section ──
+              _sectionHeader(l10n.support, isDark),
+              const SizedBox(height: 12),
+              _card(
+                isDark,
+                children: [
+                  _row(
+                    emoji: '\u{2753}',
+                    label: l10n.faq,
+                    showChevron: true,
+                    isDark: isDark,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const FaqScreen(),
+                      ),
+                    ),
+                  ),
+                  _divider(isDark),
+                  _row(
+                    emoji: '\u{2709}\u{FE0F}',
+                    label: l10n.contactUs,
+                    showChevron: true,
+                    isDark: isDark,
+                    onTap: _openContactMail,
                   ),
                 ],
               ),
