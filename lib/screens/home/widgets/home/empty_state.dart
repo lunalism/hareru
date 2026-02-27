@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/screens/home/widgets/add_transaction_screen.dart';
@@ -15,14 +16,14 @@ class EmptyMainCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
-    final cardColor = isDark ? HareruColors.darkCard : HareruColors.headerCardLight;
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: cardColor,
+        color: c.headerCard,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -43,9 +44,7 @@ class EmptyMainCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w700,
-              color: isDark
-                  ? HareruColors.darkTextTertiary
-                  : HareruColors.lightTextTertiary,
+              color: c.textTertiary,
               fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
@@ -65,9 +64,7 @@ class EmptyMainCard extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
-              color: isDark
-                  ? HareruColors.darkTextTertiary
-                  : HareruColors.lightTextTertiary,
+              color: c.textTertiary,
               height: 1.5,
             ),
           ),
@@ -99,6 +96,7 @@ class GuideCards extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
 
     final guides = [
@@ -131,7 +129,7 @@ class GuideCards extends ConsumerWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: isDark ? HareruColors.darkCard : HareruColors.lightCard,
+                color: c.card,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
@@ -147,9 +145,7 @@ class GuideCards extends ConsumerWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: isDark
-                                ? HareruColors.darkTextPrimary
-                                : HareruColors.lightTextPrimary,
+                            color: c.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 2),
@@ -157,9 +153,7 @@ class GuideCards extends ConsumerWidget {
                           g.desc,
                           style: TextStyle(
                             fontSize: 12,
-                            color: isDark
-                                ? HareruColors.darkTextTertiary
-                                : HareruColors.lightTextTertiary,
+                            color: c.textTertiary,
                           ),
                         ),
                       ],
@@ -167,9 +161,7 @@ class GuideCards extends ConsumerWidget {
                   ),
                   Icon(
                     Icons.chevron_right_rounded,
-                    color: isDark
-                        ? HareruColors.darkTextTertiary
-                        : HareruColors.lightTextTertiary,
+                    color: c.textTertiary,
                   ),
                 ],
               ),

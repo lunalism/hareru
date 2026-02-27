@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/widgets/delete_confirmation_dialog.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/category_provider.dart';
@@ -73,7 +74,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
 
   Future<void> _showDeleteDialog() async {
     final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDark;
 
     final confirmed = await showDeleteConfirmation(
       context: context,
@@ -113,7 +114,8 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDark;
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
     final lang = Localizations.localeOf(context).languageCode;
     final t = _transaction;
@@ -128,7 +130,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
     final amountText = '$amountPrefix\u00a5${formatAmount(t.amount)}';
 
     return Scaffold(
-      backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
+      backgroundColor: c.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -142,9 +144,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                     onPressed: () => Navigator.pop(context),
                     icon: Icon(
                       Icons.arrow_back_ios_rounded,
-                      color: isDark
-                          ? HareruColors.darkTextPrimary
-                          : HareruColors.lightTextPrimary,
+                      color: c.textPrimary,
                     ),
                   ),
                   Row(
@@ -154,9 +154,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                         icon: Icon(
                           Icons.edit_outlined,
                           size: 22,
-                          color: isDark
-                              ? HareruColors.darkTextSecondary
-                              : HareruColors.lightTextSecondary,
+                          color: c.textSecondary,
                         ),
                       ),
                       IconButton(
@@ -189,9 +187,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
-                        color: isDark
-                            ? HareruColors.darkTextPrimary
-                            : HareruColors.lightTextPrimary,
+                        color: c.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -268,9 +264,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                color: isDark
-                                    ? HareruColors.darkTextPrimary
-                                    : HareruColors.lightTextPrimary,
+                                color: c.textPrimary,
                               ),
                             ),
                             isDark,
@@ -283,9 +277,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                color: isDark
-                                    ? HareruColors.darkTextPrimary
-                                    : HareruColors.lightTextPrimary,
+                                color: c.textPrimary,
                               ),
                             ),
                             isDark,

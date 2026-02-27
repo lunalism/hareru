@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transfer_account_provider.dart';
@@ -155,11 +156,11 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDark;
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
-    final bgColor = isDark ? HareruColors.darkBg : HareruColors.lightBg;
-    final textPrimary =
-        isDark ? HareruColors.darkTextPrimary : HareruColors.lightTextPrimary;
+    final bgColor = c.background;
+    final textPrimary = c.textPrimary;
 
     ref.watch(categoryProvider);
     final categories = _isTransfer
@@ -202,9 +203,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                       icon: Icon(
                         Icons.close_rounded,
                         size: 24,
-                        color: isDark
-                            ? HareruColors.darkTextSecondary
-                            : HareruColors.lightTextSecondary,
+                        color: c.textSecondary,
                       ),
                     ),
                   ],

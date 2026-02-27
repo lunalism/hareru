@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
@@ -14,6 +15,7 @@ class BudgetSummaryCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
     final expenseTotal = ref.read(transactionProvider.notifier).expenseTotal;
     final budget = ref.watch(budgetProvider);
@@ -22,15 +24,11 @@ class BudgetSummaryCard extends ConsumerWidget {
     final remaining = budget - expenseTotal;
     final isOver = remaining < 0;
 
-    final cardColor = isDark ? HareruColors.darkCard : HareruColors.headerCardLight;
-    final cardTextPrimary = isDark ? HareruColors.darkTextPrimary : HareruColors.lightTextPrimary;
-    final cardTextSecondary = isDark ? HareruColors.darkTextSecondary : HareruColors.lightTextSecondary;
-
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: cardColor,
+        color: c.headerCard,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -41,7 +39,7 @@ class BudgetSummaryCard extends ConsumerWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: cardTextSecondary,
+              color: c.textSecondary,
             ),
           ),
           const SizedBox(height: 4),
@@ -50,7 +48,7 @@ class BudgetSummaryCard extends ConsumerWidget {
             style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w700,
-              color: cardTextPrimary,
+              color: c.textPrimary,
               fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
@@ -70,7 +68,7 @@ class BudgetSummaryCard extends ConsumerWidget {
                     fontWeight: FontWeight.w500,
                     color: isOver
                         ? const Color(0xFFEF4444)
-                        : cardTextSecondary,
+                        : c.textSecondary,
                   ),
                 ),
                 GestureDetector(
@@ -79,7 +77,7 @@ class BudgetSummaryCard extends ConsumerWidget {
                     '✏️ ${l10n.editBudget}',
                     style: TextStyle(
                       fontSize: 12,
-                      color: cardTextSecondary,
+                      color: c.textSecondary,
                     ),
                   ),
                 ),
@@ -94,7 +92,7 @@ class BudgetSummaryCard extends ConsumerWidget {
                   '${l10n.setBudget} →',
                   style: TextStyle(
                     fontSize: 13,
-                    color: cardTextSecondary,
+                    color: c.textSecondary,
                   ),
                 ),
               ),
@@ -113,6 +111,7 @@ class _ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
     final clampedProgress = progress.clamp(0.0, 1.0);
     final percentage = (progress * 100).toStringAsFixed(1);
 
@@ -124,15 +123,13 @@ class _ProgressBar extends StatelessWidget {
                 ? const Color(0xFFFCD34D)
                 : HareruColors.primaryStart;
 
-    final trackColor = isDark ? HareruColors.darkDivider : HareruColors.lightDivider;
-
     return Row(
       children: [
         Expanded(
           child: Container(
             height: 6,
             decoration: BoxDecoration(
-              color: trackColor,
+              color: c.divider,
               borderRadius: BorderRadius.circular(3),
             ),
             child: Align(
@@ -162,7 +159,7 @@ class _ProgressBar extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: isDark ? HareruColors.darkTextSecondary : HareruColors.lightTextSecondary,
+            color: c.textSecondary,
             fontFeatures: const [FontFeature.tabularFigures()],
           ),
         ),

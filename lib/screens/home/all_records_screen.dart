@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
@@ -116,13 +117,14 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDark;
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
     final lang = Localizations.localeOf(context).languageCode;
     final transactions = ref.watch(transactionProvider);
 
     return Scaffold(
-      backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
+      backgroundColor: c.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -135,9 +137,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
                     onPressed: () => Navigator.pop(context),
                     icon: Icon(
                       Icons.arrow_back_ios_rounded,
-                      color: isDark
-                          ? HareruColors.darkTextPrimary
-                          : HareruColors.lightTextPrimary,
+                      color: c.textPrimary,
                     ),
                   ),
                   Text(
@@ -145,9 +145,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: isDark
-                          ? HareruColors.darkTextPrimary
-                          : HareruColors.lightTextPrimary,
+                      color: c.textPrimary,
                     ),
                   ),
                 ],

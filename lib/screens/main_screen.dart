@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
@@ -53,7 +54,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   void _showBudgetDialog() {
     final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.colors;
     final currentBudget = ref.read(budgetProvider);
     final controller = TextEditingController(
       text: currentBudget > 0 ? addCommas(currentBudget.toString()) : '',
@@ -63,8 +64,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor:
-              isDark ? HareruColors.darkCard : HareruColors.lightCard,
+          backgroundColor: c.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -73,9 +73,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: isDark
-                  ? HareruColors.darkTextPrimary
-                  : HareruColors.lightTextPrimary,
+              color: c.textPrimary,
             ),
           ),
           content: TextField(
@@ -86,9 +84,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
-              color: isDark
-                  ? HareruColors.darkTextPrimary
-                  : HareruColors.lightTextPrimary,
+              color: c.textPrimary,
             ),
             decoration: InputDecoration(
               prefixText: '¥ ',
@@ -101,16 +97,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               hintStyle: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w400,
-                color: isDark
-                    ? HareruColors.darkTextTertiary
-                    : HareruColors.lightTextTertiary,
+                color: c.textTertiary,
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
-                  color: isDark
-                      ? HareruColors.darkDivider
-                      : HareruColors.lightDivider,
+                  color: c.divider,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
@@ -130,9 +122,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               child: Text(
                 l10n.cancel,
                 style: TextStyle(
-                  color: isDark
-                      ? HareruColors.darkTextSecondary
-                      : HareruColors.lightTextSecondary,
+                  color: c.textSecondary,
                 ),
               ),
             ),
@@ -167,7 +157,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   void _showToast(Transaction transaction) {
     final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDark;
 
     final color = switch (transaction.type) {
       TransactionType.expense => const Color(0xFFEF4444),
@@ -218,9 +208,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDark;
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
-    final bgColor = isDark ? HareruColors.darkBg : HareruColors.lightBg;
+    final bgColor = c.background;
 
     return Scaffold(
       backgroundColor: bgColor,

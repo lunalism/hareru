@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/models/transaction.dart';
 import 'package:hareru/widgets/emoji_badge.dart';
@@ -27,6 +28,7 @@ class TransactionRecordItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final isExpense = transaction.type == TransactionType.expense;
     final isIncome = transaction.type == TransactionType.income;
+    final c = context.colors;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -49,9 +51,7 @@ class TransactionRecordItem extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: isDark
-                                ? HareruColors.darkTextPrimary
-                                : HareruColors.lightTextPrimary,
+                            color: c.textPrimary,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -65,9 +65,7 @@ class TransactionRecordItem extends StatelessWidget {
                     subtitle,
                     style: TextStyle(
                       fontSize: 12,
-                      color: isDark
-                          ? HareruColors.darkTextTertiary
-                          : HareruColors.lightTextTertiary,
+                      color: c.textTertiary,
                     ),
                   ),
                 ],
@@ -79,14 +77,10 @@ class TransactionRecordItem extends StatelessWidget {
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
                 color: isIncome
-                    ? const Color(0xFFF59E0B)
+                    ? HareruColors.income
                     : isExpense
-                        ? (isDark
-                            ? HareruColors.darkTextPrimary
-                            : HareruColors.lightTextPrimary)
-                        : (isDark
-                            ? HareruColors.darkTextSecondary
-                            : HareruColors.lightTextSecondary),
+                        ? c.textPrimary
+                        : c.textSecondary,
                 fontFeatures: const [FontFeature.tabularFigures()],
               ),
             ),

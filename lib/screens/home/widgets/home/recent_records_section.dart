@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
@@ -40,6 +41,7 @@ class RecentRecordsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
     final recent = transactions.take(6).toList();
 
@@ -54,9 +56,7 @@ class RecentRecordsSection extends ConsumerWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: isDark
-                    ? HareruColors.darkTextPrimary
-                    : HareruColors.lightTextPrimary,
+                color: c.textPrimary,
               ),
             ),
             GestureDetector(
@@ -79,7 +79,7 @@ class RecentRecordsSection extends ConsumerWidget {
         const SizedBox(height: 12),
         Container(
           decoration: BoxDecoration(
-            color: isDark ? HareruColors.darkCard : HareruColors.lightCard,
+            color: c.card,
             borderRadius: BorderRadius.circular(16),
           ),
           clipBehavior: Clip.antiAlias,
@@ -134,9 +134,7 @@ class RecentRecordsSection extends ConsumerWidget {
                     Divider(
                       height: 1,
                       indent: 70,
-                      color: isDark
-                          ? HareruColors.darkDivider
-                          : HareruColors.lightDivider,
+                      color: c.divider,
                     ),
                 ],
               );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/widgets/emoji_badge.dart';
 
@@ -10,16 +10,17 @@ class AiInsightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: isDark ? HareruColors.darkCard : HareruColors.lightCard,
+        color: c.card,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark ? HareruColors.darkDivider : HareruColors.lightDivider,
+          color: c.divider,
         ),
       ),
       child: Row(
@@ -35,9 +36,7 @@ class AiInsightCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: isDark
-                        ? HareruColors.darkTextPrimary
-                        : HareruColors.lightTextPrimary,
+                    color: c.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -45,9 +44,7 @@ class AiInsightCard extends StatelessWidget {
                   l10n.aiInsightMessage,
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDark
-                        ? HareruColors.darkTextSecondary
-                        : HareruColors.lightTextSecondary,
+                    color: c.textSecondary,
                     height: 1.4,
                   ),
                 ),

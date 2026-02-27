@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
+import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/dark_mode_provider.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
@@ -64,7 +65,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDark;
+    final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
     final currentLocale = ref.watch(localeProvider);
     final budget = ref.watch(budgetProvider);
@@ -73,7 +75,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final reminder = ref.watch(reminderProvider);
 
     return Scaffold(
-      backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
+      backgroundColor: c.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -86,9 +88,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
-                  color: isDark
-                      ? HareruColors.darkTextPrimary
-                      : HareruColors.lightTextPrimary,
+                  color: c.textPrimary,
                 ),
               ),
               const SizedBox(height: 28),
