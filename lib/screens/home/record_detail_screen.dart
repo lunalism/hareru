@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/widgets/delete_confirmation_dialog.dart';
+import 'package:hareru/core/utils/date_formatter.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
@@ -59,18 +60,11 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
 
     return switch (lang) {
       'ko' => '$month월 $day일 $time',
-      'en' => '${_monthNameEn(month)} $day, $time',
+      'en' => '${monthNameEn(month)} $day, $time',
       _ => '$month月$day日 $time',
     };
   }
 
-  String _monthNameEn(int month) {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-    ];
-    return months[month - 1];
-  }
 
   Future<void> _showDeleteDialog() async {
     final l10n = AppLocalizations.of(context)!;

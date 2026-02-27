@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
+import 'package:hareru/core/utils/date_formatter.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
@@ -75,7 +76,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
 
     return switch (lang) {
       'ko' => '${date.month}월 ${date.day}일',
-      'en' => '${_monthNameEn(date.month)} ${date.day}',
+      'en' => '${monthNameEn(date.month)} ${date.day}',
       _ => '${date.month}月${date.day}日',
     };
   }
@@ -90,27 +91,10 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
     };
     return switch (lang) {
       'ko' => '${date.month}월 ${date.day}일 ($wdLabel)',
-      'en' => '$wdLabel, ${_monthNameEn(date.month)} ${date.day}',
+      'en' => '$wdLabel, ${monthNameEn(date.month)} ${date.day}',
       _ => '${date.month}月${date.day}日($wdLabel)',
     };
   }
-
-  String _monthNameEn(int month) {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-    ];
-    return months[month - 1];
-  }
-
-  String _fullMonthNameEn(int month) {
-    const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
-    ];
-    return months[month - 1];
-  }
-
 
 
   // ── Build ──
@@ -387,7 +371,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
         ),
         titleTextFormatter: (date, locale) => switch (lang) {
           'ko' => '${date.year}년 ${date.month}월',
-          'en' => '${_fullMonthNameEn(date.month)} ${date.year}',
+          'en' => '${fullMonthNameEn(date.month)} ${date.year}',
           _ => '${date.year}年${date.month}月',
         },
       ),
