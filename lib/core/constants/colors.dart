@@ -50,8 +50,9 @@ class HareruColors {
   static const Color darkDivider = Color(0xFF3A3A3A);
 
   // Transaction types
-  static const Color income = Color(0xFF10B981);
+  static const Color income = Color(0xFFF59E0B);
   static const Color expense = Color(0xFFEF4444);
+  static const Color savings = Color(0xFF10B981);
   static const Color transferBlue = Color(0xFF5B7FCC);
 
   // Budget progress
