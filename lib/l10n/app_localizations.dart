@@ -1528,24 +1528,6 @@ abstract class AppLocalizations {
   /// **'入金先'**
   String get transferTo;
 
-  /// No description provided for @accountTypeChecking.
-  ///
-  /// In ja, this message translates to:
-  /// **'普通'**
-  String get accountTypeChecking;
-
-  /// No description provided for @accountTypeSavings.
-  ///
-  /// In ja, this message translates to:
-  /// **'貯金'**
-  String get accountTypeSavings;
-
-  /// No description provided for @accountTypeInvestment.
-  ///
-  /// In ja, this message translates to:
-  /// **'証券'**
-  String get accountTypeInvestment;
-
   /// No description provided for @addAccountTitle.
   ///
   /// In ja, this message translates to:
@@ -1555,19 +1537,19 @@ abstract class AppLocalizations {
   /// No description provided for @addAccountStep1.
   ///
   /// In ja, this message translates to:
-  /// **'口座の種類'**
+  /// **'アイコン'**
   String get addAccountStep1;
 
   /// No description provided for @addAccountStep2.
   ///
   /// In ja, this message translates to:
-  /// **'銀行・証券会社名'**
+  /// **'口座の名前'**
   String get addAccountStep2;
 
   /// No description provided for @addAccountHint.
   ///
   /// In ja, this message translates to:
-  /// **'例: 三菱UFJ, 楽天'**
+  /// **'例: UFJ 生活費, 楽天 貯金用'**
   String get addAccountHint;
 
   /// No description provided for @deleteAccountConfirm.

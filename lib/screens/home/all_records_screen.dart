@@ -745,7 +745,13 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
     final isIncome = t.type == TransactionType.income;
     final cat =
         ref.read(categoryProvider.notifier).getCategoryById(t.category);
-    final emoji = cat?.emoji ?? '\u{1F4DD}';
+    String emoji;
+    if (t.type == TransactionType.transfer && t.category.contains(' → ')) {
+      final first = t.category.characters.first;
+      emoji = first.codeUnits.first > 0xFF ? first : '\u{1F4DD}';
+    } else {
+      emoji = cat?.emoji ?? '\u{1F4DD}';
+    }
     final catLabel = cat == null
         ? resolveL10nKey(t.category, l10n)
         : cat.isDefault

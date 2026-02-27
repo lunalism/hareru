@@ -4,43 +4,49 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const _boxName = 'settings';
-const _key = 'transfer_accounts_v2';
-
-enum AccountType { checking, savings, investment }
+const _key = 'transfer_accounts_v3';
+const _legacyKey = 'transfer_accounts_v2';
 
 class UserAccount {
   final String id;
-  final String name;
-  final AccountType type;
+  final String nickname;
+  final String emoji;
 
   const UserAccount({
     required this.id,
-    required this.name,
-    required this.type,
+    required this.nickname,
+    required this.emoji,
   });
 
-  String get displayLabel => '$name ${_typeLabel(type)}';
-
-  static String _typeLabel(AccountType t) => switch (t) {
-        AccountType.checking => '普通',
-        AccountType.savings => '貯金',
-        AccountType.investment => '証券',
-      };
+  String get displayLabel => '$emoji $nickname';
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'name': name,
-        'type': type.name,
+        'nickname': nickname,
+        'emoji': emoji,
       };
 
-  factory UserAccount.fromJson(Map<String, dynamic> json) => UserAccount(
+  factory UserAccount.fromJson(Map<String, dynamic> json) {
+    // Support legacy format: {name, type} → {nickname, emoji}
+    if (json.containsKey('name') && !json.containsKey('nickname')) {
+      final legacyType = json['type'] as String? ?? 'checking';
+      final legacyEmoji = switch (legacyType) {
+        'savings' => '💰',
+        'investment' => '📈',
+        _ => '🏦',
+      };
+      return UserAccount(
         id: json['id'] as String,
-        name: json['name'] as String,
-        type: AccountType.values.firstWhere(
-          (e) => e.name == json['type'],
-          orElse: () => AccountType.checking,
-        ),
+        nickname: json['name'] as String,
+        emoji: legacyEmoji,
       );
+    }
+    return UserAccount(
+      id: json['id'] as String,
+      nickname: json['nickname'] as String,
+      emoji: json['emoji'] as String,
+    );
+  }
 }
 
 class TransferAccountNotifier extends StateNotifier<List<UserAccount>> {
@@ -50,21 +56,27 @@ class TransferAccountNotifier extends StateNotifier<List<UserAccount>> {
 
   Future<void> _load() async {
     final box = await Hive.openBox<dynamic>(_boxName);
-    final saved = box.get(_key) as String?;
+    // Try new key first, fall back to legacy
+    var saved = box.get(_key) as String?;
+    if (saved == null) {
+      saved = box.get(_legacyKey) as String?;
+    }
     if (saved != null) {
       final list = (jsonDecode(saved) as List<dynamic>)
           .map((e) => UserAccount.fromJson(e as Map<String, dynamic>))
           .toList();
       state = list;
+      // Persist to new key format
+      await _persist(list);
     }
   }
 
-  Future<void> addAccount(String name, AccountType type) async {
-    if (name.trim().isEmpty) return;
+  Future<void> addAccount(String nickname, String emoji) async {
+    if (nickname.trim().isEmpty) return;
     final account = UserAccount(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      name: name.trim(),
-      type: type,
+      nickname: nickname.trim(),
+      emoji: emoji,
     );
     final updated = [...state, account];
     state = updated;

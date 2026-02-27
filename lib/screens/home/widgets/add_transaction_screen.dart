@@ -118,16 +118,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return _selectedCategory != null;
   }
 
-  String _accountTypeLabel(AccountType type, AppLocalizations l10n) {
-    return switch (type) {
-      AccountType.checking => l10n.accountTypeChecking,
-      AccountType.savings => l10n.accountTypeSavings,
-      AccountType.investment => l10n.accountTypeInvestment,
-    };
-  }
-
-  String _accountDisplayLabel(UserAccount account, AppLocalizations l10n) {
-    return '${account.name} ${_accountTypeLabel(account.type, l10n)}';
+  String _accountDisplayLabel(UserAccount account) {
+    return '${account.emoji} ${account.nickname}';
   }
 
   void _save() {
@@ -138,7 +130,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       final accounts = ref.read(transferAccountProvider);
       final from = accounts.firstWhere((a) => a.id == _fromAccount);
       final to = accounts.firstWhere((a) => a.id == _toAccount);
-      category = '${from.name} → ${to.name}';
+      category = '${from.emoji} ${from.nickname} → ${to.emoji} ${to.nickname}';
     } else {
       category = _selectedCategory!;
     }
@@ -721,8 +713,12 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         _pendingTransferCategory!.contains(' → ')) {
       final parts = _pendingTransferCategory!.split(' → ');
       for (final a in accounts) {
-        if (a.name == parts[0] && _fromAccount == null) _fromAccount = a.id;
-        if (a.name == parts[1] && _toAccount == null) _toAccount = a.id;
+        final label = _accountDisplayLabel(a);
+        if (label == parts[0] && _fromAccount == null) _fromAccount = a.id;
+        if (label == parts[1] && _toAccount == null) _toAccount = a.id;
+        // Also support legacy format (name only)
+        if (a.nickname == parts[0] && _fromAccount == null) _fromAccount = a.id;
+        if (a.nickname == parts[1] && _toAccount == null) _toAccount = a.id;
       }
       _pendingTransferCategory = null;
     }
@@ -817,25 +813,22 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         ...accounts.map((account) {
           final isSelected = selectedId == account.id;
           final isDisabled = disabledId == account.id;
-          final label = _accountDisplayLabel(account, l10n);
 
           return GestureDetector(
             onTap: isDisabled ? null : () => onSelect(account.id),
             onLongPress: () =>
-                _showDeleteAccountDialog(account, l10n, isDark),
+                _showDeleteAccountDialog(account, isDark),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 150),
               padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  const EdgeInsets.only(left: 6, right: 14, top: 6, bottom: 6),
               decoration: BoxDecoration(
                 color: isDisabled
                     ? (isDark
                         ? HareruColors.darkCard
                         : const Color(0xFFF5F0EB))
                     : isSelected
-                        ? (isDark
-                            ? HareruColors.darkTextPrimary
-                            : HareruColors.lightTextPrimary)
+                        ? const Color(0xFF1A1A1A)
                         : (isDark ? HareruColors.darkCard : Colors.white),
                 borderRadius: BorderRadius.circular(20),
                 border: (isSelected || isDisabled)
@@ -843,23 +836,46 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                     : Border.all(
                         color: isDark
                             ? HareruColors.darkDivider
-                            : HareruColors.lightDivider,
+                            : const Color(0xFFE5E0DB),
                       ),
               ),
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight:
-                      isSelected ? FontWeight.w600 : FontWeight.w400,
-                  color: isDisabled
-                      ? const Color(0xFFBFBFBF)
-                      : isSelected
-                          ? (isDark ? HareruColors.darkBg : Colors.white)
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? Colors.white.withValues(alpha: 0.2)
                           : (isDark
-                              ? HareruColors.darkTextSecondary
-                              : HareruColors.lightTextSecondary),
-                ),
+                              ? HareruColors.darkBg
+                              : const Color(0xFFF5F0EB)),
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      account.emoji,
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    account.nickname,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight:
+                          isSelected ? FontWeight.w600 : FontWeight.w400,
+                      color: isDisabled
+                          ? const Color(0xFFBFBFBF)
+                          : isSelected
+                              ? Colors.white
+                              : (isDark
+                                  ? HareruColors.darkTextSecondary
+                                  : const Color(0xFF1A1A1A)),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -911,20 +927,15 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   void _showAddAccountDialog(AppLocalizations l10n, bool isDark) {
     final nameController = TextEditingController();
-    var selectedType = AccountType.checking;
+    var selectedEmoji = '🏦';
     final activeColor = const Color(0xFFE8453C);
+    const emojiOptions = ['🏦', '💰', '📈', '💳', '🐖', '💵'];
 
     showDialog<void>(
       context: context,
       builder: (dialogContext) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
-            final typeLabels = {
-              AccountType.checking: l10n.accountTypeChecking,
-              AccountType.savings: l10n.accountTypeSavings,
-              AccountType.investment: l10n.accountTypeInvestment,
-            };
-
             return AlertDialog(
               backgroundColor:
                   isDark ? HareruColors.darkCard : HareruColors.lightCard,
@@ -944,7 +955,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Step 1: Type selection
+                  // Step 1: Emoji selection
                   Text(
                     l10n.addAccountStep1,
                     style: TextStyle(
@@ -956,45 +967,29 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   ),
                   const SizedBox(height: 8),
                   Row(
-                    children: AccountType.values.map((type) {
-                      final isSelected = selectedType == type;
+                    children: emojiOptions.map((emoji) {
+                      final isSelected = selectedEmoji == emoji;
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: GestureDetector(
                           onTap: () =>
-                              setDialogState(() => selectedType = type),
+                              setDialogState(() => selectedEmoji = emoji),
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 150),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 14, vertical: 7),
+                            width: 40,
+                            height: 40,
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? activeColor
                                   : (isDark
                                       ? HareruColors.darkBg
-                                      : Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                              border: isSelected
-                                  ? null
-                                  : Border.all(
-                                      color: isDark
-                                          ? HareruColors.darkDivider
-                                          : HareruColors.lightDivider,
-                                    ),
+                                      : const Color(0xFFF5F0EB)),
+                              shape: BoxShape.circle,
                             ),
+                            alignment: Alignment.center,
                             child: Text(
-                              typeLabels[type]!,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: isSelected
-                                    ? FontWeight.w600
-                                    : FontWeight.w400,
-                                color: isSelected
-                                    ? Colors.white
-                                    : (isDark
-                                        ? HareruColors.darkTextSecondary
-                                        : HareruColors.lightTextSecondary),
-                              ),
+                              emoji,
+                              style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ),
@@ -1003,7 +998,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Step 2: Bank name
+                  // Step 2: Account nickname
                   Text(
                     l10n.addAccountStep2,
                     style: TextStyle(
@@ -1061,7 +1056,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                     if (name.isNotEmpty) {
                       ref
                           .read(transferAccountProvider.notifier)
-                          .addAccount(name, selectedType);
+                          .addAccount(name, selectedEmoji);
                       Navigator.pop(dialogContext);
                     }
                   },
@@ -1081,9 +1076,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     );
   }
 
-  void _showDeleteAccountDialog(
-      UserAccount account, AppLocalizations l10n, bool isDark) {
-    final label = _accountDisplayLabel(account, l10n);
+  void _showDeleteAccountDialog(UserAccount account, bool isDark) {
+    final l10n = AppLocalizations.of(context)!;
+    final label = _accountDisplayLabel(account);
 
     showDialog<void>(
       context: context,

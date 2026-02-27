@@ -333,13 +333,10 @@
   "editTransfer": "이체 수정",
   "transferFrom": "출금처",
   "transferTo": "입금처",
-  "accountTypeChecking": "일반",
-  "accountTypeSavings": "저축",
-  "accountTypeInvestment": "증권",
   "addAccountTitle": "계좌 추가",
-  "addAccountStep1": "계좌 종류",
-  "addAccountStep2": "은행·증권사명",
-  "addAccountHint": "예: 국민은행, 키움",
+  "addAccountStep1": "아이콘",
+  "addAccountStep2": "계좌 이름",
+  "addAccountHint": "예: 하나 월급통장, 카카오 주식",
   "deleteAccountConfirm": "「{name}」을(를) 삭제하시겠습니까?",
   "@deleteAccountConfirm": {
     "placeholders": {

@@ -763,25 +763,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transferTo => 'To';
 
   @override
-  String get accountTypeChecking => 'Checking';
-
-  @override
-  String get accountTypeSavings => 'Savings';
-
-  @override
-  String get accountTypeInvestment => 'Investment';
-
-  @override
   String get addAccountTitle => 'Add Account';
 
   @override
-  String get addAccountStep1 => 'Account type';
+  String get addAccountStep1 => 'Icon';
 
   @override
-  String get addAccountStep2 => 'Bank / Broker name';
+  String get addAccountStep2 => 'Account name';
 
   @override
-  String get addAccountHint => 'e.g. Chase, Vanguard';
+  String get addAccountHint => 'e.g. Chase Checking, Vanguard';
 
   @override
   String deleteAccountConfirm(String name) {

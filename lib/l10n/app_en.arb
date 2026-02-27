@@ -333,13 +333,10 @@
   "editTransfer": "Edit Transfer",
   "transferFrom": "From",
   "transferTo": "To",
-  "accountTypeChecking": "Checking",
-  "accountTypeSavings": "Savings",
-  "accountTypeInvestment": "Investment",
   "addAccountTitle": "Add Account",
-  "addAccountStep1": "Account type",
-  "addAccountStep2": "Bank / Broker name",
-  "addAccountHint": "e.g. Chase, Vanguard",
+  "addAccountStep1": "Icon",
+  "addAccountStep2": "Account name",
+  "addAccountHint": "e.g. Chase Checking, Vanguard",
   "deleteAccountConfirm": "Delete \"{name}\"?",
   "@deleteAccountConfirm": {
     "placeholders": {

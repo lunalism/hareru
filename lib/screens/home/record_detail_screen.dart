@@ -34,7 +34,12 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
     return resolveL10nKey(cat.name, l10n);
   }
 
-  String _emojiForCategory(String category) {
+  String _emojiForCategory(String category, TransactionType type) {
+    // Transfer: extract first emoji from "🏦 Name → 💰 Name" format
+    if (type == TransactionType.transfer && category.contains(' → ')) {
+      final first = category.characters.first;
+      if (first.codeUnits.first > 0xFF) return first;
+    }
     final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
     return cat?.emoji ?? '\u{1F4DD}';
   }
@@ -189,7 +194,7 @@ class _RecordDetailScreenState extends ConsumerState<RecordDetailScreen> {
     final l10n = AppLocalizations.of(context)!;
     final lang = Localizations.localeOf(context).languageCode;
     final t = _transaction;
-    final emoji = _emojiForCategory(t.category);
+    final emoji = _emojiForCategory(t.category, t.type);
     final catLabel = _categoryLabel(t.category, l10n);
     final typeColor = _typeColor(t.type);
     final isExpense = t.type == TransactionType.expense;

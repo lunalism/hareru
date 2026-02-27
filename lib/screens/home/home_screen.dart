@@ -549,7 +549,12 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  String _emojiForCategory(String category, WidgetRef ref) {
+  String _emojiForCategory(String category, WidgetRef ref, TransactionType type) {
+    // Transfer: extract first emoji from "🏦 Name → 💰 Name" format
+    if (type == TransactionType.transfer && category.contains(' → ')) {
+      final first = category.characters.first;
+      if (first.codeUnits.first > 0xFF) return first;
+    }
     final cat = ref.read(categoryProvider.notifier).getCategoryById(category);
     return cat?.emoji ?? '\u{1F4DD}';
   }
@@ -629,7 +634,7 @@ class HomeScreen extends ConsumerWidget {
               final t = entry.value;
               final isExpense = t.type == TransactionType.expense;
               final isIncome = t.type == TransactionType.income;
-              final emoji = _emojiForCategory(t.category, ref);
+              final emoji = _emojiForCategory(t.category, ref, t.type);
               final title = t.memo ?? _categoryLabel(t.category, l10n, ref);
               final date = _formatDate(t.createdAt, l10n);
 
