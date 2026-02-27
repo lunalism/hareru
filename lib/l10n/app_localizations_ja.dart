@@ -817,8 +817,20 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get contactFallback => 'support@hareru.app までご連絡ください';
+  String get contactFallback => 'メールアプリが見つかりません。アドレスをコピーしてご利用ください。';
 
   @override
   String get noInternet => 'インターネットに接続してください';
+
+  @override
+  String get contactDesc => 'ご質問やフィードバックはメールでお送りください';
+
+  @override
+  String get contactCopy => 'コピー';
+
+  @override
+  String get contactOpenMail => 'メールを開く';
+
+  @override
+  String get contactCopied => 'コピーしました';
 }

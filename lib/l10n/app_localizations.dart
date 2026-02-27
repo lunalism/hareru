@@ -1644,7 +1644,7 @@ abstract class AppLocalizations {
   /// No description provided for @contactFallback.
   ///
   /// In ja, this message translates to:
-  /// **'support@hareru.app までご連絡ください'**
+  /// **'メールアプリが見つかりません。アドレスをコピーしてご利用ください。'**
   String get contactFallback;
 
   /// No description provided for @noInternet.
@@ -1652,6 +1652,30 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'インターネットに接続してください'**
   String get noInternet;
+
+  /// No description provided for @contactDesc.
+  ///
+  /// In ja, this message translates to:
+  /// **'ご質問やフィードバックはメールでお送りください'**
+  String get contactDesc;
+
+  /// No description provided for @contactCopy.
+  ///
+  /// In ja, this message translates to:
+  /// **'コピー'**
+  String get contactCopy;
+
+  /// No description provided for @contactOpenMail.
+  ///
+  /// In ja, this message translates to:
+  /// **'メールを開く'**
+  String get contactOpenMail;
+
+  /// No description provided for @contactCopied.
+  ///
+  /// In ja, this message translates to:
+  /// **'コピーしました'**
+  String get contactCopied;
 }
 
 class _AppLocalizationsDelegate

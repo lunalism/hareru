@@ -364,6 +364,10 @@
       "locale": {"type": "String"}
     }
   },
-  "contactFallback": "Please contact support@hareru.app",
-  "noInternet": "Please connect to the internet"
+  "contactFallback": "Mail app not found. Please copy the address.",
+  "noInternet": "Please connect to the internet",
+  "contactDesc": "Please send questions or feedback via email",
+  "contactCopy": "Copy",
+  "contactOpenMail": "Open Mail",
+  "contactCopied": "Copied!"
 }

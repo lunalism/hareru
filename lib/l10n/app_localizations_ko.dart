@@ -818,8 +818,20 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get contactFallback => 'support@hareru.app으로 문의해주세요';
+  String get contactFallback => '메일 앱을 찾을 수 없습니다. 주소를 복사해서 이용해주세요.';
 
   @override
   String get noInternet => '인터넷에 연결해주세요';
+
+  @override
+  String get contactDesc => '질문이나 피드백은 이메일로 보내주세요';
+
+  @override
+  String get contactCopy => '복사';
+
+  @override
+  String get contactOpenMail => '메일 열기';
+
+  @override
+  String get contactCopied => '복사되었습니다';
 }

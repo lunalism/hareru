@@ -826,8 +826,20 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get contactFallback => 'Please contact support@hareru.app';
+  String get contactFallback => 'Mail app not found. Please copy the address.';
 
   @override
   String get noInternet => 'Please connect to the internet';
+
+  @override
+  String get contactDesc => 'Please send questions or feedback via email';
+
+  @override
+  String get contactCopy => 'Copy';
+
+  @override
+  String get contactOpenMail => 'Open Mail';
+
+  @override
+  String get contactCopied => 'Copied!';
 }

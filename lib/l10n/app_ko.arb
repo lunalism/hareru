@@ -364,6 +364,10 @@
       "locale": {"type": "String"}
     }
   },
-  "contactFallback": "support@hareru.app으로 문의해주세요",
-  "noInternet": "인터넷에 연결해주세요"
+  "contactFallback": "메일 앱을 찾을 수 없습니다. 주소를 복사해서 이용해주세요.",
+  "noInternet": "인터넷에 연결해주세요",
+  "contactDesc": "질문이나 피드백은 이메일로 보내주세요",
+  "contactCopy": "복사",
+  "contactOpenMail": "메일 열기",
+  "contactCopied": "복사되었습니다"
 }
