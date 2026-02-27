@@ -52,7 +52,7 @@ class HareruColors {
   // Transaction types
   static const Color income = Color(0xFF10B981);
   static const Color expense = Color(0xFFEF4444);
-  static const Color transferOrange = Color(0xFFF59E0B);
+  static const Color transferBlue = Color(0xFF5B7FCC);
 
   // Budget progress
   static const Color budgetTrackLight = Color(0xFFE5E0DB);

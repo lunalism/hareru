@@ -179,7 +179,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     final color = switch (transaction.type) {
       TransactionType.expense => const Color(0xFFEF4444),
-      TransactionType.transfer => const Color(0xFFF59E0B),
+      TransactionType.transfer => const Color(0xFF5B7FCC),
       TransactionType.savings => const Color(0xFF10B981),
       TransactionType.income => const Color(0xFFF59E0B),
     };

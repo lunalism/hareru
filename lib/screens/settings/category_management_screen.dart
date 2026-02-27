@@ -21,7 +21,7 @@ class _CategoryManagementScreenState
 
   static const _typeColors = {
     'expense': Color(0xFFEF4444),
-    'transfer': Color(0xFFF59E0B),
+    'transfer': Color(0xFF5B7FCC),
     'savings': Color(0xFF10B981),
     'income': Color(0xFFF59E0B),
   };

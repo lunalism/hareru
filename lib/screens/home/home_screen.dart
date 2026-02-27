@@ -450,7 +450,7 @@ class HomeScreen extends ConsumerWidget {
               _killerColumn(
                 l10n.transfer,
                 '¥${_formatAmount(notifier.transferTotal)}',
-                const Color(0xFFF59E0B),
+                const Color(0xFF5B7FCC),
                 labelColor,
               ),
               Container(width: 1, height: 32, color: dividerColor),

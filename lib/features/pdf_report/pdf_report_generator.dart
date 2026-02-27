@@ -81,7 +81,7 @@ const _categoryPdfColors = [
 
 // ── Type colors (강화) ──
 const _expenseColor = PdfColor.fromInt(0xFFFF5252);
-const _transferColor = PdfColor.fromInt(0xFFE8453C);
+const _transferColor = PdfColor.fromInt(0xFF5B7FCC);
 const _savingsColor = PdfColor.fromInt(0xFF4CAF50);
 const _incomeColor = PdfColor.fromInt(0xFF7C4DFF);
 

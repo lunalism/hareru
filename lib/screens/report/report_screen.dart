@@ -748,7 +748,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
       double income) {
     final types = [
       (l10n.expense, expense, const Color(0xFFEF4444), false),
-      (l10n.transfer, transfer, const Color(0xFFF59E0B), true),
+      (l10n.transfer, transfer, const Color(0xFF5B7FCC), true),
       (l10n.savings, savings, const Color(0xFF10B981), true),
       (l10n.income, income, const Color(0xFFF59E0B), false),
     ];
