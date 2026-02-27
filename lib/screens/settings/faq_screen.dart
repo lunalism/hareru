@@ -4,8 +4,11 @@ import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-const _faqUrl = 'https://hareru.notion.site/FAQ';
-const _cacheKey = 'faq_cache';
+const _faqUrls = {
+  'ja': 'https://faithful-grapple-292.notion.site/Hareru-FAQ-314d3615129a806ba4aefc1964f6e5fa',
+  'ko': 'https://faithful-grapple-292.notion.site/FAQ-314d3615129a806fa5fdd4acbc84c014',
+  'en': 'https://faithful-grapple-292.notion.site/Frequently-Asked-Questions-FAQ-314d3615129a80778064d32740e1055b',
+};
 
 const _hideNotionUiJs = '''
 (function() {
@@ -18,8 +21,26 @@ const _hideNotionUiJs = '''
     '[class*="footer"] { display: none !important; }',
     '.notion-frame > .notion-scroller > nav { display: none !important; }',
     'nav { display: none !important; }',
+    'a[href*="notion.so/about"] { display: none !important; }',
+    'a[href*="notion.so/contact"] { display: none !important; }',
+    'a[href*="notion.site/Terms"] { display: none !important; }',
+    '.notion-scroller > div:last-child a { display: none !important; }',
+    'div[style*="padding: 20px"] { display: none !important; }',
+    'div[style*="border-top"] > div:last-child { display: none !important; }',
   ].join('\\n');
   document.head.appendChild(style);
+
+  // Also remove footer nodes directly
+  var observer = new MutationObserver(function() {
+    document.querySelectorAll('a[href*="notion.so"]').forEach(function(el) {
+      var parent = el.closest('div');
+      if (parent && parent.querySelectorAll('a').length >= 2) {
+        parent.style.display = 'none';
+      }
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+  setTimeout(function() { observer.disconnect(); }, 5000);
 })();
 ''';
 
@@ -34,6 +55,7 @@ class _FaqScreenState extends State<FaqScreen> {
   late final WebViewController _controller;
   bool _isLoading = true;
   bool _hasError = false;
+  bool _didLoad = false;
 
   @override
   void initState() {
@@ -46,9 +68,23 @@ class _FaqScreenState extends State<FaqScreen> {
           onWebResourceError: (_) => _onLoadError(),
           onNavigationRequest: (_) => NavigationDecision.navigate,
         ),
-      )
-      ..loadRequest(Uri.parse(_faqUrl));
+      );
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_didLoad) {
+      _didLoad = true;
+      final lang = Localizations.localeOf(context).languageCode;
+      final url = _faqUrls[lang] ?? _faqUrls['en']!;
+      _cacheKeySuffix = lang;
+      _controller.loadRequest(Uri.parse(url));
+    }
+  }
+
+  String _cacheKeySuffix = 'en';
+  String get _cacheKey => 'faq_cache_$_cacheKeySuffix';
 
   Future<void> _onPageLoaded() async {
     await _controller.runJavaScript(_hideNotionUiJs);
