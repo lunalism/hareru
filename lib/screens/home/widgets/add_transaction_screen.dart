@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
-import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transfer_account_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/category.dart' as cat_model;
 import 'package:hareru/models/transaction.dart';
+import 'package:hareru/screens/home/widgets/add_transaction/category_grid.dart';
+import 'package:hareru/screens/home/widgets/add_transaction/expense_tab.dart';
+import 'package:hareru/screens/home/widgets/add_transaction/income_tab.dart';
+import 'package:hareru/screens/home/widgets/add_transaction/transfer_tab.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
   const AddTransactionScreen({
@@ -29,12 +32,12 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   TransactionType _selectedType = TransactionType.expense;
   String? _selectedCategory;
   String _memo = '';
-  String? _fromAccount; // account ID
-  String? _toAccount;   // account ID
-  String? _depositAccount; // account ID for income deposit
-  String? _pendingTransferCategory; // for edit mode
-  int _selectedPayment = 0; // 0=credit, 1=debit, 2=cash (UI only)
-  bool _isRecurring = false; // UI only
+  String? _fromAccount;
+  String? _toAccount;
+  String? _depositAccount;
+  String? _pendingTransferCategory;
+  int _selectedPayment = 0;
+  bool _isRecurring = false;
 
   final _memoController = TextEditingController();
   final _amountController = TextEditingController();
@@ -42,8 +45,18 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   bool get _isTransfer => _selectedType == TransactionType.transfer;
   bool get _isIncome => _selectedType == TransactionType.income;
-
   bool get _isEditing => widget.editTransaction != null;
+
+  double get _parsedAmount {
+    final clean = _amountController.text.replaceAll(',', '');
+    return double.tryParse(clean) ?? 0;
+  }
+
+  bool get _canSave {
+    if (_parsedAmount <= 0) return false;
+    if (_isTransfer) return _fromAccount != null && _toAccount != null;
+    return _selectedCategory != null;
+  }
 
   @override
   void initState() {
@@ -58,11 +71,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       _selectedCategory = t.category;
       _memo = t.memo ?? '';
       _memoController.text = _memo;
-      // Transfer editing: match saved names to account IDs after load
       if (t.type == TransactionType.transfer) {
         _pendingTransferCategory = t.category;
       }
-      // Income editing: restore deposit account from "category → account" format
       if (t.type == TransactionType.income && t.category.contains(' → ')) {
         _pendingTransferCategory = t.category;
       }
@@ -84,27 +95,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       TransactionType.savings => 'savings',
       TransactionType.income => 'income',
     };
-  }
-
-  String _categoryDisplayName(cat_model.Category cat, AppLocalizations l10n) {
-    if (!cat.isDefault) return cat.name;
-    return resolveL10nKey(cat.name, l10n);
-  }
-
-
-  double get _parsedAmount {
-    final clean = _amountController.text.replaceAll(',', '');
-    return double.tryParse(clean) ?? 0;
-  }
-
-  bool get _canSave {
-    if (_parsedAmount <= 0) return false;
-    if (_isTransfer) return _fromAccount != null && _toAccount != null;
-    return _selectedCategory != null;
-  }
-
-  String _accountDisplayLabel(UserAccount account) {
-    return '${account.emoji} ${account.nickname}';
   }
 
   void _save() {
@@ -135,139 +125,32 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     widget.onSave(transaction);
   }
 
-  void _showQuickAddDialog(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final activeColor = const Color(0xFFE8453C);
-    final emojiController = TextEditingController();
-    final nameController = TextEditingController();
+  void _resolvePendingEdits() {
+    if (_pendingTransferCategory == null) return;
+    final accounts = ref.read(transferAccountProvider);
+    if (accounts.isEmpty) return;
 
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          backgroundColor:
-              isDark ? HareruColors.darkCard : HareruColors.lightCard,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Text(
-            l10n.addCategory,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: isDark
-                  ? HareruColors.darkTextPrimary
-                  : HareruColors.lightTextPrimary,
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: emojiController,
-                autofocus: true,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 32),
-                decoration: InputDecoration(
-                  hintText: '\u{1F4C1}',
-                  hintStyle: TextStyle(
-                    fontSize: 32,
-                    color: isDark
-                        ? HareruColors.darkTextTertiary
-                        : HareruColors.lightTextTertiary,
-                  ),
-                  labelText: l10n.categoryEmoji,
-                  labelStyle: TextStyle(
-                    color: isDark
-                        ? HareruColors.darkTextSecondary
-                        : HareruColors.lightTextSecondary,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: activeColor, width: 2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 14),
-              TextField(
-                controller: nameController,
-                maxLength: 10,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: isDark
-                      ? HareruColors.darkTextPrimary
-                      : HareruColors.lightTextPrimary,
-                ),
-                decoration: InputDecoration(
-                  labelText: l10n.categoryName,
-                  labelStyle: TextStyle(
-                    color: isDark
-                        ? HareruColors.darkTextSecondary
-                        : HareruColors.lightTextSecondary,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: activeColor, width: 2),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text(
-                l10n.cancel,
-                style: TextStyle(
-                  color: isDark
-                      ? HareruColors.darkTextSecondary
-                      : HareruColors.lightTextSecondary,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                final emoji = emojiController.text.trim();
-                final name = nameController.text.trim();
-                if (name.isNotEmpty) {
-                  ref.read(categoryProvider.notifier).addCategory(
-                        name,
-                        emoji.isEmpty ? '\u{1F4C1}' : emoji,
-                        _typeToString(_selectedType),
-                      );
-                  Navigator.pop(dialogContext);
-                  Future.delayed(const Duration(milliseconds: 100), () {
-                    if (mounted) {
-                      final cats = ref
-                          .read(categoryProvider.notifier)
-                          .getCategoriesByType(
-                              _typeToString(_selectedType));
-                      if (cats.isNotEmpty) {
-                        setState(
-                            () => _selectedCategory = cats.last.id);
-                      }
-                    }
-                  });
-                }
-              },
-              child: Text(
-                l10n.save,
-                style: TextStyle(
-                  color: activeColor,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
+    if (_isTransfer && _pendingTransferCategory!.contains(' → ')) {
+      final parts = _pendingTransferCategory!.split(' → ');
+      for (final a in accounts) {
+        final label = '${a.emoji} ${a.nickname}';
+        if (label == parts[0] && _fromAccount == null) _fromAccount = a.id;
+        if (label == parts[1] && _toAccount == null) _toAccount = a.id;
+        if (a.nickname == parts[0] && _fromAccount == null) _fromAccount = a.id;
+        if (a.nickname == parts[1] && _toAccount == null) _toAccount = a.id;
+      }
+      _pendingTransferCategory = null;
+    } else if (_isIncome && _pendingTransferCategory!.contains(' → ')) {
+      final parts = _pendingTransferCategory!.split(' → ');
+      _selectedCategory = parts[0];
+      for (final a in accounts) {
+        final label = '${a.emoji} ${a.nickname}';
+        if (label == parts[1] && _depositAccount == null) {
+          _depositAccount = a.id;
+        }
+      }
+      _pendingTransferCategory = null;
+    }
   }
 
   @override
@@ -284,6 +167,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         : ref
             .read(categoryProvider.notifier)
             .getCategoriesByType(_typeToString(_selectedType));
+
+    _resolvePendingEdits();
 
     final headerTitle = switch (_selectedType) {
       TransactionType.transfer => _isEditing ? l10n.editTransfer : l10n.addTransfer,
@@ -327,7 +212,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               ),
               const SizedBox(height: 12),
 
-              // === 2-tab segment ===
+              // === Segment control ===
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: _buildSegmentControl(l10n, isDark),
@@ -341,57 +226,70 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Amount input
                       _buildAmountInput(isDark, l10n),
                       const SizedBox(height: 24),
 
-                      if (_isTransfer) ...[
-                        // Transfer destination field
-                        _buildTransferDestField(l10n, isDark),
-                        const SizedBox(height: 24),
-                      ] else ...[
-                        // Category section
-                        Text(
-                          l10n.category,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: isDark
-                                ? HareruColors.darkTextSecondary
-                                : HareruColors.lightTextSecondary,
+                      // Tab content
+                      if (_isTransfer)
+                        TransferTab(
+                          fromAccount: _fromAccount,
+                          toAccount: _toAccount,
+                          onFromSelect: (id) =>
+                              setState(() => _fromAccount = id),
+                          onToSelect: (id) =>
+                              setState(() => _toAccount = id),
+                          onAccountDeleted: (id) => setState(() {
+                            if (_fromAccount == id) _fromAccount = null;
+                            if (_toAccount == id) _toAccount = null;
+                          }),
+                          isDark: isDark,
+                        )
+                      else if (_isIncome)
+                        IncomeTab(
+                          categories: categories,
+                          selectedCategory: _selectedCategory,
+                          depositAccount: _depositAccount,
+                          onCategorySelect: (id) =>
+                              setState(() => _selectedCategory = id),
+                          onQuickAdd: () => showQuickAddCategoryDialog(
+                            context: context,
+                            ref: ref,
+                            selectedType: _selectedType,
+                            isDark: isDark,
+                            onCategoryAdded: (id) {
+                              if (mounted) setState(() => _selectedCategory = id);
+                            },
                           ),
+                          onDepositSelect: (id) => setState(() {
+                            _depositAccount =
+                                _depositAccount == id ? null : id;
+                          }),
+                          isDark: isDark,
+                        )
+                      else
+                        ExpenseTab(
+                          categories: categories,
+                          selectedCategory: _selectedCategory,
+                          selectedPayment: _selectedPayment,
+                          onCategorySelect: (id) =>
+                              setState(() => _selectedCategory = id),
+                          onQuickAdd: () => showQuickAddCategoryDialog(
+                            context: context,
+                            ref: ref,
+                            selectedType: _selectedType,
+                            isDark: isDark,
+                            onCategoryAdded: (id) {
+                              if (mounted) setState(() => _selectedCategory = id);
+                            },
+                          ),
+                          onPaymentSelect: (i) =>
+                              setState(() => _selectedPayment = i),
+                          isDark: isDark,
                         ),
-                        const SizedBox(height: 10),
-                        _buildCategoryGrid(categories, l10n, isDark),
-                        const SizedBox(height: 24),
 
-                        if (_isIncome) ...[
-                          // Deposit account chips (income only)
-                          _buildDepositAccountField(l10n, isDark),
-                          const SizedBox(height: 24),
-                        ] else ...[
-                          // Payment method chips (expense only)
-                          Text(
-                            l10n.paymentMethod,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: isDark
-                                  ? HareruColors.darkTextSecondary
-                                  : HareruColors.lightTextSecondary,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          _buildPaymentChips(l10n, isDark),
-                          const SizedBox(height: 24),
-                        ],
-                      ],
-
-                      // Memo field
+                      const SizedBox(height: 24),
                       _buildMemoField(l10n, isDark),
                       const SizedBox(height: 16),
-
-                      // Monthly recurring toggle
                       _buildRecurringToggle(l10n, isDark),
                       const SizedBox(height: 24),
                     ],
@@ -399,7 +297,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 ),
               ),
 
-              // === Save button (bottom-fixed) ===
+              // === Save button ===
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 8, 24, 12),
                 child: _buildSaveButton(l10n, isDark),
@@ -526,7 +424,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
                     _CommaFormatter(),
-                    LengthLimitingTextInputFormatter(14), // 10 digits + 3 commas
+                    LengthLimitingTextInputFormatter(14),
                   ],
                   onChanged: (_) => setState(() {}),
                 ),
@@ -544,641 +442,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             ),
         ],
       ),
-    );
-  }
-
-  Widget _buildCategoryGrid(
-    List<cat_model.Category> categories,
-    AppLocalizations l10n,
-    bool isDark,
-  ) {
-    final itemCount = categories.length + 1;
-
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        childAspectRatio: 1.05,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-      ),
-      itemCount: itemCount,
-      itemBuilder: (context, index) {
-        if (index == categories.length) {
-          return GestureDetector(
-            onTap: () => _showQuickAddDialog(context),
-            child: Container(
-              decoration: BoxDecoration(
-                color: isDark
-                    ? HareruColors.darkCard
-                    : const Color(0xFFF5F0EB),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: isDark
-                      ? HareruColors.darkDivider
-                      : HareruColors.lightDivider,
-                  style: BorderStyle.solid,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.add_rounded,
-                    size: 24,
-                    color: isDark
-                        ? HareruColors.darkTextTertiary
-                        : HareruColors.lightTextTertiary,
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    l10n.add,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: isDark
-                          ? HareruColors.darkTextTertiary
-                          : HareruColors.lightTextTertiary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-
-        final cat = categories[index];
-        final isSelected = _selectedCategory == cat.id;
-        final displayName = _categoryDisplayName(cat, l10n);
-
-        return GestureDetector(
-          onTap: () => setState(() => _selectedCategory = cat.id),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? const Color(0xFFE8453C)
-                  : (isDark
-                      ? HareruColors.darkCard
-                      : const Color(0xFFF5F0EB)),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(cat.emoji, style: const TextStyle(fontSize: 24)),
-                const SizedBox(height: 3),
-                Text(
-                  displayName,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight:
-                        isSelected ? FontWeight.w600 : FontWeight.w400,
-                    color: isSelected
-                        ? Colors.white
-                        : (isDark
-                            ? HareruColors.darkTextPrimary
-                            : HareruColors.lightTextPrimary),
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildPaymentChips(AppLocalizations l10n, bool isDark) {
-    final labels = [l10n.creditCard, l10n.debitCard, l10n.cash];
-
-    return Row(
-      children: List.generate(labels.length, (i) {
-        final isSelected = _selectedPayment == i;
-        return Padding(
-          padding: EdgeInsets.only(right: i < labels.length - 1 ? 8 : 0),
-          child: GestureDetector(
-            onTap: () => setState(() => _selectedPayment = i),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? (isDark
-                        ? HareruColors.darkTextPrimary
-                        : HareruColors.lightTextPrimary)
-                    : (isDark ? HareruColors.darkCard : Colors.white),
-                borderRadius: BorderRadius.circular(20),
-                border: isSelected
-                    ? null
-                    : Border.all(
-                        color: isDark
-                            ? HareruColors.darkDivider
-                            : HareruColors.lightDivider,
-                      ),
-              ),
-              child: Text(
-                labels[i],
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight:
-                      isSelected ? FontWeight.w600 : FontWeight.w400,
-                  color: isSelected
-                      ? (isDark
-                          ? HareruColors.darkBg
-                          : Colors.white)
-                      : (isDark
-                          ? HareruColors.darkTextSecondary
-                          : HareruColors.lightTextSecondary),
-                ),
-              ),
-            ),
-          ),
-        );
-      }),
-    );
-  }
-
-  Widget _buildDepositAccountField(AppLocalizations l10n, bool isDark) {
-    final accounts = ref.watch(transferAccountProvider);
-
-    // Resolve pending edit-mode income deposit from "category → account" format
-    if (_pendingTransferCategory != null &&
-        accounts.isNotEmpty &&
-        _pendingTransferCategory!.contains(' → ') &&
-        _selectedType == TransactionType.income) {
-      final parts = _pendingTransferCategory!.split(' → ');
-      // parts[0] = category key, parts[1] = "emoji nickname"
-      _selectedCategory = parts[0];
-      for (final a in accounts) {
-        final label = _accountDisplayLabel(a);
-        if (label == parts[1] && _depositAccount == null) {
-          _depositAccount = a.id;
-        }
-      }
-      _pendingTransferCategory = null;
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.incomeDepositTo,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: isDark
-                ? HareruColors.darkTextSecondary
-                : HareruColors.lightTextSecondary,
-          ),
-        ),
-        const SizedBox(height: 8),
-        _buildAccountChips(
-          accounts: accounts,
-          selectedId: _depositAccount,
-          disabledId: null,
-          onSelect: (id) => setState(() {
-            // Toggle: tap again to deselect
-            _depositAccount = _depositAccount == id ? null : id;
-          }),
-          l10n: l10n,
-          isDark: isDark,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTransferDestField(AppLocalizations l10n, bool isDark) {
-    final accounts = ref.watch(transferAccountProvider);
-
-    // Resolve pending edit-mode transfer category to account IDs
-    if (_pendingTransferCategory != null &&
-        accounts.isNotEmpty &&
-        _pendingTransferCategory!.contains(' → ')) {
-      final parts = _pendingTransferCategory!.split(' → ');
-      for (final a in accounts) {
-        final label = _accountDisplayLabel(a);
-        if (label == parts[0] && _fromAccount == null) _fromAccount = a.id;
-        if (label == parts[1] && _toAccount == null) _toAccount = a.id;
-        // Also support legacy format (name only)
-        if (a.nickname == parts[0] && _fromAccount == null) _fromAccount = a.id;
-        if (a.nickname == parts[1] && _toAccount == null) _toAccount = a.id;
-      }
-      _pendingTransferCategory = null;
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // From account
-        Text(
-          l10n.transferFrom,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: isDark
-                ? HareruColors.darkTextSecondary
-                : const Color(0xFF8A8A8A),
-          ),
-        ),
-        const SizedBox(height: 8),
-        _buildAccountChips(
-          accounts: accounts,
-          selectedId: _fromAccount,
-          disabledId: _toAccount,
-          onSelect: (id) => setState(() => _fromAccount = id),
-          l10n: l10n,
-          isDark: isDark,
-        ),
-
-        // Arrow
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8),
-          child: Center(
-            child: Icon(
-              Icons.arrow_downward_rounded,
-              size: 16,
-              color: Color(0xFF8A8A8A),
-            ),
-          ),
-        ),
-
-        // To account
-        Text(
-          l10n.transferTo,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: isDark
-                ? HareruColors.darkTextSecondary
-                : const Color(0xFF8A8A8A),
-          ),
-        ),
-        const SizedBox(height: 8),
-        _buildAccountChips(
-          accounts: accounts,
-          selectedId: _toAccount,
-          disabledId: _fromAccount,
-          onSelect: (id) => setState(() => _toAccount = id),
-          l10n: l10n,
-          isDark: isDark,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAccountChips({
-    required List<UserAccount> accounts,
-    required String? selectedId,
-    required String? disabledId,
-    required void Function(String) onSelect,
-    required AppLocalizations l10n,
-    required bool isDark,
-  }) {
-    if (accounts.isEmpty) {
-      return Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          Text(
-            l10n.addAccountPrompt,
-            style: const TextStyle(fontSize: 14, color: Color(0xFF8A8A8A)),
-          ),
-          const SizedBox(width: 4),
-          _buildAddChip(l10n, isDark),
-        ],
-      );
-    }
-
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        ...accounts.map((account) {
-          final isSelected = selectedId == account.id;
-          final isDisabled = disabledId == account.id;
-
-          return GestureDetector(
-            onTap: isDisabled ? null : () => onSelect(account.id),
-            onLongPress: () =>
-                _showDeleteAccountDialog(account, isDark),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
-              padding:
-                  const EdgeInsets.only(left: 6, right: 14, top: 6, bottom: 6),
-              decoration: BoxDecoration(
-                color: isDisabled
-                    ? (isDark
-                        ? HareruColors.darkCard
-                        : const Color(0xFFF5F0EB))
-                    : isSelected
-                        ? const Color(0xFF1A1A1A)
-                        : (isDark ? HareruColors.darkCard : Colors.white),
-                borderRadius: BorderRadius.circular(20),
-                border: (isSelected || isDisabled)
-                    ? null
-                    : Border.all(
-                        color: isDark
-                            ? HareruColors.darkDivider
-                            : const Color(0xFFE5E0DB),
-                      ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? Colors.white.withValues(alpha: 0.2)
-                          : (isDark
-                              ? HareruColors.darkBg
-                              : const Color(0xFFF5F0EB)),
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      account.emoji,
-                      style: const TextStyle(fontSize: 13),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    account.nickname,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight:
-                          isSelected ? FontWeight.w600 : FontWeight.w400,
-                      color: isDisabled
-                          ? const Color(0xFFBFBFBF)
-                          : isSelected
-                              ? Colors.white
-                              : (isDark
-                                  ? HareruColors.darkTextSecondary
-                                  : const Color(0xFF1A1A1A)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }),
-        _buildAddChip(l10n, isDark),
-      ],
-    );
-  }
-
-  Widget _buildAddChip(AppLocalizations l10n, bool isDark) {
-    return GestureDetector(
-      onTap: () => _showAddAccountDialog(l10n, isDark),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isDark ? HareruColors.darkCard : Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isDark
-                ? HareruColors.darkDivider
-                : HareruColors.lightDivider,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.add_rounded,
-              size: 14,
-              color: isDark
-                  ? HareruColors.darkTextTertiary
-                  : HareruColors.lightTextTertiary,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              l10n.add,
-              style: TextStyle(
-                fontSize: 13,
-                color: isDark
-                    ? HareruColors.darkTextTertiary
-                    : HareruColors.lightTextTertiary,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showAddAccountDialog(AppLocalizations l10n, bool isDark) {
-    final nameController = TextEditingController();
-    var selectedEmoji = '🏦';
-    final activeColor = const Color(0xFFE8453C);
-    const emojiOptions = ['🏦', '💰', '📈', '💳', '🐷', '💵'];
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return StatefulBuilder(
-          builder: (context, setDialogState) {
-            return AlertDialog(
-              backgroundColor:
-                  isDark ? HareruColors.darkCard : HareruColors.lightCard,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              title: Text(
-                l10n.addAccountTitle,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: isDark
-                      ? HareruColors.darkTextPrimary
-                      : HareruColors.lightTextPrimary,
-                ),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Step 1: Emoji selection
-                  Text(
-                    l10n.addAccountStep1,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: isDark
-                          ? HareruColors.darkTextSecondary
-                          : HareruColors.lightTextSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: emojiOptions.map((emoji) {
-                      final isSelected = selectedEmoji == emoji;
-                      return GestureDetector(
-                        onTap: () =>
-                            setDialogState(() => selectedEmoji = emoji),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 150),
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? activeColor
-                                : (isDark
-                                    ? HareruColors.darkBg
-                                    : const Color(0xFFF5F0EB)),
-                            shape: BoxShape.circle,
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            emoji,
-                            style: const TextStyle(fontSize: 22),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Step 2: Account nickname
-                  Text(
-                    l10n.addAccountStep2,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: isDark
-                          ? HareruColors.darkTextSecondary
-                          : HareruColors.lightTextSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: nameController,
-                    autofocus: true,
-                    maxLength: 20,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: isDark
-                          ? HareruColors.darkTextPrimary
-                          : HareruColors.lightTextPrimary,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: l10n.addAccountHint,
-                      hintStyle: TextStyle(
-                        color: isDark
-                            ? HareruColors.darkTextTertiary
-                            : HareruColors.lightTextTertiary,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: activeColor, width: 2),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(dialogContext),
-                  child: Text(
-                    l10n.cancel,
-                    style: TextStyle(
-                      color: isDark
-                          ? HareruColors.darkTextSecondary
-                          : HareruColors.lightTextSecondary,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    final name = nameController.text.trim();
-                    if (name.isNotEmpty) {
-                      ref
-                          .read(transferAccountProvider.notifier)
-                          .addAccount(name, selectedEmoji);
-                      Navigator.pop(dialogContext);
-                    }
-                  },
-                  child: Text(
-                    l10n.add,
-                    style: TextStyle(
-                      color: activeColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  void _showDeleteAccountDialog(UserAccount account, bool isDark) {
-    final l10n = AppLocalizations.of(context)!;
-    final label = _accountDisplayLabel(account);
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          backgroundColor:
-              isDark ? HareruColors.darkCard : HareruColors.lightCard,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Text(
-            l10n.deleteAccountConfirm(label),
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: isDark
-                  ? HareruColors.darkTextPrimary
-                  : HareruColors.lightTextPrimary,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text(
-                l10n.cancel,
-                style: TextStyle(
-                  color: isDark
-                      ? HareruColors.darkTextSecondary
-                      : HareruColors.lightTextSecondary,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                ref
-                    .read(transferAccountProvider.notifier)
-                    .removeAccount(account.id);
-                // Clear selection if deleted account was selected
-                if (_fromAccount == account.id) {
-                  setState(() => _fromAccount = null);
-                }
-                if (_toAccount == account.id) {
-                  setState(() => _toAccount = null);
-                }
-                Navigator.pop(dialogContext);
-              },
-              child: Text(
-                l10n.deleteRecord,
-                style: const TextStyle(
-                  color: Color(0xFFE8453C),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 
@@ -1290,7 +553,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 }
 
-/// TextInputFormatter that adds commas for thousands grouping.
 class _CommaFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
@@ -1299,11 +561,9 @@ class _CommaFormatter extends TextInputFormatter {
   ) {
     if (newValue.text.isEmpty) return newValue;
 
-    // Strip commas for pure digits
     final clean = newValue.text.replaceAll(',', '');
     if (clean.isEmpty) return newValue.copyWith(text: '');
 
-    // Format with commas
     final buf = StringBuffer();
     for (var i = 0; i < clean.length; i++) {
       if (i > 0 && (clean.length - i) % 3 == 0) buf.write(',');
