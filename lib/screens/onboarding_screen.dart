@@ -302,18 +302,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   Widget _buildSetupPage(
       BuildContext context, AppLocalizations l10n, bool isDark) {
-    final locale = Localizations.localeOf(context);
-    String currencySymbol;
-    switch (locale.languageCode) {
-      case 'ko':
-        currencySymbol = '\u20a9';
-        break;
-      case 'en':
-        currencySymbol = '\$';
-        break;
-      default:
-        currencySymbol = '\u00a5';
-    }
+    const currencySymbol = '¥';
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
