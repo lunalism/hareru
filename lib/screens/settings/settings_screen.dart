@@ -10,7 +10,6 @@ import 'package:hareru/core/providers/reminder_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
 import 'package:hareru/screens/settings/about_screen.dart';
-import 'package:hareru/screens/settings/faq_screen.dart';
 import 'package:hareru/screens/settings/legal_webview_screen.dart';
 import 'package:hareru/screens/settings/widgets/contact_sheet.dart';
 import 'package:hareru/screens/settings/widgets/data_management.dart';
@@ -232,7 +231,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (_) => const FaqScreen(),
+                        builder: (_) => LegalWebviewScreen(
+                          title: l10n.faq,
+                          path: 'support',
+                        ),
                       ),
                     ),
                   ),
