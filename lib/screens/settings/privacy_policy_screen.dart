@@ -66,7 +66,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => launchUrl(
-                Uri.parse('mailto:hareru.app@gmail.com'),
+                Uri.parse('mailto:hareru.info11@gmail.com'),
               ),
               child: Container(
                 width: double.infinity,
@@ -94,7 +94,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            'hareru.app@gmail.com',
+                            'hareru.info11@gmail.com',
                             style: TextStyle(
                               fontSize: 14,
                               color: c.textSecondary,

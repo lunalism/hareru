@@ -154,7 +154,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     label: l10n.contactUs,
                     isDark: isDark,
                     onTap: () => launchUrl(
-                      Uri.parse('mailto:hareru.app@gmail.com'),
+                      Uri.parse('mailto:hareru.info11@gmail.com'),
                     ),
                   ),
                 ],

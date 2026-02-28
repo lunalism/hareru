@@ -71,7 +71,7 @@ class LegalTexts {
 本規約は日本法に準拠するものとします。
 
 第10条（お問い合わせ）
-本規約に関するお問い合わせ: hareru.app@gmail.com''';
+本規約に関するお問い合わせ: hareru.info11@gmail.com''';
 
   static const _termsKo = '''이용약관
 
@@ -121,7 +121,7 @@ class LegalTexts {
 본 약관은 일본법에 준거합니다.
 
 제10조 (문의)
-본 약관에 관한 문의: hareru.app@gmail.com''';
+본 약관에 관한 문의: hareru.info11@gmail.com''';
 
   static const _termsEn = '''Terms of Service
 
@@ -171,7 +171,7 @@ Article 9 (Governing Law)
 These Terms are governed by the laws of Japan.
 
 Article 10 (Contact)
-For inquiries regarding these Terms: hareru.app@gmail.com''';
+For inquiries regarding these Terms: hareru.info11@gmail.com''';
 
   static const _privacyJa = '''プライバシーポリシー
 
@@ -208,7 +208,7 @@ For inquiries regarding these Terms: hareru.app@gmail.com''';
 本プライバシーポリシーは、必要に応じて更新される場合があります。重要な変更がある場合は、アプリ内でお知らせします。
 
 10. お問い合わせ
-本プライバシーポリシーに関するお問い合わせ: hareru.app@gmail.com''';
+本プライバシーポリシーに関するお問い合わせ: hareru.info11@gmail.com''';
 
   static const _privacyKo = '''개인정보처리방침
 
@@ -245,7 +245,7 @@ For inquiries regarding these Terms: hareru.app@gmail.com''';
 본 개인정보처리방침은 필요에 따라 업데이트될 수 있습니다. 중요한 변경이 있는 경우 앱 내에서 알려드립니다.
 
 10. 문의
-본 개인정보처리방침에 관한 문의: hareru.app@gmail.com''';
+본 개인정보처리방침에 관한 문의: hareru.info11@gmail.com''';
 
   static const _privacyEn = '''Privacy Policy
 
@@ -282,5 +282,5 @@ Users can delete all data from the App's settings screen. Uninstalling the App w
 This Privacy Policy may be updated as needed. Users will be notified of significant changes within the App.
 
 10. Contact
-For inquiries regarding this Privacy Policy: hareru.app@gmail.com''';
+For inquiries regarding this Privacy Policy: hareru.info11@gmail.com''';
 }
