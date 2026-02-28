@@ -3,8 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/l10n/app_localizations.dart';
-import 'package:hareru/screens/settings/privacy_policy_screen.dart';
-import 'package:hareru/screens/settings/terms_of_service_screen.dart';
+import 'package:hareru/screens/settings/legal_webview_screen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -124,7 +123,10 @@ class _AboutScreenState extends State<AboutScreen> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (_) => const TermsOfServiceScreen(),
+                        builder: (_) => LegalWebviewScreen(
+                          title: l10n.termsOfService,
+                          path: 'terms',
+                        ),
                       ),
                     ),
                   ),
@@ -140,7 +142,10 @@ class _AboutScreenState extends State<AboutScreen> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (_) => const PrivacyPolicyScreen(),
+                        builder: (_) => LegalWebviewScreen(
+                          title: l10n.privacyPolicy,
+                          path: 'privacy',
+                        ),
                       ),
                     ),
                   ),

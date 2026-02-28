@@ -11,8 +11,7 @@ import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
 import 'package:hareru/screens/settings/about_screen.dart';
 import 'package:hareru/screens/settings/faq_screen.dart';
-import 'package:hareru/screens/settings/privacy_policy_screen.dart';
-import 'package:hareru/screens/settings/terms_of_service_screen.dart';
+import 'package:hareru/screens/settings/legal_webview_screen.dart';
 import 'package:hareru/screens/settings/widgets/contact_sheet.dart';
 import 'package:hareru/screens/settings/widgets/data_management.dart';
 import 'package:hareru/screens/settings/widgets/settings_dialogs.dart';
@@ -297,7 +296,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (_) => const TermsOfServiceScreen(),
+                        builder: (_) => LegalWebviewScreen(
+                          title: l10n.termsOfService,
+                          path: 'terms',
+                        ),
                       ),
                     ),
                   ),
@@ -310,7 +312,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (_) => const PrivacyPolicyScreen(),
+                        builder: (_) => LegalWebviewScreen(
+                          title: l10n.privacyPolicy,
+                          path: 'privacy',
+                        ),
                       ),
                     ),
                   ),
