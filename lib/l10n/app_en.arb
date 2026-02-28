@@ -369,5 +369,9 @@
   "contactDesc": "Please send questions or feedback via email",
   "contactCopy": "Copy",
   "contactOpenMail": "Open Mail",
-  "contactCopied": "Copied!"
+  "contactCopied": "Copied!",
+  "otherSection": "Other",
+  "lastUpdatedDate": "Last Updated: February 28, 2026",
+  "appCatchphrase": "Clear up the fog\nin your finances.",
+  "copyright": "© 2026 Lunalism"
 }

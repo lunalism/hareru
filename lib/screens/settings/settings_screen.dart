@@ -9,12 +9,13 @@ import 'package:hareru/core/providers/pay_day_provider.dart';
 import 'package:hareru/core/providers/reminder_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
+import 'package:hareru/screens/settings/about_screen.dart';
 import 'package:hareru/screens/settings/faq_screen.dart';
+import 'package:hareru/screens/settings/privacy_policy_screen.dart';
+import 'package:hareru/screens/settings/terms_of_service_screen.dart';
 import 'package:hareru/screens/settings/widgets/contact_sheet.dart';
 import 'package:hareru/screens/settings/widgets/data_management.dart';
 import 'package:hareru/screens/settings/widgets/settings_dialogs.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -24,26 +25,11 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  String _appVersion = '';
-
   static const _languages = [
     (code: 'ja', label: '日本語', flag: '🇯🇵'),
     (code: 'ko', label: '한국어', flag: '🇰🇷'),
     (code: 'en', label: 'English', flag: '🇺🇸'),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadVersion();
-  }
-
-  Future<void> _loadVersion() async {
-    final info = await PackageInfo.fromPlatform();
-    if (mounted) {
-      setState(() => _appVersion = info.version);
-    }
-  }
 
   String _formatBudget(int value) {
     if (value == 0) return '¥0';
@@ -297,40 +283,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
-              // About section
-              _sectionHeader(l10n.aboutApp, isDark),
+              // Other section
+              _sectionHeader(l10n.otherSection, isDark),
               const SizedBox(height: 12),
               _card(
                 isDark,
                 children: [
                   _row(
-                    emoji: '\u{1F4E7}',
-                    label: l10n.feedback,
-                    showChevron: true,
-                    isDark: isDark,
-                    onTap: () => launchUrl(Uri.parse(
-                        'mailto:support@hareru.app?subject=Hareru ${l10n.feedback}')),
-                  ),
-                  _divider(isDark),
-                  _row(
-                    emoji: '\u{2B50}',
-                    label: l10n.rateApp,
-                    showChevron: true,
-                    isDark: isDark,
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.rateAppLater)),
-                      );
-                    },
-                  ),
-                  _divider(isDark),
-                  _row(
                     emoji: '\u{1F4C4}',
                     label: l10n.termsOfService,
                     showChevron: true,
                     isDark: isDark,
-                    onTap: () =>
-                        launchUrl(Uri.parse('https://hareru.app/terms')),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const TermsOfServiceScreen(),
+                      ),
+                    ),
                   ),
                   _divider(isDark),
                   _row(
@@ -338,18 +307,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     label: l10n.privacyPolicy,
                     showChevron: true,
                     isDark: isDark,
-                    onTap: () =>
-                        launchUrl(Uri.parse('https://hareru.app/privacy')),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const PrivacyPolicyScreen(),
+                      ),
+                    ),
                   ),
                   _divider(isDark),
                   _row(
-                    emoji: '',
-                    label: l10n.version,
-                    trailing: Text(
-                      _appVersion,
-                      style: _trailingStyle(isDark),
-                    ),
+                    emoji: '\u{2139}\u{FE0F}',
+                    label: l10n.aboutApp,
+                    showChevron: true,
                     isDark: isDark,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const AboutScreen(),
+                      ),
+                    ),
                   ),
                 ],
               ),

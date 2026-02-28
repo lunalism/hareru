@@ -833,4 +833,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get contactCopied => 'コピーしました';
+
+  @override
+  String get otherSection => 'その他';
+
+  @override
+  String get lastUpdatedDate => '最終更新日: 2026年2月28日';
+
+  @override
+  String get appCatchphrase => 'もやもやした家計を、\nすっきり晴れやかに。';
+
+  @override
+  String get copyright => '© 2026 Lunalism';
 }

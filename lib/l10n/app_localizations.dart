@@ -1676,6 +1676,30 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'コピーしました'**
   String get contactCopied;
+
+  /// No description provided for @otherSection.
+  ///
+  /// In ja, this message translates to:
+  /// **'その他'**
+  String get otherSection;
+
+  /// No description provided for @lastUpdatedDate.
+  ///
+  /// In ja, this message translates to:
+  /// **'最終更新日: 2026年2月28日'**
+  String get lastUpdatedDate;
+
+  /// No description provided for @appCatchphrase.
+  ///
+  /// In ja, this message translates to:
+  /// **'もやもやした家計を、\nすっきり晴れやかに。'**
+  String get appCatchphrase;
+
+  /// No description provided for @copyright.
+  ///
+  /// In ja, this message translates to:
+  /// **'© 2026 Lunalism'**
+  String get copyright;
 }
 
 class _AppLocalizationsDelegate

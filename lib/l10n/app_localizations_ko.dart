@@ -834,4 +834,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get contactCopied => '복사되었습니다';
+
+  @override
+  String get otherSection => '기타';
+
+  @override
+  String get lastUpdatedDate => '최종 업데이트: 2026년 2월 28일';
+
+  @override
+  String get appCatchphrase => '복잡한 가계부를,\n깔끔하게 정리하다.';
+
+  @override
+  String get copyright => '© 2026 Lunalism';
 }

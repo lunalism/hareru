@@ -369,5 +369,9 @@
   "contactDesc": "질문이나 피드백은 이메일로 보내주세요",
   "contactCopy": "복사",
   "contactOpenMail": "메일 열기",
-  "contactCopied": "복사되었습니다"
+  "contactCopied": "복사되었습니다",
+  "otherSection": "기타",
+  "lastUpdatedDate": "최종 업데이트: 2026년 2월 28일",
+  "appCatchphrase": "복잡한 가계부를,\n깔끔하게 정리하다.",
+  "copyright": "© 2026 Lunalism"
 }

@@ -842,4 +842,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contactCopied => 'Copied!';
+
+  @override
+  String get otherSection => 'Other';
+
+  @override
+  String get lastUpdatedDate => 'Last Updated: February 28, 2026';
+
+  @override
+  String get appCatchphrase => 'Clear up the fog\nin your finances.';
+
+  @override
+  String get copyright => '© 2026 Lunalism';
 }
