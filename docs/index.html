@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hareru（ハレル）</title>
+<script>
+  var lang = navigator.language || navigator.userLanguage;
+  if (lang.startsWith('ko')) {
+    window.location.href = './ko/support';
+  } else if (lang.startsWith('en')) {
+    window.location.href = './en/support';
+  } else {
+    window.location.href = './ja/support';
+  }
+</script>
+<style>
+  body { font-family: -apple-system, sans-serif; text-align: center; padding: 60px 20px; background: #FAFAF8; }
+  .logo { font-size: 28px; font-weight: 700; margin-bottom: 40px; }
+  .diamond { color: #E8453C; }
+  a { display: block; padding: 16px; margin: 12px auto; max-width: 300px; background: #fff; border-radius: 12px; text-decoration: none; color: #333; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  a:hover { background: #F5F0EB; }
+</style>
+</head>
+<body>
+  <div class="logo"><span class="diamond">&#9670;</span> Hareru</div>
+  <a href="./ja/support">&#127471;&#127477; 日本語</a>
+  <a href="./ko/support">&#127472;&#127479; 한국어</a>
+  <a href="./en/support">&#127468;&#127463; English</a>
+</body>
+</html>

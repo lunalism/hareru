@@ -3,148 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>サポート - Hareru</title>
+  <title>サポート - Hareru（ハレル）</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: #FAFAF8;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      color: #333;
-      line-height: 1.8;
-      padding: 40px 20px;
-    }
-
-    .container {
-      max-width: 640px;
-      margin: 0 auto;
-    }
-
-    .logo {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .logo a {
-      font-size: 20px;
-      font-weight: 700;
-      color: #E8453C;
-      text-decoration: none;
-      letter-spacing: 1px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
-      padding: 40px 36px;
-    }
-
-    .card h1 {
-      font-size: 24px;
-      font-weight: 700;
-      color: #1A1A1A;
-      margin-bottom: 28px;
-    }
-
-    .faq-item {
-      margin-bottom: 24px;
-    }
-
-    .faq-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .faq-question {
-      font-size: 15px;
-      font-weight: 700;
-      color: #1A1A1A;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-
-    .faq-question .q-label {
-      color: #E8453C;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .faq-answer {
-      font-size: 15px;
-      color: #555;
-      padding-left: 28px;
-    }
-
-    .contact-box {
-      background: #1A1A1A;
-      border-radius: 16px;
-      padding: 32px 36px;
-      margin-top: 24px;
-      text-align: center;
-    }
-
-    .contact-box h2 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-
-    .contact-box p {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 16px;
-    }
-
-    .contact-box .email-link {
-      color: #E8453C;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .contact-box .email-link:hover {
-      text-decoration: underline;
-    }
-
-    .bottom-links {
-      text-align: center;
-      margin-top: 24px;
-      font-size: 14px;
-    }
-
-    .bottom-links a {
-      color: #555;
-      text-decoration: none;
-    }
-
-    .bottom-links a:hover {
-      color: #E8453C;
-    }
-
-    .bottom-links .sep {
-      color: #ccc;
-      margin: 0 12px;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 32px;
-      font-size: 13px;
-      color: #aaa;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: #FAFAF8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; line-height: 1.8; padding: 40px 20px; }
+    .container { max-width: 640px; margin: 0 auto; }
+    .logo { text-align: center; margin-bottom: 32px; }
+    .logo a { font-size: 20px; font-weight: 700; color: #E8453C; text-decoration: none; letter-spacing: 1px; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); padding: 40px 36px; }
+    .card h1 { font-size: 24px; font-weight: 700; color: #1A1A1A; margin-bottom: 28px; }
+    .faq-item { margin-bottom: 24px; }
+    .faq-item:last-child { margin-bottom: 0; }
+    .faq-question { font-size: 15px; font-weight: 700; color: #1A1A1A; margin-bottom: 6px; display: flex; align-items: baseline; gap: 8px; }
+    .faq-question .q-label { color: #E8453C; font-weight: 700; flex-shrink: 0; }
+    .faq-answer { font-size: 15px; color: #555; padding-left: 28px; }
+    .contact-box { background: #1A1A1A; border-radius: 16px; padding: 32px 36px; margin-top: 24px; text-align: center; }
+    .contact-box h2 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .contact-box p { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+    .contact-box .email-link { color: #E8453C; text-decoration: none; font-size: 16px; font-weight: 600; }
+    .contact-box .email-link:hover { text-decoration: underline; }
+    .bottom-links { text-align: center; margin-top: 24px; font-size: 14px; }
+    .bottom-links a { color: #555; text-decoration: none; }
+    .bottom-links a:hover { color: #E8453C; }
+    .bottom-links .sep { color: #ccc; margin: 0 12px; }
+    .footer { text-align: center; margin-top: 32px; font-size: 13px; color: #aaa; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="logo">
-      <a href="/">&#9670; Hareru</a>
+      <a href="../">&#9670; Hareru</a>
     </div>
 
     <div class="card">
@@ -206,9 +94,9 @@
     </div>
 
     <div class="bottom-links">
-      <a href="terms.html">利用規約</a>
+      <a href="./terms">利用規約</a>
       <span class="sep">|</span>
-      <a href="privacy.html">プライバシーポリシー</a>
+      <a href="./privacy">プライバシーポリシー</a>
     </div>
 
     <div class="footer">&copy; 2026 Lunalism</div>
