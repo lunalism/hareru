@@ -845,4 +845,49 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get copyright => '© 2026 Lunalism';
+
+  @override
+  String get accountSection => 'アカウント';
+
+  @override
+  String get login => 'ログイン';
+
+  @override
+  String get loginDescription => 'ログインすると、以下の機能がご利用いただけます:';
+
+  @override
+  String get loginBenefitBank => '最新の銀行金利比較';
+
+  @override
+  String get loginBenefitAI => 'AIインサイト（有料）';
+
+  @override
+  String get loginBenefitBackup => 'データのクラウドバックアップ';
+
+  @override
+  String get signInWithApple => 'Appleでサインイン';
+
+  @override
+  String get signInWithGoogle => 'Googleでサインイン';
+
+  @override
+  String get skipLogin => 'スキップして続ける';
+
+  @override
+  String get loginSuccess => 'ログイン完了';
+
+  @override
+  String get loginError => 'ログインに失敗しました';
+
+  @override
+  String get logout => 'ログアウト';
+
+  @override
+  String get logoutConfirm => 'ログアウトしますか？';
+
+  @override
+  String get bankLoadError => 'データの読み込みに失敗しました';
+
+  @override
+  String get bankRetry => '再試行';
 }

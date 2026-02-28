@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
-import 'package:hareru/data/bank_comparison_data.dart';
+import 'package:hareru/features/dictionary/bank_comparison/bank_product_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 
 class BankComparisonScreen extends ConsumerWidget {
@@ -13,6 +13,7 @@ class BankComparisonScreen extends ConsumerWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
     final lang = ref.watch(localeProvider).languageCode;
+    final bankProducts = ref.watch(bankProductsProvider);
 
     return Scaffold(
       backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
@@ -39,77 +40,111 @@ class BankComparisonScreen extends ConsumerWidget {
 
             // Content
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
-                children: [
-                  // Header
-                  const Text(
-                    '\u{1F3E6}',
-                    style: TextStyle(fontSize: 32),
+              child: bankProducts.when(
+                loading: () => const Center(
+                  child: CircularProgressIndicator(
+                    color: HareruColors.primaryStart,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    l10n.bankComparison,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: isDark
-                          ? HareruColors.darkTextPrimary
-                          : HareruColors.lightTextPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    l10n.asOf,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: isDark
-                          ? HareruColors.darkTextTertiary
-                          : HareruColors.lightTextTertiary,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Bank cards
-                  ...bankComparisons.map(
-                    (bank) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: _buildBankCard(bank, isDark, lang, l10n),
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  // Foreigner tip card
-                  _buildForeignerTip(isDark, l10n),
-                  const SizedBox(height: 16),
-
-                  // Korea comparison tip (Korean only)
-                  if (lang == 'ko') ...[
-                    _buildKoreaTip(isDark, l10n),
-                    const SizedBox(height: 16),
-                  ],
-
-                  // AI recommendation banner
-                  _buildAiBanner(context, isDark, l10n),
-                  const SizedBox(height: 20),
-
-                  // Disclaimer
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+                error: (error, _) => Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
+                      Icon(
+                        Icons.error_outline_rounded,
+                        size: 48,
+                        color: isDark
+                            ? HareruColors.darkTextTertiary
+                            : HareruColors.lightTextTertiary,
+                      ),
+                      const SizedBox(height: 12),
                       Text(
-                        '\u26A0\uFE0F ',
+                        l10n.bankLoadError,
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 15,
                           color: isDark
-                              ? HareruColors.darkTextTertiary
-                              : HareruColors.lightTextTertiary,
+                              ? HareruColors.darkTextSecondary
+                              : HareruColors.lightTextSecondary,
                         ),
                       ),
-                      Expanded(
+                      const SizedBox(height: 16),
+                      TextButton(
+                        onPressed: () =>
+                            ref.invalidate(bankProductsProvider),
                         child: Text(
-                          l10n.rateDisclaimer,
+                          l10n.bankRetry,
+                          style: const TextStyle(
+                            color: HareruColors.primaryStart,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                data: (banks) => ListView(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+                  children: [
+                    // Header
+                    const Text(
+                      '\u{1F3E6}',
+                      style: TextStyle(fontSize: 32),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.bankComparison,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: isDark
+                            ? HareruColors.darkTextPrimary
+                            : HareruColors.lightTextPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      banks.isNotEmpty
+                          ? banks.first.dataAsOf
+                          : l10n.asOf,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isDark
+                            ? HareruColors.darkTextTertiary
+                            : HareruColors.lightTextTertiary,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Bank cards
+                    ...banks.map(
+                      (bank) => Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: _buildBankCard(bank, isDark, lang, l10n),
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    // Foreigner tip card
+                    _buildForeignerTip(isDark, l10n),
+                    const SizedBox(height: 16),
+
+                    // Korea comparison tip (Korean only)
+                    if (lang == 'ko') ...[
+                      _buildKoreaTip(isDark, l10n),
+                      const SizedBox(height: 16),
+                    ],
+
+                    // AI recommendation banner
+                    _buildAiBanner(context, isDark, l10n),
+                    const SizedBox(height: 20),
+
+                    // Disclaimer
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '\u26A0\uFE0F ',
                           style: TextStyle(
                             fontSize: 13,
                             color: isDark
@@ -117,10 +152,21 @@ class BankComparisonScreen extends ConsumerWidget {
                                 : HareruColors.lightTextTertiary,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        Expanded(
+                          child: Text(
+                            l10n.rateDisclaimer,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: isDark
+                                  ? HareruColors.darkTextTertiary
+                                  : HareruColors.lightTextTertiary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -130,7 +176,7 @@ class BankComparisonScreen extends ConsumerWidget {
   }
 
   Widget _buildBankCard(
-    BankComparison bank,
+    BankProduct bank,
     bool isDark,
     String lang,
     AppLocalizations l10n,
@@ -155,7 +201,7 @@ class BankComparisonScreen extends ConsumerWidget {
         children: [
           // Bank name
           Text(
-            '${bank.emoji} ${bank.name(lang)}',
+            '${bank.bankIcon ?? ''} ${bank.getLocalizedName(lang)}',
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w700,
@@ -169,14 +215,24 @@ class BankComparisonScreen extends ConsumerWidget {
           // Info rows
           _buildInfoRow(
             l10n.interestRate,
-            bank.interestRate,
+            '\u5E74${bank.interestRate}%',
             isDark,
             isRate: true,
           ),
           const SizedBox(height: 8),
-          _buildInfoRow(l10n.minimumAmount, bank.minAmount, isDark),
+          _buildInfoRow(
+            l10n.minimumAmount,
+            bank.minAmount != null ? '${bank.minAmount}\u5186\u301C' : '-',
+            isDark,
+          ),
           const SizedBox(height: 8),
-          _buildInfoRow(l10n.depositPeriod, bank.period, isDark),
+          _buildInfoRow(
+            l10n.depositPeriod,
+            [bank.periodMin, bank.periodMax]
+                .where((e) => e != null)
+                .join('\u301C'),
+            isDark,
+          ),
           const SizedBox(height: 14),
 
           // Feature
@@ -186,7 +242,7 @@ class BankComparisonScreen extends ConsumerWidget {
               const Text('\u{1F4A1} ', style: TextStyle(fontSize: 13)),
               Expanded(
                 child: Text(
-                  bank.feature(lang),
+                  bank.getLocalizedFeatures(lang),
                   style: TextStyle(
                     fontSize: 13,
                     color: isDark
@@ -206,8 +262,8 @@ class BankComparisonScreen extends ConsumerWidget {
               const Text('\u{1F464} ', style: TextStyle(fontSize: 13)),
               Expanded(
                 child: Text(
-                  bank.recommend(lang),
-                  style: TextStyle(
+                  bank.getLocalizedRecommendedFor(lang),
+                  style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: HareruColors.primaryStart,

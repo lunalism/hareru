@@ -1700,6 +1700,96 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'© 2026 Lunalism'**
   String get copyright;
+
+  /// No description provided for @accountSection.
+  ///
+  /// In ja, this message translates to:
+  /// **'アカウント'**
+  String get accountSection;
+
+  /// No description provided for @login.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログイン'**
+  String get login;
+
+  /// No description provided for @loginDescription.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログインすると、以下の機能がご利用いただけます:'**
+  String get loginDescription;
+
+  /// No description provided for @loginBenefitBank.
+  ///
+  /// In ja, this message translates to:
+  /// **'最新の銀行金利比較'**
+  String get loginBenefitBank;
+
+  /// No description provided for @loginBenefitAI.
+  ///
+  /// In ja, this message translates to:
+  /// **'AIインサイト（有料）'**
+  String get loginBenefitAI;
+
+  /// No description provided for @loginBenefitBackup.
+  ///
+  /// In ja, this message translates to:
+  /// **'データのクラウドバックアップ'**
+  String get loginBenefitBackup;
+
+  /// No description provided for @signInWithApple.
+  ///
+  /// In ja, this message translates to:
+  /// **'Appleでサインイン'**
+  String get signInWithApple;
+
+  /// No description provided for @signInWithGoogle.
+  ///
+  /// In ja, this message translates to:
+  /// **'Googleでサインイン'**
+  String get signInWithGoogle;
+
+  /// No description provided for @skipLogin.
+  ///
+  /// In ja, this message translates to:
+  /// **'スキップして続ける'**
+  String get skipLogin;
+
+  /// No description provided for @loginSuccess.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログイン完了'**
+  String get loginSuccess;
+
+  /// No description provided for @loginError.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログインに失敗しました'**
+  String get loginError;
+
+  /// No description provided for @logout.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログアウト'**
+  String get logout;
+
+  /// No description provided for @logoutConfirm.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログアウトしますか？'**
+  String get logoutConfirm;
+
+  /// No description provided for @bankLoadError.
+  ///
+  /// In ja, this message translates to:
+  /// **'データの読み込みに失敗しました'**
+  String get bankLoadError;
+
+  /// No description provided for @bankRetry.
+  ///
+  /// In ja, this message translates to:
+  /// **'再試行'**
+  String get bankRetry;
 }
 
 class _AppLocalizationsDelegate

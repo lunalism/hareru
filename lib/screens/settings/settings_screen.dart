@@ -7,6 +7,8 @@ import 'package:hareru/core/providers/dark_mode_provider.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
 import 'package:hareru/core/providers/pay_day_provider.dart';
 import 'package:hareru/core/providers/reminder_provider.dart';
+import 'package:hareru/features/auth/auth_provider.dart';
+import 'package:hareru/features/auth/auth_screen.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
 import 'package:hareru/screens/settings/about_screen.dart';
@@ -57,6 +59,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final payDay = ref.watch(payDayProvider);
     final themeMode = ref.watch(darkModeProvider);
     final reminder = ref.watch(reminderProvider);
+    ref.watch(authStateProvider);
 
     return Scaffold(
       backgroundColor: c.background,
@@ -284,6 +287,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
+              // Account section
+              _buildAccountSection(isDark, l10n),
+              const SizedBox(height: 28),
+
               // Other section
               _sectionHeader(l10n.otherSection, isDark),
               const SizedBox(height: 12),
@@ -340,6 +347,78 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildAccountSection(bool isDark, AppLocalizations l10n) {
+    final user = ref.watch(currentUserProvider);
+    final isLoggedIn = user != null;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _sectionHeader(l10n.accountSection, isDark),
+        const SizedBox(height: 12),
+        _card(
+          isDark,
+          children: isLoggedIn
+              ? [
+                  _row(
+                    emoji: '\u{1F464}',
+                    label: user.email ?? '',
+                    isDark: isDark,
+                  ),
+                  _divider(isDark),
+                  _row(
+                    emoji: '\u{1F6AA}',
+                    label: l10n.logout,
+                    showChevron: true,
+                    isDark: isDark,
+                    onTap: () => _showLogoutDialog(l10n),
+                  ),
+                ]
+              : [
+                  _row(
+                    emoji: '\u{1F464}',
+                    label: l10n.login,
+                    showChevron: true,
+                    isDark: isDark,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const AuthScreen(),
+                      ),
+                    ),
+                  ),
+                ],
+        ),
+      ],
+    );
+  }
+
+  void _showLogoutDialog(AppLocalizations l10n) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.logout),
+        content: Text(l10n.logoutConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              await ref.read(authServiceProvider).signOut();
+            },
+            child: Text(
+              l10n.logout,
+              style: const TextStyle(color: HareruColors.expense),
+            ),
+          ),
+        ],
       ),
     );
   }

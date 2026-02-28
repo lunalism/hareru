@@ -373,5 +373,21 @@
   "otherSection": "その他",
   "lastUpdatedDate": "最終更新日: 2026年2月28日",
   "appCatchphrase": "もやもやした家計を、\nすっきり晴れやかに。",
-  "copyright": "© 2026 Lunalism"
+  "copyright": "© 2026 Lunalism",
+
+  "accountSection": "アカウント",
+  "login": "ログイン",
+  "loginDescription": "ログインすると、以下の機能がご利用いただけます:",
+  "loginBenefitBank": "最新の銀行金利比較",
+  "loginBenefitAI": "AIインサイト（有料）",
+  "loginBenefitBackup": "データのクラウドバックアップ",
+  "signInWithApple": "Appleでサインイン",
+  "signInWithGoogle": "Googleでサインイン",
+  "skipLogin": "スキップして続ける",
+  "loginSuccess": "ログイン完了",
+  "loginError": "ログインに失敗しました",
+  "logout": "ログアウト",
+  "logoutConfirm": "ログアウトしますか？",
+  "bankLoadError": "データの読み込みに失敗しました",
+  "bankRetry": "再試行"
 }

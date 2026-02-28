@@ -846,4 +846,49 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get copyright => '© 2026 Lunalism';
+
+  @override
+  String get accountSection => '계정';
+
+  @override
+  String get login => '로그인';
+
+  @override
+  String get loginDescription => '로그인하면 다음 기능을 사용할 수 있습니다:';
+
+  @override
+  String get loginBenefitBank => '최신 은행 금리 비교';
+
+  @override
+  String get loginBenefitAI => 'AI 인사이트 (유료)';
+
+  @override
+  String get loginBenefitBackup => '데이터 클라우드 백업';
+
+  @override
+  String get signInWithApple => 'Apple로 로그인';
+
+  @override
+  String get signInWithGoogle => 'Google로 로그인';
+
+  @override
+  String get skipLogin => '건너뛰고 계속하기';
+
+  @override
+  String get loginSuccess => '로그인 완료';
+
+  @override
+  String get loginError => '로그인에 실패했습니다';
+
+  @override
+  String get logout => '로그아웃';
+
+  @override
+  String get logoutConfirm => '로그아웃하시겠습니까?';
+
+  @override
+  String get bankLoadError => '데이터를 불러오지 못했습니다';
+
+  @override
+  String get bankRetry => '다시 시도';
 }

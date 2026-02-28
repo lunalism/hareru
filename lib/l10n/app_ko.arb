@@ -373,5 +373,21 @@
   "otherSection": "기타",
   "lastUpdatedDate": "최종 업데이트: 2026년 2월 28일",
   "appCatchphrase": "복잡한 가계부를,\n깔끔하게 정리하다.",
-  "copyright": "© 2026 Lunalism"
+  "copyright": "© 2026 Lunalism",
+
+  "accountSection": "계정",
+  "login": "로그인",
+  "loginDescription": "로그인하면 다음 기능을 사용할 수 있습니다:",
+  "loginBenefitBank": "최신 은행 금리 비교",
+  "loginBenefitAI": "AI 인사이트 (유료)",
+  "loginBenefitBackup": "데이터 클라우드 백업",
+  "signInWithApple": "Apple로 로그인",
+  "signInWithGoogle": "Google로 로그인",
+  "skipLogin": "건너뛰고 계속하기",
+  "loginSuccess": "로그인 완료",
+  "loginError": "로그인에 실패했습니다",
+  "logout": "로그아웃",
+  "logoutConfirm": "로그아웃하시겠습니까?",
+  "bankLoadError": "데이터를 불러오지 못했습니다",
+  "bankRetry": "다시 시도"
 }

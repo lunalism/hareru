@@ -854,4 +854,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get copyright => '© 2026 Lunalism';
+
+  @override
+  String get accountSection => 'Account';
+
+  @override
+  String get login => 'Log In';
+
+  @override
+  String get loginDescription => 'Log in to access the following features:';
+
+  @override
+  String get loginBenefitBank => 'Latest bank rate comparisons';
+
+  @override
+  String get loginBenefitAI => 'AI Insights (paid)';
+
+  @override
+  String get loginBenefitBackup => 'Cloud data backup';
+
+  @override
+  String get signInWithApple => 'Sign in with Apple';
+
+  @override
+  String get signInWithGoogle => 'Sign in with Google';
+
+  @override
+  String get skipLogin => 'Skip and continue';
+
+  @override
+  String get loginSuccess => 'Login successful';
+
+  @override
+  String get loginError => 'Login failed';
+
+  @override
+  String get logout => 'Log Out';
+
+  @override
+  String get logoutConfirm => 'Are you sure you want to log out?';
+
+  @override
+  String get bankLoadError => 'Failed to load data';
+
+  @override
+  String get bankRetry => 'Retry';
 }

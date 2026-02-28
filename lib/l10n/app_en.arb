@@ -373,5 +373,21 @@
   "otherSection": "Other",
   "lastUpdatedDate": "Last Updated: February 28, 2026",
   "appCatchphrase": "Clear up the fog\nin your finances.",
-  "copyright": "© 2026 Lunalism"
+  "copyright": "© 2026 Lunalism",
+
+  "accountSection": "Account",
+  "login": "Log In",
+  "loginDescription": "Log in to access the following features:",
+  "loginBenefitBank": "Latest bank rate comparisons",
+  "loginBenefitAI": "AI Insights (paid)",
+  "loginBenefitBackup": "Cloud data backup",
+  "signInWithApple": "Sign in with Apple",
+  "signInWithGoogle": "Sign in with Google",
+  "skipLogin": "Skip and continue",
+  "loginSuccess": "Login successful",
+  "loginError": "Login failed",
+  "logout": "Log Out",
+  "logoutConfirm": "Are you sure you want to log out?",
+  "bankLoadError": "Failed to load data",
+  "bankRetry": "Retry"
 }
