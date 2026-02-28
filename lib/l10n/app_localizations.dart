@@ -205,7 +205,7 @@ abstract class AppLocalizations {
   /// No description provided for @savingsAlert.
   ///
   /// In ja, this message translates to:
-  /// **'貯蓄 ⚠️'**
+  /// **'貯金 ⚠️'**
   String get savingsAlert;
 
   /// No description provided for @expense.
@@ -385,7 +385,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStateDesc.
   ///
   /// In ja, this message translates to:
-  /// **'下の＋ボタンで\n最初の記録を追加しましょう'**
+  /// **'下の＋ボタンで\n最初の記録をつけてみましょう'**
   String get emptyStateDesc;
 
   /// No description provided for @guideExpenseTitle.
@@ -409,7 +409,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideBudgetDesc.
   ///
   /// In ja, this message translates to:
-  /// **'月ごとの予算を設定して管理'**
+  /// **'月の予算を設定して管理'**
   String get guideBudgetDesc;
 
   /// No description provided for @guideCategoryTitle.
@@ -559,7 +559,7 @@ abstract class AppLocalizations {
   /// No description provided for @catSavingsOther.
   ///
   /// In ja, this message translates to:
-  /// **'その他貯蓄'**
+  /// **'その他貯金'**
   String get catSavingsOther;
 
   /// No description provided for @memoPlaceholder.
@@ -907,7 +907,7 @@ abstract class AppLocalizations {
   /// No description provided for @needMoreData.
   ///
   /// In ja, this message translates to:
-  /// **'記録が増えると、AIがアドバイスをお届けします'**
+  /// **'記録が増えると、AIがアドバイスしてくれます'**
   String get needMoreData;
 
   /// No description provided for @appearance.
@@ -1483,13 +1483,13 @@ abstract class AppLocalizations {
   /// No description provided for @addExpense.
   ///
   /// In ja, this message translates to:
-  /// **'支出を追加'**
+  /// **'支出を記録'**
   String get addExpense;
 
   /// No description provided for @addIncome.
   ///
   /// In ja, this message translates to:
-  /// **'収入を追加'**
+  /// **'収入を記録'**
   String get addIncome;
 
   /// No description provided for @addTransfer.

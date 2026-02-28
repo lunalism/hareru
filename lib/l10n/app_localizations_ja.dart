@@ -60,7 +60,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get savings => '貯金';
 
   @override
-  String get savingsAlert => '貯蓄 ⚠️';
+  String get savingsAlert => '貯金 ⚠️';
 
   @override
   String get expense => '支出';
@@ -156,7 +156,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get emptyStateTitle => 'まだ記録がありません';
 
   @override
-  String get emptyStateDesc => '下の＋ボタンで\n最初の記録を追加しましょう';
+  String get emptyStateDesc => '下の＋ボタンで\n最初の記録をつけてみましょう';
 
   @override
   String get guideExpenseTitle => '支出を記録';
@@ -168,7 +168,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get guideBudgetTitle => '予算を設定';
 
   @override
-  String get guideBudgetDesc => '月ごとの予算を設定して管理';
+  String get guideBudgetDesc => '月の予算を設定して管理';
 
   @override
   String get guideCategoryTitle => 'カテゴリ管理';
@@ -243,7 +243,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get catGoal => '目標貯金';
 
   @override
-  String get catSavingsOther => 'その他貯蓄';
+  String get catSavingsOther => 'その他貯金';
 
   @override
   String get memoPlaceholder => 'メモを入力（任意）';
@@ -435,7 +435,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get needMoreData => '記録が増えると、AIがアドバイスをお届けします';
+  String get needMoreData => '記録が増えると、AIがアドバイスしてくれます';
 
   @override
   String get appearance => '外観';
@@ -730,10 +730,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pdfBrandFooter => 'Hareru - スマート家計簿';
 
   @override
-  String get addExpense => '支出を追加';
+  String get addExpense => '支出を記録';
 
   @override
-  String get addIncome => '収入を追加';
+  String get addIncome => '収入を記録';
 
   @override
   String get addTransfer => '振替を記録';

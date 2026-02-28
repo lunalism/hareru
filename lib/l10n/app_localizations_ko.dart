@@ -87,7 +87,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get transferExample => '→ 저축계좌 ¥30,000';
 
   @override
-  String get savingsExample => '적립NISA ¥33,333';
+  String get savingsExample => '적립 NISA ¥33,333';
 
   @override
   String get expenseExample => '편의점 ¥850';
@@ -174,7 +174,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get guideCategoryTitle => '카테고리 관리';
 
   @override
-  String get guideCategoryDesc => '내 취향대로 커스터마이즈';
+  String get guideCategoryDesc => '나만의 카테고리로 맞춤 설정';
 
   @override
   String get preparingFeature => '준비 중';
@@ -764,7 +764,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get addAccountStep2 => '계좌 이름';
 
   @override
-  String get addAccountHint => '예: 하나 월급통장, 카카오 주식';
+  String get addAccountHint => '예: UFJ 생활비, 라쿠텐 저축용';
 
   @override
   String deleteAccountConfirm(String name) {

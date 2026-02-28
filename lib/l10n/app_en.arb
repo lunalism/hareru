@@ -61,7 +61,7 @@
   },
 
   "recentRecords": "Recent Records",
-  "seeAll": "See all",
+  "seeAll": "See All",
   "today": "Today",
   "yesterday": "Yesterday",
 
@@ -84,7 +84,7 @@
 
   "catFood": "Food",
   "catTransport": "Transport",
-  "catDaily": "Daily",
+  "catDaily": "Household",
   "catCafe": "Cafe",
   "catHobby": "Hobby",
   "catClothing": "Clothing",

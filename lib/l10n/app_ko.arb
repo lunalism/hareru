@@ -26,7 +26,7 @@
   "done": "완료!",
   "cafe": "카페",
   "transferExample": "→ 저축계좌 ¥30,000",
-  "savingsExample": "적립NISA ¥33,333",
+  "savingsExample": "적립 NISA ¥33,333",
   "expenseExample": "편의점 ¥850",
 
   "homeTab": "홈",
@@ -75,7 +75,7 @@
   "guideBudgetTitle": "예산 설정",
   "guideBudgetDesc": "월별 예산을 설정하고 관리",
   "guideCategoryTitle": "카테고리 관리",
-  "guideCategoryDesc": "내 취향대로 커스터마이즈",
+  "guideCategoryDesc": "나만의 카테고리로 맞춤 설정",
 
   "preparingFeature": "준비 중",
 
@@ -336,7 +336,7 @@
   "addAccountTitle": "계좌 추가",
   "addAccountStep1": "아이콘",
   "addAccountStep2": "계좌 이름",
-  "addAccountHint": "예: 하나 월급통장, 카카오 주식",
+  "addAccountHint": "예: UFJ 생활비, 라쿠텐 저축용",
   "deleteAccountConfirm": "「{name}」을(를) 삭제하시겠습니까?",
   "@deleteAccountConfirm": {
     "placeholders": {

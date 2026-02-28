@@ -141,7 +141,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recentRecords => 'Recent Records';
 
   @override
-  String get seeAll => 'See all';
+  String get seeAll => 'See All';
 
   @override
   String get today => 'Today';
@@ -197,7 +197,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catTransport => 'Transport';
 
   @override
-  String get catDaily => 'Daily';
+  String get catDaily => 'Household';
 
   @override
   String get catCafe => 'Cafe';
