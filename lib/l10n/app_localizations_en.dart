@@ -899,4 +899,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bankRetry => 'Retry';
+
+  @override
+  String get dictionaryTitle => 'Financial Dictionary';
+
+  @override
+  String get searchPlaceholder => 'Search terms...';
+
+  @override
+  String get categoryAll => 'All';
+
+  @override
+  String get categoryBanking => 'Banking';
+
+  @override
+  String get categoryHousehold => 'Budget';
+
+  @override
+  String get categoryTax => 'Tax';
+
+  @override
+  String get categoryInsurance => 'Insurance';
+
+  @override
+  String get categorySavings => 'Savings';
+
+  @override
+  String get categoryLoan => 'Loan';
+
+  @override
+  String get categorySystem => 'System';
+
+  @override
+  String get categoryPayment => 'Payment';
+
+  @override
+  String get sectionExplanation => 'Explanation';
+
+  @override
+  String get sectionExample => 'For example';
+
+  @override
+  String get sectionRelated => 'Related terms';
+
+  @override
+  String get aiAskAboutMoney => 'Ask AI about money';
+
+  @override
+  String get aiPersonalizedAdvice => 'Advice tailored to your finances';
+
+  @override
+  String get aiLearnMore => 'Want to learn more?';
+
+  @override
+  String get aiExplainForYou => 'AI explains based on your situation';
 }

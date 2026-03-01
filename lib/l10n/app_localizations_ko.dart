@@ -891,4 +891,58 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get bankRetry => '다시 시도';
+
+  @override
+  String get dictionaryTitle => '금융사전';
+
+  @override
+  String get searchPlaceholder => '용어 검색...';
+
+  @override
+  String get categoryAll => '전체';
+
+  @override
+  String get categoryBanking => '은행';
+
+  @override
+  String get categoryHousehold => '가계';
+
+  @override
+  String get categoryTax => '세금';
+
+  @override
+  String get categoryInsurance => '보험';
+
+  @override
+  String get categorySavings => '저축';
+
+  @override
+  String get categoryLoan => '대출';
+
+  @override
+  String get categorySystem => '제도';
+
+  @override
+  String get categoryPayment => '결제';
+
+  @override
+  String get sectionExplanation => '설명';
+
+  @override
+  String get sectionExample => '예를 들면';
+
+  @override
+  String get sectionRelated => '관련 용어';
+
+  @override
+  String get aiAskAboutMoney => 'AI에게 돈에 대해 물어보세요';
+
+  @override
+  String get aiPersonalizedAdvice => '내 가계에 맞는 맞춤 조언';
+
+  @override
+  String get aiLearnMore => '더 자세히 알고 싶으세요?';
+
+  @override
+  String get aiExplainForYou => 'AI가 내 상황에 맞춰 설명해줘요';
 }

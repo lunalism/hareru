@@ -890,4 +890,58 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get bankRetry => '再試行';
+
+  @override
+  String get dictionaryTitle => '金融辞書';
+
+  @override
+  String get searchPlaceholder => '用語を検索...';
+
+  @override
+  String get categoryAll => '全て';
+
+  @override
+  String get categoryBanking => '銀行';
+
+  @override
+  String get categoryHousehold => '家計';
+
+  @override
+  String get categoryTax => '税金';
+
+  @override
+  String get categoryInsurance => '保険';
+
+  @override
+  String get categorySavings => '貯蓄';
+
+  @override
+  String get categoryLoan => 'ローン';
+
+  @override
+  String get categorySystem => '制度';
+
+  @override
+  String get categoryPayment => '決済';
+
+  @override
+  String get sectionExplanation => '解説';
+
+  @override
+  String get sectionExample => 'たとえば';
+
+  @override
+  String get sectionRelated => '関連用語';
+
+  @override
+  String get aiAskAboutMoney => 'AIにお金のことを聞いてみよう';
+
+  @override
+  String get aiPersonalizedAdvice => 'あなたの家計に合わせたアドバイス';
+
+  @override
+  String get aiLearnMore => 'もっと詳しく知りたい？';
+
+  @override
+  String get aiExplainForYou => 'AIがあなたの家計に合わせて解説';
 }

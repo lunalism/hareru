@@ -389,5 +389,24 @@
   "logout": "로그아웃",
   "logoutConfirm": "로그아웃하시겠습니까?",
   "bankLoadError": "데이터를 불러오지 못했습니다",
-  "bankRetry": "다시 시도"
+  "bankRetry": "다시 시도",
+
+  "dictionaryTitle": "금융사전",
+  "searchPlaceholder": "용어 검색...",
+  "categoryAll": "전체",
+  "categoryBanking": "은행",
+  "categoryHousehold": "가계",
+  "categoryTax": "세금",
+  "categoryInsurance": "보험",
+  "categorySavings": "저축",
+  "categoryLoan": "대출",
+  "categorySystem": "제도",
+  "categoryPayment": "결제",
+  "sectionExplanation": "설명",
+  "sectionExample": "예를 들면",
+  "sectionRelated": "관련 용어",
+  "aiAskAboutMoney": "AI에게 돈에 대해 물어보세요",
+  "aiPersonalizedAdvice": "내 가계에 맞는 맞춤 조언",
+  "aiLearnMore": "더 자세히 알고 싶으세요?",
+  "aiExplainForYou": "AI가 내 상황에 맞춰 설명해줘요"
 }

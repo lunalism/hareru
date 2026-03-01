@@ -389,5 +389,24 @@
   "logout": "ログアウト",
   "logoutConfirm": "ログアウトしますか？",
   "bankLoadError": "データの読み込みに失敗しました",
-  "bankRetry": "再試行"
+  "bankRetry": "再試行",
+
+  "dictionaryTitle": "金融辞書",
+  "searchPlaceholder": "用語を検索...",
+  "categoryAll": "全て",
+  "categoryBanking": "銀行",
+  "categoryHousehold": "家計",
+  "categoryTax": "税金",
+  "categoryInsurance": "保険",
+  "categorySavings": "貯蓄",
+  "categoryLoan": "ローン",
+  "categorySystem": "制度",
+  "categoryPayment": "決済",
+  "sectionExplanation": "解説",
+  "sectionExample": "たとえば",
+  "sectionRelated": "関連用語",
+  "aiAskAboutMoney": "AIにお金のことを聞いてみよう",
+  "aiPersonalizedAdvice": "あなたの家計に合わせたアドバイス",
+  "aiLearnMore": "もっと詳しく知りたい？",
+  "aiExplainForYou": "AIがあなたの家計に合わせて解説"
 }

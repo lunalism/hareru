@@ -1790,6 +1790,114 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'再試行'**
   String get bankRetry;
+
+  /// No description provided for @dictionaryTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'金融辞書'**
+  String get dictionaryTitle;
+
+  /// No description provided for @searchPlaceholder.
+  ///
+  /// In ja, this message translates to:
+  /// **'用語を検索...'**
+  String get searchPlaceholder;
+
+  /// No description provided for @categoryAll.
+  ///
+  /// In ja, this message translates to:
+  /// **'全て'**
+  String get categoryAll;
+
+  /// No description provided for @categoryBanking.
+  ///
+  /// In ja, this message translates to:
+  /// **'銀行'**
+  String get categoryBanking;
+
+  /// No description provided for @categoryHousehold.
+  ///
+  /// In ja, this message translates to:
+  /// **'家計'**
+  String get categoryHousehold;
+
+  /// No description provided for @categoryTax.
+  ///
+  /// In ja, this message translates to:
+  /// **'税金'**
+  String get categoryTax;
+
+  /// No description provided for @categoryInsurance.
+  ///
+  /// In ja, this message translates to:
+  /// **'保険'**
+  String get categoryInsurance;
+
+  /// No description provided for @categorySavings.
+  ///
+  /// In ja, this message translates to:
+  /// **'貯蓄'**
+  String get categorySavings;
+
+  /// No description provided for @categoryLoan.
+  ///
+  /// In ja, this message translates to:
+  /// **'ローン'**
+  String get categoryLoan;
+
+  /// No description provided for @categorySystem.
+  ///
+  /// In ja, this message translates to:
+  /// **'制度'**
+  String get categorySystem;
+
+  /// No description provided for @categoryPayment.
+  ///
+  /// In ja, this message translates to:
+  /// **'決済'**
+  String get categoryPayment;
+
+  /// No description provided for @sectionExplanation.
+  ///
+  /// In ja, this message translates to:
+  /// **'解説'**
+  String get sectionExplanation;
+
+  /// No description provided for @sectionExample.
+  ///
+  /// In ja, this message translates to:
+  /// **'たとえば'**
+  String get sectionExample;
+
+  /// No description provided for @sectionRelated.
+  ///
+  /// In ja, this message translates to:
+  /// **'関連用語'**
+  String get sectionRelated;
+
+  /// No description provided for @aiAskAboutMoney.
+  ///
+  /// In ja, this message translates to:
+  /// **'AIにお金のことを聞いてみよう'**
+  String get aiAskAboutMoney;
+
+  /// No description provided for @aiPersonalizedAdvice.
+  ///
+  /// In ja, this message translates to:
+  /// **'あなたの家計に合わせたアドバイス'**
+  String get aiPersonalizedAdvice;
+
+  /// No description provided for @aiLearnMore.
+  ///
+  /// In ja, this message translates to:
+  /// **'もっと詳しく知りたい？'**
+  String get aiLearnMore;
+
+  /// No description provided for @aiExplainForYou.
+  ///
+  /// In ja, this message translates to:
+  /// **'AIがあなたの家計に合わせて解説'**
+  String get aiExplainForYou;
 }
 
 class _AppLocalizationsDelegate

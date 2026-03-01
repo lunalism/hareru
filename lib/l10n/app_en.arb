@@ -389,5 +389,24 @@
   "logout": "Log Out",
   "logoutConfirm": "Are you sure you want to log out?",
   "bankLoadError": "Failed to load data",
-  "bankRetry": "Retry"
+  "bankRetry": "Retry",
+
+  "dictionaryTitle": "Financial Dictionary",
+  "searchPlaceholder": "Search terms...",
+  "categoryAll": "All",
+  "categoryBanking": "Banking",
+  "categoryHousehold": "Budget",
+  "categoryTax": "Tax",
+  "categoryInsurance": "Insurance",
+  "categorySavings": "Savings",
+  "categoryLoan": "Loan",
+  "categorySystem": "System",
+  "categoryPayment": "Payment",
+  "sectionExplanation": "Explanation",
+  "sectionExample": "For example",
+  "sectionRelated": "Related terms",
+  "aiAskAboutMoney": "Ask AI about money",
+  "aiPersonalizedAdvice": "Advice tailored to your finances",
+  "aiLearnMore": "Want to learn more?",
+  "aiExplainForYou": "AI explains based on your situation"
 }
