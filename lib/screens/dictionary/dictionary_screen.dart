@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
-import 'package:hareru/data/dictionary_data.dart';
+import 'package:hareru/features/dictionary/dictionary_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/dictionary_term.dart';
 import 'package:hareru/screens/dictionary/bank_comparison_screen.dart';
@@ -26,8 +26,8 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
     super.dispose();
   }
 
-  List<DictionaryTerm> _filteredTerms(String lang) {
-    var terms = dictionaryTerms.toList();
+  List<DictionaryTerm> _filterTerms(List<DictionaryTerm> allTerms, String lang) {
+    var terms = allTerms.toList();
 
     if (_selectedCategory != DictionaryCategory.all) {
       terms = terms.where((t) => t.category == _selectedCategory).toList();
@@ -64,7 +64,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
     final lang = ref.watch(localeProvider).languageCode;
-    final terms = _filteredTerms(lang);
+    final termsAsync = ref.watch(dictionaryTermsProvider);
 
     return Scaffold(
       backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
@@ -111,9 +111,17 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
 
             // Term list
             Expanded(
-              child: terms.isEmpty
-                  ? _buildEmptyState(isDark, l10n)
-                  : _buildTermList(terms, isDark, lang, l10n),
+              child: termsAsync.when(
+                data: (allTerms) {
+                  final terms = _filterTerms(allTerms, lang);
+                  if (terms.isEmpty) return _buildEmptyState(isDark, l10n);
+                  return _buildTermList(terms, isDark, lang, l10n);
+                },
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                error: (error, _) => _buildErrorState(isDark, l10n, ref),
+              ),
             ),
           ],
         ),
@@ -302,6 +310,39 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                   ? HareruColors.darkTextSecondary
                   : HareruColors.lightTextSecondary,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(bool isDark, AppLocalizations l10n, WidgetRef ref) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.cloud_off_rounded,
+            size: 48,
+            color: isDark
+                ? HareruColors.darkTextTertiary
+                : HareruColors.lightTextTertiary,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            l10n.noTermsFound,
+            style: TextStyle(
+              fontSize: 15,
+              color: isDark
+                  ? HareruColors.darkTextSecondary
+                  : HareruColors.lightTextSecondary,
+            ),
+          ),
+          const SizedBox(height: 16),
+          TextButton.icon(
+            onPressed: () => ref.invalidate(dictionaryTermsProvider),
+            icon: const Icon(Icons.refresh_rounded),
+            label: Text(l10n.bankRetry),
           ),
         ],
       ),

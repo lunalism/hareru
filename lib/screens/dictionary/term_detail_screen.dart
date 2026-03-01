@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
-import 'package:hareru/data/dictionary_data.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
+import 'package:hareru/features/dictionary/dictionary_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/dictionary_term.dart';
 
@@ -30,6 +30,7 @@ class TermDetailScreen extends ConsumerWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
     final lang = ref.watch(localeProvider).languageCode;
+    final allTerms = ref.watch(dictionaryTermsProvider).valueOrNull ?? [];
 
     return Scaffold(
       backgroundColor: isDark ? HareruColors.darkBg : HareruColors.lightBg,
@@ -160,7 +161,7 @@ class TermDetailScreen extends ConsumerWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: term.relatedTermIds.map((id) {
-                  final related = dictionaryTerms
+                  final related = allTerms
                       .where((t) => t.id == id)
                       .firstOrNull;
                   if (related == null) return const SizedBox.shrink();

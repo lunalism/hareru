@@ -10,6 +10,13 @@ enum DictionaryCategory {
   payment,
 }
 
+DictionaryCategory _parseCategory(String value) {
+  return DictionaryCategory.values.firstWhere(
+    (c) => c.name == value,
+    orElse: () => DictionaryCategory.all,
+  );
+}
+
 class DictionaryTerm {
   final String id;
   final String emoji;
@@ -46,6 +53,73 @@ class DictionaryTerm {
     required this.category,
     required this.relatedTermIds,
   });
+
+  factory DictionaryTerm.fromSupabase(Map<String, dynamic> json) {
+    return DictionaryTerm(
+      id: json['term_key'] as String,
+      emoji: (json['emoji'] as String?) ?? '',
+      nameJa: json['name_ja'] as String,
+      nameKo: (json['name_ko'] as String?) ?? '',
+      nameEn: (json['name_en'] as String?) ?? '',
+      summaryJa: (json['summary_ja'] as String?) ?? '',
+      summaryKo: (json['summary_ko'] as String?) ?? '',
+      summaryEn: (json['summary_en'] as String?) ?? '',
+      descriptionJa: (json['description_ja'] as String?) ?? '',
+      descriptionKo: (json['description_ko'] as String?) ?? '',
+      descriptionEn: (json['description_en'] as String?) ?? '',
+      exampleJa: (json['example_ja'] as String?) ?? '',
+      exampleKo: (json['example_ko'] as String?) ?? '',
+      exampleEn: (json['example_en'] as String?) ?? '',
+      category: _parseCategory(json['category'] as String),
+      relatedTermIds: (json['related_term_keys'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+    );
+  }
+
+  factory DictionaryTerm.fromJson(Map<String, dynamic> json) {
+    return DictionaryTerm(
+      id: json['id'] as String,
+      emoji: (json['emoji'] as String?) ?? '',
+      nameJa: json['nameJa'] as String,
+      nameKo: (json['nameKo'] as String?) ?? '',
+      nameEn: (json['nameEn'] as String?) ?? '',
+      summaryJa: (json['summaryJa'] as String?) ?? '',
+      summaryKo: (json['summaryKo'] as String?) ?? '',
+      summaryEn: (json['summaryEn'] as String?) ?? '',
+      descriptionJa: (json['descriptionJa'] as String?) ?? '',
+      descriptionKo: (json['descriptionKo'] as String?) ?? '',
+      descriptionEn: (json['descriptionEn'] as String?) ?? '',
+      exampleJa: (json['exampleJa'] as String?) ?? '',
+      exampleKo: (json['exampleKo'] as String?) ?? '',
+      exampleEn: (json['exampleEn'] as String?) ?? '',
+      category: _parseCategory(json['category'] as String),
+      relatedTermIds: (json['relatedTermIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'emoji': emoji,
+        'nameJa': nameJa,
+        'nameKo': nameKo,
+        'nameEn': nameEn,
+        'summaryJa': summaryJa,
+        'summaryKo': summaryKo,
+        'summaryEn': summaryEn,
+        'descriptionJa': descriptionJa,
+        'descriptionKo': descriptionKo,
+        'descriptionEn': descriptionEn,
+        'exampleJa': exampleJa,
+        'exampleKo': exampleKo,
+        'exampleEn': exampleEn,
+        'category': category.name,
+        'relatedTermIds': relatedTermIds,
+      };
 
   String name(String langCode) => switch (langCode) {
         'ko' => nameKo,
