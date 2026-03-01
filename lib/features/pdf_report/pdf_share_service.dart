@@ -9,6 +9,7 @@ class PdfShareService {
   static Future<void> sharePdf({
     required Uint8List pdfBytes,
     required DateTime month,
+    String? subject,
     Rect? sharePositionOrigin,
   }) async {
     final dir = await getTemporaryDirectory();
@@ -19,7 +20,7 @@ class PdfShareService {
 
     await Share.shareXFiles(
       [XFile(file.path)],
-      subject: 'Hareru Report ${month.year}/${month.month}',
+      subject: '${subject ?? 'Hareru Report'} ${month.year}/${month.month}',
       sharePositionOrigin: sharePositionOrigin ?? const Rect.fromLTWH(0, 0, 1, 1),
     );
   }

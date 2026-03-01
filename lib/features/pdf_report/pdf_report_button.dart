@@ -264,6 +264,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
         lTransactionCount: l10n.pdfTransactionCount,
         lAndMore: l10n.pdfAndMore,
         lGeneratedOn: l10n.pdfGeneratedOn,
+        lOverBudget: l10n.pdfOverBudget,
       );
 
       final pdfBytes = await PdfReportGenerator.generate(reportData);
@@ -273,11 +274,12 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
       await PdfShareService.sharePdf(
         pdfBytes: pdfBytes,
         month: month,
+        subject: l10n.shareReportSubject,
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
+        SnackBar(content: Text('${l10n.pdfError}: $e')),
       );
     } finally {
       if (mounted) {

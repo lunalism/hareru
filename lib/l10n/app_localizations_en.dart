@@ -15,9 +15,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingNext => 'Next';
 
   @override
-  String get onboardingStart => 'Let\'s get started!';
-
-  @override
   String get onboarding1Title => 'See only what\nyou really spent';
 
   @override
@@ -517,55 +514,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please enable notifications in Settings';
 
   @override
-  String get dictionary => 'Dictionary';
-
-  @override
-  String get searchTerms => 'Search terms...';
-
-  @override
-  String get allCategories => 'All';
-
-  @override
-  String get householdBasics => 'Budget Basics';
-
-  @override
-  String get taxPension => 'Tax & Pension';
-
-  @override
   String get insurance => 'Insurance';
 
   @override
-  String get savingsInvestment => 'Savings & Investing';
-
-  @override
-  String get loanDebt => 'Loans & Debt';
-
-  @override
-  String get japanSystem => 'Japan System';
-
-  @override
-  String get cashlessPayment => 'Cashless & Payments';
-
-  @override
-  String get explanation => 'Explanation';
-
-  @override
   String get example => 'For example';
-
-  @override
-  String get relatedTerms => 'Related Terms';
-
-  @override
-  String get askAi => 'Ask AI about money';
-
-  @override
-  String get askAiDescription => 'Ask anything like \'What is New NISA?\'';
-
-  @override
-  String get learnMoreWithAi => 'Learn more about this term';
-
-  @override
-  String get learnMoreAiDescription => 'AI explains tailored to your finances';
 
   @override
   String get unlockWithClear => 'Unlock with Clear Plan';
@@ -577,67 +529,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noTermsFound => 'No matching terms found';
 
   @override
-  String get bankingDeposit => 'Banking';
-
-  @override
-  String get bankComparison => 'Savings Account Comparison';
-
-  @override
-  String get bankComparisonSub => 'Compare rates & conditions easily';
-
-  @override
-  String get viewComparison => 'View Comparison';
-
-  @override
   String get interestRate => 'Interest Rate';
 
   @override
-  String get minimumAmount => 'Minimum Amount';
-
-  @override
-  String get depositPeriod => 'Period';
-
-  @override
-  String get feature => 'Features';
-
-  @override
   String get recommendedFor => 'Best for';
-
-  @override
-  String get foreignerTipTitle => 'For Foreign Residents';
-
-  @override
-  String get foreignerTipBody =>
-      'With a Residence Card, you can open an account at most banks. Japan Post Bank (Yucho) is popular among foreigners for their helpful in-person service.';
-
-  @override
-  String get koreaCompareTitle => '';
-
-  @override
-  String get koreaCompareBody => '';
-
-  @override
-  String get aiBankRecommend => 'Which bank is right for you?';
-
-  @override
-  String get aiBankQ1 => '\"How much do you want to save monthly?\"';
-
-  @override
-  String get aiBankQ2 => '\"When do you need it by?\"';
-
-  @override
-  String get aiBankQ3 => '\"Are online banks OK?\"';
-
-  @override
-  String get aiBankDescription =>
-      'AI recommends the best bank based on your needs';
-
-  @override
-  String get rateDisclaimer =>
-      'Interest rates may change. Please check each bank\'s official website for the latest information.';
-
-  @override
-  String get asOf => 'Information as of February 2026';
 
   @override
   String get allRecords => 'All Records';
@@ -953,4 +848,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiExplainForYou => 'AI explains based on your situation';
+
+  @override
+  String get webviewLoadError => 'Failed to load page';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get pdfOverBudget => 'over';
+
+  @override
+  String get shareReportSubject => 'Hareru Report';
+
+  @override
+  String get pdfError => 'Error';
+
+  @override
+  String get notificationChannelName => 'Daily Reminder';
+
+  @override
+  String get notificationChannelDesc => 'Daily expense recording reminder';
 }

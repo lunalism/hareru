@@ -15,9 +15,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get onboardingNext => '次へ';
 
   @override
-  String get onboardingStart => '始めましょう！';
-
-  @override
   String get onboarding1Title => '本当に使ったお金だけ\n表示します';
 
   @override
@@ -510,55 +507,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enableNotificationInSettings => '設定アプリから通知を許可してください';
 
   @override
-  String get dictionary => '辞書';
-
-  @override
-  String get searchTerms => '用語を検索...';
-
-  @override
-  String get allCategories => '全て';
-
-  @override
-  String get householdBasics => '家計の基本';
-
-  @override
-  String get taxPension => '税金・年金';
-
-  @override
   String get insurance => '保険';
 
   @override
-  String get savingsInvestment => '貯蓄・投資';
-
-  @override
-  String get loanDebt => 'ローン・借入';
-
-  @override
-  String get japanSystem => '日本の制度';
-
-  @override
-  String get cashlessPayment => 'キャッシュレス・決済';
-
-  @override
-  String get explanation => '解説';
-
-  @override
   String get example => 'たとえば';
-
-  @override
-  String get relatedTerms => '関連用語';
-
-  @override
-  String get askAi => 'AIにお金のことを聞く';
-
-  @override
-  String get askAiDescription => '「新NISAって何？」など何でも聞けます';
-
-  @override
-  String get learnMoreWithAi => 'この用語をもっと詳しく';
-
-  @override
-  String get learnMoreAiDescription => 'AIがあなたの家計に合わせて分かりやすく解説します';
 
   @override
   String get unlockWithClear => 'Clear プランで解放';
@@ -570,65 +522,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get noTermsFound => '該当する用語が見つかりません';
 
   @override
-  String get bankingDeposit => '銀行・預金';
-
-  @override
-  String get bankComparison => '積立預金 銀行比較';
-
-  @override
-  String get bankComparisonSub => '金利・条件をかんたん比較';
-
-  @override
-  String get viewComparison => '比較を見る';
-
-  @override
   String get interestRate => '金利';
 
   @override
-  String get minimumAmount => '最低金額';
-
-  @override
-  String get depositPeriod => '期間';
-
-  @override
-  String get feature => '特徴';
-
-  @override
   String get recommendedFor => 'おすすめ';
-
-  @override
-  String get foreignerTipTitle => '外国人の方へ';
-
-  @override
-  String get foreignerTipBody =>
-      '在留カードがあれば、ほとんどの銀行で口座開設できます。ゆうちょ銀行は窓口対応が丁寧で、外国人にも人気です。';
-
-  @override
-  String get koreaCompareTitle => '';
-
-  @override
-  String get koreaCompareBody => '';
-
-  @override
-  String get aiBankRecommend => 'あなたに合った銀行は？';
-
-  @override
-  String get aiBankQ1 => '「毎月いくら貯めたい？」';
-
-  @override
-  String get aiBankQ2 => '「いつまでに必要？」';
-
-  @override
-  String get aiBankQ3 => '「ネット銀行はOK？」';
-
-  @override
-  String get aiBankDescription => 'AIがあなたの条件に合った最適な銀行を提案します';
-
-  @override
-  String get rateDisclaimer => '金利は変動します。最新情報は各銀行の公式サイトをご確認ください。';
-
-  @override
-  String get asOf => '2026年2月時点の情報です';
 
   @override
   String get allRecords => 'すべての記録';
@@ -944,4 +841,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get aiExplainForYou => 'AIがあなたの家計に合わせて解説';
+
+  @override
+  String get webviewLoadError => 'ページを読み込めませんでした';
+
+  @override
+  String get retry => '再試行';
+
+  @override
+  String get pdfOverBudget => '超過';
+
+  @override
+  String get shareReportSubject => 'Hareru レポート';
+
+  @override
+  String get pdfError => 'エラー';
+
+  @override
+  String get notificationChannelName => '毎日リマインダー';
+
+  @override
+  String get notificationChannelDesc => '毎日の支出記録リマインダー';
 }

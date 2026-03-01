@@ -2,7 +2,6 @@
   "@@locale": "ja",
   "onboardingSkip": "スキップ",
   "onboardingNext": "次へ",
-  "onboardingStart": "始めましょう！",
   "onboarding1Title": "本当に使ったお金だけ\n表示します",
   "onboarding1Desc": "口座間の振替は支出じゃない。\nHareruは「本当の支出」だけを見せます。",
   "onboarding2Title": "振替は\n自動で仕分け",
@@ -28,20 +27,21 @@
   "transferExample": "→ 貯蓄口座 ¥30,000",
   "savingsExample": "積立NISA ¥33,333",
   "expenseExample": "コンビニ ¥850",
-
   "homeTab": "ホーム",
   "reportTab": "レポート",
   "dictionaryTab": "辞書",
   "settingsTab": "設定",
-
   "monthFormat": "{year}年{month}月",
   "@monthFormat": {
     "placeholders": {
-      "year": {"type": "int"},
-      "month": {"type": "int"}
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      }
     }
   },
-
   "monthlyRealExpense": "今月の本当の支出",
   "totalExpense": "総支出",
   "totalIncome": "総収入",
@@ -50,24 +50,25 @@
   "budgetUsed": "予算の{percent}%使用",
   "@budgetUsed": {
     "placeholders": {
-      "percent": {"type": "int"}
+      "percent": {
+        "type": "int"
+      }
     }
   },
   "budgetRemaining": "残り ¥{amount}",
   "@budgetRemaining": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
-
   "recentRecords": "最近の記録",
   "seeAll": "すべて見る",
   "today": "今日",
   "yesterday": "昨日",
-
   "aiInsightTitle": "AIインサイト",
   "aiInsightMessage": "先月より食費が12%減りました！この調子で続けましょう。",
-
   "emptyStateTitle": "まだ記録がありません",
   "emptyStateDesc": "下の＋ボタンで\n最初の記録をつけてみましょう",
   "guideExpenseTitle": "支出を記録",
@@ -76,12 +77,9 @@
   "guideBudgetDesc": "月の予算を設定して管理",
   "guideCategoryTitle": "カテゴリ管理",
   "guideCategoryDesc": "あなた好みにカスタマイズ",
-
   "preparingFeature": "準備中",
-
   "settingsTitle": "設定",
   "languageTitle": "言語",
-
   "catFood": "食費",
   "catTransport": "交通費",
   "catDaily": "日用品",
@@ -121,27 +119,32 @@
   "remainingBudget": "あと {amount} 使えます",
   "@remainingBudget": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "overBudget": "{amount} オーバーしています",
   "@overBudget": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "budgetSettings": "予算設定",
   "save": "保存",
   "cancel": "キャンセル",
   "editBudget": "予算変更",
-
   "easySetup": "かんたん初期設定",
   "setupDescription": "あなたに合わせた家計管理のために、\n2つだけ教えてください",
   "payDay": "給料日",
   "payDayLabel": "毎月 {day} 日",
   "@payDayLabel": {
     "placeholders": {
-      "day": {"type": "String"}
+      "day": {
+        "type": "String"
+      }
     }
   },
   "payDayEndOfMonth": "末日",
@@ -149,7 +152,6 @@
   "getStarted": "はじめる",
   "setupLater": "あとで設定する",
   "everyMonth": "毎月",
-
   "catUtility": "光熱費",
   "categoryManagement": "カテゴリ管理",
   "addCategory": "カテゴリを追加",
@@ -161,17 +163,20 @@
   "deleteCategoryConfirm": "このカテゴリを削除すると、{count}件の記録が「その他」に移動します",
   "@deleteCategoryConfirm": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "add": "追加",
   "payDayEveryMonth": "毎月{day}日",
   "@payDayEveryMonth": {
     "placeholders": {
-      "day": {"type": "String"}
+      "day": {
+        "type": "String"
+      }
     }
   },
-
   "remaining": "残り",
   "savingsRate": "貯蓄率",
   "showAll": "すべて表示",
@@ -185,31 +190,40 @@
   "savedComparedLastMonth": "先月より{amount}節約できました！",
   "@savedComparedLastMonth": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "spentMoreThanLastMonth": "先月より{amount}多く使っています",
   "@spentMoreThanLastMonth": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "topCategory": "今月は{category}が一番多く、全体の{percent}%です",
   "@topCategory": {
     "placeholders": {
-      "category": {"type": "String"},
-      "percent": {"type": "String"}
+      "category": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
     }
   },
   "withinBudget": "予算内でやりくりできています！",
   "overBudgetReport": "予算を{amount}超えています",
   "@overBudgetReport": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "needMoreData": "記録が増えると、AIがアドバイスしてくれます",
-
   "appearance": "外観",
   "darkMode": "ダークモード",
   "notification": "通知",
@@ -234,49 +248,13 @@
   "reminderTitle": "家計簿をつけましょう！",
   "reminderBody": "今日の支出を記録して、賢くお金を管理しましょう",
   "enableNotificationInSettings": "設定アプリから通知を許可してください",
-
-  "dictionary": "辞書",
-  "searchTerms": "用語を検索...",
-  "allCategories": "全て",
-  "householdBasics": "家計の基本",
-  "taxPension": "税金・年金",
   "insurance": "保険",
-  "savingsInvestment": "貯蓄・投資",
-  "loanDebt": "ローン・借入",
-  "japanSystem": "日本の制度",
-  "cashlessPayment": "キャッシュレス・決済",
-  "explanation": "解説",
   "example": "たとえば",
-  "relatedTerms": "関連用語",
-  "askAi": "AIにお金のことを聞く",
-  "askAiDescription": "「新NISAって何？」など何でも聞けます",
-  "learnMoreWithAi": "この用語をもっと詳しく",
-  "learnMoreAiDescription": "AIがあなたの家計に合わせて分かりやすく解説します",
   "unlockWithClear": "Clear プランで解放",
   "premiumComingSoon": "プレミアム機能は近日公開予定です",
   "noTermsFound": "該当する用語が見つかりません",
-
-  "bankingDeposit": "銀行・預金",
-  "bankComparison": "積立預金 銀行比較",
-  "bankComparisonSub": "金利・条件をかんたん比較",
-  "viewComparison": "比較を見る",
   "interestRate": "金利",
-  "minimumAmount": "最低金額",
-  "depositPeriod": "期間",
-  "feature": "特徴",
   "recommendedFor": "おすすめ",
-  "foreignerTipTitle": "外国人の方へ",
-  "foreignerTipBody": "在留カードがあれば、ほとんどの銀行で口座開設できます。ゆうちょ銀行は窓口対応が丁寧で、外国人にも人気です。",
-  "koreaCompareTitle": "",
-  "koreaCompareBody": "",
-  "aiBankRecommend": "あなたに合った銀行は？",
-  "aiBankQ1": "「毎月いくら貯めたい？」",
-  "aiBankQ2": "「いつまでに必要？」",
-  "aiBankQ3": "「ネット銀行はOK？」",
-  "aiBankDescription": "AIがあなたの条件に合った最適な銀行を提案します",
-  "rateDisclaimer": "金利は変動します。最新情報は各銀行の公式サイトをご確認ください。",
-  "asOf": "2026年2月時点の情報です",
-
   "allRecords": "すべての記録",
   "recordDetail": "記録の詳細",
   "transactionType": "タイプ",
@@ -297,7 +275,6 @@
   "calendarView": "カレンダー",
   "dailyTotal": "合計",
   "noRecordsForDay": "この日の記録はありません",
-
   "pdfReportTitle": "月間PDFレポート",
   "pdfReportDescription": "今月の家計簿をPDFで共有しましょう",
   "pdfShareButton": "PDFレポートを共有",
@@ -308,23 +285,28 @@
   "pdfTransactionCount": "{count}件",
   "@pdfTransactionCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "pdfAndMore": "他 {count}件",
   "@pdfAndMore": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "pdfGeneratedOn": "作成日: {date}",
   "@pdfGeneratedOn": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "pdfBrandFooter": "Hareru - スマート家計簿",
-
   "addExpense": "支出を記録",
   "addIncome": "収入を記録",
   "addTransfer": "振替を記録",
@@ -340,7 +322,9 @@
   "deleteAccountConfirm": "「{name}」を削除しますか？",
   "@deleteAccountConfirm": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "incomeDepositTo": "入金先",
@@ -358,10 +342,18 @@
   "contactBody": "【お問い合わせ内容】\n\n\n---\nアプリバージョン: {version}\niOS: {osVersion}\n端末: {device}\n言語: {locale}",
   "@contactBody": {
     "placeholders": {
-      "version": {"type": "String"},
-      "osVersion": {"type": "String"},
-      "device": {"type": "String"},
-      "locale": {"type": "String"}
+      "version": {
+        "type": "String"
+      },
+      "osVersion": {
+        "type": "String"
+      },
+      "device": {
+        "type": "String"
+      },
+      "locale": {
+        "type": "String"
+      }
     }
   },
   "contactFallback": "メールアプリが見つかりません。アドレスをコピーしてご利用ください。",
@@ -374,7 +366,6 @@
   "lastUpdatedDate": "最終更新日: 2026年2月28日",
   "appCatchphrase": "もやもやした家計を、\nすっきり晴れやかに。",
   "copyright": "© 2026 Lunalism",
-
   "accountSection": "アカウント",
   "login": "ログイン",
   "loginDescription": "ログインすると、以下の機能がご利用いただけます:",
@@ -390,7 +381,6 @@
   "logoutConfirm": "ログアウトしますか？",
   "bankLoadError": "データの読み込みに失敗しました",
   "bankRetry": "再試行",
-
   "dictionaryTitle": "金融辞書",
   "searchPlaceholder": "用語を検索...",
   "categoryAll": "全て",
@@ -408,5 +398,12 @@
   "aiAskAboutMoney": "AIにお金のことを聞いてみよう",
   "aiPersonalizedAdvice": "あなたの家計に合わせたアドバイス",
   "aiLearnMore": "もっと詳しく知りたい？",
-  "aiExplainForYou": "AIがあなたの家計に合わせて解説"
+  "aiExplainForYou": "AIがあなたの家計に合わせて解説",
+  "webviewLoadError": "ページを読み込めませんでした",
+  "retry": "再試行",
+  "pdfOverBudget": "超過",
+  "shareReportSubject": "Hareru レポート",
+  "pdfError": "エラー",
+  "notificationChannelName": "毎日リマインダー",
+  "notificationChannelDesc": "毎日の支出記録リマインダー"
 }

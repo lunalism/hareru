@@ -2,7 +2,6 @@
   "@@locale": "ko",
   "onboardingSkip": "건너뛰기",
   "onboardingNext": "다음",
-  "onboardingStart": "시작하기!",
   "onboarding1Title": "진짜 쓴 돈만\n보여줍니다",
   "onboarding1Desc": "계좌 간 이체는 지출이 아닙니다.\nHareru는 '진짜 지출'만 보여줍니다.",
   "onboarding2Title": "이체는\n자동으로 구분",
@@ -28,20 +27,21 @@
   "transferExample": "→ 저축계좌 ¥30,000",
   "savingsExample": "적립 NISA ¥33,333",
   "expenseExample": "편의점 ¥850",
-
   "homeTab": "홈",
   "reportTab": "리포트",
   "dictionaryTab": "사전",
   "settingsTab": "설정",
-
   "monthFormat": "{year}년 {month}월",
   "@monthFormat": {
     "placeholders": {
-      "year": {"type": "int"},
-      "month": {"type": "int"}
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      }
     }
   },
-
   "monthlyRealExpense": "이번 달 진짜 지출",
   "totalExpense": "총 지출",
   "totalIncome": "총 수입",
@@ -50,24 +50,25 @@
   "budgetUsed": "예산의 {percent}% 사용",
   "@budgetUsed": {
     "placeholders": {
-      "percent": {"type": "int"}
+      "percent": {
+        "type": "int"
+      }
     }
   },
   "budgetRemaining": "남은 금액 ¥{amount}",
   "@budgetRemaining": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
-
   "recentRecords": "최근 기록",
   "seeAll": "모두 보기",
   "today": "오늘",
   "yesterday": "어제",
-
   "aiInsightTitle": "AI 인사이트",
   "aiInsightMessage": "지난달보다 식비가 12% 줄었어요! 이대로 계속해봐요.",
-
   "emptyStateTitle": "아직 기록이 없어요",
   "emptyStateDesc": "아래 + 버튼으로\n첫 번째 기록을 추가해보세요",
   "guideExpenseTitle": "지출 기록",
@@ -76,12 +77,9 @@
   "guideBudgetDesc": "월별 예산을 설정하고 관리",
   "guideCategoryTitle": "카테고리 관리",
   "guideCategoryDesc": "나만의 카테고리로 맞춤 설정",
-
   "preparingFeature": "준비 중",
-
   "settingsTitle": "설정",
   "languageTitle": "언어",
-
   "catFood": "식비",
   "catTransport": "교통비",
   "catDaily": "생활용품",
@@ -121,27 +119,32 @@
   "remainingBudget": "앞으로 {amount} 쓸 수 있어요",
   "@remainingBudget": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "overBudget": "{amount} 초과했어요",
   "@overBudget": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "budgetSettings": "예산 설정",
   "save": "저장",
   "cancel": "취소",
   "editBudget": "예산 수정",
-
   "easySetup": "간단 초기 설정",
   "setupDescription": "맞춤 가계부 관리를 위해\n2가지만 알려주세요",
   "payDay": "급여일",
   "payDayLabel": "매월 {day}일",
   "@payDayLabel": {
     "placeholders": {
-      "day": {"type": "String"}
+      "day": {
+        "type": "String"
+      }
     }
   },
   "payDayEndOfMonth": "말일",
@@ -149,7 +152,6 @@
   "getStarted": "시작하기",
   "setupLater": "나중에 설정하기",
   "everyMonth": "매월",
-
   "catUtility": "공과금",
   "categoryManagement": "카테고리 관리",
   "addCategory": "카테고리 추가",
@@ -161,17 +163,20 @@
   "deleteCategoryConfirm": "이 카테고리를 삭제하면 {count}건의 기록이 '기타'로 이동합니다",
   "@deleteCategoryConfirm": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "add": "추가",
   "payDayEveryMonth": "매월 {day}일",
   "@payDayEveryMonth": {
     "placeholders": {
-      "day": {"type": "String"}
+      "day": {
+        "type": "String"
+      }
     }
   },
-
   "remaining": "잔액",
   "savingsRate": "저축률",
   "showAll": "전체 보기",
@@ -185,31 +190,40 @@
   "savedComparedLastMonth": "지난달보다 {amount} 절약했어요!",
   "@savedComparedLastMonth": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "spentMoreThanLastMonth": "지난달보다 {amount} 더 사용했어요",
   "@spentMoreThanLastMonth": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "topCategory": "이번 달은 {category}이(가) 가장 많아 전체의 {percent}%입니다",
   "@topCategory": {
     "placeholders": {
-      "category": {"type": "String"},
-      "percent": {"type": "String"}
+      "category": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
     }
   },
   "withinBudget": "예산 안에서 잘 관리하고 있어요!",
   "overBudgetReport": "예산을 {amount} 초과했어요",
   "@overBudgetReport": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "needMoreData": "기록이 늘어나면 AI가 조언을 드려요",
-
   "appearance": "외관",
   "darkMode": "다크 모드",
   "notification": "알림",
@@ -234,49 +248,13 @@
   "reminderTitle": "가계부를 기록하세요!",
   "reminderBody": "오늘의 지출을 기록하고 똑똑하게 관리하세요",
   "enableNotificationInSettings": "설정 앱에서 알림을 허용해주세요",
-
-  "dictionary": "사전",
-  "searchTerms": "용어 검색...",
-  "allCategories": "전체",
-  "householdBasics": "가계 기본",
-  "taxPension": "세금·연금",
   "insurance": "보험",
-  "savingsInvestment": "저축·투자",
-  "loanDebt": "대출·차입",
-  "japanSystem": "일본 제도",
-  "cashlessPayment": "캐시리스·결제",
-  "explanation": "해설",
   "example": "예를 들면",
-  "relatedTerms": "관련 용어",
-  "askAi": "AI에게 돈에 대해 물어보기",
-  "askAiDescription": "'신NISA가 뭐야?' 등 무엇이든 물어보세요",
-  "learnMoreWithAi": "이 용어를 더 자세히",
-  "learnMoreAiDescription": "AI가 내 가계에 맞춰 쉽게 설명해줍니다",
   "unlockWithClear": "Clear 플랜으로 해제",
   "premiumComingSoon": "프리미엄 기능은 곧 출시 예정입니다",
   "noTermsFound": "해당하는 용어를 찾을 수 없습니다",
-
-  "bankingDeposit": "은행·예금",
-  "bankComparison": "적립예금 은행 비교",
-  "bankComparisonSub": "금리·조건을 간편 비교",
-  "viewComparison": "비교 보기",
   "interestRate": "금리",
-  "minimumAmount": "최소 금액",
-  "depositPeriod": "기간",
-  "feature": "특징",
   "recommendedFor": "추천",
-  "foreignerTipTitle": "외국인 분들께",
-  "foreignerTipBody": "재류카드가 있으면 대부분의 은행에서 계좌 개설이 가능합니다. 유초은행(우체국)은 창구 대응이 친절하여 외국인에게도 인기입니다.",
-  "koreaCompareTitle": "한국 적금과의 차이",
-  "koreaCompareBody": "한국의 적금은 만기 시 약정금리가 일괄 적용되지만, 일본의 적립정기는 매달 적립할 때마다 개별 정기예금이 생성되어 각각 금리가 따로 적용됩니다. 구조가 다르니 주의하세요!",
-  "aiBankRecommend": "나에게 맞는 은행은?",
-  "aiBankQ1": "「매달 얼마나 저축하고 싶어?」",
-  "aiBankQ2": "「언제까지 필요해?」",
-  "aiBankQ3": "「인터넷 은행도 괜찮아?」",
-  "aiBankDescription": "AI가 내 조건에 맞는 최적의 은행을 추천합니다",
-  "rateDisclaimer": "금리는 변동됩니다. 최신 정보는 각 은행 공식 사이트를 확인하세요.",
-  "asOf": "2026년 2월 기준 정보입니다",
-
   "allRecords": "전체 기록",
   "recordDetail": "기록 상세",
   "transactionType": "타입",
@@ -297,7 +275,6 @@
   "calendarView": "캘린더",
   "dailyTotal": "합계",
   "noRecordsForDay": "이 날의 기록이 없습니다",
-
   "pdfReportTitle": "월간 PDF 리포트",
   "pdfReportDescription": "이번 달 가계부를 PDF로 공유하세요",
   "pdfShareButton": "PDF 리포트 공유",
@@ -308,23 +285,28 @@
   "pdfTransactionCount": "{count}건",
   "@pdfTransactionCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "pdfAndMore": "외 {count}건",
   "@pdfAndMore": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "pdfGeneratedOn": "생성일: {date}",
   "@pdfGeneratedOn": {
     "placeholders": {
-      "date": {"type": "String"}
+      "date": {
+        "type": "String"
+      }
     }
   },
   "pdfBrandFooter": "Hareru - 스마트 가계부",
-
   "addExpense": "지출 추가",
   "addIncome": "수입 추가",
   "addTransfer": "이체 기록",
@@ -340,7 +322,9 @@
   "deleteAccountConfirm": "「{name}」을(를) 삭제하시겠습니까?",
   "@deleteAccountConfirm": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "incomeDepositTo": "입금처",
@@ -358,10 +342,18 @@
   "contactBody": "【문의 내용】\n\n\n---\n앱 버전: {version}\niOS: {osVersion}\n단말기: {device}\n언어: {locale}",
   "@contactBody": {
     "placeholders": {
-      "version": {"type": "String"},
-      "osVersion": {"type": "String"},
-      "device": {"type": "String"},
-      "locale": {"type": "String"}
+      "version": {
+        "type": "String"
+      },
+      "osVersion": {
+        "type": "String"
+      },
+      "device": {
+        "type": "String"
+      },
+      "locale": {
+        "type": "String"
+      }
     }
   },
   "contactFallback": "메일 앱을 찾을 수 없습니다. 주소를 복사해서 이용해주세요.",
@@ -374,7 +366,6 @@
   "lastUpdatedDate": "최종 업데이트: 2026년 2월 28일",
   "appCatchphrase": "복잡한 가계부를,\n깔끔하게 정리하다.",
   "copyright": "© 2026 Lunalism",
-
   "accountSection": "계정",
   "login": "로그인",
   "loginDescription": "로그인하면 다음 기능을 사용할 수 있습니다:",
@@ -390,7 +381,6 @@
   "logoutConfirm": "로그아웃하시겠습니까?",
   "bankLoadError": "데이터를 불러오지 못했습니다",
   "bankRetry": "다시 시도",
-
   "dictionaryTitle": "금융사전",
   "searchPlaceholder": "용어 검색...",
   "categoryAll": "전체",
@@ -408,5 +398,12 @@
   "aiAskAboutMoney": "AI에게 돈에 대해 물어보세요",
   "aiPersonalizedAdvice": "내 가계에 맞는 맞춤 조언",
   "aiLearnMore": "더 자세히 알고 싶으세요?",
-  "aiExplainForYou": "AI가 내 상황에 맞춰 설명해줘요"
+  "aiExplainForYou": "AI가 내 상황에 맞춰 설명해줘요",
+  "webviewLoadError": "페이지를 불러올 수 없습니다",
+  "retry": "재시도",
+  "pdfOverBudget": "초과",
+  "shareReportSubject": "Hareru 리포트",
+  "pdfError": "오류",
+  "notificationChannelName": "매일 알림",
+  "notificationChannelDesc": "매일 지출 기록 알림"
 }

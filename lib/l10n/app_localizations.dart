@@ -112,12 +112,6 @@ abstract class AppLocalizations {
   /// **'次へ'**
   String get onboardingNext;
 
-  /// No description provided for @onboardingStart.
-  ///
-  /// In ja, this message translates to:
-  /// **'始めましょう！'**
-  String get onboardingStart;
-
   /// No description provided for @onboarding1Title.
   ///
   /// In ja, this message translates to:
@@ -1054,107 +1048,17 @@ abstract class AppLocalizations {
   /// **'設定アプリから通知を許可してください'**
   String get enableNotificationInSettings;
 
-  /// No description provided for @dictionary.
-  ///
-  /// In ja, this message translates to:
-  /// **'辞書'**
-  String get dictionary;
-
-  /// No description provided for @searchTerms.
-  ///
-  /// In ja, this message translates to:
-  /// **'用語を検索...'**
-  String get searchTerms;
-
-  /// No description provided for @allCategories.
-  ///
-  /// In ja, this message translates to:
-  /// **'全て'**
-  String get allCategories;
-
-  /// No description provided for @householdBasics.
-  ///
-  /// In ja, this message translates to:
-  /// **'家計の基本'**
-  String get householdBasics;
-
-  /// No description provided for @taxPension.
-  ///
-  /// In ja, this message translates to:
-  /// **'税金・年金'**
-  String get taxPension;
-
   /// No description provided for @insurance.
   ///
   /// In ja, this message translates to:
   /// **'保険'**
   String get insurance;
 
-  /// No description provided for @savingsInvestment.
-  ///
-  /// In ja, this message translates to:
-  /// **'貯蓄・投資'**
-  String get savingsInvestment;
-
-  /// No description provided for @loanDebt.
-  ///
-  /// In ja, this message translates to:
-  /// **'ローン・借入'**
-  String get loanDebt;
-
-  /// No description provided for @japanSystem.
-  ///
-  /// In ja, this message translates to:
-  /// **'日本の制度'**
-  String get japanSystem;
-
-  /// No description provided for @cashlessPayment.
-  ///
-  /// In ja, this message translates to:
-  /// **'キャッシュレス・決済'**
-  String get cashlessPayment;
-
-  /// No description provided for @explanation.
-  ///
-  /// In ja, this message translates to:
-  /// **'解説'**
-  String get explanation;
-
   /// No description provided for @example.
   ///
   /// In ja, this message translates to:
   /// **'たとえば'**
   String get example;
-
-  /// No description provided for @relatedTerms.
-  ///
-  /// In ja, this message translates to:
-  /// **'関連用語'**
-  String get relatedTerms;
-
-  /// No description provided for @askAi.
-  ///
-  /// In ja, this message translates to:
-  /// **'AIにお金のことを聞く'**
-  String get askAi;
-
-  /// No description provided for @askAiDescription.
-  ///
-  /// In ja, this message translates to:
-  /// **'「新NISAって何？」など何でも聞けます'**
-  String get askAiDescription;
-
-  /// No description provided for @learnMoreWithAi.
-  ///
-  /// In ja, this message translates to:
-  /// **'この用語をもっと詳しく'**
-  String get learnMoreWithAi;
-
-  /// No description provided for @learnMoreAiDescription.
-  ///
-  /// In ja, this message translates to:
-  /// **'AIがあなたの家計に合わせて分かりやすく解説します'**
-  String get learnMoreAiDescription;
 
   /// No description provided for @unlockWithClear.
   ///
@@ -1174,125 +1078,17 @@ abstract class AppLocalizations {
   /// **'該当する用語が見つかりません'**
   String get noTermsFound;
 
-  /// No description provided for @bankingDeposit.
-  ///
-  /// In ja, this message translates to:
-  /// **'銀行・預金'**
-  String get bankingDeposit;
-
-  /// No description provided for @bankComparison.
-  ///
-  /// In ja, this message translates to:
-  /// **'積立預金 銀行比較'**
-  String get bankComparison;
-
-  /// No description provided for @bankComparisonSub.
-  ///
-  /// In ja, this message translates to:
-  /// **'金利・条件をかんたん比較'**
-  String get bankComparisonSub;
-
-  /// No description provided for @viewComparison.
-  ///
-  /// In ja, this message translates to:
-  /// **'比較を見る'**
-  String get viewComparison;
-
   /// No description provided for @interestRate.
   ///
   /// In ja, this message translates to:
   /// **'金利'**
   String get interestRate;
 
-  /// No description provided for @minimumAmount.
-  ///
-  /// In ja, this message translates to:
-  /// **'最低金額'**
-  String get minimumAmount;
-
-  /// No description provided for @depositPeriod.
-  ///
-  /// In ja, this message translates to:
-  /// **'期間'**
-  String get depositPeriod;
-
-  /// No description provided for @feature.
-  ///
-  /// In ja, this message translates to:
-  /// **'特徴'**
-  String get feature;
-
   /// No description provided for @recommendedFor.
   ///
   /// In ja, this message translates to:
   /// **'おすすめ'**
   String get recommendedFor;
-
-  /// No description provided for @foreignerTipTitle.
-  ///
-  /// In ja, this message translates to:
-  /// **'外国人の方へ'**
-  String get foreignerTipTitle;
-
-  /// No description provided for @foreignerTipBody.
-  ///
-  /// In ja, this message translates to:
-  /// **'在留カードがあれば、ほとんどの銀行で口座開設できます。ゆうちょ銀行は窓口対応が丁寧で、外国人にも人気です。'**
-  String get foreignerTipBody;
-
-  /// No description provided for @koreaCompareTitle.
-  ///
-  /// In ja, this message translates to:
-  /// **''**
-  String get koreaCompareTitle;
-
-  /// No description provided for @koreaCompareBody.
-  ///
-  /// In ja, this message translates to:
-  /// **''**
-  String get koreaCompareBody;
-
-  /// No description provided for @aiBankRecommend.
-  ///
-  /// In ja, this message translates to:
-  /// **'あなたに合った銀行は？'**
-  String get aiBankRecommend;
-
-  /// No description provided for @aiBankQ1.
-  ///
-  /// In ja, this message translates to:
-  /// **'「毎月いくら貯めたい？」'**
-  String get aiBankQ1;
-
-  /// No description provided for @aiBankQ2.
-  ///
-  /// In ja, this message translates to:
-  /// **'「いつまでに必要？」'**
-  String get aiBankQ2;
-
-  /// No description provided for @aiBankQ3.
-  ///
-  /// In ja, this message translates to:
-  /// **'「ネット銀行はOK？」'**
-  String get aiBankQ3;
-
-  /// No description provided for @aiBankDescription.
-  ///
-  /// In ja, this message translates to:
-  /// **'AIがあなたの条件に合った最適な銀行を提案します'**
-  String get aiBankDescription;
-
-  /// No description provided for @rateDisclaimer.
-  ///
-  /// In ja, this message translates to:
-  /// **'金利は変動します。最新情報は各銀行の公式サイトをご確認ください。'**
-  String get rateDisclaimer;
-
-  /// No description provided for @asOf.
-  ///
-  /// In ja, this message translates to:
-  /// **'2026年2月時点の情報です'**
-  String get asOf;
 
   /// No description provided for @allRecords.
   ///
@@ -1898,6 +1694,48 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'AIがあなたの家計に合わせて解説'**
   String get aiExplainForYou;
+
+  /// No description provided for @webviewLoadError.
+  ///
+  /// In ja, this message translates to:
+  /// **'ページを読み込めませんでした'**
+  String get webviewLoadError;
+
+  /// No description provided for @retry.
+  ///
+  /// In ja, this message translates to:
+  /// **'再試行'**
+  String get retry;
+
+  /// No description provided for @pdfOverBudget.
+  ///
+  /// In ja, this message translates to:
+  /// **'超過'**
+  String get pdfOverBudget;
+
+  /// No description provided for @shareReportSubject.
+  ///
+  /// In ja, this message translates to:
+  /// **'Hareru レポート'**
+  String get shareReportSubject;
+
+  /// No description provided for @pdfError.
+  ///
+  /// In ja, this message translates to:
+  /// **'エラー'**
+  String get pdfError;
+
+  /// No description provided for @notificationChannelName.
+  ///
+  /// In ja, this message translates to:
+  /// **'毎日リマインダー'**
+  String get notificationChannelName;
+
+  /// No description provided for @notificationChannelDesc.
+  ///
+  /// In ja, this message translates to:
+  /// **'毎日の支出記録リマインダー'**
+  String get notificationChannelDesc;
 }
 
 class _AppLocalizationsDelegate

@@ -34,6 +34,7 @@ class PdfReportData {
   final String Function(int) lTransactionCount;
   final String Function(int) lAndMore;
   final String Function(String) lGeneratedOn;
+  final String lOverBudget;
 
   PdfReportData({
     required this.month,
@@ -62,6 +63,7 @@ class PdfReportData {
     required this.lTransactionCount,
     required this.lAndMore,
     required this.lGeneratedOn,
+    required this.lOverBudget,
   });
 }
 
@@ -556,7 +558,7 @@ class PdfReportGenerator {
           pw.SizedBox(height: 8),
           pw.Text(
             isOver
-                ? '${_yen(remaining.abs())} over'
+                ? '${_yen(remaining.abs())} ${data.lOverBudget}'
                 : '${data.lRemaining}: ${_yen(remaining)}',
             style: pw.TextStyle(
               font: font,

@@ -15,9 +15,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get onboardingNext => '다음';
 
   @override
-  String get onboardingStart => '시작하기!';
-
-  @override
   String get onboarding1Title => '진짜 쓴 돈만\n보여줍니다';
 
   @override
@@ -510,55 +507,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get enableNotificationInSettings => '설정 앱에서 알림을 허용해주세요';
 
   @override
-  String get dictionary => '사전';
-
-  @override
-  String get searchTerms => '용어 검색...';
-
-  @override
-  String get allCategories => '전체';
-
-  @override
-  String get householdBasics => '가계 기본';
-
-  @override
-  String get taxPension => '세금·연금';
-
-  @override
   String get insurance => '보험';
 
   @override
-  String get savingsInvestment => '저축·투자';
-
-  @override
-  String get loanDebt => '대출·차입';
-
-  @override
-  String get japanSystem => '일본 제도';
-
-  @override
-  String get cashlessPayment => '캐시리스·결제';
-
-  @override
-  String get explanation => '해설';
-
-  @override
   String get example => '예를 들면';
-
-  @override
-  String get relatedTerms => '관련 용어';
-
-  @override
-  String get askAi => 'AI에게 돈에 대해 물어보기';
-
-  @override
-  String get askAiDescription => '\'신NISA가 뭐야?\' 등 무엇이든 물어보세요';
-
-  @override
-  String get learnMoreWithAi => '이 용어를 더 자세히';
-
-  @override
-  String get learnMoreAiDescription => 'AI가 내 가계에 맞춰 쉽게 설명해줍니다';
 
   @override
   String get unlockWithClear => 'Clear 플랜으로 해제';
@@ -570,66 +522,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get noTermsFound => '해당하는 용어를 찾을 수 없습니다';
 
   @override
-  String get bankingDeposit => '은행·예금';
-
-  @override
-  String get bankComparison => '적립예금 은행 비교';
-
-  @override
-  String get bankComparisonSub => '금리·조건을 간편 비교';
-
-  @override
-  String get viewComparison => '비교 보기';
-
-  @override
   String get interestRate => '금리';
 
   @override
-  String get minimumAmount => '최소 금액';
-
-  @override
-  String get depositPeriod => '기간';
-
-  @override
-  String get feature => '특징';
-
-  @override
   String get recommendedFor => '추천';
-
-  @override
-  String get foreignerTipTitle => '외국인 분들께';
-
-  @override
-  String get foreignerTipBody =>
-      '재류카드가 있으면 대부분의 은행에서 계좌 개설이 가능합니다. 유초은행(우체국)은 창구 대응이 친절하여 외국인에게도 인기입니다.';
-
-  @override
-  String get koreaCompareTitle => '한국 적금과의 차이';
-
-  @override
-  String get koreaCompareBody =>
-      '한국의 적금은 만기 시 약정금리가 일괄 적용되지만, 일본의 적립정기는 매달 적립할 때마다 개별 정기예금이 생성되어 각각 금리가 따로 적용됩니다. 구조가 다르니 주의하세요!';
-
-  @override
-  String get aiBankRecommend => '나에게 맞는 은행은?';
-
-  @override
-  String get aiBankQ1 => '「매달 얼마나 저축하고 싶어?」';
-
-  @override
-  String get aiBankQ2 => '「언제까지 필요해?」';
-
-  @override
-  String get aiBankQ3 => '「인터넷 은행도 괜찮아?」';
-
-  @override
-  String get aiBankDescription => 'AI가 내 조건에 맞는 최적의 은행을 추천합니다';
-
-  @override
-  String get rateDisclaimer => '금리는 변동됩니다. 최신 정보는 각 은행 공식 사이트를 확인하세요.';
-
-  @override
-  String get asOf => '2026년 2월 기준 정보입니다';
 
   @override
   String get allRecords => '전체 기록';
@@ -945,4 +841,25 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get aiExplainForYou => 'AI가 내 상황에 맞춰 설명해줘요';
+
+  @override
+  String get webviewLoadError => '페이지를 불러올 수 없습니다';
+
+  @override
+  String get retry => '재시도';
+
+  @override
+  String get pdfOverBudget => '초과';
+
+  @override
+  String get shareReportSubject => 'Hareru 리포트';
+
+  @override
+  String get pdfError => '오류';
+
+  @override
+  String get notificationChannelName => '매일 알림';
+
+  @override
+  String get notificationChannelDesc => '매일 지출 기록 알림';
 }

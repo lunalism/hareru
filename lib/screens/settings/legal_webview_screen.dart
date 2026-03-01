@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
+import 'package:hareru/l10n/app_localizations.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LegalWebviewScreen extends StatefulWidget {
@@ -108,7 +109,7 @@ class _LegalWebviewScreenState extends State<LegalWebviewScreen> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'ページを読み込めませんでした',
+                    AppLocalizations.of(context)!.webviewLoadError,
                     style: TextStyle(
                       fontSize: 15,
                       color: c.textSecondary,
@@ -117,8 +118,8 @@ class _LegalWebviewScreenState extends State<LegalWebviewScreen> {
                   const SizedBox(height: 16),
                   TextButton(
                     onPressed: _loadPage,
-                    child: const Text(
-                      '再試行',
+                    child: Text(
+                      AppLocalizations.of(context)!.retry,
                       style: TextStyle(
                         color: HareruColors.primaryStart,
                         fontWeight: FontWeight.w600,
