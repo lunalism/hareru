@@ -91,7 +91,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                '${l10n.unlockWithClear} \u2192',
+                '${l10n.unlockWithClearPro} \u2192',
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,

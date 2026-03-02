@@ -516,6 +516,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get unlockWithClear => 'Clear プランで解放';
 
   @override
+  String get unlockWithClearPro => 'ClearPro プランで解放';
+
+  @override
   String get premiumComingSoon => 'プレミアム機能は近日公開予定です';
 
   @override

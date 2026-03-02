@@ -1066,6 +1066,12 @@ abstract class AppLocalizations {
   /// **'Clear プランで解放'**
   String get unlockWithClear;
 
+  /// No description provided for @unlockWithClearPro.
+  ///
+  /// In ja, this message translates to:
+  /// **'ClearPro プランで解放'**
+  String get unlockWithClearPro;
+
   /// No description provided for @premiumComingSoon.
   ///
   /// In ja, this message translates to:

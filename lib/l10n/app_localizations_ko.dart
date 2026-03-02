@@ -516,6 +516,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get unlockWithClear => 'Clear 플랜으로 해제';
 
   @override
+  String get unlockWithClearPro => 'ClearPro 플랜으로 해제';
+
+  @override
   String get premiumComingSoon => '프리미엄 기능은 곧 출시 예정입니다';
 
   @override

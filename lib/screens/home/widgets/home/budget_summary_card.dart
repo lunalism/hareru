@@ -4,20 +4,27 @@ import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
-import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/models/transaction.dart';
 import 'package:hareru/screens/home/widgets/home/budget_dialog.dart';
 
 class BudgetSummaryCard extends ConsumerWidget {
-  const BudgetSummaryCard({super.key, required this.isDark});
+  const BudgetSummaryCard({
+    super.key,
+    required this.isDark,
+    required this.transactions,
+  });
 
   final bool isDark;
+  final List<Transaction> transactions;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
-    final expenseTotal = ref.read(transactionProvider.notifier).expenseTotal;
+    final expenseTotal = transactions
+        .where((t) => t.type == TransactionType.expense)
+        .fold(0.0, (sum, t) => sum + t.amount);
     final budget = ref.watch(budgetProvider);
     final isBudgetSet = budget > 0;
     final progress = isBudgetSet ? expenseTotal / budget : 0.0;

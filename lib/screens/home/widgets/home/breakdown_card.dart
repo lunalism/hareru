@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/utils/number_formatter.dart';
-import 'package:hareru/core/providers/transaction_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/models/transaction.dart';
 
-class BreakdownCard extends ConsumerWidget {
-  const BreakdownCard({super.key, required this.isDark});
+class BreakdownCard extends StatelessWidget {
+  const BreakdownCard({
+    super.key,
+    required this.isDark,
+    required this.transactions,
+  });
 
   final bool isDark;
+  final List<Transaction> transactions;
+
+  double _totalByType(TransactionType type) => transactions
+      .where((t) => t.type == type)
+      .fold(0.0, (sum, t) => sum + t.amount);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
-    final notifier = ref.read(transactionProvider.notifier);
 
     return Container(
       width: double.infinity,
@@ -38,21 +45,21 @@ class BreakdownCard extends ConsumerWidget {
             children: [
               _TypeColumn(
                 label: l10n.expense,
-                amount: '¥${formatAmount(notifier.expenseTotal)}',
+                amount: '¥${formatAmount(_totalByType(TransactionType.expense))}',
                 typeColor: HareruColors.expense,
                 labelColor: c.textSecondary,
               ),
               Container(width: 1, height: 32, color: c.divider),
               _TypeColumn(
                 label: l10n.transfer,
-                amount: '¥${formatAmount(notifier.transferTotal)}',
+                amount: '¥${formatAmount(_totalByType(TransactionType.transfer))}',
                 typeColor: HareruColors.transferBlue,
                 labelColor: c.textSecondary,
               ),
               Container(width: 1, height: 32, color: c.divider),
               _TypeColumn(
                 label: l10n.savings,
-                amount: '¥${formatAmount(notifier.savingsTotal)}',
+                amount: '¥${formatAmount(_totalByType(TransactionType.savings))}',
                 typeColor: HareruColors.savings,
                 labelColor: c.textSecondary,
               ),
@@ -82,7 +89,7 @@ class BreakdownCard extends ConsumerWidget {
               ),
               const Spacer(),
               Text(
-                '¥${formatAmount(notifier.incomeTotal)}',
+                '¥${formatAmount(_totalByType(TransactionType.income))}',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

@@ -7,21 +7,59 @@ import 'package:hareru/features/subscription/ad_placeholder.dart';
 import 'package:hareru/features/subscription/entitlement_gate.dart';
 import 'package:hareru/features/subscription/subscription_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/models/transaction.dart';
 import 'package:hareru/screens/home/widgets/home/ai_insight_card.dart';
 import 'package:hareru/screens/home/widgets/home/breakdown_card.dart';
 import 'package:hareru/screens/home/widgets/home/budget_summary_card.dart';
 import 'package:hareru/screens/home/widgets/home/empty_state.dart';
 import 'package:hareru/screens/home/widgets/home/recent_records_section.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late DateTime _selectedMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    final now = DateTime.now();
+    _selectedMonth = DateTime(now.year, now.month);
+  }
+
+  List<Transaction> _filterByMonth(List<Transaction> all) {
+    return all
+        .where((t) =>
+            t.createdAt.year == _selectedMonth.year &&
+            t.createdAt.month == _selectedMonth.month)
+        .toList();
+  }
+
+  void _goToPreviousMonth() {
+    setState(() {
+      _selectedMonth =
+          DateTime(_selectedMonth.year, _selectedMonth.month - 1);
+    });
+  }
+
+  void _goToNextMonth() {
+    setState(() {
+      _selectedMonth =
+          DateTime(_selectedMonth.year, _selectedMonth.month + 1);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final c = context.colors;
     final isDark = context.isDark;
-    final transactions = ref.watch(transactionProvider);
-    final isEmpty = transactions.isEmpty;
+    final allTransactions = ref.watch(transactionProvider);
+    final monthTransactions = _filterByMonth(allTransactions);
+    final isEmpty = monthTransactions.isEmpty;
 
     return Scaffold(
       backgroundColor: c.background,
@@ -39,14 +77,22 @@ class HomeScreen extends ConsumerWidget {
               if (isEmpty) ...[
                 EmptyMainCard(isDark: isDark),
                 const SizedBox(height: 24),
-                GuideCards(isDark: isDark),
+                // Only show guide cards when there are no transactions at all
+                if (allTransactions.isEmpty)
+                  GuideCards(isDark: isDark),
               ] else ...[
-                BudgetSummaryCard(isDark: isDark),
+                BudgetSummaryCard(
+                  isDark: isDark,
+                  transactions: monthTransactions,
+                ),
                 const SizedBox(height: 8),
-                BreakdownCard(isDark: isDark),
+                BreakdownCard(
+                  isDark: isDark,
+                  transactions: monthTransactions,
+                ),
                 const SizedBox(height: 24),
                 RecentRecordsSection(
-                    transactions: transactions, isDark: isDark),
+                    transactions: monthTransactions, isDark: isDark),
                 const SizedBox(height: 24),
                 EntitlementGate(
                   requiredTier: SubscriptionTier.clear,
@@ -92,18 +138,20 @@ class HomeScreen extends ConsumerWidget {
   Widget _buildMonthSelector(BuildContext context, bool isDark) {
     final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
-    final now = DateTime.now();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          Icons.chevron_left_rounded,
-          color: c.textTertiary,
+        GestureDetector(
+          onTap: _goToPreviousMonth,
+          child: Icon(
+            Icons.chevron_left_rounded,
+            color: c.textTertiary,
+          ),
         ),
         const SizedBox(width: 12),
         Text(
-          l10n.monthFormat(now.year, now.month),
+          l10n.monthFormat(_selectedMonth.year, _selectedMonth.month),
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
@@ -112,9 +160,12 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
         const SizedBox(width: 12),
-        Icon(
-          Icons.chevron_right_rounded,
-          color: c.textTertiary,
+        GestureDetector(
+          onTap: _goToNextMonth,
+          child: Icon(
+            Icons.chevron_right_rounded,
+            color: c.textTertiary,
+          ),
         ),
       ],
     );

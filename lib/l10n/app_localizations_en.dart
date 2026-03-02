@@ -523,6 +523,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unlockWithClear => 'Unlock with Clear Plan';
 
   @override
+  String get unlockWithClearPro => 'Unlock with ClearPro Plan';
+
+  @override
   String get premiumComingSoon => 'Premium features coming soon';
 
   @override
