@@ -405,5 +405,58 @@
   "shareReportSubject": "Hareru レポート",
   "pdfError": "エラー",
   "notificationChannelName": "毎日リマインダー",
-  "notificationChannelDesc": "毎日の支出記録リマインダー"
+  "notificationChannelDesc": "毎日の支出記録リマインダー",
+
+  "paywallTitle": "Hareruをもっと便利に",
+  "paywallMonthly": "月額",
+  "paywallYearly": "年額",
+  "paywallYearlyBadge": "おすすめ",
+  "paywallSaveMonths": "2ヶ月分お得！",
+  "paywallClearTitle": "Clear",
+  "paywallClearProTitle": "ClearPro",
+  "paywallClearCta": "Clearを始める",
+  "paywallClearProCta": "ClearProを始める",
+  "paywallRestore": "購入を復元する",
+  "paywallContinueFree": "無料プランを続ける",
+  "paywallTerms": "利用規約",
+  "paywallPrivacy": "プライバシーポリシー",
+
+  "featureNoAds": "広告なし",
+  "featureAiInsight": "AI分析",
+  "featureSavingSim": "節約シミュレーション",
+  "featureCsvExport": "CSV出力",
+  "featureAiCoaching": "AIコーチング",
+  "featurePdfReport": "PDF月次レポート",
+  "featureSavingGoal": "貯蓄目標管理",
+  "featurePrioritySupport": "優先サポート",
+
+  "settingsSubscription": "サブスクリプション",
+  "settingsCurrentPlan": "現在のプラン",
+  "settingsRestorePurchase": "購入を復元",
+  "settingsManageSubscription": "サブスクリプション管理",
+
+  "lockClearRequired": "Clearで利用可能",
+  "lockClearProRequired": "ClearProで利用可能",
+  "lockUpgrade": "アップグレード",
+
+  "purchaseSuccess": "購入が完了しました！",
+  "purchaseRestored": "購入を復元しました",
+  "purchaseError": "購入に失敗しました",
+  "purchaseNotAvailable": "現在購入できません",
+
+  "adPlaceholder": "広告 — Clearで非表示にできます",
+  "purchaseNotAvailableDesc": "現在、アプリ内購入をご利用いただけません。後ほどお試しください。",
+  "restoreNoPurchase": "復元できる購入がありません",
+
+  "subscriptionExpiresOn": "有効期限: {date}",
+  "@subscriptionExpiresOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "planFree": "Free",
+  "planClear": "Clear",
+  "planClearPro": "ClearPro"
 }

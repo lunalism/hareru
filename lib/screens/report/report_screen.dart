@@ -7,6 +7,7 @@ import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
+import 'package:hareru/features/subscription/ad_placeholder.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
 import 'package:hareru/features/pdf_report/pdf_report_button.dart';
@@ -314,6 +315,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               prevExpenseTotal, incomeTotal, budget, categoryMap),
           const SizedBox(height: 24),
           PdfReportButton(selectedMonth: _selectedMonth),
+          const AdPlaceholder(),
           const SizedBox(height: 100),
         ],
       ),

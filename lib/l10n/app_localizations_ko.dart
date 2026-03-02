@@ -862,4 +862,124 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get notificationChannelDesc => '매일 지출 기록 알림';
+
+  @override
+  String get paywallTitle => 'Hareru를 더 편리하게';
+
+  @override
+  String get paywallMonthly => '월간';
+
+  @override
+  String get paywallYearly => '연간';
+
+  @override
+  String get paywallYearlyBadge => '추천';
+
+  @override
+  String get paywallSaveMonths => '2개월 절약!';
+
+  @override
+  String get paywallClearTitle => 'Clear';
+
+  @override
+  String get paywallClearProTitle => 'ClearPro';
+
+  @override
+  String get paywallClearCta => 'Clear 시작하기';
+
+  @override
+  String get paywallClearProCta => 'ClearPro 시작하기';
+
+  @override
+  String get paywallRestore => '구매 복원';
+
+  @override
+  String get paywallContinueFree => '무료로 계속하기';
+
+  @override
+  String get paywallTerms => '이용약관';
+
+  @override
+  String get paywallPrivacy => '개인정보처리방침';
+
+  @override
+  String get featureNoAds => '광고 없음';
+
+  @override
+  String get featureAiInsight => 'AI 분석';
+
+  @override
+  String get featureSavingSim => '절약 시뮬레이션';
+
+  @override
+  String get featureCsvExport => 'CSV 내보내기';
+
+  @override
+  String get featureAiCoaching => 'AI 코칭';
+
+  @override
+  String get featurePdfReport => 'PDF 월간 리포트';
+
+  @override
+  String get featureSavingGoal => '저축 목표 관리';
+
+  @override
+  String get featurePrioritySupport => '우선 지원';
+
+  @override
+  String get settingsSubscription => '구독';
+
+  @override
+  String get settingsCurrentPlan => '현재 플랜';
+
+  @override
+  String get settingsRestorePurchase => '구매 복원';
+
+  @override
+  String get settingsManageSubscription => '구독 관리';
+
+  @override
+  String get lockClearRequired => 'Clear에서 이용 가능';
+
+  @override
+  String get lockClearProRequired => 'ClearPro에서 이용 가능';
+
+  @override
+  String get lockUpgrade => '업그레이드';
+
+  @override
+  String get purchaseSuccess => '구매가 완료되었습니다!';
+
+  @override
+  String get purchaseRestored => '구매를 복원했습니다';
+
+  @override
+  String get purchaseError => '구매에 실패했습니다';
+
+  @override
+  String get purchaseNotAvailable => '현재 구매할 수 없습니다';
+
+  @override
+  String get adPlaceholder => '광고 — Clear에서 숨길 수 있습니다';
+
+  @override
+  String get purchaseNotAvailableDesc =>
+      '현재 앱 내 구매를 이용할 수 없습니다. 나중에 다시 시도해주세요.';
+
+  @override
+  String get restoreNoPurchase => '복원할 구매가 없습니다';
+
+  @override
+  String subscriptionExpiresOn(String date) {
+    return '유효기간: $date';
+  }
+
+  @override
+  String get planFree => 'Free';
+
+  @override
+  String get planClear => 'Clear';
+
+  @override
+  String get planClearPro => 'ClearPro';
 }

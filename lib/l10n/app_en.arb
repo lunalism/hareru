@@ -405,5 +405,58 @@
   "shareReportSubject": "Hareru Report",
   "pdfError": "Error",
   "notificationChannelName": "Daily Reminder",
-  "notificationChannelDesc": "Daily expense recording reminder"
+  "notificationChannelDesc": "Daily expense recording reminder",
+
+  "paywallTitle": "Upgrade Hareru",
+  "paywallMonthly": "Monthly",
+  "paywallYearly": "Yearly",
+  "paywallYearlyBadge": "Best Value",
+  "paywallSaveMonths": "Save 2 months!",
+  "paywallClearTitle": "Clear",
+  "paywallClearProTitle": "ClearPro",
+  "paywallClearCta": "Start Clear",
+  "paywallClearProCta": "Start ClearPro",
+  "paywallRestore": "Restore Purchases",
+  "paywallContinueFree": "Continue with Free",
+  "paywallTerms": "Terms of Use",
+  "paywallPrivacy": "Privacy Policy",
+
+  "featureNoAds": "No Ads",
+  "featureAiInsight": "AI Insights",
+  "featureSavingSim": "Savings Simulation",
+  "featureCsvExport": "CSV Export",
+  "featureAiCoaching": "AI Coaching",
+  "featurePdfReport": "PDF Monthly Report",
+  "featureSavingGoal": "Savings Goal",
+  "featurePrioritySupport": "Priority Support",
+
+  "settingsSubscription": "Subscription",
+  "settingsCurrentPlan": "Current Plan",
+  "settingsRestorePurchase": "Restore Purchases",
+  "settingsManageSubscription": "Manage Subscription",
+
+  "lockClearRequired": "Available with Clear",
+  "lockClearProRequired": "Available with ClearPro",
+  "lockUpgrade": "Upgrade",
+
+  "purchaseSuccess": "Purchase completed!",
+  "purchaseRestored": "Purchases restored",
+  "purchaseError": "Purchase failed",
+  "purchaseNotAvailable": "Purchases not available",
+
+  "adPlaceholder": "Ad — Remove with Clear",
+  "purchaseNotAvailableDesc": "In-app purchases are currently unavailable. Please try again later.",
+  "restoreNoPurchase": "No purchases to restore",
+
+  "subscriptionExpiresOn": "Expires: {date}",
+  "@subscriptionExpiresOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "planFree": "Free",
+  "planClear": "Clear",
+  "planClearPro": "ClearPro"
 }

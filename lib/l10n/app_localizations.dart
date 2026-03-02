@@ -1736,6 +1736,240 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'毎日の支出記録リマインダー'**
   String get notificationChannelDesc;
+
+  /// No description provided for @paywallTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'Hareruをもっと便利に'**
+  String get paywallTitle;
+
+  /// No description provided for @paywallMonthly.
+  ///
+  /// In ja, this message translates to:
+  /// **'月額'**
+  String get paywallMonthly;
+
+  /// No description provided for @paywallYearly.
+  ///
+  /// In ja, this message translates to:
+  /// **'年額'**
+  String get paywallYearly;
+
+  /// No description provided for @paywallYearlyBadge.
+  ///
+  /// In ja, this message translates to:
+  /// **'おすすめ'**
+  String get paywallYearlyBadge;
+
+  /// No description provided for @paywallSaveMonths.
+  ///
+  /// In ja, this message translates to:
+  /// **'2ヶ月分お得！'**
+  String get paywallSaveMonths;
+
+  /// No description provided for @paywallClearTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'Clear'**
+  String get paywallClearTitle;
+
+  /// No description provided for @paywallClearProTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'ClearPro'**
+  String get paywallClearProTitle;
+
+  /// No description provided for @paywallClearCta.
+  ///
+  /// In ja, this message translates to:
+  /// **'Clearを始める'**
+  String get paywallClearCta;
+
+  /// No description provided for @paywallClearProCta.
+  ///
+  /// In ja, this message translates to:
+  /// **'ClearProを始める'**
+  String get paywallClearProCta;
+
+  /// No description provided for @paywallRestore.
+  ///
+  /// In ja, this message translates to:
+  /// **'購入を復元する'**
+  String get paywallRestore;
+
+  /// No description provided for @paywallContinueFree.
+  ///
+  /// In ja, this message translates to:
+  /// **'無料プランを続ける'**
+  String get paywallContinueFree;
+
+  /// No description provided for @paywallTerms.
+  ///
+  /// In ja, this message translates to:
+  /// **'利用規約'**
+  String get paywallTerms;
+
+  /// No description provided for @paywallPrivacy.
+  ///
+  /// In ja, this message translates to:
+  /// **'プライバシーポリシー'**
+  String get paywallPrivacy;
+
+  /// No description provided for @featureNoAds.
+  ///
+  /// In ja, this message translates to:
+  /// **'広告なし'**
+  String get featureNoAds;
+
+  /// No description provided for @featureAiInsight.
+  ///
+  /// In ja, this message translates to:
+  /// **'AI分析'**
+  String get featureAiInsight;
+
+  /// No description provided for @featureSavingSim.
+  ///
+  /// In ja, this message translates to:
+  /// **'節約シミュレーション'**
+  String get featureSavingSim;
+
+  /// No description provided for @featureCsvExport.
+  ///
+  /// In ja, this message translates to:
+  /// **'CSV出力'**
+  String get featureCsvExport;
+
+  /// No description provided for @featureAiCoaching.
+  ///
+  /// In ja, this message translates to:
+  /// **'AIコーチング'**
+  String get featureAiCoaching;
+
+  /// No description provided for @featurePdfReport.
+  ///
+  /// In ja, this message translates to:
+  /// **'PDF月次レポート'**
+  String get featurePdfReport;
+
+  /// No description provided for @featureSavingGoal.
+  ///
+  /// In ja, this message translates to:
+  /// **'貯蓄目標管理'**
+  String get featureSavingGoal;
+
+  /// No description provided for @featurePrioritySupport.
+  ///
+  /// In ja, this message translates to:
+  /// **'優先サポート'**
+  String get featurePrioritySupport;
+
+  /// No description provided for @settingsSubscription.
+  ///
+  /// In ja, this message translates to:
+  /// **'サブスクリプション'**
+  String get settingsSubscription;
+
+  /// No description provided for @settingsCurrentPlan.
+  ///
+  /// In ja, this message translates to:
+  /// **'現在のプラン'**
+  String get settingsCurrentPlan;
+
+  /// No description provided for @settingsRestorePurchase.
+  ///
+  /// In ja, this message translates to:
+  /// **'購入を復元'**
+  String get settingsRestorePurchase;
+
+  /// No description provided for @settingsManageSubscription.
+  ///
+  /// In ja, this message translates to:
+  /// **'サブスクリプション管理'**
+  String get settingsManageSubscription;
+
+  /// No description provided for @lockClearRequired.
+  ///
+  /// In ja, this message translates to:
+  /// **'Clearで利用可能'**
+  String get lockClearRequired;
+
+  /// No description provided for @lockClearProRequired.
+  ///
+  /// In ja, this message translates to:
+  /// **'ClearProで利用可能'**
+  String get lockClearProRequired;
+
+  /// No description provided for @lockUpgrade.
+  ///
+  /// In ja, this message translates to:
+  /// **'アップグレード'**
+  String get lockUpgrade;
+
+  /// No description provided for @purchaseSuccess.
+  ///
+  /// In ja, this message translates to:
+  /// **'購入が完了しました！'**
+  String get purchaseSuccess;
+
+  /// No description provided for @purchaseRestored.
+  ///
+  /// In ja, this message translates to:
+  /// **'購入を復元しました'**
+  String get purchaseRestored;
+
+  /// No description provided for @purchaseError.
+  ///
+  /// In ja, this message translates to:
+  /// **'購入に失敗しました'**
+  String get purchaseError;
+
+  /// No description provided for @purchaseNotAvailable.
+  ///
+  /// In ja, this message translates to:
+  /// **'現在購入できません'**
+  String get purchaseNotAvailable;
+
+  /// No description provided for @adPlaceholder.
+  ///
+  /// In ja, this message translates to:
+  /// **'広告 — Clearで非表示にできます'**
+  String get adPlaceholder;
+
+  /// No description provided for @purchaseNotAvailableDesc.
+  ///
+  /// In ja, this message translates to:
+  /// **'現在、アプリ内購入をご利用いただけません。後ほどお試しください。'**
+  String get purchaseNotAvailableDesc;
+
+  /// No description provided for @restoreNoPurchase.
+  ///
+  /// In ja, this message translates to:
+  /// **'復元できる購入がありません'**
+  String get restoreNoPurchase;
+
+  /// No description provided for @subscriptionExpiresOn.
+  ///
+  /// In ja, this message translates to:
+  /// **'有効期限: {date}'**
+  String subscriptionExpiresOn(String date);
+
+  /// No description provided for @planFree.
+  ///
+  /// In ja, this message translates to:
+  /// **'Free'**
+  String get planFree;
+
+  /// No description provided for @planClear.
+  ///
+  /// In ja, this message translates to:
+  /// **'Clear'**
+  String get planClear;
+
+  /// No description provided for @planClearPro.
+  ///
+  /// In ja, this message translates to:
+  /// **'ClearPro'**
+  String get planClearPro;
 }
 
 class _AppLocalizationsDelegate

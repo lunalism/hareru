@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
+import 'package:hareru/features/subscription/ad_placeholder.dart';
+import 'package:hareru/features/subscription/entitlement_gate.dart';
+import 'package:hareru/features/subscription/subscription_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/screens/home/widgets/home/ai_insight_card.dart';
 import 'package:hareru/screens/home/widgets/home/breakdown_card.dart';
@@ -45,8 +48,14 @@ class HomeScreen extends ConsumerWidget {
                 RecentRecordsSection(
                     transactions: transactions, isDark: isDark),
                 const SizedBox(height: 24),
-                AiInsightCard(isDark: isDark),
+                EntitlementGate(
+                  requiredTier: SubscriptionTier.clear,
+                  lockedChild: AiInsightCard(isDark: isDark, locked: true),
+                  child: AiInsightCard(isDark: isDark),
+                ),
               ],
+              // Ad placeholder for free users
+              const AdPlaceholder(),
               const SizedBox(height: 100),
             ],
           ),

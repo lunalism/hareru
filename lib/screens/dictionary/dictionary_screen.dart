@@ -4,6 +4,7 @@ import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
 import 'package:hareru/features/dictionary/dictionary_providers.dart';
 import 'package:hareru/features/dictionary/models/dictionary_term.dart';
+import 'package:hareru/features/subscription/ad_placeholder.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 
 class _CategoryChip {
@@ -271,12 +272,18 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
       AppLocalizations l10n) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      itemCount: terms.length + 1, // +1 for AI banner
+      itemCount: terms.length + 2, // +1 AI banner, +1 ad placeholder
       itemBuilder: (_, i) {
         if (i == terms.length) {
           return Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 24),
+            padding: const EdgeInsets.only(top: 8),
             child: _buildAiBanner(isDark, l10n),
+          );
+        }
+        if (i == terms.length + 1) {
+          return const Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: AdPlaceholder(),
           );
         }
         final term = terms[i];

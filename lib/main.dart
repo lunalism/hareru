@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/app.dart';
 import 'package:hareru/core/services/notification_service.dart';
+import 'package:hareru/core/services/revenue_cat_service.dart';
 import 'package:hareru/core/services/widget_data_service.dart';
 import 'package:hareru/core/supabase/supabase_config.dart';
 import 'package:hareru/models/category.dart';
@@ -23,6 +24,7 @@ void main() async {
   Hive.registerAdapter(CategoryAdapter());
   await NotificationService.init();
   await WidgetDataService.init();
+  await RevenueCatService.init();
 
   runApp(
     const ProviderScope(

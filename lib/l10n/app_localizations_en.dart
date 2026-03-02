@@ -869,4 +869,124 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationChannelDesc => 'Daily expense recording reminder';
+
+  @override
+  String get paywallTitle => 'Upgrade Hareru';
+
+  @override
+  String get paywallMonthly => 'Monthly';
+
+  @override
+  String get paywallYearly => 'Yearly';
+
+  @override
+  String get paywallYearlyBadge => 'Best Value';
+
+  @override
+  String get paywallSaveMonths => 'Save 2 months!';
+
+  @override
+  String get paywallClearTitle => 'Clear';
+
+  @override
+  String get paywallClearProTitle => 'ClearPro';
+
+  @override
+  String get paywallClearCta => 'Start Clear';
+
+  @override
+  String get paywallClearProCta => 'Start ClearPro';
+
+  @override
+  String get paywallRestore => 'Restore Purchases';
+
+  @override
+  String get paywallContinueFree => 'Continue with Free';
+
+  @override
+  String get paywallTerms => 'Terms of Use';
+
+  @override
+  String get paywallPrivacy => 'Privacy Policy';
+
+  @override
+  String get featureNoAds => 'No Ads';
+
+  @override
+  String get featureAiInsight => 'AI Insights';
+
+  @override
+  String get featureSavingSim => 'Savings Simulation';
+
+  @override
+  String get featureCsvExport => 'CSV Export';
+
+  @override
+  String get featureAiCoaching => 'AI Coaching';
+
+  @override
+  String get featurePdfReport => 'PDF Monthly Report';
+
+  @override
+  String get featureSavingGoal => 'Savings Goal';
+
+  @override
+  String get featurePrioritySupport => 'Priority Support';
+
+  @override
+  String get settingsSubscription => 'Subscription';
+
+  @override
+  String get settingsCurrentPlan => 'Current Plan';
+
+  @override
+  String get settingsRestorePurchase => 'Restore Purchases';
+
+  @override
+  String get settingsManageSubscription => 'Manage Subscription';
+
+  @override
+  String get lockClearRequired => 'Available with Clear';
+
+  @override
+  String get lockClearProRequired => 'Available with ClearPro';
+
+  @override
+  String get lockUpgrade => 'Upgrade';
+
+  @override
+  String get purchaseSuccess => 'Purchase completed!';
+
+  @override
+  String get purchaseRestored => 'Purchases restored';
+
+  @override
+  String get purchaseError => 'Purchase failed';
+
+  @override
+  String get purchaseNotAvailable => 'Purchases not available';
+
+  @override
+  String get adPlaceholder => 'Ad — Remove with Clear';
+
+  @override
+  String get purchaseNotAvailableDesc =>
+      'In-app purchases are currently unavailable. Please try again later.';
+
+  @override
+  String get restoreNoPurchase => 'No purchases to restore';
+
+  @override
+  String subscriptionExpiresOn(String date) {
+    return 'Expires: $date';
+  }
+
+  @override
+  String get planFree => 'Free';
+
+  @override
+  String get planClear => 'Clear';
+
+  @override
+  String get planClearPro => 'ClearPro';
 }

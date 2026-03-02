@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/category_provider.dart';
-import 'package:hareru/core/providers/premium_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
+import 'package:hareru/features/subscription/paywall_screen.dart';
+import 'package:hareru/features/subscription/subscription_provider.dart';
 import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/features/pdf_report/pdf_report_generator.dart';
 import 'package:hareru/features/pdf_report/pdf_share_service.dart';
@@ -25,11 +26,11 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
 
   @override
   Widget build(BuildContext context) {
-    final isPremium = ref.watch(premiumProvider);
+    final sub = ref.watch(subscriptionProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
 
-    if (!isPremium) {
+    if (!sub.canExportPdf) {
       return _buildUpsellBanner(isDark, l10n);
     }
     return _buildShareButton(isDark, l10n);
@@ -75,8 +76,11 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
           const SizedBox(height: 14),
           GestureDetector(
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l10n.premiumComingSoon)),
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (_) => const PaywallScreen(),
+                ),
               );
             },
             child: Container(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
@@ -9,6 +11,8 @@ import 'package:hareru/core/providers/pay_day_provider.dart';
 import 'package:hareru/core/providers/reminder_provider.dart';
 import 'package:hareru/features/auth/auth_provider.dart';
 import 'package:hareru/features/auth/auth_screen.dart';
+import 'package:hareru/features/subscription/paywall_screen.dart';
+import 'package:hareru/features/subscription/subscription_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/screens/settings/category_management_screen.dart';
 import 'package:hareru/screens/settings/about_screen.dart';
@@ -16,6 +20,7 @@ import 'package:hareru/screens/settings/legal_webview_screen.dart';
 import 'package:hareru/screens/settings/widgets/contact_sheet.dart';
 import 'package:hareru/screens/settings/widgets/data_management.dart';
 import 'package:hareru/screens/settings/widgets/settings_dialogs.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -253,6 +258,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
+              // Subscription section
+              _buildSubscriptionSection(isDark, l10n),
+              const SizedBox(height: 28),
+
               // Language section
               _sectionHeader(l10n.languageTitle, isDark),
               const SizedBox(height: 12),
@@ -351,6 +360,110 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
+  Widget _buildSubscriptionSection(bool isDark, AppLocalizations l10n) {
+    final sub = ref.watch(subscriptionProvider);
+    final planLabel = switch (sub.tier) {
+      SubscriptionTier.free => l10n.planFree,
+      SubscriptionTier.clear => l10n.planClear,
+      SubscriptionTier.clearPro => l10n.planClearPro,
+    };
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _sectionHeader(l10n.settingsSubscription, isDark),
+        const SizedBox(height: 12),
+        _card(
+          isDark,
+          children: [
+            _row(
+              emoji: '\u{1F513}',
+              label: l10n.settingsCurrentPlan,
+              trailing: Text(
+                planLabel,
+                style: _trailingStyle(isDark),
+              ),
+              showChevron: true,
+              isDark: isDark,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (_) => const PaywallScreen(),
+                ),
+              ),
+            ),
+            if (sub.expirationDate != null && !sub.isFree) ...[
+              _divider(isDark),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(
+                  l10n.subscriptionExpiresOn(
+                    '${sub.expirationDate!.year}/${sub.expirationDate!.month.toString().padLeft(2, '0')}/${sub.expirationDate!.day.toString().padLeft(2, '0')}',
+                  ),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: isDark
+                        ? HareruColors.darkTextSecondary
+                        : HareruColors.lightTextSecondary,
+                  ),
+                ),
+              ),
+            ],
+            _divider(isDark),
+            _row(
+              emoji: '\u{1F504}',
+              label: l10n.settingsRestorePurchase,
+              showChevron: true,
+              isDark: isDark,
+              onTap: () async {
+                try {
+                  await ref.read(subscriptionProvider.notifier).restore();
+                  if (mounted) {
+                    final sub = ref.read(subscriptionProvider);
+                    if (!sub.isFree) {
+                      _showSubscriptionDialog(
+                        icon: Icons.check_circle,
+                        iconColor: HareruColors.savings,
+                        title: l10n.purchaseRestored,
+                      );
+                    } else {
+                      _showSubscriptionDialog(
+                        icon: Icons.info_outline,
+                        iconColor: HareruColors.primaryStart,
+                        title: l10n.restoreNoPurchase,
+                      );
+                    }
+                  }
+                } catch (e) {
+                  if (mounted) {
+                    _showSubscriptionDialog(
+                      icon: Icons.error_outline,
+                      iconColor: HareruColors.expense,
+                      title: l10n.purchaseError,
+                    );
+                  }
+                }
+              },
+            ),
+            _divider(isDark),
+            _row(
+              emoji: '\u{2699}\u{FE0F}',
+              label: l10n.settingsManageSubscription,
+              showChevron: true,
+              isDark: isDark,
+              onTap: () {
+                final url = Platform.isIOS
+                    ? 'https://apps.apple.com/account/subscriptions'
+                    : 'https://play.google.com/store/account/subscriptions';
+                launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget _buildAccountSection(bool isDark, AppLocalizations l10n) {
     final user = ref.watch(currentUserProvider);
     final isLoggedIn = user != null;
@@ -394,6 +507,51 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ],
         ),
       ],
+    );
+  }
+
+  void _showSubscriptionDialog({
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    String? content,
+  }) {
+    final c = context.colors;
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: c.card,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        icon: Icon(icon, color: iconColor, size: 48),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+            color: c.textPrimary,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        content: content != null
+            ? Text(
+                content,
+                style: TextStyle(fontSize: 14, color: c.textSecondary),
+                textAlign: TextAlign.center,
+              )
+            : null,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text(
+              'OK',
+              style: TextStyle(
+                color: HareruColors.primaryStart,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
