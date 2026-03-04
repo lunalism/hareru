@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hareru/core/services/revenue_cat_service.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -45,32 +44,8 @@ class AuthService {
   }
 
   Future<AuthResponse> signInWithGoogle() async {
-    const webClientId = 'YOUR_WEB_CLIENT_ID'; // TODO: 나중에 설정
-
-    final googleSignIn = GoogleSignIn(serverClientId: webClientId);
-
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser == null) {
-      throw const AuthException('Google sign in was cancelled.');
-    }
-
-    final googleAuth = await googleUser.authentication;
-    final idToken = googleAuth.idToken;
-    final accessToken = googleAuth.accessToken;
-
-    if (idToken == null) {
-      throw const AuthException('Could not find ID Token from Google.');
-    }
-
-    final response = await _client.auth.signInWithIdToken(
-      provider: OAuthProvider.google,
-      idToken: idToken,
-      accessToken: accessToken,
-    );
-    if (response.user != null) {
-      await RevenueCatService.login(response.user!.id);
-    }
-    return response;
+    // TODO: re-enable after GIDClientID setup
+    throw const AuthException('Google Sign-In is not available yet.');
   }
 
   Future<void> signOut() async {

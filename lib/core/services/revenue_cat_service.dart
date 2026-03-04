@@ -19,7 +19,9 @@ class RevenueCatService {
     await Purchases.configure(configuration);
     _initialized = true;
 
+    final appUserId = await Purchases.appUserID;
     debugPrint('[RevenueCat] initialized');
+    debugPrint('[RevenueCat] appUserID: $appUserId');
   }
 
   static Future<void> login(String userId) async {
