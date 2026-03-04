@@ -459,5 +459,26 @@
   },
   "planFree": "Free",
   "planClear": "Clear",
-  "planClearPro": "ClearPro"
+  "planClearPro": "ClearPro",
+
+  "todaysTerm": "今日の用語",
+  "bookmarkAdd": "ブックマークに追加しました",
+  "bookmarkRemove": "ブックマークから削除しました",
+  "reviewTab": "復習",
+  "learningProgress": "{viewed}/{total} 用語を学習済み",
+  "@learningProgress": {
+    "placeholders": {
+      "viewed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "allTermsMastered": "すべての用語を学習しました！",
+  "difficultyBasic": "基礎",
+  "difficultyIntermediate": "中級",
+  "difficultyAdvanced": "応用",
+  "noBookmarks": "まだブックマークがありません"
 }

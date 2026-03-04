@@ -459,5 +459,26 @@
   },
   "planFree": "Free",
   "planClear": "Clear",
-  "planClearPro": "ClearPro"
+  "planClearPro": "ClearPro",
+
+  "todaysTerm": "오늘의 용어",
+  "bookmarkAdd": "북마크에 추가했습니다",
+  "bookmarkRemove": "북마크에서 제거했습니다",
+  "reviewTab": "복습",
+  "learningProgress": "{viewed}/{total} 용어 학습 완료",
+  "@learningProgress": {
+    "placeholders": {
+      "viewed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "allTermsMastered": "모든 용어를 학습했어요!",
+  "difficultyBasic": "기초",
+  "difficultyIntermediate": "중급",
+  "difficultyAdvanced": "응용",
+  "noBookmarks": "아직 북마크가 없습니다"
 }

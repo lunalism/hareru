@@ -992,4 +992,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get planClearPro => 'ClearPro';
+
+  @override
+  String get todaysTerm => 'Today\'s Term';
+
+  @override
+  String get bookmarkAdd => 'Added to bookmarks';
+
+  @override
+  String get bookmarkRemove => 'Removed from bookmarks';
+
+  @override
+  String get reviewTab => 'Review';
+
+  @override
+  String learningProgress(int viewed, int total) {
+    return '$viewed/$total terms learned';
+  }
+
+  @override
+  String get allTermsMastered => 'You\'ve mastered all terms!';
+
+  @override
+  String get difficultyBasic => 'Basic';
+
+  @override
+  String get difficultyIntermediate => 'Intermediate';
+
+  @override
+  String get difficultyAdvanced => 'Advanced';
+
+  @override
+  String get noBookmarks => 'No bookmarks yet';
 }

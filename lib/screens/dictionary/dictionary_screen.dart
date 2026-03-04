@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
+import 'package:hareru/features/dictionary/bookmark_provider.dart';
 import 'package:hareru/features/dictionary/dictionary_providers.dart';
 import 'package:hareru/features/dictionary/models/dictionary_term.dart';
+import 'package:hareru/features/dictionary/viewed_terms_provider.dart';
 import 'package:hareru/features/subscription/ad_placeholder.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 
@@ -17,15 +19,21 @@ class _CategoryChip {
 
 final _categoryChips = <_CategoryChip>[
   _CategoryChip(null, '\u2728', (l10n) => l10n.categoryAll),
+  _CategoryChip(reviewFilterKey, '\u2B50', (l10n) => l10n.reviewTab),
   _CategoryChip('banking', '\u{1F3E6}', (l10n) => l10n.categoryBanking),
-  _CategoryChip('household', '\u{1F3E0}', (l10n) => l10n.categoryHousehold),
+  _CategoryChip(
+      'household', '\u{1F3E0}', (l10n) => l10n.categoryHousehold),
   _CategoryChip('tax', '\u{1F3DB}\uFE0F', (l10n) => l10n.categoryTax),
-  _CategoryChip('insurance', '\u{1F6E1}\uFE0F', (l10n) => l10n.categoryInsurance),
+  _CategoryChip(
+      'insurance', '\u{1F6E1}\uFE0F', (l10n) => l10n.categoryInsurance),
   _CategoryChip('savings', '\u{1F4B0}', (l10n) => l10n.categorySavings),
   _CategoryChip('loan', '\u{1F3D7}\uFE0F', (l10n) => l10n.categoryLoan),
   _CategoryChip('system', '\u{1F4CB}', (l10n) => l10n.categorySystem),
   _CategoryChip('payment', '\u{1F4B3}', (l10n) => l10n.categoryPayment),
 ];
+
+const _basicCategories = {'banking', 'household'};
+const _intermediateCategories = {'tax', 'insurance'};
 
 class DictionaryScreen extends ConsumerStatefulWidget {
   const DictionaryScreen({super.key});
@@ -41,6 +49,32 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  String _difficultyLabel(String category, AppLocalizations l10n) {
+    if (_basicCategories.contains(category)) return l10n.difficultyBasic;
+    if (_intermediateCategories.contains(category)) {
+      return l10n.difficultyIntermediate;
+    }
+    return l10n.difficultyAdvanced;
+  }
+
+  Color _difficultyColor(String category) {
+    if (_basicCategories.contains(category)) return const Color(0xFF94A3B8);
+    if (_intermediateCategories.contains(category)) {
+      return const Color(0xFFF59E0B);
+    }
+    return const Color(0xFFF97316);
+  }
+
+  Color _difficultyBgColor(String category, bool isDark) {
+    if (_basicCategories.contains(category)) {
+      return isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9);
+    }
+    if (_intermediateCategories.contains(category)) {
+      return isDark ? const Color(0xFF422006) : const Color(0xFFFEF3C7);
+    }
+    return isDark ? const Color(0xFF431407) : const Color(0xFFFFF7ED);
   }
 
   @override
@@ -73,6 +107,12 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
             ),
             const SizedBox(height: 16),
 
+            // Today's term card
+            _buildTodaysTermCard(isDark, lang, l10n),
+
+            // Learning progress bar
+            _buildProgressBar(isDark, l10n),
+
             // Search bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -91,7 +131,12 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
             Expanded(
               child: filteredAsync.when(
                 data: (terms) {
-                  if (terms.isEmpty) return _buildEmptyState(isDark, l10n);
+                  if (terms.isEmpty) {
+                    if (selectedCategory == reviewFilterKey) {
+                      return _buildBookmarkEmptyState(isDark, l10n);
+                    }
+                    return _buildEmptyState(isDark, l10n);
+                  }
                   return _buildTermList(terms, isDark, lang, l10n);
                 },
                 loading: () =>
@@ -101,6 +146,136 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTodaysTermCard(bool isDark, String lang, AppLocalizations l10n) {
+    final todaysTerm = ref.watch(todaysTermProvider);
+    if (todaysTerm == null) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+      child: GestureDetector(
+        onTap: () => _showTermDetail(todaysTerm, isDark, lang, l10n),
+        child: IntrinsicHeight(
+          child: Row(
+            children: [
+              Container(
+                width: 4,
+                decoration: BoxDecoration(
+                  color: HareruColors.transferBlue,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? HareruColors.darkCard
+                        : const Color(0xFFF5F0EB),
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '\u{1F4D6} ${l10n.todaysTerm}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: isDark
+                              ? HareruColors.darkTextSecondary
+                              : HareruColors.lightTextSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${todaysTerm.emoji ?? ''} ${todaysTerm.name(lang)}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: isDark
+                              ? HareruColors.darkTextPrimary
+                              : HareruColors.lightTextPrimary,
+                        ),
+                      ),
+                      if (todaysTerm.summary(lang) != null) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          todaysTerm.summary(lang)!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: isDark
+                                ? const Color(0xFF94A3B8)
+                                : const Color(0xFF64748B),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgressBar(bool isDark, AppLocalizations l10n) {
+    final allTerms = ref.watch(allTermsProvider).valueOrNull;
+    final viewedTerms = ref.watch(viewedTermsProvider);
+    if (allTerms == null || allTerms.isEmpty) return const SizedBox.shrink();
+
+    final total = allTerms.length;
+    final viewed = viewedTerms.length.clamp(0, total);
+    final progress = viewed / total;
+    final allDone = viewed >= total;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  allDone
+                      ? '\u{1F389} ${l10n.allTermsMastered}'
+                      : l10n.learningProgress(viewed, total),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: isDark
+                        ? HareruColors.darkTextSecondary
+                        : HareruColors.lightTextSecondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: progress,
+              minHeight: 6,
+              backgroundColor:
+                  isDark ? HareruColors.darkDivider : const Color(0xFFE5E0DB),
+              valueColor:
+                  const AlwaysStoppedAnimation<Color>(HareruColors.transferBlue),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -234,6 +409,33 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
     );
   }
 
+  Widget _buildBookmarkEmptyState(bool isDark, AppLocalizations l10n) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.star_outline_rounded,
+            size: 48,
+            color: isDark
+                ? HareruColors.darkTextTertiary
+                : HareruColors.lightTextTertiary,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            l10n.noBookmarks,
+            style: TextStyle(
+              fontSize: 15,
+              color: isDark
+                  ? HareruColors.darkTextSecondary
+                  : HareruColors.lightTextSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildErrorState(
       bool isDark, AppLocalizations l10n, WidgetRef ref) {
     return Center(
@@ -305,6 +507,9 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
 
   Widget _buildTermItem(
       DictionaryTerm term, bool isDark, String lang, AppLocalizations l10n) {
+    final bookmarks = ref.watch(bookmarkProvider);
+    final isBookmarked = bookmarks.contains(term.termKey);
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => _showTermDetail(term, isDark, lang, l10n),
@@ -318,15 +523,26 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    term.name(lang),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: isDark
-                          ? const Color(0xFFF1F5F9)
-                          : const Color(0xFF1E293B),
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          term.name(lang),
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: isDark
+                                ? const Color(0xFFF1F5F9)
+                                : const Color(0xFF1E293B),
+                          ),
+                        ),
+                      ),
+                      if (isBookmarked)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 4),
+                          child: Text('\u2B50', style: TextStyle(fontSize: 12)),
+                        ),
+                    ],
                   ),
                   const SizedBox(height: 2),
                   Text(
@@ -341,6 +557,23 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            // Difficulty badge
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              decoration: BoxDecoration(
+                color: _difficultyBgColor(term.category, isDark),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                _difficultyLabel(term.category, l10n),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: _difficultyColor(term.category),
+                ),
               ),
             ),
           ],
@@ -419,15 +652,18 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
       DictionaryTerm term, bool isDark, String lang, AppLocalizations l10n) {
     final allTerms = ref.read(allTermsProvider).valueOrNull ?? [];
 
+    // Mark term as viewed
+    ref.read(viewedTermsProvider.notifier).markViewed(term.termKey);
+
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
+      builder: (sheetContext) => DraggableScrollableSheet(
         initialChildSize: 0.75,
         minChildSize: 0.5,
         maxChildSize: 0.95,
-        builder: (context, scrollController) => Container(
+        builder: (sheetContext, scrollController) => Container(
           decoration: BoxDecoration(
             color: isDark ? HareruColors.darkBg : HareruColors.lightBg,
             borderRadius:
@@ -440,7 +676,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
               // Drag handle
               Center(
                 child: Container(
-                  margin: const EdgeInsets.only(top: 12, bottom: 16),
+                  margin: const EdgeInsets.only(top: 12, bottom: 8),
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
@@ -448,6 +684,46 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
+              ),
+
+              // Bookmark toggle
+              Consumer(
+                builder: (context, ref, _) {
+                  final isBookmarked = ref
+                      .watch(bookmarkProvider)
+                      .contains(term.termKey);
+                  return Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () {
+                        ref
+                            .read(bookmarkProvider.notifier)
+                            .toggle(term.termKey);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              isBookmarked
+                                  ? l10n.bookmarkRemove
+                                  : l10n.bookmarkAdd,
+                            ),
+                            duration: const Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        isBookmarked
+                            ? Icons.star_rounded
+                            : Icons.star_outline_rounded,
+                        color: isBookmarked
+                            ? const Color(0xFFF59E0B)
+                            : (isDark
+                                ? HareruColors.darkTextTertiary
+                                : HareruColors.lightTextTertiary),
+                        size: 28,
+                      ),
+                    ),
+                  );
+                },
               ),
 
               // Emoji

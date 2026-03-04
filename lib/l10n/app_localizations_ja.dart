@@ -984,4 +984,36 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get planClearPro => 'ClearPro';
+
+  @override
+  String get todaysTerm => '今日の用語';
+
+  @override
+  String get bookmarkAdd => 'ブックマークに追加しました';
+
+  @override
+  String get bookmarkRemove => 'ブックマークから削除しました';
+
+  @override
+  String get reviewTab => '復習';
+
+  @override
+  String learningProgress(int viewed, int total) {
+    return '$viewed/$total 用語を学習済み';
+  }
+
+  @override
+  String get allTermsMastered => 'すべての用語を学習しました！';
+
+  @override
+  String get difficultyBasic => '基礎';
+
+  @override
+  String get difficultyIntermediate => '中級';
+
+  @override
+  String get difficultyAdvanced => '応用';
+
+  @override
+  String get noBookmarks => 'まだブックマークがありません';
 }

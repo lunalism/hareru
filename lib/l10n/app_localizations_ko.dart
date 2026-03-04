@@ -985,4 +985,36 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get planClearPro => 'ClearPro';
+
+  @override
+  String get todaysTerm => '오늘의 용어';
+
+  @override
+  String get bookmarkAdd => '북마크에 추가했습니다';
+
+  @override
+  String get bookmarkRemove => '북마크에서 제거했습니다';
+
+  @override
+  String get reviewTab => '복습';
+
+  @override
+  String learningProgress(int viewed, int total) {
+    return '$viewed/$total 용어 학습 완료';
+  }
+
+  @override
+  String get allTermsMastered => '모든 용어를 학습했어요!';
+
+  @override
+  String get difficultyBasic => '기초';
+
+  @override
+  String get difficultyIntermediate => '중급';
+
+  @override
+  String get difficultyAdvanced => '응용';
+
+  @override
+  String get noBookmarks => '아직 북마크가 없습니다';
 }

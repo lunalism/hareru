@@ -1976,6 +1976,66 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'ClearPro'**
   String get planClearPro;
+
+  /// No description provided for @todaysTerm.
+  ///
+  /// In ja, this message translates to:
+  /// **'今日の用語'**
+  String get todaysTerm;
+
+  /// No description provided for @bookmarkAdd.
+  ///
+  /// In ja, this message translates to:
+  /// **'ブックマークに追加しました'**
+  String get bookmarkAdd;
+
+  /// No description provided for @bookmarkRemove.
+  ///
+  /// In ja, this message translates to:
+  /// **'ブックマークから削除しました'**
+  String get bookmarkRemove;
+
+  /// No description provided for @reviewTab.
+  ///
+  /// In ja, this message translates to:
+  /// **'復習'**
+  String get reviewTab;
+
+  /// No description provided for @learningProgress.
+  ///
+  /// In ja, this message translates to:
+  /// **'{viewed}/{total} 用語を学習済み'**
+  String learningProgress(int viewed, int total);
+
+  /// No description provided for @allTermsMastered.
+  ///
+  /// In ja, this message translates to:
+  /// **'すべての用語を学習しました！'**
+  String get allTermsMastered;
+
+  /// No description provided for @difficultyBasic.
+  ///
+  /// In ja, this message translates to:
+  /// **'基礎'**
+  String get difficultyBasic;
+
+  /// No description provided for @difficultyIntermediate.
+  ///
+  /// In ja, this message translates to:
+  /// **'中級'**
+  String get difficultyIntermediate;
+
+  /// No description provided for @difficultyAdvanced.
+  ///
+  /// In ja, this message translates to:
+  /// **'応用'**
+  String get difficultyAdvanced;
+
+  /// No description provided for @noBookmarks.
+  ///
+  /// In ja, this message translates to:
+  /// **'まだブックマークがありません'**
+  String get noBookmarks;
 }
 
 class _AppLocalizationsDelegate

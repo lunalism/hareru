@@ -459,5 +459,26 @@
   },
   "planFree": "Free",
   "planClear": "Clear",
-  "planClearPro": "ClearPro"
+  "planClearPro": "ClearPro",
+
+  "todaysTerm": "Today's Term",
+  "bookmarkAdd": "Added to bookmarks",
+  "bookmarkRemove": "Removed from bookmarks",
+  "reviewTab": "Review",
+  "learningProgress": "{viewed}/{total} terms learned",
+  "@learningProgress": {
+    "placeholders": {
+      "viewed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "allTermsMastered": "You've mastered all terms!",
+  "difficultyBasic": "Basic",
+  "difficultyIntermediate": "Intermediate",
+  "difficultyAdvanced": "Advanced",
+  "noBookmarks": "No bookmarks yet"
 }
