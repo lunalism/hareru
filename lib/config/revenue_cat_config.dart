@@ -2,7 +2,7 @@ class RevenueCatConfig {
   RevenueCatConfig._();
 
   // TODO: Apple Developer 등록 후 iOS 앱 추가하면 발급되는 키로 교체
-  static const String appleApiKey = 'appl_PLACEHOLDER_KEY';
+  static const String appleApiKey = 'test_KnnDlqlYSSWrSvbexoUHPYdHink';
   // TODO: Google Play Console 연결 후 발급되는 키로 교체
   static const String googleApiKey = 'goog_PLACEHOLDER_KEY';
 
