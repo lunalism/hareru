@@ -32,6 +32,14 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+  late final Future<String> _rcUserIdFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _rcUserIdFuture = Future(() => Purchases.appUserID);
+  }
+
   static const _languages = [
     (code: 'ja', label: '日本語', flag: '🇯🇵'),
     (code: 'ko', label: '한국어', flag: '🇰🇷'),
@@ -356,7 +364,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               // Debug: RevenueCat App User ID
               FutureBuilder<String>(
-                future: Future(() => Purchases.appUserID),
+                future: _rcUserIdFuture,
                 builder: (context, snapshot) {
                   final uid = snapshot.data ?? '...';
                   return GestureDetector(

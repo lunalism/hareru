@@ -835,9 +835,8 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
 
       // Top category
       if (categoryMap.isNotEmpty) {
-        final sorted = categoryMap.entries.toList()
-          ..sort((a, b) => b.value.compareTo(a.value));
-        final top = sorted.first;
+        final top = categoryMap.entries.reduce(
+            (a, b) => a.value >= b.value ? a : b);
         final percent = expense > 0
             ? (top.value / expense * 100).toStringAsFixed(0)
             : '0';

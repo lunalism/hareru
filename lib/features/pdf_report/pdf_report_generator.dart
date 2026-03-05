@@ -114,12 +114,9 @@ class PdfReportGenerator {
     final lang = data.locale == 'ko' ? 'KR' : 'JP';
     final fontData =
         await rootBundle.load('assets/fonts/NotoSans$lang-Regular.ttf');
-    final fontBoldData =
-        await rootBundle.load('assets/fonts/NotoSans$lang-Bold.ttf');
     final font = pw.Font.ttf(fontData);
-    final fontBold = pw.Font.ttf(fontBoldData);
+    final fontBold = font;
 
-    // Load KR font as fallback for Korean text (e.g. account names) in ja/en
     pw.Font? fontKr;
     if (data.locale != 'ko') {
       final krData =
