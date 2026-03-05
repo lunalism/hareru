@@ -185,7 +185,7 @@ class PdfReportGenerator {
         crossAxisAlignment: pw.CrossAxisAlignment.center,
         children: [
           pw.Text(
-            '\u25C7 Hareru',
+            'Hareru',
             style: pw.TextStyle(
               font: fontBold,
               fontSize: 28,
