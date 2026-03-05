@@ -1539,6 +1539,12 @@ abstract class AppLocalizations {
   /// **'もやもやした家計を、\nすっきり晴れやかに。'**
   String get appCatchphrase;
 
+  /// No description provided for @copied.
+  ///
+  /// In ja, this message translates to:
+  /// **'コピーしました'**
+  String get copied;
+
   /// No description provided for @copyright.
   ///
   /// In ja, this message translates to:

@@ -363,8 +363,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: uid));
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Copied'),
+                        SnackBar(
+                          content: Text(l10n.copied),
                           duration: Duration(seconds: 1),
                         ),
                       );

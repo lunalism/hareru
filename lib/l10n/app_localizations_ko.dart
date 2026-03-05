@@ -775,6 +775,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get appCatchphrase => '복잡한 가계부를,\n깔끔하게 정리하다.';
 
   @override
+  String get copied => '복사됨';
+
+  @override
   String get copyright => '© 2026 Lunalism';
 
   @override

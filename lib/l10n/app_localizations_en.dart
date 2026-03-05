@@ -783,6 +783,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appCatchphrase => 'Clear up the fog\nin your finances.';
 
   @override
+  String get copied => 'Copied';
+
+  @override
   String get copyright => '© 2026 Lunalism';
 
   @override

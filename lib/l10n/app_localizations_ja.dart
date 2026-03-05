@@ -775,6 +775,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get appCatchphrase => 'もやもやした家計を、\nすっきり晴れやかに。';
 
   @override
+  String get copied => 'コピーしました';
+
+  @override
   String get copyright => '© 2026 Lunalism';
 
   @override
