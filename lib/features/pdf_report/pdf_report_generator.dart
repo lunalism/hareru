@@ -97,12 +97,12 @@ const _stripeBg = PdfColor.fromInt(0xFFF5F0EB);
 
 class PdfReportGenerator {
   static Future<Uint8List> generate(PdfReportData data) async {
-    final fontAsset = data.locale == 'ko'
-        ? 'assets/fonts/NotoSansKR-Regular.ttf'
-        : 'assets/fonts/NotoSansJP-Regular.ttf';
-    final fontData = await rootBundle.load(fontAsset);
+    final fontData =
+        await rootBundle.load('assets/fonts/MPLUSRounded1c-Regular.ttf');
+    final fontBoldData =
+        await rootBundle.load('assets/fonts/MPLUSRounded1c-Bold.ttf');
     final font = pw.Font.ttf(fontData);
-    final fontBold = pw.Font.ttf(fontData.buffer.asByteData());
+    final fontBold = pw.Font.ttf(fontBoldData);
 
     final doc = pw.Document();
 

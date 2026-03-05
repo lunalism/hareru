@@ -63,8 +63,8 @@ flutter:
 
   assets:
     - assets/icon/
-    - assets/fonts/NotoSansJP-Regular.ttf
-    - assets/fonts/NotoSansKR-Regular.ttf
+    - assets/fonts/MPLUSRounded1c-Regular.ttf
+    - assets/fonts/MPLUSRounded1c-Bold.ttf
 
   fonts:
     - family: PretendardJP
