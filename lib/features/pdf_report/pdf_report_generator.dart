@@ -105,10 +105,18 @@ class PdfReportGenerator {
     final font = pw.Font.ttf(fontData);
     final fontBold = pw.Font.ttf(fontBoldData);
 
+    // Load KR font as fallback for Korean text (e.g. account names) in ja/en
+    pw.Font? fontKr;
+    if (data.locale != 'ko') {
+      final krData =
+          await rootBundle.load('assets/fonts/NotoSansKR-Regular.ttf');
+      fontKr = pw.Font.ttf(krData);
+    }
+
     final doc = pw.Document();
 
-    doc.addPage(_buildPage1(data, font, fontBold));
-    doc.addPage(_buildPage2(data, font, fontBold));
+    doc.addPage(_buildPage1(data, font, fontBold, fontKr));
+    doc.addPage(_buildPage2(data, font, fontBold, fontKr));
 
     return doc.save();
   }
@@ -116,7 +124,7 @@ class PdfReportGenerator {
   // ── Page 1 ──
 
   static pw.Page _buildPage1(
-      PdfReportData data, pw.Font font, pw.Font fontBold) {
+      PdfReportData data, pw.Font font, pw.Font fontBold, pw.Font? fontKr) {
     return pw.Page(
       pageFormat: PdfPageFormat.a4,
       margin: const pw.EdgeInsets.all(32),
@@ -144,7 +152,7 @@ class PdfReportGenerator {
   // ── Page 2 ──
 
   static pw.Page _buildPage2(
-      PdfReportData data, pw.Font font, pw.Font fontBold) {
+      PdfReportData data, pw.Font font, pw.Font fontBold, pw.Font? fontKr) {
     return pw.Page(
       pageFormat: PdfPageFormat.a4,
       margin: const pw.EdgeInsets.all(32),
@@ -154,7 +162,7 @@ class PdfReportGenerator {
           children: [
             _buildHeader(data, font, fontBold, full: false),
             pw.SizedBox(height: 22),
-            _buildTransactionTable(data, font, fontBold),
+            _buildTransactionTable(data, font, fontBold, fontKr),
             pw.SizedBox(height: 22),
             _buildInsightCard(data, font, fontBold),
             pw.Spacer(),
@@ -185,14 +193,35 @@ class PdfReportGenerator {
         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
         crossAxisAlignment: pw.CrossAxisAlignment.center,
         children: [
-          pw.Text(
-            'Hareru',
-            style: pw.TextStyle(
-              font: fontBold,
-              fontSize: 28,
-              fontWeight: pw.FontWeight.bold,
-              color: PdfColors.white,
-            ),
+          pw.Row(
+            mainAxisSize: pw.MainAxisSize.min,
+            crossAxisAlignment: pw.CrossAxisAlignment.center,
+            children: [
+              // Diamond shape: rotated square
+              pw.Transform.rotate(
+                angle: 0.7854, // 45 degrees in radians
+                child: pw.Container(
+                  width: 14,
+                  height: 14,
+                  decoration: pw.BoxDecoration(
+                    border: pw.Border.all(
+                      color: PdfColors.white,
+                      width: 1.8,
+                    ),
+                  ),
+                ),
+              ),
+              pw.SizedBox(width: 10),
+              pw.Text(
+                'Hareru',
+                style: pw.TextStyle(
+                  font: fontBold,
+                  fontSize: 28,
+                  fontWeight: pw.FontWeight.bold,
+                  color: PdfColors.white,
+                ),
+              ),
+            ],
           ),
           pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.end,
@@ -577,7 +606,7 @@ class PdfReportGenerator {
   // ── Transaction table (Page 2) ──
 
   static pw.Widget _buildTransactionTable(
-      PdfReportData data, pw.Font font, pw.Font fontBold) {
+      PdfReportData data, pw.Font font, pw.Font fontBold, pw.Font? fontKr) {
     final sections = <pw.Widget>[];
 
     final typeGroups = [
@@ -647,18 +676,15 @@ class PdfReportGenerator {
                       ),
                     ),
                     pw.Expanded(
-                      child: pw.Text(
-                        _sanitizeForFont(
-                            _stripEmoji(
-                                data.categoryDisplayNames[t.category] ??
-                                    t.category),
-                            data.locale),
-                        style: pw.TextStyle(
-                          font: font,
-                          fontSize: 16,
-                          color: _textPrimary,
-                        ),
-                        overflow: pw.TextOverflow.clip,
+                      child: _buildTextWithKrFallback(
+                        _stripEmoji(
+                            data.categoryDisplayNames[t.category] ??
+                                t.category),
+                        font,
+                        fontKr,
+                        data.locale,
+                        fontSize: 16,
+                        color: _textPrimary,
                       ),
                     ),
                     pw.Text(
@@ -839,6 +865,33 @@ class PdfReportGenerator {
         .replaceAll(
             RegExp(r'[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]'), '')
         .trim();
+  }
+
+  static bool _containsKorean(String text) {
+    return RegExp(r'[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]')
+        .hasMatch(text);
+  }
+
+  /// Render text using KR font if it contains Korean characters (for ja/en),
+  /// otherwise use the locale font with sanitization.
+  static pw.Widget _buildTextWithKrFallback(
+    String text,
+    pw.Font font,
+    pw.Font? fontKr,
+    String locale, {
+    required double fontSize,
+    required PdfColor color,
+  }) {
+    final useKr = locale != 'ko' && fontKr != null && _containsKorean(text);
+    return pw.Text(
+      useKr ? text : _sanitizeForFont(text, locale),
+      style: pw.TextStyle(
+        font: useKr ? fontKr : font,
+        fontSize: fontSize,
+        color: color,
+      ),
+      overflow: pw.TextOverflow.clip,
+    );
   }
 
   /// Remove emoji codepoints that pdf package cannot render.
