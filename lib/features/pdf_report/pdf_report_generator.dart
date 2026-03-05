@@ -97,10 +97,11 @@ const _stripeBg = PdfColor.fromInt(0xFFF5F0EB);
 
 class PdfReportGenerator {
   static Future<Uint8List> generate(PdfReportData data) async {
+    final lang = data.locale == 'ko' ? 'KR' : 'JP';
     final fontData =
-        await rootBundle.load('assets/fonts/PretendardJP-Regular.otf');
+        await rootBundle.load('assets/fonts/NotoSans$lang-Regular.ttf');
     final fontBoldData =
-        await rootBundle.load('assets/fonts/PretendardJP-Bold.otf');
+        await rootBundle.load('assets/fonts/NotoSans$lang-Bold.ttf');
     final font = pw.Font.ttf(fontData);
     final fontBold = pw.Font.ttf(fontBoldData);
 
@@ -448,7 +449,7 @@ class PdfReportGenerator {
                     pw.SizedBox(width: 8),
                     pw.Expanded(
                       child: pw.Text(
-                        _stripEmoji(e.key),
+                        _sanitizeForFont(_stripEmoji(e.key), data.locale),
                         style: pw.TextStyle(
                           font: font,
                           fontSize: 16,
@@ -647,9 +648,11 @@ class PdfReportGenerator {
                     ),
                     pw.Expanded(
                       child: pw.Text(
-                        _stripEmoji(
-                            data.categoryDisplayNames[t.category] ??
-                                t.category),
+                        _sanitizeForFont(
+                            _stripEmoji(
+                                data.categoryDisplayNames[t.category] ??
+                                    t.category),
+                            data.locale),
                         style: pw.TextStyle(
                           font: font,
                           fontSize: 16,
@@ -827,6 +830,15 @@ class PdfReportGenerator {
       'ko' => '${month.year}\uB144 ${month.month}\uC6D4',
       _ => '${month.month}/${month.year}',
     };
+  }
+
+  /// Remove Korean characters when using JP font (non-ko locale).
+  static String _sanitizeForFont(String text, String locale) {
+    if (locale == 'ko') return text;
+    return text
+        .replaceAll(
+            RegExp(r'[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]'), '')
+        .trim();
   }
 
   /// Remove emoji codepoints that pdf package cannot render.
