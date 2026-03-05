@@ -168,6 +168,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get guideBudgetDesc => '月の予算を設定して管理';
 
   @override
+  String get guideBudgetEditTitle => '予算を変更';
+
+  @override
+  String guideBudgetEditDesc(String amount) {
+    return '現在 ¥$amount に設定中';
+  }
+
+  @override
   String get guideCategoryTitle => 'カテゴリ管理';
 
   @override

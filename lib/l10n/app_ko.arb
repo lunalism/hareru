@@ -75,6 +75,13 @@
   "guideExpenseDesc": "일상 지출을 간편하게 기록",
   "guideBudgetTitle": "예산 설정",
   "guideBudgetDesc": "월별 예산을 설정하고 관리",
+  "guideBudgetEditTitle": "예산 수정",
+  "guideBudgetEditDesc": "현재 ¥{amount} 설정됨",
+  "@guideBudgetEditDesc": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
   "guideCategoryTitle": "카테고리 관리",
   "guideCategoryDesc": "나만의 카테고리로 맞춤 설정",
   "preparingFeature": "준비 중",

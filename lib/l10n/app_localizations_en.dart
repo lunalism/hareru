@@ -173,6 +173,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guideBudgetDesc => 'Set and manage monthly budgets';
 
   @override
+  String get guideBudgetEditTitle => 'Edit Budget';
+
+  @override
+  String guideBudgetEditDesc(String amount) {
+    return 'Currently set to ¥$amount';
+  }
+
+  @override
   String get guideCategoryTitle => 'Manage Categories';
 
   @override

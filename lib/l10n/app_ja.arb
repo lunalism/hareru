@@ -75,6 +75,13 @@
   "guideExpenseDesc": "日々の支出を簡単に記録",
   "guideBudgetTitle": "予算を設定",
   "guideBudgetDesc": "月の予算を設定して管理",
+  "guideBudgetEditTitle": "予算を変更",
+  "guideBudgetEditDesc": "現在 ¥{amount} に設定中",
+  "@guideBudgetEditDesc": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
   "guideCategoryTitle": "カテゴリ管理",
   "guideCategoryDesc": "あなた好みにカスタマイズ",
   "preparingFeature": "準備中",

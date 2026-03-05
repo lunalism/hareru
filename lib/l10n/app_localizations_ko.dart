@@ -168,6 +168,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get guideBudgetDesc => '월별 예산을 설정하고 관리';
 
   @override
+  String get guideBudgetEditTitle => '예산 수정';
+
+  @override
+  String guideBudgetEditDesc(String amount) {
+    return '현재 ¥$amount 설정됨';
+  }
+
+  @override
   String get guideCategoryTitle => '카테고리 관리';
 
   @override

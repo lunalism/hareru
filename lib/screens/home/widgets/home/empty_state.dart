@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
+import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
+import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/screens/home/widgets/add_transaction_screen.dart';
 import 'package:hareru/screens/home/widgets/home/budget_dialog.dart';
@@ -99,13 +101,24 @@ class GuideCards extends ConsumerWidget {
     final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
 
+    final budget = ref.watch(budgetProvider);
+    final isBudgetSet = budget > 0;
+
     final guides = [
       _GuideItem(Icons.receipt_long_outlined, l10n.guideExpenseTitle,
           l10n.guideExpenseDesc, HareruColors.primaryStart, onTap: () {
         _openAddTransactionScreen(context, ref);
       }),
-      _GuideItem(Icons.account_balance_wallet_outlined, l10n.guideBudgetTitle,
-          l10n.guideBudgetDesc, HareruColors.primaryStart, onTap: () {
+      _GuideItem(
+          isBudgetSet
+              ? Icons.edit_outlined
+              : Icons.account_balance_wallet_outlined,
+          isBudgetSet ? l10n.guideBudgetEditTitle : l10n.guideBudgetTitle,
+          isBudgetSet
+              ? l10n.guideBudgetEditDesc(formatAmount(budget.toDouble()))
+              : l10n.guideBudgetDesc,
+          isBudgetSet ? HareruColors.savings : HareruColors.primaryStart,
+          isCompleted: isBudgetSet, onTap: () {
         showHomeBudgetDialog(context, ref);
       }),
       _GuideItem(Icons.category_outlined, l10n.guideCategoryTitle,
@@ -159,10 +172,17 @@ class GuideCards extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    color: c.textTertiary,
-                  ),
+                  if (g.isCompleted)
+                    Icon(
+                      Icons.check_circle_rounded,
+                      color: HareruColors.savings,
+                      size: 22,
+                    )
+                  else
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      color: c.textTertiary,
+                    ),
                 ],
               ),
             ),
@@ -178,6 +198,8 @@ class _GuideItem {
   final String title;
   final String desc;
   final Color color;
+  final bool isCompleted;
   final VoidCallback? onTap;
-  const _GuideItem(this.icon, this.title, this.desc, this.color, {this.onTap});
+  const _GuideItem(this.icon, this.title, this.desc, this.color,
+      {this.isCompleted = false, this.onTap});
 }

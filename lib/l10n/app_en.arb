@@ -75,6 +75,13 @@
   "guideExpenseDesc": "Easily track your daily spending",
   "guideBudgetTitle": "Set Budget",
   "guideBudgetDesc": "Set and manage monthly budgets",
+  "guideBudgetEditTitle": "Edit Budget",
+  "guideBudgetEditDesc": "Currently set to ¥{amount}",
+  "@guideBudgetEditDesc": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
   "guideCategoryTitle": "Manage Categories",
   "guideCategoryDesc": "Customize to your preferences",
   "preparingFeature": "Coming soon",

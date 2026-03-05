@@ -406,6 +406,18 @@ abstract class AppLocalizations {
   /// **'月の予算を設定して管理'**
   String get guideBudgetDesc;
 
+  /// No description provided for @guideBudgetEditTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算を変更'**
+  String get guideBudgetEditTitle;
+
+  /// No description provided for @guideBudgetEditDesc.
+  ///
+  /// In ja, this message translates to:
+  /// **'現在 ¥{amount} に設定中'**
+  String guideBudgetEditDesc(String amount);
+
   /// No description provided for @guideCategoryTitle.
   ///
   /// In ja, this message translates to:
