@@ -20,6 +20,8 @@ import 'package:hareru/screens/settings/legal_webview_screen.dart';
 import 'package:hareru/screens/settings/widgets/contact_sheet.dart';
 import 'package:hareru/screens/settings/widgets/data_management.dart';
 import 'package:hareru/screens/settings/widgets/settings_dialogs.dart';
+import 'package:flutter/services.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -351,6 +353,37 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                   ),
                 ],
+              ),
+              // Debug: RevenueCat App User ID
+              FutureBuilder<String>(
+                future: Future(() => Purchases.appUserID),
+                builder: (context, snapshot) {
+                  final uid = snapshot.data ?? '...';
+                  return GestureDetector(
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(text: uid));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Copied'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        'RC: $uid',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: isDark
+                              ? HareruColors.darkTextTertiary
+                              : HareruColors.lightTextTertiary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 40),
             ],
