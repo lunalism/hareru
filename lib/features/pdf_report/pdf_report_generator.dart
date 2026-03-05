@@ -92,19 +92,22 @@ const _categoryPdfColors = [
 ];
 
 // ── Type accent colors ──
-const _expenseColor = PdfColor.fromInt(0xFFE8534A);
-const _transferColor = PdfColor.fromInt(0xFF5B8DEF);
-const _savingsColor = PdfColor.fromInt(0xFF10B981);
-const _incomeColor = PdfColor.fromInt(0xFF6366F1);
+const _expenseColor = PdfColor.fromInt(0xFFE05555);
+const _transferColor = PdfColor.fromInt(0xFF7A7A8A);
+const _savingsColor = PdfColor.fromInt(0xFF2ECC8A);
+const _incomeColor = PdfColor.fromInt(0xFF1B3A6B);
 
-// ── Minimal palette ──
-const _textPrimary = PdfColor.fromInt(0xFF2D2D2D);
-const _textSecondary = PdfColor.fromInt(0xFF888888);
-const _textTertiary = PdfColor.fromInt(0xFFBBBBBB);
-const _brandRed = PdfColor.fromInt(0xFFE8534A);
-const _border = PdfColor.fromInt(0xFFEEEEEE);
-const _cream = PdfColor.fromInt(0xFFFFF8F5);
-const _stripeBg = PdfColor.fromInt(0xFFF8F8F8);
+// ── Navy + Cream palette ──
+const _textPrimary = PdfColor.fromInt(0xFF1A1A2E);
+const _textSecondary = PdfColor.fromInt(0xFF7A7A8A);
+const _textTertiary = PdfColor.fromInt(0xFFB0B0B8);
+const _navy = PdfColor.fromInt(0xFF1B3A6B);
+const _navyLight = PdfColor.fromInt(0xFF2E5299);
+const _accentGreen = PdfColor.fromInt(0xFF2ECC8A);
+const _accentRed = PdfColor.fromInt(0xFFE05555);
+const _border = PdfColor.fromInt(0xFFE8E0D4);
+const _creamLight = PdfColor.fromInt(0xFFFAF3E8);
+const _stripeBg = PdfColor.fromInt(0xFFFAF3E8);
 
 class PdfReportGenerator {
   static Future<Uint8List> generate(PdfReportData data) async {
@@ -197,7 +200,7 @@ class PdfReportGenerator {
       width: double.infinity,
       padding: const pw.EdgeInsets.symmetric(horizontal: 24, vertical: 14),
       decoration: const pw.BoxDecoration(
-        color: _brandRed,
+        color: _navy,
         borderRadius: pw.BorderRadius.all(pw.Radius.circular(12)),
       ),
       child: pw.Row(
@@ -254,7 +257,7 @@ class PdfReportGenerator {
                     style: pw.TextStyle(
                       font: font,
                       fontSize: 12,
-                      color: const PdfColor.fromInt(0xFFFFD4D1),
+                      color: const PdfColor.fromInt(0xFFABC4E8),
                     ),
                   ),
                 ),
@@ -277,7 +280,7 @@ class PdfReportGenerator {
       width: double.infinity,
       padding: const pw.EdgeInsets.all(24),
       decoration: pw.BoxDecoration(
-        color: _cream,
+        color: _creamLight,
         borderRadius: const pw.BorderRadius.all(pw.Radius.circular(14)),
         border: pw.Border.all(color: _border, width: 1),
       ),
@@ -299,7 +302,7 @@ class PdfReportGenerator {
               font: fontBold,
               fontSize: 42,
               fontWeight: pw.FontWeight.bold,
-              color: _brandRed,
+              color: _navy,
             ),
           ),
           pw.SizedBox(height: 14),
@@ -348,8 +351,8 @@ class PdfReportGenerator {
                   fontSize: 12,
                   fontWeight: pw.FontWeight.bold,
                   color: data.expenseTotal > data.budget
-                      ? const PdfColor.fromInt(0xFFEF4444)
-                      : const PdfColor.fromInt(0xFF10B981),
+                      ? _accentRed
+                      : _accentGreen,
                 ),
               ),
             ),
@@ -532,10 +535,10 @@ class PdfReportGenerator {
     final isOver = remaining < 0;
 
     final barColor = progress > 0.9
-        ? const PdfColor.fromInt(0xFFEF4444)
+        ? _accentRed
         : progress > 0.7
             ? const PdfColor.fromInt(0xFFF59E0B)
-            : _brandRed;
+            : _navyLight;
 
     return pw.Container(
       width: double.infinity,
@@ -606,9 +609,7 @@ class PdfReportGenerator {
             style: pw.TextStyle(
               font: font,
               fontSize: 12,
-              color: isOver
-                  ? const PdfColor.fromInt(0xFFEF4444)
-                  : _textSecondary,
+              color: isOver ? _accentRed : _textSecondary,
             ),
           ),
         ],
@@ -623,12 +624,12 @@ class PdfReportGenerator {
     final sections = <pw.Widget>[];
 
     final typeGroups = [
-      (data.lExpense, TransactionType.expense, _expenseColor),
-      (data.lTransfer, TransactionType.transfer, _transferColor),
-      (data.lSavings, TransactionType.savings, _savingsColor),
+      (data.lExpense, TransactionType.expense, _accentRed, _accentRed),
+      (data.lTransfer, TransactionType.transfer, _navyLight, _navyLight),
+      (data.lSavings, TransactionType.savings, _savingsColor, _savingsColor),
     ];
 
-    for (final (label, type, accentColor) in typeGroups) {
+    for (final (label, type, lineColor, amountColor) in typeGroups) {
       final txns = data.transactions
           .where((t) => t.type == type)
           .toList()
@@ -650,7 +651,7 @@ class PdfReportGenerator {
                   left: 12, top: 10, bottom: 10),
               decoration: pw.BoxDecoration(
                 border: pw.Border(
-                  left: pw.BorderSide(color: accentColor, width: 3),
+                  left: pw.BorderSide(color: lineColor, width: 3),
                 ),
               ),
               child: pw.Text(
@@ -706,7 +707,7 @@ class PdfReportGenerator {
                         font: fontBold,
                         fontSize: 13,
                         fontWeight: pw.FontWeight.bold,
-                        color: accentColor,
+                        color: amountColor,
                       ),
                     ),
                   ],
@@ -749,10 +750,10 @@ class PdfReportGenerator {
       padding: const pw.EdgeInsets.only(
           left: 16, top: 20, right: 22, bottom: 20),
       decoration: pw.BoxDecoration(
-        color: _cream,
+        color: _creamLight,
         borderRadius: const pw.BorderRadius.all(pw.Radius.circular(12)),
         border: pw.Border(
-          left: const pw.BorderSide(color: _brandRed, width: 3),
+          left: const pw.BorderSide(color: _navy, width: 3),
           top: pw.BorderSide(color: _border, width: 1),
           right: pw.BorderSide(color: _border, width: 1),
           bottom: pw.BorderSide(color: _border, width: 1),
