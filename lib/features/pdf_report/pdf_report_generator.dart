@@ -98,9 +98,9 @@ const _stripeBg = PdfColor.fromInt(0xFFF5F0EB);
 class PdfReportGenerator {
   static Future<Uint8List> generate(PdfReportData data) async {
     final fontData =
-        await rootBundle.load('assets/fonts/MPLUSRounded1c-Regular.ttf');
+        await rootBundle.load('assets/fonts/PretendardJP-Regular.otf');
     final fontBoldData =
-        await rootBundle.load('assets/fonts/MPLUSRounded1c-Bold.ttf');
+        await rootBundle.load('assets/fonts/PretendardJP-Bold.otf');
     final font = pw.Font.ttf(fontData);
     final fontBold = pw.Font.ttf(fontBoldData);
 
