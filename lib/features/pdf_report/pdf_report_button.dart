@@ -179,7 +179,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
         catMap[name] = (catMap[name] ?? 0) + t.amount;
       }
 
-      // Build insights (same logic as report screen)
+      // Build insights (3 lines: top category, budget/comparison, advice)
       final insights = <String>[];
       final prevMonth = DateTime(month.year, month.month - 1);
       final prevTxns = allTxns
@@ -191,10 +191,33 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
           .where((t) => t.type == TransactionType.expense)
           .fold(0.0, (sum, t) => sum + t.amount);
 
+      String? topCategoryName;
       if (expenseTotal == 0 && incomeTotal == 0) {
         insights.add(l10n.needMoreData);
       } else {
-        if (prevExpenseTotal > 0) {
+        // Line 1: Top spending category + percentage
+        if (catMap.isNotEmpty) {
+          final sorted = catMap.entries.toList()
+            ..sort((a, b) => b.value.compareTo(a.value));
+          final top = sorted.first;
+          topCategoryName = top.key;
+          final percent = expenseTotal > 0
+              ? (top.value / expenseTotal * 100).toStringAsFixed(0)
+              : '0';
+          insights.add(l10n.topCategory(top.key, percent));
+        }
+        // Line 2: Budget pace or month-over-month comparison
+        if (budget > 0) {
+          final remaining = budget - expenseTotal;
+          if (remaining >= 0) {
+            final usedPercent =
+                (expenseTotal / budget * 100).toStringAsFixed(1);
+            insights.add(l10n.pdfBudgetPaceGood(usedPercent));
+          } else {
+            insights.add(l10n.pdfBudgetPaceOver(
+                '\u00a5${_formatAmount(remaining.abs())}'));
+          }
+        } else if (prevExpenseTotal > 0) {
           final diff = prevExpenseTotal - expenseTotal;
           if (diff > 0) {
             insights.add(
@@ -204,23 +227,11 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
                 .spentMoreThanLastMonth('\u00a5${_formatAmount(diff.abs())}'));
           }
         }
-        if (catMap.isNotEmpty) {
-          final sorted = catMap.entries.toList()
-            ..sort((a, b) => b.value.compareTo(a.value));
-          final top = sorted.first;
-          final percent = expenseTotal > 0
-              ? (top.value / expenseTotal * 100).toStringAsFixed(0)
-              : '0';
-          insights.add(l10n.topCategory(top.key, percent));
-        }
-        if (budget > 0) {
-          final remaining = budget - expenseTotal;
-          if (remaining >= 0) {
-            insights.add(l10n.withinBudget);
-          } else {
-            insights.add(l10n
-                .overBudgetReport('\u00a5${_formatAmount(remaining.abs())}'));
-          }
+        // Line 3: Actionable advice
+        if (topCategoryName != null) {
+          insights.add(l10n.pdfAdviceTopCategory(topCategoryName));
+        } else {
+          insights.add(l10n.pdfAdviceGeneral);
         }
         if (insights.isEmpty) {
           insights.add(l10n.needMoreData);
@@ -269,6 +280,11 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
         lAndMore: l10n.pdfAndMore,
         lGeneratedOn: l10n.pdfGeneratedOn,
         lOverBudget: l10n.pdfOverBudget,
+        lBudgetUsage: l10n.pdfBudgetUsage,
+        lBudgetPaceGood: l10n.pdfBudgetPaceGood,
+        lBudgetPaceOver: l10n.pdfBudgetPaceOver,
+        lAdviceTopCategory: l10n.pdfAdviceTopCategory,
+        lAdviceGeneral: l10n.pdfAdviceGeneral,
       );
 
       final pdfBytes = await PdfReportGenerator.generate(reportData);

@@ -635,6 +635,29 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String pdfBudgetUsage(String budget, String used, String percent) {
+    return '予算 $budget 中 $used 使用 ($percent%)';
+  }
+
+  @override
+  String pdfBudgetPaceGood(String percent) {
+    return '予算の$percent%を使用しており、良いペースです';
+  }
+
+  @override
+  String pdfBudgetPaceOver(String amount) {
+    return '予算を$amount超過しています。支出を見直しましょう';
+  }
+
+  @override
+  String pdfAdviceTopCategory(String category) {
+    return '来月も$categoryの見直しを検討してみましょう';
+  }
+
+  @override
+  String get pdfAdviceGeneral => 'コツコツ記録することが節約への第一歩です';
+
+  @override
   String get pdfBrandFooter => 'Hareru - スマート家計簿';
 
   @override

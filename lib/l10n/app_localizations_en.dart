@@ -642,6 +642,30 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String pdfBudgetUsage(String budget, String used, String percent) {
+    return 'Budget $budget: $used used ($percent%)';
+  }
+
+  @override
+  String pdfBudgetPaceGood(String percent) {
+    return 'You\'ve used $percent% of your budget — good pace!';
+  }
+
+  @override
+  String pdfBudgetPaceOver(String amount) {
+    return 'You\'re $amount over budget. Consider reducing spending';
+  }
+
+  @override
+  String pdfAdviceTopCategory(String category) {
+    return 'Keep an eye on $category spending next month too';
+  }
+
+  @override
+  String get pdfAdviceGeneral =>
+      'Consistent tracking is the first step to saving';
+
+  @override
   String get pdfBrandFooter => 'Hareru - Smart Budget App';
 
   @override

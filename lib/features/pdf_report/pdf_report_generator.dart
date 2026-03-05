@@ -35,6 +35,11 @@ class PdfReportData {
   final String Function(int) lAndMore;
   final String Function(String) lGeneratedOn;
   final String lOverBudget;
+  final String Function(String, String, String) lBudgetUsage;
+  final String Function(String) lBudgetPaceGood;
+  final String Function(String) lBudgetPaceOver;
+  final String Function(String) lAdviceTopCategory;
+  final String lAdviceGeneral;
 
   PdfReportData({
     required this.month,
@@ -64,6 +69,11 @@ class PdfReportData {
     required this.lAndMore,
     required this.lGeneratedOn,
     required this.lOverBudget,
+    required this.lBudgetUsage,
+    required this.lBudgetPaceGood,
+    required this.lBudgetPaceOver,
+    required this.lAdviceTopCategory,
+    required this.lAdviceGeneral,
   });
 }
 
@@ -327,6 +337,35 @@ class PdfReportGenerator {
               ],
             ),
           ),
+          if (data.budget > 0) ...[
+            pw.SizedBox(height: 10),
+            pw.Container(
+              width: double.infinity,
+              padding:
+                  const pw.EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: pw.BoxDecoration(
+                color: const PdfColor.fromInt(0xFFF0FFF4),
+                borderRadius:
+                    const pw.BorderRadius.all(pw.Radius.circular(10)),
+              ),
+              child: pw.Text(
+                data.lBudgetUsage(
+                  _yen(data.budget.toDouble()),
+                  _yen(data.expenseTotal),
+                  (data.expenseTotal / data.budget * 100)
+                      .toStringAsFixed(1),
+                ),
+                style: pw.TextStyle(
+                  font: fontBold,
+                  fontSize: 14,
+                  fontWeight: pw.FontWeight.bold,
+                  color: data.expenseTotal > data.budget
+                      ? const PdfColor.fromInt(0xFFEF4444)
+                      : const PdfColor.fromInt(0xFF10B981),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -610,12 +649,12 @@ class PdfReportGenerator {
     final sections = <pw.Widget>[];
 
     final typeGroups = [
-      (data.lExpense, TransactionType.expense, _expenseColor),
-      (data.lTransfer, TransactionType.transfer, _transferColor),
-      (data.lSavings, TransactionType.savings, _savingsColor),
+      (data.lExpense, TransactionType.expense, _expenseColor, _headerBg),
+      (data.lTransfer, TransactionType.transfer, _transferColor, _headerBg),
+      (data.lSavings, TransactionType.savings, _savingsColor, _headerBg),
     ];
 
-    for (final (label, type, color) in typeGroups) {
+    for (final (label, type, color, headerColor) in typeGroups) {
       final txns = data.transactions
           .where((t) => t.type == type)
           .toList()
@@ -636,12 +675,12 @@ class PdfReportGenerator {
               padding: const pw.EdgeInsets.symmetric(
                   horizontal: 14, vertical: 10),
               decoration: pw.BoxDecoration(
-                color: color,
+                color: headerColor,
                 borderRadius:
                     const pw.BorderRadius.all(pw.Radius.circular(10)),
               ),
               child: pw.Text(
-                '$label  ${data.lTransactionCount(txns.length)}',
+                '$label  ${_transactionCountText(data, txns.length)}',
                 style: pw.TextStyle(
                   font: fontBold,
                   fontSize: 18,
@@ -856,6 +895,14 @@ class PdfReportGenerator {
       'ko' => '${month.year}\uB144 ${month.month}\uC6D4',
       _ => '${month.month}/${month.year}',
     };
+  }
+
+  /// Handle English singular/plural for transaction count.
+  static String _transactionCountText(PdfReportData data, int count) {
+    if (data.locale == 'en' && count == 1) {
+      return '1 transaction';
+    }
+    return data.lTransactionCount(count);
   }
 
   /// Remove Korean characters when using JP font (non-ko locale).

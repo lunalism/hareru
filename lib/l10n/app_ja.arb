@@ -314,6 +314,33 @@
       }
     }
   },
+  "pdfBudgetUsage": "予算 {budget} 中 {used} 使用 ({percent}%)",
+  "@pdfBudgetUsage": {
+    "placeholders": {
+      "budget": { "type": "String" },
+      "used": { "type": "String" },
+      "percent": { "type": "String" }
+    }
+  },
+  "pdfBudgetPaceGood": "予算の{percent}%を使用しており、良いペースです",
+  "@pdfBudgetPaceGood": {
+    "placeholders": {
+      "percent": { "type": "String" }
+    }
+  },
+  "pdfBudgetPaceOver": "予算を{amount}超過しています。支出を見直しましょう",
+  "@pdfBudgetPaceOver": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "pdfAdviceTopCategory": "来月も{category}の見直しを検討してみましょう",
+  "@pdfAdviceTopCategory": {
+    "placeholders": {
+      "category": { "type": "String" }
+    }
+  },
+  "pdfAdviceGeneral": "コツコツ記録することが節約への第一歩です",
   "pdfBrandFooter": "Hareru - スマート家計簿",
   "addExpense": "支出を記録",
   "addIncome": "収入を記録",

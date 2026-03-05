@@ -635,6 +635,29 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String pdfBudgetUsage(String budget, String used, String percent) {
+    return '예산 $budget 중 $used 사용 ($percent%)';
+  }
+
+  @override
+  String pdfBudgetPaceGood(String percent) {
+    return '예산의 $percent%를 사용 중이며, 양호한 페이스예요';
+  }
+
+  @override
+  String pdfBudgetPaceOver(String amount) {
+    return '예산을 $amount 초과했어요. 지출을 줄여보세요';
+  }
+
+  @override
+  String pdfAdviceTopCategory(String category) {
+    return '다음 달에도 $category 지출을 점검해 보세요';
+  }
+
+  @override
+  String get pdfAdviceGeneral => '꾸준한 기록이 절약의 첫걸음이에요';
+
+  @override
   String get pdfBrandFooter => 'Hareru - 스마트 가계부';
 
   @override

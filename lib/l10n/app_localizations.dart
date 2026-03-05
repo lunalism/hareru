@@ -1288,6 +1288,36 @@ abstract class AppLocalizations {
   /// **'作成日: {date}'**
   String pdfGeneratedOn(String date);
 
+  /// No description provided for @pdfBudgetUsage.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算 {budget} 中 {used} 使用 ({percent}%)'**
+  String pdfBudgetUsage(String budget, String used, String percent);
+
+  /// No description provided for @pdfBudgetPaceGood.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算の{percent}%を使用しており、良いペースです'**
+  String pdfBudgetPaceGood(String percent);
+
+  /// No description provided for @pdfBudgetPaceOver.
+  ///
+  /// In ja, this message translates to:
+  /// **'予算を{amount}超過しています。支出を見直しましょう'**
+  String pdfBudgetPaceOver(String amount);
+
+  /// No description provided for @pdfAdviceTopCategory.
+  ///
+  /// In ja, this message translates to:
+  /// **'来月も{category}の見直しを検討してみましょう'**
+  String pdfAdviceTopCategory(String category);
+
+  /// No description provided for @pdfAdviceGeneral.
+  ///
+  /// In ja, this message translates to:
+  /// **'コツコツ記録することが節約への第一歩です'**
+  String get pdfAdviceGeneral;
+
   /// No description provided for @pdfBrandFooter.
   ///
   /// In ja, this message translates to:

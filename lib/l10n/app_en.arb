@@ -314,6 +314,33 @@
       }
     }
   },
+  "pdfBudgetUsage": "Budget {budget}: {used} used ({percent}%)",
+  "@pdfBudgetUsage": {
+    "placeholders": {
+      "budget": { "type": "String" },
+      "used": { "type": "String" },
+      "percent": { "type": "String" }
+    }
+  },
+  "pdfBudgetPaceGood": "You've used {percent}% of your budget — good pace!",
+  "@pdfBudgetPaceGood": {
+    "placeholders": {
+      "percent": { "type": "String" }
+    }
+  },
+  "pdfBudgetPaceOver": "You're {amount} over budget. Consider reducing spending",
+  "@pdfBudgetPaceOver": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "pdfAdviceTopCategory": "Keep an eye on {category} spending next month too",
+  "@pdfAdviceTopCategory": {
+    "placeholders": {
+      "category": { "type": "String" }
+    }
+  },
+  "pdfAdviceGeneral": "Consistent tracking is the first step to saving",
   "pdfBrandFooter": "Hareru - Smart Budget App",
   "addExpense": "Add Expense",
   "addIncome": "Add Income",
