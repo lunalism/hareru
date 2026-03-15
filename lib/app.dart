@@ -6,6 +6,7 @@ import 'package:hareru/core/providers/dark_mode_provider.dart';
 import 'package:hareru/core/providers/locale_provider.dart';
 import 'package:hareru/core/theme/app_theme.dart';
 import 'package:hareru/l10n/app_localizations.dart';
+import 'package:hareru/features/auth/login_choice_screen.dart';
 import 'package:hareru/screens/main_screen.dart';
 import 'package:hareru/screens/onboarding_screen.dart';
 import 'package:hareru/screens/splash_screen.dart';
@@ -16,6 +17,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/splash',
       builder: (context, state) => const SplashScreen(),
+    ),
+    GoRoute(
+      path: '/login-choice',
+      builder: (context, state) => const LoginChoiceScreen(),
     ),
     GoRoute(
       path: '/onboarding',

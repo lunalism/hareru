@@ -1,32 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hareru/core/constants/colors.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/features/auth/auth_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 
-class AuthScreen extends ConsumerStatefulWidget {
-  const AuthScreen({super.key});
+class LoginChoiceScreen extends ConsumerStatefulWidget {
+  const LoginChoiceScreen({super.key});
 
   @override
-  ConsumerState<AuthScreen> createState() => _AuthScreenState();
+  ConsumerState<LoginChoiceScreen> createState() => _LoginChoiceScreenState();
 }
 
-class _AuthScreenState extends ConsumerState<AuthScreen> {
+class _LoginChoiceScreenState extends ConsumerState<LoginChoiceScreen> {
   bool _isLoading = false;
 
   Future<void> _signInWithApple() async {
     setState(() => _isLoading = true);
     try {
       await ref.read(authServiceProvider).signInWithApple();
-      if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.loginSuccess)),
-        );
-        Navigator.pop(context);
-      }
+      if (mounted) context.go('/onboarding');
     } catch (e) {
       if (mounted) {
         final l10n = AppLocalizations.of(context)!;
@@ -39,6 +33,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
   }
 
+  void _continueAsGuest() {
+    context.go('/onboarding');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,71 +45,47 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     return Scaffold(
       backgroundColor: c.background,
-      appBar: AppBar(
-        backgroundColor: c.background,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: c.textPrimary,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          l10n.login,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: c.textPrimary,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Column(
             children: [
-              const Spacer(flex: 2),
+              const Spacer(flex: 3),
 
               // Logo
               SvgPicture.asset(
                 isDark
                     ? 'assets/icon/hareru-symbol-white.svg'
                     : 'assets/icon/hareru-symbol-color.svg',
-                width: 64,
-                height: 64,
+                width: 72,
+                height: 72,
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 24),
 
-              // Description
+              // Welcome title
               Text(
-                l10n.loginDescription,
+                l10n.welcomeTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: c.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              // Subtitle
+              Text(
+                l10n.welcomeSubtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
                   color: c.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // Benefits
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _benefitRow(l10n.loginBenefitBank, c),
-                    const SizedBox(height: 6),
-                    _benefitRow(l10n.loginBenefitAI, c),
-                    const SizedBox(height: 6),
-                    _benefitRow(l10n.loginBenefitBackup, c),
-                  ],
+                  height: 1.5,
                 ),
               ),
 
-              const Spacer(flex: 3),
+              const Spacer(flex: 4),
 
               // Apple Sign In button
               SizedBox(
@@ -157,17 +130,29 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
-              // Skip button
+              // Guest button
               GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: _isLoading ? null : _continueAsGuest,
                 child: Text(
-                  l10n.skipLogin,
+                  l10n.continueAsGuest,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
                     color: c.textSecondary,
                   ),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Backup hint
+              Text(
+                l10n.loginBackupHint,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: c.textTertiary,
                 ),
               ),
 
@@ -176,22 +161,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _benefitRow(String text, HareruThemeColors c) {
-    return Row(
-      children: [
-        Text(
-          '\u{2022}',
-          style: TextStyle(fontSize: 14, color: c.textSecondary),
-        ),
-        const SizedBox(width: 8),
-        Text(
-          text,
-          style: TextStyle(fontSize: 14, color: c.textSecondary),
-        ),
-      ],
     );
   }
 }

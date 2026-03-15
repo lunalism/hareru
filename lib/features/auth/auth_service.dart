@@ -43,10 +43,6 @@ class AuthService {
     return response;
   }
 
-  Future<AuthResponse> signInWithGoogle() async {
-    // TODO: re-enable after GIDClientID setup
-    throw const AuthException('Google Sign-In is not available yet.');
-  }
 
   Future<void> signOut() async {
     await RevenueCatService.logout();

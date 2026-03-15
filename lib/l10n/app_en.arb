@@ -238,6 +238,7 @@
   "reminderTime": "Reminder Time",
   "data": "Data",
   "backupData": "Backup Data",
+  "backupWarning": "The backup file contains your transaction history, budget, and settings. Please store it in a safe place.",
   "restoreData": "Restore Data",
   "resetData": "Reset Data",
   "restoreConfirm": "Current data will be overwritten. Continue?",
@@ -409,7 +410,6 @@
   "loginBenefitAI": "AI Insights (paid)",
   "loginBenefitBackup": "Cloud data backup",
   "signInWithApple": "Sign in with Apple",
-  "signInWithGoogle": "Sign in with Google",
   "skipLogin": "Skip and continue",
   "loginSuccess": "Login successful",
   "loginError": "Login failed",
@@ -480,7 +480,6 @@
   "purchaseError": "Purchase failed",
   "purchaseNotAvailable": "Purchases not available",
 
-  "adPlaceholder": "Ad — Remove with Clear",
   "purchaseNotAvailableDesc": "In-app purchases are currently unavailable. Please try again later.",
   "restoreNoPurchase": "No purchases to restore",
 
@@ -515,5 +514,10 @@
   "difficultyBasic": "Basic",
   "difficultyIntermediate": "Intermediate",
   "difficultyAdvanced": "Advanced",
-  "noBookmarks": "No bookmarks yet"
+  "noBookmarks": "No bookmarks yet",
+
+  "welcomeTitle": "Welcome to Hareru",
+  "welcomeSubtitle": "Smart expense tracking\nthat separates real spending from transfers",
+  "continueAsGuest": "Start without an account",
+  "loginBackupHint": "Sign in to safely back up your data to the cloud"
 }

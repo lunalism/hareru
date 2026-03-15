@@ -5,7 +5,7 @@ import 'package:hareru/core/utils/number_formatter.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
 
-class BreakdownCard extends StatelessWidget {
+class BreakdownCard extends StatefulWidget {
   const BreakdownCard({
     super.key,
     required this.isDark,
@@ -15,9 +15,49 @@ class BreakdownCard extends StatelessWidget {
   final bool isDark;
   final List<Transaction> transactions;
 
-  double _totalByType(TransactionType type) => transactions
-      .where((t) => t.type == type)
-      .fold(0.0, (sum, t) => sum + t.amount);
+  @override
+  State<BreakdownCard> createState() => _BreakdownCardState();
+}
+
+class _BreakdownCardState extends State<BreakdownCard> {
+  double _expense = 0;
+  double _transfer = 0;
+  double _savings = 0;
+  double _income = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _computeTotals();
+  }
+
+  @override
+  void didUpdateWidget(covariant BreakdownCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.transactions != widget.transactions) {
+      _computeTotals();
+    }
+  }
+
+  void _computeTotals() {
+    double expense = 0, transfer = 0, savings = 0, income = 0;
+    for (final t in widget.transactions) {
+      switch (t.type) {
+        case TransactionType.expense:
+          expense += t.amount;
+        case TransactionType.transfer:
+          transfer += t.amount;
+        case TransactionType.savings:
+          savings += t.amount;
+        case TransactionType.income:
+          income += t.amount;
+      }
+    }
+    _expense = expense;
+    _transfer = transfer;
+    _savings = savings;
+    _income = income;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,21 +85,21 @@ class BreakdownCard extends StatelessWidget {
             children: [
               _TypeColumn(
                 label: l10n.expense,
-                amount: '¥${formatAmount(_totalByType(TransactionType.expense))}',
+                amount: '¥${formatAmount(_expense)}',
                 typeColor: HareruColors.expense,
                 labelColor: c.textSecondary,
               ),
               Container(width: 1, height: 32, color: c.divider),
               _TypeColumn(
                 label: l10n.transfer,
-                amount: '¥${formatAmount(_totalByType(TransactionType.transfer))}',
+                amount: '¥${formatAmount(_transfer)}',
                 typeColor: HareruColors.transferBlue,
                 labelColor: c.textSecondary,
               ),
               Container(width: 1, height: 32, color: c.divider),
               _TypeColumn(
                 label: l10n.savings,
-                amount: '¥${formatAmount(_totalByType(TransactionType.savings))}',
+                amount: '¥${formatAmount(_savings)}',
                 typeColor: HareruColors.savings,
                 labelColor: c.textSecondary,
               ),
@@ -89,7 +129,7 @@ class BreakdownCard extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                '¥${formatAmount(_totalByType(TransactionType.income))}',
+                '¥${formatAmount(_income)}',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

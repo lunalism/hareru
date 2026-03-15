@@ -469,6 +469,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupData => 'Backup Data';
 
   @override
+  String get backupWarning =>
+      'The backup file contains your transaction history, budget, and settings. Please store it in a safe place.';
+
+  @override
   String get restoreData => 'Restore Data';
 
   @override
@@ -810,9 +814,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInWithApple => 'Sign in with Apple';
 
   @override
-  String get signInWithGoogle => 'Sign in with Google';
-
-  @override
   String get skipLogin => 'Skip and continue';
 
   @override
@@ -1005,9 +1006,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get purchaseNotAvailable => 'Purchases not available';
 
   @override
-  String get adPlaceholder => 'Ad — Remove with Clear';
-
-  @override
   String get purchaseNotAvailableDesc =>
       'In-app purchases are currently unavailable. Please try again later.';
 
@@ -1059,4 +1057,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noBookmarks => 'No bookmarks yet';
+
+  @override
+  String get welcomeTitle => 'Welcome to Hareru';
+
+  @override
+  String get welcomeSubtitle =>
+      'Smart expense tracking\nthat separates real spending from transfers';
+
+  @override
+  String get continueAsGuest => 'Start without an account';
+
+  @override
+  String get loginBackupHint =>
+      'Sign in to safely back up your data to the cloud';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:hareru/models/category.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hareru/core/services/hive_encryption_service.dart';
 
 const _boxName = 'categories';
 
@@ -10,7 +11,7 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   }
 
   Future<void> _init() async {
-    final box = await Hive.openBox<Category>(_boxName);
+    final box = await HiveEncryptionService.openBox<Category>(_boxName);
     if (box.isEmpty) {
       await _seedDefaults(box);
     }
@@ -34,7 +35,7 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   }
 
   Future<void> addCategory(String name, String emoji, String type) async {
-    final box = await Hive.openBox<Category>(_boxName);
+    final box = await HiveEncryptionService.openBox<Category>(_boxName);
     final existing = getCategoriesByType(type);
     final maxSort =
         existing.isEmpty ? 0 : existing.map((c) => c.sortOrder).reduce((a, b) => a > b ? a : b);
@@ -52,7 +53,7 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   }
 
   Future<void> updateCategory(String id, String name, String emoji) async {
-    final box = await Hive.openBox<Category>(_boxName);
+    final box = await HiveEncryptionService.openBox<Category>(_boxName);
     final existing = box.get(id);
     if (existing == null) return;
     final updated = Category(
@@ -69,13 +70,13 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   }
 
   Future<void> deleteCategory(String id) async {
-    final box = await Hive.openBox<Category>(_boxName);
+    final box = await HiveEncryptionService.openBox<Category>(_boxName);
     await box.delete(id);
     _loadFromBox(box);
   }
 
   Future<void> reorderCategories(String type, List<String> orderedIds) async {
-    final box = await Hive.openBox<Category>(_boxName);
+    final box = await HiveEncryptionService.openBox<Category>(_boxName);
     for (var i = 0; i < orderedIds.length; i++) {
       final existing = box.get(orderedIds[i]);
       if (existing != null) {

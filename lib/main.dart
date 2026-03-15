@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/app.dart';
+import 'package:hareru/core/services/hive_encryption_service.dart';
 import 'package:hareru/core/services/notification_service.dart';
 import 'package:hareru/core/services/revenue_cat_service.dart';
 import 'package:hareru/core/services/widget_data_service.dart';
@@ -22,6 +23,7 @@ void main() async {
   Hive.registerAdapter(TransactionTypeAdapter());
   Hive.registerAdapter(TransactionAdapter());
   Hive.registerAdapter(CategoryAdapter());
+  await HiveEncryptionService.init();
   await NotificationService.init();
   await WidgetDataService.init();
   await RevenueCatService.init();

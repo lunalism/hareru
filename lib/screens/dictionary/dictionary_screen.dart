@@ -6,7 +6,6 @@ import 'package:hareru/features/dictionary/bookmark_provider.dart';
 import 'package:hareru/features/dictionary/dictionary_providers.dart';
 import 'package:hareru/features/dictionary/models/dictionary_term.dart';
 import 'package:hareru/features/dictionary/viewed_terms_provider.dart';
-import 'package:hareru/features/subscription/ad_placeholder.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 
 class _CategoryChip {
@@ -208,7 +207,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                       if (todaysTerm.summary(lang) != null) ...[
                         const SizedBox(height: 2),
                         Text(
-                          todaysTerm.summary(lang)!,
+                          todaysTerm.summary(lang) ?? '',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -474,18 +473,12 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
       AppLocalizations l10n) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      itemCount: terms.length + 2, // +1 AI banner, +1 ad placeholder
+      itemCount: terms.length + 1, // +1 AI banner
       itemBuilder: (_, i) {
         if (i == terms.length) {
           return Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(top: 8, bottom: 100),
             child: _buildAiBanner(isDark, l10n),
-          );
-        }
-        if (i == terms.length + 1) {
-          return const Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: AdPlaceholder(),
           );
         }
         final term = terms[i];
@@ -792,7 +785,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                 _sectionHeader(l10n.sectionExplanation, isDark),
                 const SizedBox(height: 8),
                 Text(
-                  term.description(lang)!,
+                  term.description(lang) ?? '',
                   style: TextStyle(
                     fontSize: 15,
                     height: 1.6,
@@ -818,7 +811,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    term.example(lang)!,
+                    term.example(lang) ?? '',
                     style: TextStyle(
                       fontSize: 14,
                       height: 1.6,

@@ -464,6 +464,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get backupData => 'データをバックアップ';
 
   @override
+  String get backupWarning => 'バックアップファイルには取引履歴・予算・設定が含まれます。安全な場所に保管してください。';
+
+  @override
   String get restoreData => 'データを復元';
 
   @override
@@ -802,9 +805,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get signInWithApple => 'Appleでサインイン';
 
   @override
-  String get signInWithGoogle => 'Googleでサインイン';
-
-  @override
   String get skipLogin => 'スキップして続ける';
 
   @override
@@ -997,9 +997,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get purchaseNotAvailable => '現在購入できません';
 
   @override
-  String get adPlaceholder => '広告 — Clearで非表示にできます';
-
-  @override
   String get purchaseNotAvailableDesc => '現在、アプリ内購入をご利用いただけません。後ほどお試しください。';
 
   @override
@@ -1050,4 +1047,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noBookmarks => 'まだブックマークがありません';
+
+  @override
+  String get welcomeTitle => 'Hareruへようこそ';
+
+  @override
+  String get welcomeSubtitle => '振替・貯金を自動で分けて\n本当の支出だけを見える化';
+
+  @override
+  String get continueAsGuest => 'アカウントなしで始める';
+
+  @override
+  String get loginBackupHint => 'ログインするとデータが安全にクラウドへバックアップされます';
 }

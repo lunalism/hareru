@@ -15,13 +15,20 @@ class RevenueCatService {
     final apiKey =
         Platform.isIOS ? RevenueCatConfig.appleApiKey : RevenueCatConfig.googleApiKey;
 
+    if (apiKey.isEmpty) {
+      if (kDebugMode) debugPrint('[RevenueCat] API key not configured, skipping init');
+      return;
+    }
+
     final configuration = PurchasesConfiguration(apiKey);
     await Purchases.configure(configuration);
     _initialized = true;
 
-    final appUserId = await Purchases.appUserID;
-    debugPrint('[RevenueCat] initialized');
-    debugPrint('[RevenueCat] appUserID: $appUserId');
+    if (kDebugMode) {
+      final appUserId = await Purchases.appUserID;
+      debugPrint('[RevenueCat] initialized');
+      debugPrint('[RevenueCat] appUserID: $appUserId');
+    }
   }
 
   static Future<void> login(String userId) async {
@@ -29,9 +36,9 @@ class RevenueCatService {
       final info = await Purchases.getCustomerInfo();
       if (info.originalAppUserId == userId) return;
       await Purchases.logIn(userId);
-      debugPrint('[RevenueCat] logged in as $userId');
+      if (kDebugMode) debugPrint('[RevenueCat] logged in as $userId');
     } catch (e) {
-      debugPrint('[RevenueCat] login error: $e');
+      if (kDebugMode) debugPrint('[RevenueCat] login error: $e');
     }
   }
 
@@ -40,9 +47,9 @@ class RevenueCatService {
       final isAnonymous = await Purchases.isAnonymous;
       if (isAnonymous) return;
       await Purchases.logOut();
-      debugPrint('[RevenueCat] logged out');
+      if (kDebugMode) debugPrint('[RevenueCat] logged out');
     } catch (e) {
-      debugPrint('[RevenueCat] logout error: $e');
+      if (kDebugMode) debugPrint('[RevenueCat] logout error: $e');
     }
   }
 

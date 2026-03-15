@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hareru/core/services/hive_encryption_service.dart';
 
 const _boxName = 'settings';
 const _enabledKey = 'reminder_enabled';
@@ -25,20 +25,20 @@ class ReminderNotifier extends StateNotifier<ReminderState> {
   }
 
   Future<void> _load() async {
-    final box = await Hive.openBox<dynamic>(_boxName);
+    final box = await HiveEncryptionService.openBox<dynamic>(_boxName);
     final enabled = box.get(_enabledKey, defaultValue: false) as bool;
     final time = box.get(_timeKey, defaultValue: '21:00') as String;
     state = ReminderState(enabled: enabled, time: time);
   }
 
   Future<void> setEnabled(bool enabled) async {
-    final box = await Hive.openBox<dynamic>(_boxName);
+    final box = await HiveEncryptionService.openBox<dynamic>(_boxName);
     await box.put(_enabledKey, enabled);
     state = state.copyWith(enabled: enabled);
   }
 
   Future<void> setTime(String time) async {
-    final box = await Hive.openBox<dynamic>(_boxName);
+    final box = await HiveEncryptionService.openBox<dynamic>(_boxName);
     await box.put(_timeKey, time);
     state = state.copyWith(time: time);
   }

@@ -1,10 +1,14 @@
 class RevenueCatConfig {
   RevenueCatConfig._();
 
-  // TODO: Apple Developer 등록 후 iOS 앱 추가하면 발급되는 키로 교체
-  static const String appleApiKey = 'test_KnnDlqlYSSWrSvbexoUHPYdHink';
-  // TODO: Google Play Console 연결 후 발급되는 키로 교체
-  static const String googleApiKey = 'goog_PLACEHOLDER_KEY';
+  static const String appleApiKey = String.fromEnvironment(
+    'REVENUE_CAT_APPLE_API_KEY',
+    defaultValue: '',
+  );
+  static const String googleApiKey = String.fromEnvironment(
+    'REVENUE_CAT_GOOGLE_API_KEY',
+    defaultValue: '',
+  );
 
   // Entitlement IDs
   static const String clearEntitlement = 'hareru_clear';

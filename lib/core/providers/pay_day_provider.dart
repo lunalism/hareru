@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hareru/core/services/hive_encryption_service.dart';
 
 const _boxName = 'settings';
 const _payDayKey = 'pay_day';
@@ -10,12 +10,12 @@ class PayDayNotifier extends StateNotifier<int> {
   }
 
   Future<void> _load() async {
-    final box = await Hive.openBox<dynamic>(_boxName);
+    final box = await HiveEncryptionService.openBox<dynamic>(_boxName);
     state = box.get(_payDayKey, defaultValue: 0) as int;
   }
 
   Future<void> setPayDay(int day) async {
-    final box = await Hive.openBox<dynamic>(_boxName);
+    final box = await HiveEncryptionService.openBox<dynamic>(_boxName);
     await box.put(_payDayKey, day);
     state = day;
   }

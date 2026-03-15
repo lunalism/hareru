@@ -76,6 +76,7 @@ class _PdfReportButtonState extends ConsumerState<PdfReportButton> {
           const SizedBox(height: 14),
           GestureDetector(
             onTap: () {
+              if (!context.mounted) return;
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(

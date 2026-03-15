@@ -74,11 +74,11 @@ class DictionaryTerm {
   }
 
   factory DictionaryTerm.fromJson(Map<String, dynamic> json) => DictionaryTerm(
-        id: json['id'] as int,
-        termKey: json['term_key'] as String,
+        id: (json['id'] as num?)?.toInt() ?? 0,
+        termKey: json['term_key'] as String? ?? '',
         emoji: json['emoji'] as String?,
-        category: json['category'] as String,
-        nameJa: json['name_ja'] as String,
+        category: json['category'] as String? ?? '',
+        nameJa: json['name_ja'] as String? ?? '',
         summaryJa: json['summary_ja'] as String?,
         descriptionJa: json['description_ja'] as String?,
         exampleJa: json['example_ja'] as String?,

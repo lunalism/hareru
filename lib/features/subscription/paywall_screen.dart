@@ -47,12 +47,9 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
   Package? _getPackage(String identifier) {
     final current = _offerings?.current;
     if (current == null) return null;
-    try {
-      return current.availablePackages
-          .firstWhere((p) => p.identifier == identifier);
-    } catch (_) {
-      return null;
-    }
+    return current.availablePackages
+        .where((p) => p.identifier == identifier)
+        .firstOrNull;
   }
 
   String _getClearPrice() {

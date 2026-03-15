@@ -69,12 +69,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final isDark = context.isDark;
     final c = context.colors;
     final l10n = AppLocalizations.of(context)!;
-    final currentLocale = ref.watch(localeProvider);
-    final budget = ref.watch(budgetProvider);
-    final payDay = ref.watch(payDayProvider);
-    final themeMode = ref.watch(darkModeProvider);
-    final reminder = ref.watch(reminderProvider);
-    ref.watch(authStateProvider);
 
     return Scaffold(
       backgroundColor: c.background,
@@ -95,39 +89,48 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
-              // Budget section
-              _sectionHeader(l10n.budgetSettings, isDark),
-              const SizedBox(height: 12),
-              _card(
-                isDark,
-                children: [
-                  _row(
-                    emoji: '\u{1F4B0}',
-                    label: l10n.payDay,
-                    trailing: Text(
-                      payDay > 0 ? _formatPayDay(payDay, l10n) : '-',
-                      style: _trailingStyle(isDark),
+              // Budget section (watches budgetProvider + payDayProvider)
+              Consumer(builder: (context, ref, _) {
+                final budget = ref.watch(budgetProvider);
+                final payDay = ref.watch(payDayProvider);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionHeader(l10n.budgetSettings, isDark),
+                    const SizedBox(height: 12),
+                    _card(
+                      isDark,
+                      children: [
+                        _row(
+                          emoji: '\u{1F4B0}',
+                          label: l10n.payDay,
+                          trailing: Text(
+                            payDay > 0 ? _formatPayDay(payDay, l10n) : '-',
+                            style: _trailingStyle(isDark),
+                          ),
+                          showChevron: true,
+                          isDark: isDark,
+                          onTap: () => showPayDayDialog(context, ref),
+                        ),
+                        _divider(isDark),
+                        _row(
+                          emoji: '\u{1F4CA}',
+                          label: l10n.monthlyBudget,
+                          trailing: Text(
+                            _formatBudget(budget),
+                            style: _trailingStyle(isDark).copyWith(
+                              fontFeatures: const [FontFeature.tabularFigures()],
+                            ),
+                          ),
+                          showChevron: true,
+                          isDark: isDark,
+                          onTap: () => showBudgetDialog(context, ref),
+                        ),
+                      ],
                     ),
-                    showChevron: true,
-                    isDark: isDark,
-                    onTap: () => showPayDayDialog(context, ref),
-                  ),
-                  _divider(isDark),
-                  _row(
-                    emoji: '\u{1F4CA}',
-                    label: l10n.monthlyBudget,
-                    trailing: Text(
-                      _formatBudget(budget),
-                      style: _trailingStyle(isDark).copyWith(
-                        fontFeatures: const [FontFeature.tabularFigures()],
-                      ),
-                    ),
-                    showChevron: true,
-                    isDark: isDark,
-                    onTap: () => showBudgetDialog(context, ref),
-                  ),
-                ],
-              ),
+                  ],
+                );
+              }),
               const SizedBox(height: 28),
 
               // Category management
@@ -150,55 +153,71 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
-              // Appearance section
-              _sectionHeader(l10n.appearance, isDark),
-              const SizedBox(height: 12),
-              _card(
-                isDark,
-                children: [
-                  _row(
-                    emoji: '\u{1F319}',
-                    label: l10n.darkMode,
-                    trailing: Switch.adaptive(
-                      value: themeMode == ThemeMode.dark,
-                      activeTrackColor: HareruColors.primaryStart,
-                      onChanged: (_) =>
-                          ref.read(darkModeProvider.notifier).toggle(),
-                    ),
-                    isDark: isDark,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 28),
-
-              // Notification section
-              _sectionHeader(l10n.notification, isDark),
-              const SizedBox(height: 12),
-              _card(
-                isDark,
-                children: [
-                  _row(
-                    emoji: '\u{1F514}',
-                    label: l10n.recordReminder,
-                    trailing: Switch.adaptive(
-                      value: reminder.enabled,
-                      activeTrackColor: HareruColors.primaryStart,
-                      onChanged: (v) => toggleReminder(context, ref, v),
-                    ),
-                    isDark: isDark,
-                  ),
-                  if (reminder.enabled) ...[
-                    _divider(isDark),
-                    _row(
-                      emoji: '\u{23F0}',
-                      label: reminder.time,
-                      showChevron: true,
-                      isDark: isDark,
-                      onTap: () => showReminderTimePicker(context, ref),
+              // Appearance section (watches darkModeProvider)
+              Consumer(builder: (context, ref, _) {
+                final themeMode = ref.watch(darkModeProvider);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionHeader(l10n.appearance, isDark),
+                    const SizedBox(height: 12),
+                    _card(
+                      isDark,
+                      children: [
+                        _row(
+                          emoji: '\u{1F319}',
+                          label: l10n.darkMode,
+                          trailing: Switch.adaptive(
+                            value: themeMode == ThemeMode.dark,
+                            activeTrackColor: HareruColors.primaryStart,
+                            onChanged: (_) =>
+                                ref.read(darkModeProvider.notifier).toggle(),
+                          ),
+                          isDark: isDark,
+                        ),
+                      ],
                     ),
                   ],
-                ],
-              ),
+                );
+              }),
+              const SizedBox(height: 28),
+
+              // Notification section (watches reminderProvider)
+              Consumer(builder: (context, ref, _) {
+                final reminder = ref.watch(reminderProvider);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionHeader(l10n.notification, isDark),
+                    const SizedBox(height: 12),
+                    _card(
+                      isDark,
+                      children: [
+                        _row(
+                          emoji: '\u{1F514}',
+                          label: l10n.recordReminder,
+                          trailing: Switch.adaptive(
+                            value: reminder.enabled,
+                            activeTrackColor: HareruColors.primaryStart,
+                            onChanged: (v) => toggleReminder(context, ref, v),
+                          ),
+                          isDark: isDark,
+                        ),
+                        if (reminder.enabled) ...[
+                          _divider(isDark),
+                          _row(
+                            emoji: '\u{23F0}',
+                            label: reminder.time,
+                            showChevron: true,
+                            isDark: isDark,
+                            onTap: () => showReminderTimePicker(context, ref),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ],
+                );
+              }),
               const SizedBox(height: 28),
 
               // Data section
@@ -212,7 +231,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     label: l10n.backupData,
                     showChevron: true,
                     isDark: isDark,
-                    onTap: backupData,
+                    onTap: () => backupData(context),
                   ),
                   _divider(isDark),
                   _row(
@@ -272,41 +291,49 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               _buildSubscriptionSection(isDark, l10n),
               const SizedBox(height: 28),
 
-              // Language section
-              _sectionHeader(l10n.languageTitle, isDark),
-              const SizedBox(height: 12),
-              _card(
-                isDark,
-                children: _languages.asMap().entries.expand((entry) {
-                  final i = entry.key;
-                  final lang = entry.value;
-                  final isSelected =
-                      currentLocale.languageCode == lang.code;
-                  return [
-                    _row(
-                      emoji: lang.flag,
-                      label: lang.label,
-                      trailing: isSelected
-                          ? const Icon(Icons.check_rounded,
-                              size: 22, color: HareruColors.primaryStart)
-                          : null,
-                      isDark: isDark,
-                      labelWeight:
-                          isSelected ? FontWeight.w600 : FontWeight.w400,
-                      labelColor: isSelected
-                          ? HareruColors.primaryStart
-                          : null,
-                      onTap: () => ref
-                          .read(localeProvider.notifier)
-                          .setLocale(Locale(lang.code)),
+              // Language section (watches localeProvider)
+              Consumer(builder: (context, ref, _) {
+                final currentLocale = ref.watch(localeProvider);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionHeader(l10n.languageTitle, isDark),
+                    const SizedBox(height: 12),
+                    _card(
+                      isDark,
+                      children: _languages.asMap().entries.expand((entry) {
+                        final i = entry.key;
+                        final lang = entry.value;
+                        final isSelected =
+                            currentLocale.languageCode == lang.code;
+                        return [
+                          _row(
+                            emoji: lang.flag,
+                            label: lang.label,
+                            trailing: isSelected
+                                ? const Icon(Icons.check_rounded,
+                                    size: 22, color: HareruColors.primaryStart)
+                                : null,
+                            isDark: isDark,
+                            labelWeight:
+                                isSelected ? FontWeight.w600 : FontWeight.w400,
+                            labelColor: isSelected
+                                ? HareruColors.primaryStart
+                                : null,
+                            onTap: () => ref
+                                .read(localeProvider.notifier)
+                                .setLocale(Locale(lang.code)),
+                          ),
+                          if (i < _languages.length - 1) _divider(isDark),
+                        ];
+                      }).toList(),
                     ),
-                    if (i < _languages.length - 1) _divider(isDark),
-                  ];
-                }).toList(),
-              ),
+                  ],
+                );
+              }),
               const SizedBox(height: 28),
 
-              // Account section
+              // Account section (watches authStateProvider inside)
               _buildAccountSection(isDark, l10n),
               const SizedBox(height: 28),
 

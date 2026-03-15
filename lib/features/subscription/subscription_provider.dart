@@ -48,7 +48,6 @@ extension SubscriptionCheck on SubscriptionState {
   bool get canUseAiCoaching => isClearPro;
   bool get canExportPdf => isClearPro;
   bool get canExportCsv => isClear;
-  bool get showAds => isFree;
 }
 
 class SubscriptionNotifier extends StateNotifier<SubscriptionState> {

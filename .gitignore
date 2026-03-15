@@ -44,6 +44,13 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Sensitive configuration
+env.json
+.env
+*.env
+GoogleService-Info.plist
+**/google-services.json
+
 # Firebase
 firebase-debug.log
 firebase-debug.*.log

@@ -958,6 +958,12 @@ abstract class AppLocalizations {
   /// **'データをバックアップ'**
   String get backupData;
 
+  /// No description provided for @backupWarning.
+  ///
+  /// In ja, this message translates to:
+  /// **'バックアップファイルには取引履歴・予算・設定が含まれます。安全な場所に保管してください。'**
+  String get backupWarning;
+
   /// No description provided for @restoreData.
   ///
   /// In ja, this message translates to:
@@ -1593,12 +1599,6 @@ abstract class AppLocalizations {
   /// **'Appleでサインイン'**
   String get signInWithApple;
 
-  /// No description provided for @signInWithGoogle.
-  ///
-  /// In ja, this message translates to:
-  /// **'Googleでサインイン'**
-  String get signInWithGoogle;
-
   /// No description provided for @skipLogin.
   ///
   /// In ja, this message translates to:
@@ -1983,12 +1983,6 @@ abstract class AppLocalizations {
   /// **'現在購入できません'**
   String get purchaseNotAvailable;
 
-  /// No description provided for @adPlaceholder.
-  ///
-  /// In ja, this message translates to:
-  /// **'広告 — Clearで非表示にできます'**
-  String get adPlaceholder;
-
   /// No description provided for @purchaseNotAvailableDesc.
   ///
   /// In ja, this message translates to:
@@ -2084,6 +2078,30 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'まだブックマークがありません'**
   String get noBookmarks;
+
+  /// No description provided for @welcomeTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'Hareruへようこそ'**
+  String get welcomeTitle;
+
+  /// No description provided for @welcomeSubtitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'振替・貯金を自動で分けて\n本当の支出だけを見える化'**
+  String get welcomeSubtitle;
+
+  /// No description provided for @continueAsGuest.
+  ///
+  /// In ja, this message translates to:
+  /// **'アカウントなしで始める'**
+  String get continueAsGuest;
+
+  /// No description provided for @loginBackupHint.
+  ///
+  /// In ja, this message translates to:
+  /// **'ログインするとデータが安全にクラウドへバックアップされます'**
+  String get loginBackupHint;
 }
 
 class _AppLocalizationsDelegate

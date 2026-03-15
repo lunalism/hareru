@@ -104,12 +104,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     String category;
     if (_isTransfer) {
       final accounts = ref.read(transferAccountProvider);
-      final from = accounts.firstWhere((a) => a.id == _fromAccount);
-      final to = accounts.firstWhere((a) => a.id == _toAccount);
+      final from = accounts.where((a) => a.id == _fromAccount).firstOrNull;
+      final to = accounts.where((a) => a.id == _toAccount).firstOrNull;
+      if (from == null || to == null) return;
       category = '${from.emoji} ${from.nickname} → ${to.emoji} ${to.nickname}';
     } else if (_isIncome && _depositAccount != null) {
       final accounts = ref.read(transferAccountProvider);
-      final deposit = accounts.firstWhere((a) => a.id == _depositAccount);
+      final deposit = accounts.where((a) => a.id == _depositAccount).firstOrNull;
+      if (deposit == null) return;
       category =
           '$_selectedCategory → ${deposit.emoji} ${deposit.nickname}';
     } else {
@@ -133,21 +135,25 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
     if (_isTransfer && _pendingTransferCategory!.contains(' → ')) {
       final parts = _pendingTransferCategory!.split(' → ');
-      for (final a in accounts) {
-        final label = '${a.emoji} ${a.nickname}';
-        if (label == parts[0] && _fromAccount == null) _fromAccount = a.id;
-        if (label == parts[1] && _toAccount == null) _toAccount = a.id;
-        if (a.nickname == parts[0] && _fromAccount == null) _fromAccount = a.id;
-        if (a.nickname == parts[1] && _toAccount == null) _toAccount = a.id;
+      if (parts.length >= 2) {
+        for (final a in accounts) {
+          final label = '${a.emoji} ${a.nickname}';
+          if (label == parts[0] && _fromAccount == null) _fromAccount = a.id;
+          if (label == parts[1] && _toAccount == null) _toAccount = a.id;
+          if (a.nickname == parts[0] && _fromAccount == null) _fromAccount = a.id;
+          if (a.nickname == parts[1] && _toAccount == null) _toAccount = a.id;
+        }
       }
       _pendingTransferCategory = null;
     } else if (_isIncome && _pendingTransferCategory!.contains(' → ')) {
       final parts = _pendingTransferCategory!.split(' → ');
-      _selectedCategory = parts[0];
-      for (final a in accounts) {
-        final label = '${a.emoji} ${a.nickname}';
-        if (label == parts[1] && _depositAccount == null) {
-          _depositAccount = a.id;
+      if (parts.length >= 2) {
+        _selectedCategory = parts[0];
+        for (final a in accounts) {
+          final label = '${a.emoji} ${a.nickname}';
+          if (label == parts[1] && _depositAccount == null) {
+            _depositAccount = a.id;
+          }
         }
       }
       _pendingTransferCategory = null;
@@ -425,7 +431,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                     _CommaFormatter(),
                     LengthLimitingTextInputFormatter(14),
                   ],
-                  onChanged: (_) => setState(() {}),
+                  onChanged: (_) {},
                 ),
               ),
             ],

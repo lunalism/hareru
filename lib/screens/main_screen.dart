@@ -186,7 +186,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         },
       ),
     );
-    Overlay.of(context).insert(_toastEntry!);
+    if (mounted && _toastEntry != null) {
+      Overlay.of(context).insert(_toastEntry!);
+    }
   }
 
 

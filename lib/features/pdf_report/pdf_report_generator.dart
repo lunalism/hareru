@@ -340,8 +340,10 @@ class PdfReportGenerator {
                 data.lBudgetUsage(
                   _yen(data.budget.toDouble()),
                   _yen(data.expenseTotal),
-                  (data.expenseTotal / data.budget * 100)
-                      .toStringAsFixed(1),
+                  data.budget > 0
+                      ? (data.expenseTotal / data.budget * 100)
+                          .toStringAsFixed(1)
+                      : '0.0',
                 ),
                 style: pw.TextStyle(
                   font: fontBold,
@@ -409,16 +411,17 @@ class PdfReportGenerator {
       );
     }
 
+    pw.Widget safeCell(int index) {
+      if (index < items.length) {
+        return buildCell(items[index].$1, items[index].$2, items[index].$3);
+      }
+      return buildCell('', 0, _textSecondary);
+    }
+
     return pw.Column(
       children: [
-        pw.Row(children: [
-          buildCell(items[0].$1, items[0].$2, items[0].$3),
-          buildCell(items[1].$1, items[1].$2, items[1].$3),
-        ]),
-        pw.Row(children: [
-          buildCell(items[2].$1, items[2].$2, items[2].$3),
-          buildCell(items[3].$1, items[3].$2, items[3].$3),
-        ]),
+        pw.Row(children: [safeCell(0), safeCell(1)]),
+        pw.Row(children: [safeCell(2), safeCell(3)]),
       ],
     );
   }
@@ -525,9 +528,9 @@ class PdfReportGenerator {
       PdfReportData data, pw.Font font, pw.Font fontBold) {
     if (data.budget <= 0) return pw.SizedBox.shrink();
 
-    final progress = (data.expenseTotal / data.budget).clamp(0.0, 1.0);
-    final percentage =
-        (data.expenseTotal / data.budget * 100).toStringAsFixed(1);
+    final ratio = data.budget > 0 ? data.expenseTotal / data.budget : 0.0;
+    final progress = ratio.clamp(0.0, 1.0);
+    final percentage = (ratio * 100).toStringAsFixed(1);
     final remaining = data.budget - data.expenseTotal;
     final isOver = remaining < 0;
 

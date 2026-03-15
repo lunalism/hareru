@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/theme/hareru_theme.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
-import 'package:hareru/features/subscription/ad_placeholder.dart';
 import 'package:hareru/features/subscription/entitlement_gate.dart';
 import 'package:hareru/features/subscription/subscription_provider.dart';
 import 'package:hareru/l10n/app_localizations.dart';
@@ -100,8 +99,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: AiInsightCard(isDark: isDark),
                 ),
               ],
-              // Ad placeholder for free users
-              const AdPlaceholder(),
               const SizedBox(height: 100),
             ],
           ),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hareru/core/services/hive_encryption_service.dart';
 
 const _boxName = 'settings';
 const _key = 'transfer_accounts_v3';
@@ -55,7 +55,7 @@ class TransferAccountNotifier extends StateNotifier<List<UserAccount>> {
   }
 
   Future<void> _load() async {
-    final box = await Hive.openBox<dynamic>(_boxName);
+    final box = await HiveEncryptionService.openBox<dynamic>(_boxName);
     // Try new key first, fall back to legacy
     var saved = box.get(_key) as String?;
     saved ??= box.get(_legacyKey) as String?;
@@ -88,7 +88,7 @@ class TransferAccountNotifier extends StateNotifier<List<UserAccount>> {
   }
 
   Future<void> _persist(List<UserAccount> accounts) async {
-    final box = await Hive.openBox<dynamic>(_boxName);
+    final box = await HiveEncryptionService.openBox<dynamic>(_boxName);
     await box.put(_key, jsonEncode(accounts.map((a) => a.toJson()).toList()));
   }
 }

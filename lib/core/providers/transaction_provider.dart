@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/services/widget_data_service.dart';
 import 'package:hareru/models/transaction.dart';
+import 'package:hareru/core/services/hive_encryption_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const _boxName = 'transactions';
@@ -13,38 +14,36 @@ class TransactionNotifier extends StateNotifier<List<Transaction>> {
 
   final Ref _ref;
 
-  Future<void> _load() async {
-    final box = await Hive.openBox<Transaction>(_boxName);
+  List<Transaction> _sortedItems(Box<Transaction> box) {
     final items = box.values.toList();
     items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    state = items;
+    return items;
+  }
+
+  Future<void> _load() async {
+    final box = await HiveEncryptionService.openBox<Transaction>(_boxName);
+    state = _sortedItems(box);
     _syncWidget();
   }
 
   Future<void> add(Transaction transaction) async {
-    final box = await Hive.openBox<Transaction>(_boxName);
+    final box = await HiveEncryptionService.openBox<Transaction>(_boxName);
     await box.put(transaction.id, transaction);
-    final items = box.values.toList();
-    items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    state = items;
+    state = _sortedItems(box);
     _syncWidget();
   }
 
   Future<void> update(Transaction transaction) async {
-    final box = await Hive.openBox<Transaction>(_boxName);
+    final box = await HiveEncryptionService.openBox<Transaction>(_boxName);
     await box.put(transaction.id, transaction);
-    final items = box.values.toList();
-    items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    state = items;
+    state = _sortedItems(box);
     _syncWidget();
   }
 
   Future<void> delete(String id) async {
-    final box = await Hive.openBox<Transaction>(_boxName);
+    final box = await HiveEncryptionService.openBox<Transaction>(_boxName);
     await box.delete(id);
-    final items = box.values.toList();
-    items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    state = items;
+    state = _sortedItems(box);
     _syncWidget();
   }
 

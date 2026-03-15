@@ -7,7 +7,6 @@ import 'package:hareru/core/utils/category_l10n.dart';
 import 'package:hareru/core/providers/budget_provider.dart';
 import 'package:hareru/core/providers/category_provider.dart';
 import 'package:hareru/core/providers/transaction_provider.dart';
-import 'package:hareru/features/subscription/ad_placeholder.dart';
 import 'package:hareru/l10n/app_localizations.dart';
 import 'package:hareru/models/transaction.dart';
 import 'package:hareru/features/pdf_report/pdf_report_button.dart';
@@ -80,19 +79,25 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
         .toList();
   }
 
-  double _totalByType(List<Transaction> txns, TransactionType type) {
-    return txns
-        .where((t) => t.type == type)
-        .fold(0.0, (sum, t) => sum + t.amount);
-  }
-
-  Map<String, double> _expenseByCategory(List<Transaction> txns) {
-    final map = <String, double>{};
-    for (final t
-        in txns.where((t) => t.type == TransactionType.expense)) {
-      map[t.category] = (map[t.category] ?? 0) + t.amount;
+  /// Single-pass computation of all totals + expense-by-category map.
+  ({double expense, double income, double transfer, double savings, Map<String, double> categoryMap})
+      _computeTotals(List<Transaction> txns) {
+    double expense = 0, income = 0, transfer = 0, savings = 0;
+    final categoryMap = <String, double>{};
+    for (final t in txns) {
+      switch (t.type) {
+        case TransactionType.expense:
+          expense += t.amount;
+          categoryMap[t.category] = (categoryMap[t.category] ?? 0) + t.amount;
+        case TransactionType.income:
+          income += t.amount;
+        case TransactionType.transfer:
+          transfer += t.amount;
+        case TransactionType.savings:
+          savings += t.amount;
+      }
     }
-    return map;
+    return (expense: expense, income: income, transfer: transfer, savings: savings, categoryMap: categoryMap);
   }
 
 
@@ -141,10 +146,10 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
       body: SafeArea(
         child: GestureDetector(
           onHorizontalDragEnd: (details) {
-            if (details.primaryVelocity == null) return;
-            if (details.primaryVelocity! < -200) {
+            final velocity = details.primaryVelocity ?? 0.0;
+            if (velocity < -200) {
               _nextMonth();
-            } else if (details.primaryVelocity! > 200) {
+            } else if (velocity > 200) {
               _previousMonth();
             }
           },
@@ -274,27 +279,24 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
 
   Widget _buildContent(bool isDark, AppLocalizations l10n,
       List<Transaction> monthTxns, List<Transaction> allTxns) {
-    final expenseTotal =
-        _totalByType(monthTxns, TransactionType.expense);
-    final incomeTotal =
-        _totalByType(monthTxns, TransactionType.income);
-    final transferTotal =
-        _totalByType(monthTxns, TransactionType.transfer);
-    final savingsTotal =
-        _totalByType(monthTxns, TransactionType.savings);
+    final totals = _computeTotals(monthTxns);
+    final expenseTotal = totals.expense;
+    final incomeTotal = totals.income;
+    final transferTotal = totals.transfer;
+    final savingsTotal = totals.savings;
+    final categoryMap = totals.categoryMap;
     final remaining = incomeTotal - expenseTotal;
     final savingsRate = incomeTotal > 0
         ? (remaining / incomeTotal * 100)
         : null;
     final budget = ref.watch(budgetProvider);
-    final categoryMap = _expenseByCategory(monthTxns);
 
     // Previous month for AI insight
     final prevMonth =
         DateTime(_selectedMonth.year, _selectedMonth.month - 1);
     final prevTxns = _filterByMonth(allTxns, prevMonth);
     final prevExpenseTotal =
-        _totalByType(prevTxns, TransactionType.expense);
+        _computeTotals(prevTxns).expense;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -315,7 +317,6 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               prevExpenseTotal, incomeTotal, budget, categoryMap),
           const SizedBox(height: 24),
           PdfReportButton(selectedMonth: _selectedMonth),
-          const AdPlaceholder(),
           const SizedBox(height: 100),
         ],
       ),

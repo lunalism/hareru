@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hareru/core/services/hive_encryption_service.dart';
 
 const _boxName = 'settings';
 const _key = 'locale';
@@ -13,7 +13,7 @@ class LocaleNotifier extends StateNotifier<Locale> {
   }
 
   Future<void> _load() async {
-    final box = await Hive.openBox(_boxName);
+    final box = await HiveEncryptionService.openBox<dynamic>(_boxName);
     final saved = box.get(_key) as String?;
 
     if (saved != null && _supportedCodes.contains(saved)) {
@@ -27,7 +27,7 @@ class LocaleNotifier extends StateNotifier<Locale> {
 
   Future<void> setLocale(Locale locale) async {
     state = locale;
-    final box = await Hive.openBox(_boxName);
+    final box = await HiveEncryptionService.openBox<dynamic>(_boxName);
     await box.put(_key, locale.languageCode);
   }
 }

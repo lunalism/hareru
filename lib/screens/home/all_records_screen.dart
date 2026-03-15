@@ -146,7 +146,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
               child: _isCalendarView
                   ? _buildCalendarView(
                       isDark, l10n, lang, transactions)
-                  : _buildListView(isDark, l10n, lang, transactions),
+                  : _buildListView(isDark, l10n, lang, _monthlyTransactions(transactions)),
             ),
           ],
         ),
@@ -232,16 +232,20 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
     );
   }
 
-  // ── List View ──
+  // ── Helpers ──
 
-  Widget _buildListView(bool isDark, AppLocalizations l10n, String lang,
-      List<Transaction> transactions) {
+  List<Transaction> _monthlyTransactions(List<Transaction> transactions) {
     final now = DateTime.now();
-    final monthly = transactions
+    return transactions
         .where(
             (t) => t.createdAt.year == now.year && t.createdAt.month == now.month)
         .toList();
+  }
 
+  // ── List View ──
+
+  Widget _buildListView(bool isDark, AppLocalizations l10n, String lang,
+      List<Transaction> monthly) {
     if (monthly.isEmpty) {
       return _buildEmptyState(isDark, l10n);
     }
@@ -254,7 +258,7 @@ class _AllRecordsScreenState extends ConsumerState<AllRecordsScreen> {
       itemCount: sortedDates.length,
       itemBuilder: (context, sectionIndex) {
         final date = sortedDates[sectionIndex];
-        final items = grouped[date]!;
+        final items = grouped[date] ?? [];
         final dateLabel = _dateHeader(date, l10n, lang);
 
         return Column(

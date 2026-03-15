@@ -238,6 +238,7 @@
   "reminderTime": "リマインダー時間",
   "data": "データ",
   "backupData": "データをバックアップ",
+  "backupWarning": "バックアップファイルには取引履歴・予算・設定が含まれます。安全な場所に保管してください。",
   "restoreData": "データを復元",
   "resetData": "データを初期化",
   "restoreConfirm": "現在のデータは上書きされます。よろしいですか？",
@@ -409,7 +410,6 @@
   "loginBenefitAI": "AIインサイト（有料）",
   "loginBenefitBackup": "データのクラウドバックアップ",
   "signInWithApple": "Appleでサインイン",
-  "signInWithGoogle": "Googleでサインイン",
   "skipLogin": "スキップして続ける",
   "loginSuccess": "ログイン完了",
   "loginError": "ログインに失敗しました",
@@ -480,7 +480,6 @@
   "purchaseError": "購入に失敗しました",
   "purchaseNotAvailable": "現在購入できません",
 
-  "adPlaceholder": "広告 — Clearで非表示にできます",
   "purchaseNotAvailableDesc": "現在、アプリ内購入をご利用いただけません。後ほどお試しください。",
   "restoreNoPurchase": "復元できる購入がありません",
 
@@ -515,5 +514,10 @@
   "difficultyBasic": "基礎",
   "difficultyIntermediate": "中級",
   "difficultyAdvanced": "応用",
-  "noBookmarks": "まだブックマークがありません"
+  "noBookmarks": "まだブックマークがありません",
+
+  "welcomeTitle": "Hareruへようこそ",
+  "welcomeSubtitle": "振替・貯金を自動で分けて\n本当の支出だけを見える化",
+  "continueAsGuest": "アカウントなしで始める",
+  "loginBackupHint": "ログインするとデータが安全にクラウドへバックアップされます"
 }

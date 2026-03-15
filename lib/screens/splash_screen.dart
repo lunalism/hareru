@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hareru/core/constants/colors.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hareru/core/services/hive_encryption_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,10 +30,10 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(milliseconds: 1500), () async {
       if (!mounted) return;
-      final box = await Hive.openBox('settings');
+      final box = await HiveEncryptionService.openBox<dynamic>('settings');
       final completed = box.get('onboarding_completed', defaultValue: false);
       if (!mounted) return;
-      context.go(completed == true ? '/main' : '/onboarding');
+      context.go(completed == true ? '/main' : '/login-choice');
     });
   }
 

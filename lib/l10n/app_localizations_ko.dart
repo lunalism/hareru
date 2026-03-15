@@ -464,6 +464,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get backupData => '데이터 백업';
 
   @override
+  String get backupWarning => '백업 파일에 거래 내역·예산·설정 정보가 포함됩니다. 안전한 곳에 보관해 주세요.';
+
+  @override
   String get restoreData => '데이터 복원';
 
   @override
@@ -802,9 +805,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get signInWithApple => 'Apple로 로그인';
 
   @override
-  String get signInWithGoogle => 'Google로 로그인';
-
-  @override
   String get skipLogin => '건너뛰고 계속하기';
 
   @override
@@ -997,9 +997,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get purchaseNotAvailable => '현재 구매할 수 없습니다';
 
   @override
-  String get adPlaceholder => '광고 — Clear에서 숨길 수 있습니다';
-
-  @override
   String get purchaseNotAvailableDesc =>
       '현재 앱 내 구매를 이용할 수 없습니다. 나중에 다시 시도해주세요.';
 
@@ -1051,4 +1048,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get noBookmarks => '아직 북마크가 없습니다';
+
+  @override
+  String get welcomeTitle => 'Hareru에 오신 것을 환영합니다';
+
+  @override
+  String get welcomeSubtitle => '이체와 저축을 자동으로 분리해\n진짜 지출만 보여주는 스마트 가계부';
+
+  @override
+  String get continueAsGuest => '계정 없이 시작하기';
+
+  @override
+  String get loginBackupHint => '로그인하면 데이터가 안전하게 클라우드에 백업됩니다';
 }
